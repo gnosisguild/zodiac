@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@gnosis.pm/mock-contract": "^4.0.0",
+    "@openzeppelin/contracts": "^4.2.0",
     "argv": "^0.0.2",
     "dotenv": "^8.0.0",
     "ethers": "^5.0.19",

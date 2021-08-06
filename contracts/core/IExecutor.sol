@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 
-/// @title Zodiac Module Manager Interface - A contract that manages modules that can execute transactions via this contract.
+/// @title Zodiac Executor - A contract that manages modules that can execute transactions via this contract.
 pragma solidity >=0.7.0 <0.9.0;
 
 contract Enum {
@@ -10,7 +10,7 @@ contract Enum {
     }
 }
 
-interface IModuleManager {
+interface IExecutor {
     event EnabledModule(address module);
     event DisabledModule(address module);
     event ExecutionFromModuleSuccess(address indexed module);
@@ -21,14 +21,14 @@ interface IModuleManager {
     /// @notice Modules should be stored as a linked list.
     /// @notice Must emit EnabledModule(module) if successful.
     /// @param module Module to be enabled.
-    function enableModule(address module) external {}
+    function enableModule(address module) external;
 
     /// @dev Disables a module on the account.
     /// @notice Can only be called by the account.
     /// @notice Must emit DisabledModule(module) if successful.
     /// @param prevModule Address that pointed to the module to be removed in the linked list
     /// @param module Module to be removed.
-    function disableModule(address prevModule, address module) external {}
+    function disableModule(address prevModule, address module) external;
 
     /// @dev Allows a Module to execute a transaction.
     /// @notice Can only be called by an enabled module.
@@ -43,7 +43,7 @@ interface IModuleManager {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) external returns (bool success) {}
+    ) external returns (bool success);
 
     /// @dev Allows a Module to execute a transaction and return data
     /// @notice Can only be called by an enabled module.
@@ -58,11 +58,11 @@ interface IModuleManager {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) public returns (bool success, bytes memory returnData) {}
+    ) external returns (bool success, bytes memory returnData);
 
     /// @dev Returns if an module is enabled
     /// @return True if the module is enabled
-    function isModuleEnabled(address module) external returns (bool) {}
+    function isModuleEnabled(address module) external returns (bool);
 
     /// @dev Returns array of modules.
     /// @param start Start of the page.
@@ -71,6 +71,5 @@ interface IModuleManager {
     /// @return next Start of the next page.
     function getModulesPaginated(address start, uint256 pageSize)
         external
-        returns (address[] memory array, address next)
-    {}
+        returns (address[] memory array, address next);
 }
