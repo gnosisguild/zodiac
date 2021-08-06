@@ -28,8 +28,8 @@ abstract contract Module is Ownable {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal {
-        IExecutor(executor).execTransactionFromModule(
+    ) internal returns (bool success) {
+        success = IExecutor(executor).execTransactionFromModule(
             to,
             value,
             data,
