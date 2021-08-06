@@ -11,29 +11,24 @@ contract Enum {
 }
 
 interface IExecutor {
-    event EnabledModule(address module);
-    event DisabledModule(address module);
-    event ExecutionFromModuleSuccess(address indexed module);
-    event ExecutionFromModuleFailure(address indexed module);
-
     /// @dev Enables a module on the account.
     /// @notice Can only be called by the account.
     /// @notice Modules should be stored as a linked list.
-    /// @notice Must emit EnabledModule(module) if successful.
+    /// @notice Must emit EnabledModule(address module) if successful.
     /// @param module Module to be enabled.
     function enableModule(address module) external;
 
     /// @dev Disables a module on the account.
     /// @notice Can only be called by the account.
-    /// @notice Must emit DisabledModule(module) if successful.
+    /// @notice Must emit DisabledModule(address module) if successful.
     /// @param prevModule Address that pointed to the module to be removed in the linked list
     /// @param module Module to be removed.
     function disableModule(address prevModule, address module) external;
 
     /// @dev Allows a Module to execute a transaction.
     /// @notice Can only be called by an enabled module.
-    /// @notice Must emit ExecutionFromModuleSuccess(module) if successful.
-    /// @notice Must emit ExecutionFromModuleFailure(module) if unsuccessful.
+    /// @notice Must emit ExecutionFromModuleSuccess(address module) if successful.
+    /// @notice Must emit ExecutionFromModuleFailure(address module) if unsuccessful.
     /// @param to Destination address of module transaction.
     /// @param value Ether value of module transaction.
     /// @param data Data payload of module transaction.
@@ -47,12 +42,12 @@ interface IExecutor {
 
     /// @dev Allows a Module to execute a transaction and return data
     /// @notice Can only be called by an enabled module.
-    /// @notice Must emit ExecutionFromModuleSuccess(module) if successful.
-    /// @notice Must emit ExecutionFromModuleFailure(module) if unsuccessful.
+    /// @notice Must emit ExecutionFromModuleSuccess(address module) if successful.
+    /// @notice Must emit ExecutionFromModuleFailure(address module) if unsuccessful.
     /// @param to Destination address of module transaction.
     /// @param value Ether value of module transaction.
     /// @param data Data payload of module transaction.
-    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call..
+    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
     function execTransactionFromModuleReturnData(
         address to,
         uint256 value,

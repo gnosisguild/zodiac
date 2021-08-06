@@ -22,22 +22,33 @@ abstract contract Module is Ownable {
         executor = _executor;
     }
 
-    /// @dev
+    /// @dev Passes a transaction to be executed by the executor.
+    /// @notice Can only be called by this contract.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
     function exec(
         address to,
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal {
-        IExecutor(executor).execTransactionFromModule(
-            to,
-            value,
-            data,
-            operation
-        );
+    ) internal returns (bool success) {
+        return
+            IExecutor(executor).execTransactionFromModule(
+                to,
+                value,
+                data,
+                operation
+            );
     }
 
-    /// @dev
+    /// @dev Passes a transaction to be executed by the executor and returns data.
+    /// @notice Can only be called by this contract.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
     function execAndReturnData(
         address to,
         uint256 value,
