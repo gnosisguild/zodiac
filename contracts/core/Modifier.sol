@@ -15,6 +15,12 @@ contract Modifier is Module {
     // Mapping of modules
     mapping(address => address) internal modules;
 
+    /*
+    --------------------------------------------------
+    You must override at least one of following two virtual functions,
+    execTransactionFromModule() and execTransactionFromModuleReturnData().
+    */
+
     /// @dev Passes a transaction to the modifier.
     /// @param to Destination address of module transaction
     /// @param value Ether value of module transaction
@@ -45,6 +51,10 @@ contract Modifier is Module {
         moduleOnly
         returns (bool success, bytes memory returnData)
     {}
+
+    /*
+    --------------------------------------------------
+    */
 
     modifier moduleOnly() {
         require(modules[msg.sender] != address(0), "Module not authorized");
