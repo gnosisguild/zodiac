@@ -6,7 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./IExecutor.sol";
 
-abstract contract Module is Ownable {
+contract Module is Ownable {
     /// @dev Emitted each time the executor is set.
     event ExecutorSet(
         address indexed previousExecutor,
