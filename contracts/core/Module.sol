@@ -6,7 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./IExecutor.sol";
 
-abstract contract Module is Ownable {
+contract Module is Ownable {
     /// @dev Emitted each time the executor is set.
     event ExecutorSet(
         address indexed previousExecutor,
@@ -22,22 +22,33 @@ abstract contract Module is Ownable {
         executor = _executor;
     }
 
-    /// @dev
+    /// @dev Passes a transaction to be executed by the executor.
+    /// @notice Can only be called by this contract.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
     function exec(
         address to,
         uint256 value,
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
-        success = IExecutor(executor).execTransactionFromModule(
-            to,
-            value,
-            data,
-            operation
-        );
+        return
+            IExecutor(executor).execTransactionFromModule(
+                to,
+                value,
+                data,
+                operation
+            );
     }
 
-    /// @dev
+    /// @dev Passes a transaction to be executed by the executor and returns data.
+    /// @notice Can only be called by this contract.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
     function execAndReturnData(
         address to,
         uint256 value,
