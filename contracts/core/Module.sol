@@ -3,10 +3,10 @@
 /// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./IExecutor.sol";
 
-contract Module is Ownable {
+abstract contract Module is OwnableUpgradeable {
     /// @dev Emitted each time the executor is set.
     event ExecutorSet(
         address indexed previousExecutor,
