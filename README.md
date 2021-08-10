@@ -35,7 +35,7 @@ contract MyModule is Module {
 
 ### Zodiac compliant tools
 
-#### Programmable accounts
+#### Accounts
 
 - **[Gnosis Safe](https://gnosis-safe.io):** The most trusted multisig solution for the Ethereum ecosystem, but also a powerful and extensible programmable account standard. The Gnosis Safe is the reference implementation of the [IExecutor.sol](contracts/core/IExecutor.sol) interface specified in this library.
 
