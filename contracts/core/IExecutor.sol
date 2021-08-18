@@ -3,12 +3,7 @@
 /// @title Zodiac Executor - A contract that manages modules that can execute transactions via this contract.
 pragma solidity >=0.7.0 <0.9.0;
 
-contract Enum {
-    enum Operation {
-        Call,
-        DelegateCall
-    }
-}
+import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 
 interface IExecutor {
     /// @dev Enables a module on the account.
