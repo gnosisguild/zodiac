@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[285],{2214:function(a){a.exports=JSON.parse('{"allTagsPath":"/zodiac/blog/tags","slug":"hola","name":"hola","count":1,"permalink":"/zodiac/blog/tags/hola"}')}}]);
