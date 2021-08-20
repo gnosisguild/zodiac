@@ -6,7 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "./IExecutor.sol";
 import "./Module.sol";
 
-contract Modifier is Module {
+abstract contract Modifier is Module {
     event EnabledModule(address module);
     event DisabledModule(address module);
 

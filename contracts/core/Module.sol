@@ -5,8 +5,9 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./IExecutor.sol";
+import "./FactoryFriendly.sol";
 
-abstract contract Module is OwnableUpgradeable {
+abstract contract Module is OwnableUpgradeable, FactoryFriendly {
     /// @dev Emitted each time the executor is set.
     event ExecutorSet(
         address indexed previousExecutor,
