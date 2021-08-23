@@ -20,7 +20,9 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly {
     /// @dev Sets the executor to a new account (`newExecutor`).
     /// @notice Can only be called by the current owner.
     function setExecutor(address _executor) public onlyOwner {
+        address previousExecutor = executor;
         executor = _executor;
+        emit ExecutorSet(previousExecutor, _executor);
     }
 
     /// @dev Passes a transaction to be executed by the executor.
