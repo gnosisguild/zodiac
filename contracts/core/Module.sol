@@ -6,8 +6,9 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./IExecutor.sol";
 import "./FactoryFriendly.sol";
+import "./Guardable.sol";
 
-abstract contract Module is OwnableUpgradeable, FactoryFriendly {
+abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
     /// @dev Emitted each time the executor is set.
     event ExecutorSet(
         address indexed previousExecutor,
@@ -37,13 +38,33 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
-        return
-            IExecutor(executor).execTransactionFromModule(
+        if (guard != address(0)) {
+            Guard(guard).checkTransaction(
+                // Transaction info
                 to,
                 value,
                 data,
-                operation
+                operation,
+                // unused data data so we can conform to the Gnosis Safe transaction guard interface
+                0,
+                0,
+                0,
+                address(0),
+                payable(0),
+                bytes("0x"),
+                address(0)
             );
+        }
+        success = IExecutor(executor).execTransactionFromModule(
+            to,
+            value,
+            data,
+            operation
+        );
+        if (guard != address(0)) {
+            Guard(guard).checkAfterExecution(bytes32("0x"), success);
+        }
+        return success;
     }
 
     /// @dev Passes a transaction to be executed by the executor and returns data.
@@ -58,12 +79,28 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success, bytes memory returnData) {
-        return
-            IExecutor(executor).execTransactionFromModuleReturnData(
+        if (guard != address(0)) {
+            Guard(guard).checkTransaction(
+                // Transaction info
                 to,
                 value,
                 data,
-                operation
+                operation,
+                // unused data data so we can conform to the Gnosis Safe transaction guard interface
+                0,
+                0,
+                0,
+                address(0),
+                payable(0),
+                bytes("0x"),
+                address(0)
             );
+        }
+        (success, returnData) = IExecutor(executor)
+            .execTransactionFromModuleReturnData(to, value, data, operation);
+        if (guard != address(0)) {
+            Guard(guard).checkAfterExecution(bytes32("0x"), success);
+        }
+        return (success, returnData);
     }
 }
