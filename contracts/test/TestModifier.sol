@@ -19,7 +19,6 @@ contract TestModifier is Modifier {
         Enum.Operation operation
     ) public override moduleOnly returns (bool success) {
         success = exec(to, value, data, operation);
-        return success;
     }
 
     /// @dev Passes a transaction to the modifier, expects return data.
@@ -40,7 +39,6 @@ contract TestModifier is Modifier {
         returns (bool success, bytes memory returnData)
     {
         (success, returnData) = execAndReturnData(to, value, data, operation);
-        return (success, returnData);
     }
 
     function setUp(bytes calldata initializeParams) public override {}

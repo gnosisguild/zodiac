@@ -13,7 +13,6 @@ contract TestModule is Module {
         Enum.Operation operation
     ) public returns (bool success) {
         success = exec(to, value, data, operation);
-        return success;
     }
 
     function executeTransactionReturnData(
@@ -23,7 +22,6 @@ contract TestModule is Module {
         Enum.Operation operation
     ) public returns (bool success, bytes memory returnData) {
         (success, returnData) = execAndReturnData(to, value, data, operation);
-        return (success, returnData);
     }
 
     function setUp(bytes calldata initializeParams) public override {}
