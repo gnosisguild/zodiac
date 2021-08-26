@@ -5,22 +5,21 @@ import { AddressZero } from "@ethersproject/constants";
 
 describe("IExecutor", async () => {
   const [user1, user2] = waffle.provider.getWallets();
-  // probably delete
-  const abiCoder = new ethers.utils.AbiCoder();
-  // probably delete
-  const initializeParams = abiCoder.encode(["address"], [user1.address]);
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
-    const executorFactory = await hre.ethers.getContractFactory("TestExecutor");
-    const safe = await executorFactory.deploy();
-    const iSafe = await hre.ethers.getContractAt("IExecutor", safe.address);
+    const Executor = await hre.ethers.getContractFactory("TestExecutor");
+    const executor = await Executor.deploy();
+    const iExecutor = await hre.ethers.getContractAt(
+      "IExecutor",
+      executor.address
+    );
     const tx = {
-      to: safe.address,
+      to: executor.address,
       value: 0,
       data: "0x",
       operation: 0,
-      safeTxGas: 0,
+      executorTxGas: 0,
       baseGas: 0,
       gasPrice: 0,
       gasToken: AddressZero,
@@ -28,20 +27,20 @@ describe("IExecutor", async () => {
       signatures: "0x",
     };
     return {
-      iSafe,
+      iExecutor,
       tx,
     };
   });
 
   describe("enableModule", async () => {
     it("allow to enable a module", async () => {
-      const { iSafe } = await setupTests();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      const { iExecutor } = await setupTests();
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iSafe.enableModule(user1.address);
+      let transaction = await iExecutor.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
     });
@@ -49,18 +48,18 @@ describe("IExecutor", async () => {
 
   describe("disableModule", async () => {
     it("allow to disable a module", async () => {
-      const { iSafe } = await setupTests();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      const { iExecutor } = await setupTests();
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iSafe.enableModule(user1.address);
+      let transaction = await iExecutor.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
-      transaction = await iSafe.disableModule(AddressZero, user1.address);
+      transaction = await iExecutor.disableModule(AddressZero, user1.address);
       receipt = await transaction.wait();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
     });
@@ -68,26 +67,36 @@ describe("IExecutor", async () => {
 
   describe("execTransactionFromModule", async () => {
     it("revert if module is not enabled", async () => {
-      const { iSafe, tx } = await setupTests();
+      const { iExecutor, tx } = await setupTests();
       await expect(
-        iSafe.execTransactionFromModule(tx.to, tx.value, tx.data, tx.operation)
+        iExecutor.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
       ).to.be.revertedWith("Not authorized");
     });
 
     it("allow to execute module transaction", async () => {
-      const { iSafe, tx } = await setupTests();
-      await iSafe.enableModule(user1.address);
+      const { iExecutor, tx } = await setupTests();
+      await iExecutor.enableModule(user1.address);
       await expect(
-        iSafe.execTransactionFromModule(tx.to, tx.value, tx.data, tx.operation)
+        iExecutor.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
       );
     });
   });
 
   describe("execTransactionFromModuleReturnData", async () => {
     it("revert if module is not enabled", async () => {
-      const { iSafe, tx } = await setupTests();
+      const { iExecutor, tx } = await setupTests();
       await expect(
-        iSafe.execTransactionFromModuleReturnData(
+        iExecutor.execTransactionFromModuleReturnData(
           tx.to,
           tx.value,
           tx.data,
@@ -97,10 +106,10 @@ describe("IExecutor", async () => {
     });
 
     it("allow to execute module transaction and return data", async () => {
-      const { iSafe, tx } = await setupTests();
-      await iSafe.enableModule(user1.address);
+      const { iExecutor, tx } = await setupTests();
+      await iExecutor.enableModule(user1.address);
       await expect(
-        iSafe.execTransactionFromModuleReturnData(
+        iExecutor.execTransactionFromModuleReturnData(
           tx.to,
           tx.value,
           tx.data,
@@ -112,20 +121,20 @@ describe("IExecutor", async () => {
 
   describe("isModuleEnabled", async () => {
     it("returns false if module has not been enabled", async () => {
-      const { iSafe } = await setupTests();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      const { iExecutor } = await setupTests();
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
     });
 
     it("returns true if module has been enabled", async () => {
-      const { iSafe } = await setupTests();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      const { iExecutor } = await setupTests();
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iSafe.enableModule(user1.address);
+      let transaction = await iExecutor.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iSafe.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
     });
@@ -133,10 +142,10 @@ describe("IExecutor", async () => {
 
   describe("getModulesPaginated", async () => {
     it("returns array of enabled modules", async () => {
-      const { iSafe } = await setupTests();
-      let transaction = await iSafe.enableModule(user1.address);
+      const { iExecutor } = await setupTests();
+      let transaction = await iExecutor.enableModule(user1.address);
       let array, next;
-      [array, next] = await iSafe.getModulesPaginated(user1.address, 1);
+      [array, next] = await iExecutor.getModulesPaginated(user1.address, 1);
       await expect(array.toString()).to.be.equals([user1.address].toString());
       await expect(next).to.be.equals(user1.address);
     });

@@ -4,9 +4,9 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "./IExecutor.sol";
-import "./FactoryFriendly.sol";
-import "./Guardable.sol";
+import "../interfaces/IExecutor.sol";
+import "../factory/FactoryFriendly.sol";
+import "../guard/Guardable.sol";
 
 abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
     /// @dev Emitted each time the executor is set.
@@ -40,7 +40,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
     ) internal returns (bool success) {
         /// check if a transactioon guard is enabled.
         if (guard != address(0)) {
-            Guard(guard).checkTransaction(
+            IGuard(guard).checkTransaction(
                 /// Transaction info used by module transactions
                 to,
                 value,
@@ -63,7 +63,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
             operation
         );
         if (guard != address(0)) {
-            Guard(guard).checkAfterExecution(bytes32("0x"), success);
+            IGuard(guard).checkAfterExecution(bytes32("0x"), success);
         }
         return success;
     }
@@ -82,7 +82,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
     ) internal returns (bool success, bytes memory returnData) {
         /// check if a transactioon guard is enabled.
         if (guard != address(0)) {
-            Guard(guard).checkTransaction(
+            IGuard(guard).checkTransaction(
                 /// Transaction info used by module transactions
                 to,
                 value,
@@ -101,7 +101,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         (success, returnData) = IExecutor(executor)
             .execTransactionFromModuleReturnData(to, value, data, operation);
         if (guard != address(0)) {
-            Guard(guard).checkAfterExecution(bytes32("0x"), success);
+            IGuard(guard).checkAfterExecution(bytes32("0x"), success);
         }
         return (success, returnData);
     }
