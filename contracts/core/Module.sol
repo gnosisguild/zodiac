@@ -38,14 +38,15 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
+        /// check if a transactioon guard is enabled.
         if (guard != address(0)) {
             Guard(guard).checkTransaction(
-                // Transaction info
+                /// Transaction info used by module transactions
                 to,
                 value,
                 data,
                 operation,
-                // unused data data so we can conform to the Gnosis Safe transaction guard interface
+                /// Zero out the redundant transaction information only used for Safe multisig transctions
                 0,
                 0,
                 0,
@@ -79,14 +80,15 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success, bytes memory returnData) {
+        /// check if a transactioon guard is enabled.
         if (guard != address(0)) {
             Guard(guard).checkTransaction(
-                // Transaction info
+                /// Transaction info used by module transactions
                 to,
                 value,
                 data,
                 operation,
-                // unused data data so we can conform to the Gnosis Safe transaction guard interface
+                /// Zero out the redundant transaction information only used for Safe multisig transctions
                 0,
                 0,
                 0,

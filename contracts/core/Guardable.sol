@@ -7,10 +7,13 @@ import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
 
 interface Guard is IERC165 {
     function checkTransaction(
+        /// Module transactions only use the first four parameters. Module.sol hard codes the others as 0.
+        /// This is to maintain compatibilty with Gnosis Safe transaction guards.
         address to,
         uint256 value,
         bytes memory data,
         Enum.Operation operation,
+        /// Module.sol hardcodes these parameters as 0 since they are not used for module transactions.
         uint256 safeTxGas,
         uint256 baseGas,
         uint256 gasPrice,
