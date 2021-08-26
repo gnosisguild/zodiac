@@ -52,7 +52,7 @@ interface IExecutor {
 
     /// @dev Returns if an module is enabled
     /// @return True if the module is enabled
-    function isModuleEnabled(address module) external returns (bool);
+    function isModuleEnabled(address module) external view returns (bool);
 
     /// @dev Returns array of modules.
     /// @param start Start of the page.
@@ -61,5 +61,6 @@ interface IExecutor {
     /// @return next Start of the next page.
     function getModulesPaginated(address start, uint256 pageSize)
         external
+        view
         returns (address[] memory array, address next);
 }
