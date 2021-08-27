@@ -4,29 +4,26 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "../interfaces/IExecutor.sol";
+import "../interfaces/IAvatar.sol";
 import "../factory/FactoryFriendly.sol";
 import "../guard/Guardable.sol";
 
 abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
-    /// @dev Emitted each time the executor is set.
-    event ExecutorSet(
-        address indexed previousExecutor,
-        address indexed newExecutor
-    );
+    /// @dev Emitted each time the avatar is set.
+    event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
 
     /// @dev Address that this module will pass transactions to.
-    address public executor;
+    address public avatar;
 
-    /// @dev Sets the executor to a new account (`newExecutor`).
+    /// @dev Sets the avatar to a new avatar (`newAvatar`).
     /// @notice Can only be called by the current owner.
-    function setExecutor(address _executor) public onlyOwner {
-        address previousExecutor = executor;
-        executor = _executor;
-        emit ExecutorSet(previousExecutor, _executor);
+    function setAvatar(address _avatar) public onlyOwner {
+        address previousAvatar = avatar;
+        avatar = _avatar;
+        emit AvatarSet(previousAvatar, _avatar);
     }
 
-    /// @dev Passes a transaction to be executed by the executor.
+    /// @dev Passes a transaction to be executed by the avatar.
     /// @notice Can only be called by this contract.
     /// @param to Destination address of module transaction.
     /// @param value Ether value of module transaction.
@@ -56,7 +53,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
                 address(0)
             );
         }
-        success = IExecutor(executor).execTransactionFromModule(
+        success = IAvatar(avatar).execTransactionFromModule(
             to,
             value,
             data,
@@ -68,7 +65,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         return success;
     }
 
-    /// @dev Passes a transaction to be executed by the executor and returns data.
+    /// @dev Passes a transaction to be executed by the avatar and returns data.
     /// @notice Can only be called by this contract.
     /// @param to Destination address of module transaction.
     /// @param value Ether value of module transaction.
@@ -98,7 +95,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
                 address(0)
             );
         }
-        (success, returnData) = IExecutor(executor)
+        (success, returnData) = IAvatar(avatar)
             .execTransactionFromModuleReturnData(to, value, data, operation);
         if (guard != address(0)) {
             IGuard(guard).checkAfterExecution(bytes32("0x"), success);

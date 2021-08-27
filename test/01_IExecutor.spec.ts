@@ -3,23 +3,23 @@ import hre, { deployments, waffle, ethers } from "hardhat";
 import "@nomiclabs/hardhat-ethers";
 import { AddressZero } from "@ethersproject/constants";
 
-describe("IExecutor", async () => {
+describe("IAvatar", async () => {
   const [user1, user2] = waffle.provider.getWallets();
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
-    const Executor = await hre.ethers.getContractFactory("TestExecutor");
-    const executor = await Executor.deploy();
-    const iExecutor = await hre.ethers.getContractAt(
-      "IExecutor",
-      executor.address
+    const Avatar = await hre.ethers.getContractFactory("TestAvatar");
+    const avatar = await Avatar.deploy();
+    const iAvatar = await hre.ethers.getContractAt(
+      "IAvatar",
+      avatar.address
     );
     const tx = {
-      to: executor.address,
+      to: avatar.address,
       value: 0,
       data: "0x",
       operation: 0,
-      executorTxGas: 0,
+      avatarTxGas: 0,
       baseGas: 0,
       gasPrice: 0,
       gasToken: AddressZero,
@@ -27,20 +27,20 @@ describe("IExecutor", async () => {
       signatures: "0x",
     };
     return {
-      iExecutor,
+      iAvatar,
       tx,
     };
   });
 
   describe("enableModule", async () => {
     it("allow to enable a module", async () => {
-      const { iExecutor } = await setupTests();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      const { iAvatar } = await setupTests();
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iExecutor.enableModule(user1.address);
+      let transaction = await iAvatar.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
     });
@@ -48,18 +48,18 @@ describe("IExecutor", async () => {
 
   describe("disableModule", async () => {
     it("allow to disable a module", async () => {
-      const { iExecutor } = await setupTests();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      const { iAvatar } = await setupTests();
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iExecutor.enableModule(user1.address);
+      let transaction = await iAvatar.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
-      transaction = await iExecutor.disableModule(AddressZero, user1.address);
+      transaction = await iAvatar.disableModule(AddressZero, user1.address);
       receipt = await transaction.wait();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
     });
@@ -67,9 +67,9 @@ describe("IExecutor", async () => {
 
   describe("execTransactionFromModule", async () => {
     it("revert if module is not enabled", async () => {
-      const { iExecutor, tx } = await setupTests();
+      const { iAvatar, tx } = await setupTests();
       await expect(
-        iExecutor.execTransactionFromModule(
+        iAvatar.execTransactionFromModule(
           tx.to,
           tx.value,
           tx.data,
@@ -79,10 +79,10 @@ describe("IExecutor", async () => {
     });
 
     it("allow to execute module transaction", async () => {
-      const { iExecutor, tx } = await setupTests();
-      await iExecutor.enableModule(user1.address);
+      const { iAvatar, tx } = await setupTests();
+      await iAvatar.enableModule(user1.address);
       await expect(
-        iExecutor.execTransactionFromModule(
+        iAvatar.execTransactionFromModule(
           tx.to,
           tx.value,
           tx.data,
@@ -94,9 +94,9 @@ describe("IExecutor", async () => {
 
   describe("execTransactionFromModuleReturnData", async () => {
     it("revert if module is not enabled", async () => {
-      const { iExecutor, tx } = await setupTests();
+      const { iAvatar, tx } = await setupTests();
       await expect(
-        iExecutor.execTransactionFromModuleReturnData(
+        iAvatar.execTransactionFromModuleReturnData(
           tx.to,
           tx.value,
           tx.data,
@@ -106,10 +106,10 @@ describe("IExecutor", async () => {
     });
 
     it("allow to execute module transaction and return data", async () => {
-      const { iExecutor, tx } = await setupTests();
-      await iExecutor.enableModule(user1.address);
+      const { iAvatar, tx } = await setupTests();
+      await iAvatar.enableModule(user1.address);
       await expect(
-        iExecutor.execTransactionFromModuleReturnData(
+        iAvatar.execTransactionFromModuleReturnData(
           tx.to,
           tx.value,
           tx.data,
@@ -121,20 +121,20 @@ describe("IExecutor", async () => {
 
   describe("isModuleEnabled", async () => {
     it("returns false if module has not been enabled", async () => {
-      const { iExecutor } = await setupTests();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      const { iAvatar } = await setupTests();
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
     });
 
     it("returns true if module has been enabled", async () => {
-      const { iExecutor } = await setupTests();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      const { iAvatar } = await setupTests();
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iExecutor.enableModule(user1.address);
+      let transaction = await iAvatar.enableModule(user1.address);
       let receipt = await transaction.wait();
-      await expect(await iExecutor.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
     });
@@ -142,10 +142,10 @@ describe("IExecutor", async () => {
 
   describe("getModulesPaginated", async () => {
     it("returns array of enabled modules", async () => {
-      const { iExecutor } = await setupTests();
-      let transaction = await iExecutor.enableModule(user1.address);
+      const { iAvatar } = await setupTests();
+      let transaction = await iAvatar.enableModule(user1.address);
       let array, next;
-      [array, next] = await iExecutor.getModulesPaginated(user1.address, 1);
+      [array, next] = await iAvatar.getModulesPaginated(user1.address, 1);
       await expect(array.toString()).to.be.equals([user1.address].toString());
       await expect(next).to.be.equals(user1.address);
     });

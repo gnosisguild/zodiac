@@ -1,6 +1,6 @@
 module.exports = {
   skipFiles: [
-    "test/TestExecutor.sol",
+    "test/TestAvatar.sol",
     "test/TestModule.sol",
     "test/TestModifier.sol",
   ],

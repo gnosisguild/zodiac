@@ -8,7 +8,7 @@ contract Enum {
     }
 }
 
-contract TestExecutor {
+contract TestAvatar {
     address public module;
 
     receive() external payable {}

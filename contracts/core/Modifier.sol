@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 
-/// @title Modifier Interface - A contract that sits between a Aodule and an Account and enforce some additional logic.
+/// @title Modifier Interface - A contract that sits between a Aodule and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../interfaces/IExecutor.sol";
+import "../interfaces/IAvatar.sol";
 import "./Module.sol";
 
 abstract contract Modifier is Module {
@@ -64,7 +64,7 @@ abstract contract Modifier is Module {
     /// @dev Disables a module on the modifier
     /// @param prevModule Module that pointed to the module to be removed in the linked list
     /// @param module Module to be removed
-    /// @notice This can only be called by the executor
+    /// @notice This can only be called by the avatar
     function disableModule(address prevModule, address module)
         public
         onlyOwner
@@ -81,7 +81,7 @@ abstract contract Modifier is Module {
 
     /// @dev Enables a module that can add transactions to the queue
     /// @param module Address of the module to be enabled
-    /// @notice This can only be called by the executor
+    /// @notice This can only be called by the avatar
     function enableModule(address module) public onlyOwner {
         require(
             module != address(0) && module != SENTINEL_MODULES,

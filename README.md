@@ -3,11 +3,11 @@
 [![Build Status](https://github.com/gnosis/zodiac/workflows/zodiac/badge.svg?branch=main)](https://github.com/gnosis/zodiac/actions)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/zodiac/badge.svg?branch=main)](https://coveralls.io/github/gnosis/zodiac)
 
-A library for composable DAO tooling built on top of programmable accounts, like the [Gnosis Safe](https://gnosis-safe.io).
+A library for composable DAO tooling built on top of programmable avatars, like the [Gnosis Safe](https://gnosis-safe.io).
 Zodiac enables:
 
-- Flexible module based control of programmable accounts.
-- Un-opinionated standards for controlling programmable accounts.
+- Flexible module based control of programmable avatars.
+- Un-opinionated standards for controlling programmable avatars.
 - Reusable implementations of core and factory logic.
 
 ## Overview
@@ -35,19 +35,19 @@ contract MyModule is Module {
 
 ### Zodiac compliant tools
 
-#### Accounts
+#### Avatars
 
-- **[Gnosis Safe](https://gnosis-safe.io):** The most trusted multisig solution for the Ethereum ecosystem, but also a powerful and extensible programmable account standard. The Gnosis Safe is the reference implementation of the [IExecutor.sol](contracts/core/IExecutor.sol) interface specified in this library.
+- **[Gnosis Safe](https://gnosis-safe.io):** The most trusted multisig solution for the Ethereum ecosystem, but also a powerful and extensible programmable avatar standard. The Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/core/IAvatar.sol) interface specified in this library.
 
 #### Modules
 
 - **[dao-module](https://github.com/gnosis/dao-module):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org).
-- **[SafeBridge](https://github.com/gnosis/SafeBridge):** allows an address on one chain to control an executor on another chain, via an arbitrary message bridge.
-- **[SafeExit](https://github.com/gnosis/SafeExit):** allows users to redeem a designated token for a relative share of an accounts assets, similar to Moloch's infamous `rageQuit()` function.
+- **[SafeBridge](https://github.com/gnosis/SafeBridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge.
+- **[SafeExit](https://github.com/gnosis/SafeExit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function.
 
 #### Modifiers
 
-- **[SafeDelay](https://github.com/gnosis/SafeDelay):** allows accounts to enforce a time delay between when a module initiates a transaction and when it will be executed by the account.
+- **[SafeDelay](https://github.com/gnosis/SafeDelay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar.
 
 #### Misc.
 

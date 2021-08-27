@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 
-/// @title Zodiac Executor - A contract that manages modules that can execute transactions via this contract.
+/// @title Zodiac Avatar - A contract that manages modules that can execute transactions via this contract.
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 
-interface IExecutor {
-    /// @dev Enables a module on the account.
-    /// @notice Can only be called by the account.
+interface IAvatar {
+    /// @dev Enables a module on the avatar.
+    /// @notice Can only be called by the avatar.
     /// @notice Modules should be stored as a linked list.
     /// @notice Must emit EnabledModule(address module) if successful.
     /// @param module Module to be enabled.
     function enableModule(address module) external;
 
-    /// @dev Disables a module on the account.
-    /// @notice Can only be called by the account.
+    /// @dev Disables a module on the avatar.
+    /// @notice Can only be called by the avatar.
     /// @notice Must emit DisabledModule(address module) if successful.
     /// @param prevModule Address that pointed to the module to be removed in the linked list
     /// @param module Module to be removed.
