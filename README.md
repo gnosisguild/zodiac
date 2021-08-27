@@ -3,12 +3,25 @@
 [![Build Status](https://github.com/gnosis/zodiac/workflows/zodiac/badge.svg?branch=main)](https://github.com/gnosis/zodiac/actions)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/zodiac/badge.svg?branch=main)](https://coveralls.io/github/gnosis/zodiac)
 
-A library for composable DAO tooling built on top of programmable avatars, like the [Gnosis Safe](https://gnosis-safe.io).
+A library for composable DAO tooling built on top of programmable accounts, like the [Gnosis Safe](https://gnosis-safe.io).
+
 Zodiac enables:
 
-- Flexible module based control of programmable avatars.
-- Un-opinionated standards for controlling programmable avatars.
+- Flexible module based control of programmable accounts.
+- Un-opinionated standards for controlling programmable accounts.
 - Reusable implementations of core and factory logic.
+
+Zodiac defines four key components:
+
+**1. Avatars:** Programmable Ethereum accounts, like the [Gnosis Safe](https://gnosis-safe.io). Avatars are the address that holds balances, owns systems, executes transaction, is referenced externally, and ultimately represents your DAO.
+Avatars must expose an interface like `IAvatar.sol`.
+
+**Modules:** Contracts that are enabled by an Avatar and implement some decision making logic. They should import `Module.sol`.
+
+**Modifiers:** Contracts that sit between Modules and Avatars to modify the Module's behavior. For example, they might enforce a timelock on all functions a Module attempts to execute. Modifiers should import `Modifier.sol` and must expose an interface like `IAvatar.sol`
+
+**Guards:** Contracts that can be enabled on Modules and implement pre and/or post-checks on each transaction that the Module executes. Allowing Avatars to do things like limit the scope of addresses and functions that a module can call or ensure certain state is never changed by a module.
+Guards should improt `BaseGuard.sol`.
 
 ## Overview
 
@@ -20,7 +33,7 @@ yarn add https://github.com/gnosis/zodiac
 
 ### Usage
 
-Once installed, you can use the contracts in the library by importing them:
+Once installed, you can use the contracts in the library by importing them into your contract:
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -49,7 +62,7 @@ contract MyModule is Module {
 
 - **[SafeDelay](https://github.com/gnosis/SafeDelay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar.
 
-#### Misc.
+#### Guards.
 
 - **[ScopeGuard](https://github.com/gnosis/ScopeGuard):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures.
 
