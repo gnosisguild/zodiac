@@ -14,7 +14,9 @@ You can check the factory file to see more details, it consists of 4 methods, de
 - Interface: `deployAndSetUpModule(moduleName, args, provider, chainId)`
 - Arguments:
   - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./src/constants.ts) object
-  - `args`: Arguments of the `setUp` function of the module to deploy
+  - `args`: An object with two attributes: `value` and `types` 
+    - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
+    - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
 - Returns: An object with the transaction built in order to be executed by the Safe, and the expected address of the new module, this will allow developers to batch the transaction of deployment + enable module on safe. Example:
@@ -24,7 +26,7 @@ You can check the factory file to see more details, it consists of 4 methods, de
   "transaction": {
     "data": "0x",
     "to": "0x",
-    "value": "0x"
+    "value": "0x" // 0 as BigNumber
   },
   "expectedModuleAddress": "0x"
 }

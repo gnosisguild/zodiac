@@ -1,6 +1,6 @@
-import { ethers, Contract, Signer } from "ethers";
+import { ethers, Contract, Signer, BigNumber } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
-import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constant";
+import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownModules } from "./types";
 
 export const deployAndSetUpModule = async (
@@ -19,8 +19,13 @@ export const deployAndSetUpModule = async (
     chainId
   );
 
-  const encodedInitParams = new ethers.utils.AbiCoder().encode(args.types, args.values);
-  const moduleSetupData = module.interface.encodeFunctionData("setUp", [encodedInitParams]);
+  const encodedInitParams = new ethers.utils.AbiCoder().encode(
+    args.types,
+    args.values
+  );
+  const moduleSetupData = module.interface.encodeFunctionData("setUp", [
+    encodedInitParams,
+  ]);
 
   const expectedModuleAddress = await calculateProxyAddress(
     factory,
@@ -36,7 +41,8 @@ export const deployAndSetUpModule = async (
   ]);
   const transaction = {
     data: deployData,
-    to: factory.address
+    to: factory.address,
+    value: BigNumber.from(0),
   };
   return {
     transaction,
