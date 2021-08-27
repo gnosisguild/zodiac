@@ -5,7 +5,10 @@ import { KnownModules } from "./types";
 
 export const deployAndSetUpModule = async (
   moduleName: keyof KnownModules,
-  args: Array<number | string>,
+  args: {
+    types: Array<string>;
+    values: Array<number | string>;
+  },
   provider: JsonRpcProvider,
   chainId: number,
   saltNonce: string
@@ -15,7 +18,9 @@ export const deployAndSetUpModule = async (
     provider,
     chainId
   );
-  const moduleSetupData = module.interface.encodeFunctionData("setUp", args);
+
+  const encodedInitParams = new ethers.utils.AbiCoder().encode(args.types, args.values);
+  const moduleSetupData = module.interface.encodeFunctionData("setUp", [encodedInitParams]);
 
   const expectedModuleAddress = await calculateProxyAddress(
     factory,
@@ -27,12 +32,11 @@ export const deployAndSetUpModule = async (
   const deployData = factory.interface.encodeFunctionData("deployModule", [
     module.address,
     moduleSetupData,
-    saltNonce
+    saltNonce,
   ]);
   const transaction = {
     data: deployData,
-    to: factory.address,
-    value: "0",
+    to: factory.address
   };
   return {
     transaction,

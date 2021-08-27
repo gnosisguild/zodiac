@@ -90,7 +90,7 @@ describe("ModuleProxyFactory", async () => {
       const newModule = await ethers.getContractAt("TestModule", moduleAddress);
 
       const isInitialized = await newModule.initialized();
-      expect(isInitialized).to.be.equal(true);
+      expect(isInitialized).to.be.true
 
       const moduleAvatar = await newModule.avatar();
       expect(moduleAvatar).to.be.equal(avatarAddress);
