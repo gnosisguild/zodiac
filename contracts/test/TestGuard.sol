@@ -8,26 +8,47 @@ import "../factory/FactoryFriendly.sol";
 import "@gnosis.pm/safe-contracts/contracts/GnosisSafe.sol";
 import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "../core/Module.sol";
 
 contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
+    event preChecked(bool checked);
+    event postChecked(bool checked);
+
+    address public module;
+
+    constructor(address _module) {
+        __Ownable_init();
+        module = _module;
+    }
+
+    function setModule(address _module) public {
+        module = _module;
+    }
+
     function checkTransaction(
         address to,
-        uint256 value,
-        bytes memory data,
-        Enum.Operation operation,
-        uint256 safeTxGas,
-        uint256 baseGas,
-        uint256 gasPrice,
-        address gasToken,
-        address payable refundReceiver,
-        bytes memory signatures,
-        address msgSender
-    ) public override {}
+        uint256,
+        bytes memory,
+        Enum.Operation,
+        uint256,
+        uint256,
+        uint256,
+        address,
+        address payable,
+        bytes memory,
+        address
+    ) public override {
+        require(to != address(0), "Cannot send to zero address");
+        emit preChecked(true);
+    }
 
-    function checkAfterExecution(bytes32 txHash, bool success)
-        public
-        override
-    {}
+    function checkAfterExecution(bytes32, bool) public override {
+        require(
+            Module(module).guard() == address(this),
+            "Module cannot remove its own guard."
+        );
+        emit postChecked(true);
+    }
 
     function setUp(bytes calldata initializeParams) public override {}
 }

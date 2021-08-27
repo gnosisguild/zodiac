@@ -18,6 +18,8 @@ describe("Module", async () => {
     const Module = await hre.ethers.getContractFactory("TestModule");
     const module = await Module.deploy(iAvatar.address);
     await avatar.enableModule(module.address);
+    const Guard = await hre.ethers.getContractFactory("TestGuard");
+    const guard = await Guard.deploy(module.address);
     const tx = {
       to: avatar.address,
       value: 0,
@@ -32,6 +34,7 @@ describe("Module", async () => {
     };
     return {
       iAvatar,
+      guard,
       module,
       tx,
     };
@@ -61,64 +64,112 @@ describe("Module", async () => {
 
   describe("exec", async () => {
     it("skips guard pre-check if no guard is set", async () => {
-      const { iAvatar, module, tx } = await setupTests();
+      const { iAvatar, guard, module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       );
     });
 
     it("pre-checks transaction if guard is set", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await module.setGuard(guard.address);
+      await expect(
+        module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
+      )
+        .to.emit(guard, "preChecked")
+        .withArgs(true);
+    });
+
+    it("executes a transaction", async () => {
       const { iAvatar, module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       );
     });
 
-    //   it("executes a transaction", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("skips post-check if no guard is enabled", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("post-checks transaction if guard is set", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    // });
-    //
-    // describe("execAndReturnData", async () => {
-    //   it("cannot be called by external address", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("skips guard pre-check if no guard is set", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("pre-checks transaction if guard is set", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("executes a transaction", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("skips post-check if no guard is enabled", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
-    //
-    //   it("post-checks transaction if guard is set", async () => {
-    //     const { iAvatar, module } = await setupTests();
-    //     await expect(true).to.be.equals(false);
-    //   });
+    it("skips post-check if no guard is enabled", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await expect(
+        module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
+      ).not.to.emit(guard, "postChecked");
+    });
+
+    it("post-checks transaction if guard is set", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await module.setGuard(guard.address);
+      await expect(
+        module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
+      )
+        .to.emit(guard, "postChecked")
+        .withArgs(true);
+    });
+  });
+
+  describe("execAndReturnData", async () => {
+    it("skips guard pre-check if no guard is set", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await expect(
+        module.executeTransactionReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      );
+    });
+
+    it("pre-checks transaction if guard is set", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await module.setGuard(guard.address);
+      await expect(
+        module.executeTransactionReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      )
+        .to.emit(guard, "preChecked")
+        .withArgs(true);
+    });
+
+    it("executes a transaction", async () => {
+      const { iAvatar, module, tx } = await setupTests();
+      await expect(
+        module.executeTransactionReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      );
+    });
+
+    it("skips post-check if no guard is enabled", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await expect(
+        module.executeTransactionReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).not.to.emit(guard, "postChecked");
+    });
+
+    it("post-checks transaction if guard is set", async () => {
+      const { iAvatar, guard, module, tx } = await setupTests();
+      await module.setGuard(guard.address);
+      await expect(
+        module.executeTransactionReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      )
+        .to.emit(guard, "postChecked")
+        .withArgs(true);
+    });
   });
 });
