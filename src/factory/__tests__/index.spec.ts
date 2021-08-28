@@ -1,6 +1,5 @@
-import { JsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "hardhat";
-import { Contract, Wallet } from "ethers";
+import { Contract } from "ethers";
 import { expect } from "chai";
 import {
   deployAndSetUpModule,
@@ -10,17 +9,19 @@ import {
 
 import "@nomiclabs/hardhat-ethers";
 
-const provider = new JsonRpcProvider(
-  `https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`
-);
 const AddressOne = "0x0000000000000000000000000000000000000001";
 
 describe("Factory JS functions ", () => {
   let newModuleAddress: string;
   let chainId: number;
+  let mockContract: Contract;
+
   const saltNonce: string = "0x7255";
+  const provider = ethers.provider;
 
   before(async () => {
+    const Mock = await ethers.getContractFactory("MockContract");
+    mockContract = await Mock.deploy();
     chainId = await (await provider.getNetwork()).chainId;
   });
 
@@ -61,7 +62,15 @@ describe("Factory JS functions ", () => {
   });
 
   it("should retrieve module instance", async () => {
-    const module = await getModuleInstance("dao", newModuleAddress, provider);
+    const module = await getModuleInstance(
+      "dao",
+      mockContract.address,
+      provider
+    );
+    await mockContract.givenMethodReturnBool(
+      module.interface.getSighash("initialized"),
+      true
+    );
 
     const initialized = await module.initialized();
     expect(initialized).to.be.true;
