@@ -6,7 +6,8 @@
   "license": "LGPL-3.0+",
   "scripts": {
     "build": "hardhat compile",
-    "test": "hardhat test",
+    "test:js": "hardhat test ./src/*/__tests__/*.spec.ts",
+    "test": "hardhat test && yarn test:js",
     "coverage": "hardhat coverage",
     "lint": "yarn lint:sol && yarn lint:ts",
     "lint:sol": "solhint 'contracts/**/*.sol'",
@@ -48,8 +49,8 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "@gnosis.pm/safe-contracts": "1.3.0",
     "@gnosis.pm/mock-contract": "^4.0.0",
+    "@gnosis.pm/safe-contracts": "1.3.0",
     "@openzeppelin/contracts-upgradeable": "^4.2.0",
     "argv": "^0.0.2",
     "dotenv": "^8.0.0",

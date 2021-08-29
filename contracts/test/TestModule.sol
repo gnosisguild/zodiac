@@ -7,8 +7,8 @@ import "../core/Module.sol";
 
 contract TestModule is Module {
     constructor(address _avatar) {
-        __Ownable_init();
-        avatar = _avatar;
+        bytes memory initParams = abi.encode(_avatar);
+        setUp(initParams);
     }
 
     event executed(
@@ -54,5 +54,10 @@ contract TestModule is Module {
         );
     }
 
-    function setUp(bytes calldata initializeParams) public override {}
+    function setUp(bytes memory initializeParams) public override {
+        __Ownable_init();
+        (address _avatar) = abi.decode(initializeParams, (address));
+        avatar = _avatar;
+        initialized = true;
+    }
 }
