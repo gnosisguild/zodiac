@@ -10,12 +10,10 @@ describe("IAvatar", async () => {
     await deployments.fixture();
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
-    const iAvatar = await hre.ethers.getContractAt(
-      "IAvatar",
-      avatar.address
-    );
+    const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
     const tx = {
       to: avatar.address,
+
       value: 0,
       data: "0x",
       operation: 0,
