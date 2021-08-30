@@ -155,7 +155,10 @@ describe("Modifier", async () => {
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
-      await expect(await modifier.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await modifier.enableModule(user2.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user2.address);
+      await expect(await modifier.isModuleEnabled(user2.address)).to.be.equals(
         true
       );
     });
