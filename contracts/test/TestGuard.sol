@@ -11,14 +11,14 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../core/Module.sol";
 
 contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
-    event preChecked(bool checked);
-    event postChecked(bool checked);
+    event PreChecked(bool checked);
+    event PostChecked(bool checked);
 
     address public module;
 
     constructor(address _module) {
-        __Ownable_init();
-        module = _module;
+        bytes memory initParams = abi.encode(_module);
+        setUp(initParams);
     }
 
     function setModule(address _module) public {
@@ -27,9 +27,9 @@ contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
 
     function checkTransaction(
         address to,
-        uint256,
-        bytes memory,
-        Enum.Operation,
+        uint256 value,
+        bytes memory data,
+        Enum.Operation operation,
         uint256,
         uint256,
         uint256,
@@ -39,7 +39,10 @@ contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
         address
     ) public override {
         require(to != address(0), "Cannot send to zero address");
-        emit preChecked(true);
+        require(value != 1337, "Cannot send 1337");
+        require(bytes3(data) != bytes3(0xbaddad), "Cannot call 0xbaddad");
+        require(operation != Enum.Operation(1), "No delegate calls");
+        emit PreChecked(true);
     }
 
     function checkAfterExecution(bytes32, bool) public override {
@@ -47,8 +50,13 @@ contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
             Module(module).guard() == address(this),
             "Module cannot remove its own guard."
         );
-        emit postChecked(true);
+        emit PostChecked(true);
     }
 
-    function setUp(bytes memory initializeParams) public override {}
+    function setUp(bytes memory initializeParams) public override {
+        __Ownable_init();
+        address _module = abi.decode(initializeParams, (address));
+        module = _module;
+        initialized = true;
+    }
 }

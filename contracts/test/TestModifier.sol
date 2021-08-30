@@ -62,7 +62,7 @@ contract TestModifier is Modifier {
         returns (bool success, bytes memory returnData)
     {
         (success, returnData) = execAndReturnData(to, value, data, operation);
-        executedAndReturnedData(
+        emit executedAndReturnedData(
             to,
             value,
             data,

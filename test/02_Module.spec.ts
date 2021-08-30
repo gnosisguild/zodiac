@@ -72,7 +72,7 @@ describe("Module", async () => {
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       )
-        .to.emit(guard, "preChecked")
+        .to.emit(guard, "PreChecked")
         .withArgs(true);
     });
 
@@ -87,7 +87,7 @@ describe("Module", async () => {
       const { iAvatar, guard, module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
-      ).not.to.emit(guard, "postChecked");
+      ).not.to.emit(guard, "PostChecked");
     });
 
     it("post-checks transaction if guard is set", async () => {
@@ -96,7 +96,7 @@ describe("Module", async () => {
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       )
-        .to.emit(guard, "postChecked")
+        .to.emit(guard, "PostChecked")
         .withArgs(true);
     });
   });
@@ -125,7 +125,7 @@ describe("Module", async () => {
           tx.operation
         )
       )
-        .to.emit(guard, "preChecked")
+        .to.emit(guard, "PreChecked")
         .withArgs(true);
     });
 
@@ -150,7 +150,7 @@ describe("Module", async () => {
           tx.data,
           tx.operation
         )
-      ).not.to.emit(guard, "postChecked");
+      ).not.to.emit(guard, "PostChecked");
     });
 
     it("post-checks transaction if guard is set", async () => {
@@ -164,7 +164,7 @@ describe("Module", async () => {
           tx.operation
         )
       )
-        .to.emit(guard, "postChecked")
+        .to.emit(guard, "PostChecked")
         .withArgs(true);
     });
   });
