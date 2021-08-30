@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
+        "outDir": "./dist",
         "declaration": true,
         "esModuleInterop": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "noEmit": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "strict": true,
@@ -13,5 +13,6 @@
             "node_modules/@types",
             "typings"
         ]
-    }
+    },
+    "include": ["hardhat.config.ts", "src/factory/*.ts"]
 }
