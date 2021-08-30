@@ -5,10 +5,6 @@ import { AddressZero } from "@ethersproject/constants";
 
 describe("Module", async () => {
   const [user1, user2] = waffle.provider.getWallets();
-  // probably delete
-  const abiCoder = new ethers.utils.AbiCoder();
-  // probably delete
-  const initializeParams = abiCoder.encode(["address"], [user1.address]);
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
