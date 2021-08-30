@@ -164,7 +164,7 @@ describe("Modifier", async () => {
   describe("getModulesPaginated", async () => {
     it("returns empty array if no modules are enabled.", async () => {
       const { modifier } = await setupTests();
-      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 10);
+      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
       tx = tx.toString();
       await expect(tx).to.be.equals(
         [[], "0x0000000000000000000000000000000000000000"].toString()
@@ -184,6 +184,23 @@ describe("Modifier", async () => {
       );
     });
 
-    // TODO
+    it("returns two modules if two modules are enabled", async () => {
+      const { modifier } = await setupTests();
+      await expect(modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+      await expect(modifier.enableModule(user2.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user2.address);
+      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
+      tx = tx.toString();
+      await expect(tx).to.be.equals(
+        [
+          user2.address,
+          user1.address,
+          "0x0000000000000000000000000000000000000000",
+        ].toString()
+      );
+    });
   });
 });
