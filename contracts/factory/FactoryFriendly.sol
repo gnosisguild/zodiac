@@ -5,5 +5,6 @@ pragma solidity >=0.7.0 <0.9.0;
 
 abstract contract FactoryFriendly {
     bool public initialized;
-    function setUp(bytes calldata initializeParams) public virtual;
+
+    function setUp(bytes memory initializeParams) public virtual;
 }

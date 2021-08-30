@@ -50,5 +50,5 @@ contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
         emit postChecked(true);
     }
 
-    function setUp(bytes calldata initializeParams) public override {}
+    function setUp(bytes memory initializeParams) public override {}
 }

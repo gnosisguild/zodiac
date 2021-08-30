@@ -56,7 +56,7 @@ contract TestModule is Module {
 
     function setUp(bytes memory initializeParams) public override {
         __Ownable_init();
-        (address _avatar) = abi.decode(initializeParams, (address));
+        address _avatar = abi.decode(initializeParams, (address));
         avatar = _avatar;
         initialized = true;
     }

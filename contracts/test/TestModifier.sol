@@ -6,6 +6,28 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../core/Modifier.sol";
 
 contract TestModifier is Modifier {
+    event executed(
+        address to,
+        uint256 value,
+        bytes data,
+        Enum.Operation operation,
+        bool success
+    );
+
+    event executedAndReturnedData(
+        address to,
+        uint256 value,
+        bytes data,
+        Enum.Operation operation,
+        bytes returnData,
+        bool success
+    );
+
+    constructor(address _avatar) {
+        bytes memory initParams = abi.encode(_avatar);
+        setUp(initParams);
+    }
+
     /// @dev Passes a transaction to the modifier.
     /// @param to Destination address of module transaction
     /// @param value Ether value of module transaction
@@ -19,6 +41,7 @@ contract TestModifier is Modifier {
         Enum.Operation operation
     ) public override moduleOnly returns (bool success) {
         success = exec(to, value, data, operation);
+        emit executed(to, value, data, operation, success);
     }
 
     /// @dev Passes a transaction to the modifier, expects return data.
@@ -39,7 +62,20 @@ contract TestModifier is Modifier {
         returns (bool success, bytes memory returnData)
     {
         (success, returnData) = execAndReturnData(to, value, data, operation);
+        executedAndReturnedData(
+            to,
+            value,
+            data,
+            operation,
+            returnData,
+            success
+        );
     }
 
-    function setUp(bytes calldata initializeParams) public override {}
+    function setUp(bytes memory initializeParams) public override {
+        __Ownable_init();
+        address _avatar = abi.decode(initializeParams, (address));
+        avatar = _avatar;
+        initialized = true;
+    }
 }
