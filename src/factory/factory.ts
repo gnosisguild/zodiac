@@ -3,7 +3,7 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownModules } from "./types";
 
-export const deployAndSetUpModule = async (
+export const deployAndSetUpModule = (
   moduleName: keyof KnownModules,
   args: {
     types: Array<string>;
@@ -13,7 +13,7 @@ export const deployAndSetUpModule = async (
   chainId: number,
   saltNonce: string
 ) => {
-  const { factory, module } = await getFactoryAndMasterCopy(
+  const { factory, module } = getFactoryAndMasterCopy(
     moduleName,
     provider,
     chainId
@@ -27,7 +27,7 @@ export const deployAndSetUpModule = async (
     encodedInitParams,
   ]);
 
-  const expectedModuleAddress = await calculateProxyAddress(
+  const expectedModuleAddress = calculateProxyAddress(
     factory,
     module.address,
     moduleSetupData,
@@ -50,7 +50,7 @@ export const deployAndSetUpModule = async (
   };
 };
 
-export const calculateProxyAddress = async (
+export const calculateProxyAddress = (
   factory: Contract,
   masterCopy: string,
   initData: string,
@@ -83,11 +83,10 @@ export const getModuleInstance = (
   if (moduleIsNotSupported) {
     throw new Error("Module " + moduleName + " not supported");
   }
-  const module = new Contract(address, CONTRACT_ABIS[moduleName], provider);
-  return module;
+  return new Contract(address, CONTRACT_ABIS[moduleName], provider);
 };
 
-export const getFactoryAndMasterCopy = async (
+export const getFactoryAndMasterCopy = (
   moduleName: keyof KnownModules,
   provider: JsonRpcProvider,
   chainId: number
