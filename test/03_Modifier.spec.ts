@@ -155,7 +155,10 @@ describe("Modifier", async () => {
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
-      await expect(await modifier.isModuleEnabled(user1.address)).to.be.equals(
+      await expect(await modifier.enableModule(user2.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user2.address);
+      await expect(await modifier.isModuleEnabled(user2.address)).to.be.equals(
         true
       );
     });
@@ -189,6 +192,7 @@ describe("Modifier", async () => {
       await expect(modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
+      // delete once you figure out why you need to do this twice
       await expect(modifier.enableModule(user2.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user2.address);
@@ -201,6 +205,74 @@ describe("Modifier", async () => {
           "0x0000000000000000000000000000000000000000",
         ].toString()
       );
+    });
+  });
+
+  describe("execTransactionFromModule", async () => {
+    it("reverts if module is not enabled", async () => {
+      const { iAvatar, modifier, tx } = await setupTests();
+      await expect(
+        modifier.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).to.be.revertedWith("Module not authorized");
+    });
+
+    it("execute a transaction.", async () => {
+      const { iAvatar, modifier, tx } = await setupTests();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+      // delete once you figure out why you need to do this twice
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      await expect(
+        modifier.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).to.emit(modifier, "executed");
+    });
+  });
+
+  describe("execTransactionFromModuleReturnData", async () => {
+    it("reverts if module is not enabled", async () => {
+      const { iAvatar, modifier, tx } = await setupTests();
+      await expect(
+        modifier.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).to.be.revertedWith("Module not authorized");
+    });
+
+    it("execute a transaction.", async () => {
+      const { iAvatar, modifier, tx } = await setupTests();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+      // delete once you figure out why you need to do this twice
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      await expect(
+        modifier.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).to.emit(modifier, "executedAndReturnedData");
     });
   });
 });

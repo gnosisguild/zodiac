@@ -23,7 +23,7 @@ describe("Guardable", async () => {
     };
   });
 
-  describe("SetGuard", async () => {
+  describe("setGuard", async () => {
     it("reverts if reverts if caller is not the owner", async () => {
       const { module } = await setupTests();
       await expect(
@@ -41,6 +41,13 @@ describe("Guardable", async () => {
       await expect(module.setGuard(guard.address))
         .to.emit(module, "ChangedGuard")
         .withArgs(guard.address);
+    });
+  });
+
+  describe("getGuard", async () => {
+    it("returns guard address", async () => {
+      const { module } = await setupTests();
+      await expect(await module.getGuard()).to.be.equals(AddressZero);
     });
   });
 });
