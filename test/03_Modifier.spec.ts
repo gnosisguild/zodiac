@@ -6,10 +6,6 @@ import { AddressZero } from "@ethersproject/constants";
 describe("Modifier", async () => {
   const [user1, user2] = waffle.provider.getWallets();
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
-  // probably delete
-  const abiCoder = new ethers.utils.AbiCoder();
-  // probably delete
-  const initializeParams = abiCoder.encode(["address"], [user1.address]);
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
@@ -152,9 +148,11 @@ describe("Modifier", async () => {
 
     it("returns true if module is enabled", async () => {
       const { modifier } = await setupTests();
+      // delete once you figure out why you need to do this twice
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
+
       await expect(await modifier.enableModule(user2.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user2.address);
