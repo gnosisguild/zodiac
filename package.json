@@ -8,6 +8,7 @@
   "typings": "./dist/src/factory/index.d.ts",
   "scripts": {
     "build": "hardhat compile",
+    "build:factory": "tsc -p tsconfig.json",
     "test:js": "hardhat test ./src/*/__tests__/*.spec.ts",
     "test": "hardhat test && yarn test:js",
     "coverage": "hardhat coverage",
