@@ -36,7 +36,7 @@ yarn add https://github.com/gnosis/zodiac
 Once installed, you can use the contracts in the library by importing them into your contract:
 
 ```solidity
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.6;
 
 import "https://github.com/gnosis/contracts/core/Module.sol";
 
