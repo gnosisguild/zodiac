@@ -8,14 +8,20 @@ Let's discover **Zodiac in less than 5 minutes**.
 
 ## What Is Zodiac?
 
-Zodiac is a library for composable DAO tooling built on top of programmable accounts, like the [Gnosis Safe](https://gnosis-safe.io).
-Zodiac enables:
+The expansion pack for DAOs, Zodiac is a collection of tools built according to an open standard. 
 
-- Flexible module based control of programmable accounts.
-- Un-opinionated standards for controlling programmable accounts.
-- Reusable implementations of core and factory logic.
+Zodiac's composable design philosophy enables DAOs to act more like constellations, connecting protocols, platforms, and chains, no longer confined to monolithic designs.
 
-## Build Your Own Module
+To learn more about the ideas behind Zodiac, visit the [blog](http://gnosisguild.mirror.xyz/). If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). 
+
+The Zodiac open standard enables:
+
+- Flexible, module-based control of programmable accounts
+- Un-opinionated standards for programmable account interaction
+- Reusable implementations of core and factory logic
+
+
+## Build a Zodiac Module
 
 Import Module.sol into your module.
 

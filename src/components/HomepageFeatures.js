@@ -6,19 +6,19 @@ const FeatureList = [
   {
     title: "Flexible",
     Svg: require("../../static/img/undraw_docusaurus_mountain.svg").default,
-    description: <>Flexible, module-based, control of programmable accounts.</>,
+    description: <>Flexible, module-based control of programmable accounts</>,
   },
   {
     title: "Unopinionated",
     Svg: require("../../static/img/undraw_docusaurus_tree.svg").default,
     description: (
-      <>Unopinionated standards for controlling programmable accounts.</>
+      <>Un-opinionated standards for programmable account interaction</>
     ),
   },
   {
     title: "Reusable",
     Svg: require("../../static/img/undraw_docusaurus_react.svg").default,
-    description: <>Reusable implementations of core and factory logic.</>,
+    description: <>Reusable implementations of core and factory logic</>,
   },
 ];
 

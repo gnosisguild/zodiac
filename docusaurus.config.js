@@ -4,7 +4,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: "Zodiac",
-  tagline: "Constellations > Monoliths",
+  tagline: "The expansion pack for DAOs",
   url: "https://zodiac.eth",
   baseUrl: "/zodiac/",
   onBrokenLinks: "throw",
