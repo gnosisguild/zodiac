@@ -54,17 +54,17 @@ contract MyModule is Module {
 
 #### Modules
 
-- **[dao-module](https://github.com/gnosis/dao-module):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org).
-- **[SafeBridge](https://github.com/gnosis/SafeBridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge.
-- **[SafeExit](https://github.com/gnosis/SafeExit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function.
+- **[Reality](https://github.com/gnosis/zodiac-module-reality):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org).
+- **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge.
+- **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function.
 
 #### Modifiers
 
-- **[SafeDelay](https://github.com/gnosis/SafeDelay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar.
+- **[Delay](https://github.com/gnosis/zodiac-modifier-delay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar.
 
 #### Guards.
 
-- **[ScopeGuard](https://github.com/gnosis/ScopeGuard):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures.
+- **[Scope](https://github.com/gnosis/zodiac-guard-scope):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures.
 
 Built something cool Zodiac and want to add it to the list? Open a PR!
 
