@@ -3,6 +3,7 @@ import { ContractAddresses, KnownContracts } from "./types";
 export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   1: {
     dao: "",
+    daoERC20: "",
     amb: "",
     delay: "",
     factory: "",
@@ -11,6 +12,7 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   },
   4: {
     dao: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
+    daoERC20: "0x1Ca65cAc968436F1CF12f58D34E09e74D1cE2898",
     amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
     delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
@@ -19,6 +21,7 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   },
   31337: {
     dao: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
+    daoERC20: "",
     amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
     delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
@@ -29,6 +32,16 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
 
 export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
   dao: [
+    `function setArbitrator(address arbitrator) public`,
+    `function setQuestionTimeout(uint32 timeout) public`,
+    `function setQuestionCooldown(uint32 cooldown) public`,
+    `function setMinimumBond(uint256 bond) public`,
+    `function setTemplate(bytes32 template) public`,
+    `function setAnswerExpiration(uint32 expiration) public`,
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`,
+  ],
+  daoERC20: [
     `function setArbitrator(address arbitrator) public`,
     `function setQuestionTimeout(uint32 timeout) public`,
     `function setQuestionCooldown(uint32 cooldown) public`,
