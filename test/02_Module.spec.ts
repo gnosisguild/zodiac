@@ -12,7 +12,7 @@ describe("Module", async () => {
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
     const Module = await hre.ethers.getContractFactory("TestModule");
-    const module = await Module.deploy(iAvatar.address);
+    const module = await Module.deploy(iAvatar.address, iAvatar.address);
     await avatar.enableModule(module.address);
     const Guard = await hre.ethers.getContractFactory("TestGuard");
     const guard = await Guard.deploy(module.address);
@@ -54,6 +54,28 @@ describe("Module", async () => {
       const { iAvatar, module } = await setupTests();
       await expect(module.setAvatar(user2.address))
         .to.emit(module, "AvatarSet")
+        .withArgs(iAvatar.address, user2.address);
+    });
+  });
+
+  describe("setTarget", async () => {
+    it("reverts if caller is not the owner", async () => {
+      const { iAvatar, module } = await setupTests();
+      await module.transferOwnership(user2.address);
+      await expect(module.setTarget(iAvatar.address)).to.be.revertedWith(
+        "Ownable: caller is not the owner"
+      );
+    });
+
+    it("allows owner to set avatar", async () => {
+      const { iAvatar, module } = await setupTests();
+      await expect(module.setTarget(iAvatar.address));
+    });
+
+    it("emits previous owner and new owner", async () => {
+      const { iAvatar, module } = await setupTests();
+      await expect(module.setTarget(user2.address))
+        .to.emit(module, "TargetSet")
         .withArgs(iAvatar.address, user2.address);
     });
   });

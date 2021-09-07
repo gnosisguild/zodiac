@@ -12,7 +12,7 @@ describe("Guardable", async () => {
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
     const Module = await hre.ethers.getContractFactory("TestModule");
-    const module = await Module.deploy(iAvatar.address);
+    const module = await Module.deploy(iAvatar.address, iAvatar.address);
     await avatar.enableModule(module.address);
     const Guard = await hre.ethers.getContractFactory("TestGuard");
     const guard = await Guard.deploy(module.address);
@@ -63,7 +63,7 @@ describe("BaseGuard", async () => {
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
     const Module = await hre.ethers.getContractFactory("TestModule");
-    const module = await Module.deploy(iAvatar.address);
+    const module = await Module.deploy(iAvatar.address, iAvatar.address);
     await avatar.enableModule(module.address);
     const Guard = await hre.ethers.getContractFactory("TestGuard");
     const guard = await Guard.deploy(module.address);
