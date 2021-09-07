@@ -13,7 +13,7 @@ describe("Modifier", async () => {
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
     const Modifier = await hre.ethers.getContractFactory("TestModifier");
-    const modifier = await Modifier.deploy(iAvatar.address);
+    const modifier = await Modifier.deploy(iAvatar.address, iAvatar.address);
     await iAvatar.enableModule(modifier.address);
     // await modifier.enableModule(user1.address);
     const tx = {

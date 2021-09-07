@@ -11,9 +11,13 @@ import "../guard/Guardable.sol";
 abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
     /// @dev Emitted each time the avatar is set.
     event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
+    /// @dev Emitted each time the Target is set.
+    event TargetSet(address indexed previousTarget, address indexed newTarget);
 
-    /// @dev Address that this module will pass transactions to.
+    /// @dev Address that will ultimately execute function calls.
     address public avatar;
+    /// @dev Address that this module will pass transactions to.
+    address public target;
 
     /// @dev Sets the avatar to a new avatar (`newAvatar`).
     /// @notice Can only be called by the current owner.
@@ -21,6 +25,14 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         address previousAvatar = avatar;
         avatar = _avatar;
         emit AvatarSet(previousAvatar, _avatar);
+    }
+
+    /// @dev Sets the target to a new target (`newTarget`).
+    /// @notice Can only be called by the current owner.
+    function setTarget(address _target) public onlyOwner {
+        address previousTarget = target;
+        target = _target;
+        emit TargetSet(previousTarget, _target);
     }
 
     /// @dev Passes a transaction to be executed by the avatar.
@@ -53,7 +65,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
                 address(0)
             );
         }
-        success = IAvatar(avatar).execTransactionFromModule(
+        success = IAvatar(target).execTransactionFromModule(
             to,
             value,
             data,
@@ -65,7 +77,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
         return success;
     }
 
-    /// @dev Passes a transaction to be executed by the avatar and returns data.
+    /// @dev Passes a transaction to be executed by the target and returns data.
     /// @notice Can only be called by this contract.
     /// @param to Destination address of module transaction.
     /// @param value Ether value of module transaction.
@@ -95,7 +107,7 @@ abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
                 address(0)
             );
         }
-        (success, returnData) = IAvatar(avatar)
+        (success, returnData) = IAvatar(target)
             .execTransactionFromModuleReturnData(to, value, data, operation);
         if (guard != address(0)) {
             IGuard(guard).checkAfterExecution(bytes32("0x"), success);
