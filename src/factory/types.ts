@@ -1,5 +1,6 @@
 export interface KnownContracts {
-  dao: string;
+  realityETH: string;
+  realityERC20: string;
   amb: string;
   delay: string;
   exit: string;
