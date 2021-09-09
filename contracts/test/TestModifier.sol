@@ -72,7 +72,7 @@ contract TestModifier is Modifier {
         );
     }
 
-    function setUp(bytes memory initializeParams) public override {
+    function setUp(bytes memory initializeParams) public override initializer {
         __Ownable_init();
         (address _avatar, address _target) = abi.decode(
             initializeParams,
@@ -80,6 +80,5 @@ contract TestModifier is Modifier {
         );
         avatar = _avatar;
         target = _target;
-        initialized = true;
     }
 }

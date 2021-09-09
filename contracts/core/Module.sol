@@ -3,12 +3,11 @@
 /// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../interfaces/IAvatar.sol";
 import "../factory/FactoryFriendly.sol";
 import "../guard/Guardable.sol";
 
-abstract contract Module is OwnableUpgradeable, FactoryFriendly, Guardable {
+abstract contract Module is FactoryFriendly, Guardable {
     /// @dev Emitted each time the avatar is set.
     event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
     /// @dev Emitted each time the Target is set.

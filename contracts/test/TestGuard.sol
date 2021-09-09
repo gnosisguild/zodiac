@@ -10,7 +10,7 @@ import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../core/Module.sol";
 
-contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
+contract TestGuard is FactoryFriendly, BaseGuard {
     event PreChecked(bool checked);
     event PostChecked(bool checked);
 
@@ -53,10 +53,8 @@ contract TestGuard is FactoryFriendly, OwnableUpgradeable, BaseGuard {
         emit PostChecked(true);
     }
 
-    function setUp(bytes memory initializeParams) public override {
-        __Ownable_init();
+    function setUp(bytes memory initializeParams) public override initializer {
         address _module = abi.decode(initializeParams, (address));
         module = _module;
-        initialized = true;
     }
 }
