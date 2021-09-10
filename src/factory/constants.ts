@@ -9,6 +9,7 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
     factory: "",
     exit: "",
     scopeGuard: "",
+    circulatingSupply: "",
   },
   4: {
     realityETH: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
@@ -16,8 +17,9 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
     amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
     delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
-    exit: "0xe1a55322aDE704208129E74E963fa25C8C257eD6",
+    exit: "0x43b06634Cd6c9b55460a6aFCF412dCf6e9bcBB0E",
     scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   },
   31337: {
     realityETH: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
@@ -25,8 +27,9 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
     amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
     delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
-    exit: "0xe1a55322aDE704208129E74E963fa25C8C257eD6",
+    exit: "0x43b06634Cd6c9b55460a6aFCF412dCf6e9bcBB0E",
     scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   }
 };
 
@@ -79,7 +82,7 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
     `function exit(uint256 amountToRedeem, address[] calldata tokens) public`,
     `function addToDenylist(address[] calldata tokens) external`,
     `function removeFromDenylist(address[] calldata tokens) external `,
-    `function setDesignatedToken(address _token) public onlyOwner`,
+    `function setDesignatedToken(address _token) public`,
     `function getCirculatingSupply() public view returns (uint256)`,
     `function initialized() public view returns (bool)`,
   ],
@@ -118,4 +121,13 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
       uint256 saltNonce
     ) public returns (address proxy)`,
   ],
+  circulatingSupply: [
+    `function setUp(bytes memory initializeParams) public`,
+    `function get() public view returns (uint256 circulatingSupply)`,
+    `function setToken(address _token) public`,
+    `function removeExclusion(address prevExclusion, address exclusion) public`,
+    `function exclude(address exclusion) public`,
+    `function isExcluded(address _exclusion) public view returns (bool)`,
+    `function getExclusionsPaginated(address start, uint256 pageSize) public view`
+  ]
 };
