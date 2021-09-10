@@ -57,6 +57,7 @@ contract MyModule is Module {
 - **[Reality](https://github.com/gnosis/zodiac-module-reality):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org).
 - **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge.
 - **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function.
+- **[Minion Safe](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol)**: This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Built by the DAOHaus team, this enables a wide variety of migration paths and treasury structures for Moloch DAOs. It enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe can delegate governance to a Moloch DAO. It also enables DAOs to upgrade their governance framework over time while keeping the assets in one location.
 
 #### Modifiers
 
