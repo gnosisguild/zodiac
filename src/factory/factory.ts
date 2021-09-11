@@ -4,17 +4,17 @@ import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownModules } from "./types";
 
 export const deployAndSetUpModule = (
-  moduleName: keyof KnownModules,
+  contractName: keyof KnownModules,
   args: {
     types: Array<string>;
-    values: Array<number | string>;
+    values: Array<any>;
   },
   provider: JsonRpcProvider,
   chainId: number,
   saltNonce: string
 ) => {
   const { factory, module } = getFactoryAndMasterCopy(
-    moduleName,
+    contractName,
     provider,
     chainId
   );

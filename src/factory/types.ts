@@ -6,6 +6,7 @@ export interface KnownContracts {
   exit: string;
   scopeGuard: string;
   factory: string;
+  circulatingSupply: string;
 }
 
 export type ContractAddresses = Record<keyof KnownContracts, string>;
