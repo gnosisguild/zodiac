@@ -4,7 +4,7 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   1: {
     realityETH: "",
     realityERC20: "",
-    amb: "",
+    bridge: "",
     delay: "",
     factory: "",
     exit: "",
@@ -12,23 +12,23 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
     circulatingSupply: "",
   },
   4: {
-    realityETH: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
-    realityERC20: "0x1Ca65cAc968436F1CF12f58D34E09e74D1cE2898",
-    amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
-    delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x8a53d2762f90711291c7168fDfC776fB3CFFf7ab",
+    delay: "0x753dAEDD9b4464D5AC0b46Ec5c54163678b5ecA3",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
     exit: "0x43b06634Cd6c9b55460a6aFCF412dCf6e9bcBB0E",
-    scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
     circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   },
   31337: {
-    realityETH: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
-    realityERC20: "",
-    amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
-    delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x8a53d2762f90711291c7168fDfC776fB3CFFf7ab",
+    delay: "0x753dAEDD9b4464D5AC0b46Ec5c54163678b5ecA3",
     factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
     exit: "0x43b06634Cd6c9b55460a6aFCF412dCf6e9bcBB0E",
-    scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
     circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   }
 };
@@ -54,7 +54,7 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
     `function setUp(bytes memory initParams) public`,
     `function initialized() public view returns (bool)`,
   ],
-  amb: [
+  bridge: [
     `function setAmb(address _amb) public`,
     `function setChainId(bytes32 _chainId) public`,
     `function setOwner(address _owner) public`,

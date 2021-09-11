@@ -1,6 +1,6 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "0.0.1-prealpha5",
+  "version": "0.0.1-prealpha7",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
@@ -22,6 +22,10 @@
   },
   "directories": {
     "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gnosis/zodiac.git"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
