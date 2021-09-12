@@ -5,19 +5,19 @@ import styles from "./HomepageFeatures.module.css";
 const FeatureList = [
   {
     title: "Flexible",
-    Svg: require("../../static/img/undraw_docusaurus_mountain.svg").default,
+    Svg: require("../../static/img/3.svg").default,
     description: <>Flexible, module-based control of programmable accounts</>,
   },
   {
     title: "Unopinionated",
-    Svg: require("../../static/img/undraw_docusaurus_tree.svg").default,
+    Svg: require("../../static/img/2.svg").default,
     description: (
       <>Un-opinionated standards for programmable account interaction</>
     ),
   },
   {
     title: "Reusable",
-    Svg: require("../../static/img/undraw_docusaurus_react.svg").default,
+    Svg: require("../../static/img/1.svg").default,
     description: <>Reusable implementations of core and factory logic</>,
   },
 ];

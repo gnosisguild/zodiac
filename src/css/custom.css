@@ -5,6 +5,8 @@
  * work well for content-centric websites.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #1d84c1;
@@ -25,10 +27,20 @@
   padding: 0 var(--ifm-pre-padding);
 }
 
+
 html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
+  font-family: 'Spectral';
 }
 
 .hero__subtitle {
   color: var(--ifm-heading-color);
+}
+
+h1, h2, h3, h4, h5, h6, b, i, p, a, span, div, footer, .footer__title, .markdown {
+  font-family: 'Spectral';  
+}
+
+a:link, a:visited, a:hover, a:active {
+  font-family: 'Spectral';  
 }

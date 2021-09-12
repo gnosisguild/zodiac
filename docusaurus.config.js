@@ -17,7 +17,7 @@ module.exports = {
       title: "Zodiac",
       logo: {
         alt: "Zodiac",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       items: [
         {

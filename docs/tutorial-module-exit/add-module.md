@@ -8,6 +8,8 @@ Once you've entered the ERC20 token's `Token Contract Address` and `Circulating 
 
 ![Add Module](/img/tutorial/exit_3.png)
 
+## Submit transaction
+
 After that, you should see a Gnosis Safe modal prompting you to review the transaction. Click `Submit` when ready:
 
 ![Submit](/img/tutorial/exit_4.png)
