@@ -58,6 +58,7 @@ contract MyModule is Module {
 - **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 - **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 - **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol):** This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe to later delegate governance to a Moloch DAO. (Built by [DAOHaus](https://daohaus.club))
+- **[Seele](https://github.com/TokenWalk/Seele):** allows avatars to operate with trustless DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts, allowing DAOs to choose from various on-chain voting methods that best suit their needs. (Built by [TokenWalk](https://www.tokenwalk.org))
 
 #### Modifiers
 
