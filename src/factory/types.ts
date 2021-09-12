@@ -1,7 +1,7 @@
 export interface KnownContracts {
   realityETH: string;
   realityERC20: string;
-  amb: string;
+  bridge: string;
   delay: string;
   exit: string;
   scopeGuard: string;
