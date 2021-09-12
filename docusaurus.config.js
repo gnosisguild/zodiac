@@ -50,7 +50,7 @@ module.exports = {
           items: [
             {
               label: "Discord",
-              href: "https://chat.gnosis.io",
+              href: "https://discord.gg/wwmBWTgyEq",
             },
             {
               label: "Twitter",
