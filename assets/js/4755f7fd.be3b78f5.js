@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[245],{8999:function(a){a.exports=JSON.parse('{"allTagsPath":"/zodiac/blog/tags","slug":"facebook","name":"facebook","count":1,"permalink":"/zodiac/blog/tags/facebook"}')}}]);
