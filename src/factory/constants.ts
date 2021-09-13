@@ -16,7 +16,7 @@ export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
     realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
     bridge: "0x8a53d2762f90711291c7168fDfC776fB3CFFf7ab",
     delay: "0x753dAEDD9b4464D5AC0b46Ec5c54163678b5ecA3",
-    factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
+    factory: "0xD330C0C85Bc4DA042F84eccf1E8b23Fa1E02432a",
     exit: "0x43b06634Cd6c9b55460a6aFCF412dCf6e9bcBB0E",
     scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
     circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
