@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Zodiac is a library for composable DAO tooling built on top of programmable accounts, like the Gnosis Safe."
+      description="The expansion pack for DAOs, Zodiac is a collection of tools built according to an open standard."
     >
       <HomepageHeader />
       <main>
