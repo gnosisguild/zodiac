@@ -8,7 +8,7 @@ sidebar_position: 1
 
 This module allows an address on one chain to control an avatar on another chain using an Arbitrary Message Bridge (AMB). This enables a DAO on one chain to control assets and interact with systems like a Gnosis Safe on a different chain.
 
-[Read more here](https://github.com/gnosis/zodiac-module-bridge)
+[Read more here](https://github.com/gnosis/zodiac-module-bridge). For a more technical guide on how to use the Bridge Module beyond the Zodiac App interface, see the Github repo [Setup Guide](https://github.com/gnosis/zodiac-module-bridge/blob/main/docs/setup_guide.md).
 
 ## Setup a Gnosis Safe
 

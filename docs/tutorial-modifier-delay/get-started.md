@@ -8,7 +8,7 @@ sidebar_position: 1
 
 This modifier allows avatars (accounts) to enforce a time delay between when a module initiates a transaction and when it can be executed by an avatar.
 
-[Read more here](https://github.com/gnosis/zodiac-modifier-delay)
+[Read more here](https://github.com/gnosis/zodiac-modifier-delay). For a more technical guide on how to use the Delay Modifier beyond the Zodiac App interface, see the Github repo [Setup Guide](https://github.com/gnosis/zodiac-modifier-delay/blob/main/docs/setup_guide.md).
 
 ## Setup a Gnosis Safe
 

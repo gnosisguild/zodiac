@@ -12,14 +12,14 @@ You'll want to set each of the remaining Parameters to custom amounts. Some note
 
 * `Timeout`: Duration that answers can be submitted to the oracle.
 * `Cooldown`: Duration required before the transaction can be executed (after the timeout has expired). 
-* `Expiration`: Duration that a transaction is valid in seconds (or 0 if valid forever) after the cooldown
-* `Bond`: Minimum bond required for an answer to be accepted. For more on why a bond is required in an escalation-game-based oracle, read more here.
+* `Expiration`: Duration that a transaction is valid in seconds (or 0 if valid forever) after the cooldown.
+* `Bond`: Minimum bond required for an answer to be accepted. For more on why a bond is required in an escalation-game-based oracle, read more in the [Reality.eth whitepaper](http://reality.eth.link/app/docs/html/whitepaper.html).
 
 Here we've entered smaller amounts for the purpose of the tutorial. These Parameters are very important for your DAO's security and should be considered carefully. We'll return to security practices at the end of this tutorial.
 
 ## Add module
 
-When satifised with the Parameters you've entered, lick the `Add Module` button.
+When satifised with the Parameters you've entered, click the `Add Module` button.
 
 ## Submit transaction
 

@@ -8,7 +8,7 @@ sidebar_position: 1
 
 This module (formerly SafeSnap) allows on-chain execution based on the outcome of events reported by the Reality.eth oracle. While built initially to execute Gnosis Safe transactions according to Snapshot proposals, this module is framework agnostic. It can enable proposal execution from just about anywhere. For example, it can bring Discord polls on-chain. 
 
-[Read more here](https://github.com/gnosis/zodiac-module-reality)
+[Read more here](https://github.com/gnosis/zodiac-module-reality). For a more technical guide on how to use the Reality Module beyond the Zodiac App interface, see the Github repo [Setup Guide](https://github.com/gnosis/zodiac-module-reality/blob/main/docs/setup_guide.md).
 
 ## Setup a Gnosis Safe
 

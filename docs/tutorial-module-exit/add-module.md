@@ -6,7 +6,7 @@ sidebar_position: 3
 
 Once you've entered the ERC20 token's `Token Contract Address` and `Circulating Supply Amount`, click the `Add Module` button:
 
-![Add Module](/img/tutorial/exit_3.png)
+![Add Exit Module](/img/tutorial/exit_3.png)
 
 ## Submit transaction
 

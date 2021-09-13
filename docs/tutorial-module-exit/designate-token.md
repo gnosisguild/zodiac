@@ -6,7 +6,7 @@ sidebar_position: 2
 
 Next you should click on the Exit Module available through the Zodiac App on Gnosis Safe. When you open the Exit Module, it will look like this:
 
-![Exit Module](/img/tutorial/exit_1.png)
+![Exit Module interface](/img/tutorial/exit_1.png)
 
 The Exit Module prompts you to enter a `Token Contract Address` and a `Circulating Supply Amount`. The Token Contract Address and Circulting Supply Amount refer to the ERC20 token participants can redeem for a proportional share of this account’s compatible ERC20 digital assets.
 
