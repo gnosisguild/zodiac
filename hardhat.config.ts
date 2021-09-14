@@ -36,6 +36,7 @@ if (["rinkeby", "mainnet"].includes(argv.network) && INFURA_KEY === undefined) {
   );
 }
 
+
 export default {
   paths: {
     artifacts: "build/artifacts",
@@ -55,10 +56,18 @@ export default {
       ...sharedNetworkConfig,
       url: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
     },
+    ropsten: {
+      ...sharedNetworkConfig,
+      url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+    },
     xdai: {
       ...sharedNetworkConfig,
       url: "https://xdai.poanetwork.dev",
     },
+    matic: {
+      ...sharedNetworkConfig,
+      url: "https://rpc-mainnet.maticvigil.com"
+    }
   },
   namedAccounts: {
     deployer: 0,
