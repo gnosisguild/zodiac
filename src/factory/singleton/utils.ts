@@ -2,33 +2,37 @@ import { simpleEncode, simpleDecode, soliditySHA3 } from "ethereumjs-abi";
 import { bufferToHex, toBuffer, toChecksumAddress } from "ethereumjs-util";
 import { keccak256 } from "ethers/lib/utils";
 
-import { bytecode as ProxyFactoryByteCode } from "../../../build/artifacts/contracts/factory/ModuleProxyFactory.sol/ModuleProxyFactory.json";
-
-export { ProxyFactoryByteCode };
-
-export const buildDeployData = async (salt: string): Promise<string> => {
+export const buildDeployData = async (
+  bytecode: string,
+  salt: string
+): Promise<string> => {
   return bufferToHex(
     simpleEncode(
       "deploy(bytes,bytes32):(address)",
-      toBuffer(ProxyFactoryByteCode),
+      toBuffer(bytecode),
       toBuffer(salt)
     )
   );
 };
 
-export const buildCreate2Address = (deployer: string, salt: string): string => {
+export const buildCreate2Address = (
+  deployer: string,
+  bytecode: string,
+  salt: string
+): string => {
   var addressString = soliditySHA3(
     ["bytes1", "address", "bytes32", "bytes32"],
-    ["0xff", deployer, salt, keccak256(ProxyFactoryByteCode)]
+    ["0xff", deployer, salt, keccak256(bytecode)]
   ).toString("hex");
   return toChecksumAddress("0x" + addressString.slice(-40));
 };
 
 export const calculateSingletonAddress = (
   deployer: string,
+  bytecode: string,
   salt: string
 ): string => {
-  return buildCreate2Address(deployer, salt);
+  return buildCreate2Address(deployer, bytecode, salt);
 };
 
 export const estimateDeploymentGas = async (

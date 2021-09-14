@@ -1,8 +1,4 @@
-export {
-  deployAndSetUpModule,
-  calculateProxyAddress,
-  getFactoryAndMasterCopy,
-  getModuleInstance,
-} from "./factory";
-export { KnownContracts, ContractAddresses, KnownModules } from "./types";
-export { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
+export * from "./factory";
+export * from "./types";
+export * from "./constants";
+export * from "./singleton";
