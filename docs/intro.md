@@ -6,6 +6,8 @@ sidebar_position: 1
 
 Let's discover **Zodiac in less than 5 minutes**.
 
+Anyone can contribute to the Zodiac compliant collection of tools by submitting a pull request on the repository: https://github.com/gnosis/zodiac. 
+
 ## What Is Zodiac?
 
 The expansion pack for DAOs, Zodiac is a collection of tools built according to an open standard. 
