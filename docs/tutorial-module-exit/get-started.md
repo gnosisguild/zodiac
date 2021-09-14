@@ -23,9 +23,8 @@ Note that for the purposes of this tutorial, we'll be using a Gnosis Safe deploy
 
 On your Gnosis Safe's left menu, click the `APPS` option. Here you'll find apps available through Gnosis Safe. Scroll to the end of this list, and you'll find the Zodiac App.
 
-image
+![Zodiac App in Safe Apps](/img/tutorial/zodiac_app.png)
 
+Once entering the Zodiac App, you'll see the current Zodiac compliant collection of tools that have a Zodiac App interface.
 
-Once entering the Zodiac App, you'll see the current Zodiac compliant collection of tools.
-
-image
+![Zodiac App](/img/tutorial/zodiac_app_2.png)
