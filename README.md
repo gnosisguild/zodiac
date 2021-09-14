@@ -50,21 +50,22 @@ contract MyModule is Module {
 
 #### Avatars
 
-- **[Gnosis Safe](https://gnosis-safe.io):** The most trusted multisig solution for the Ethereum ecosystem, but also a powerful and extensible programmable avatar standard. The Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/core/IAvatar.sol) interface specified in this library.
+- **[Gnosis Safe](https://gnosis-safe.io):** The most trusted multisig solution for the Ethereum ecosystem, but also a powerful and extensible programmable avatar standard. The Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/core/IAvatar.sol) interface specified in this library. (Built by [Gnosis](https://gnosis.io))
 
 #### Modules
 
-- **[Reality](https://github.com/gnosis/zodiac-module-reality):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org).
-- **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge.
-- **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function.
+- **[Reality](https://github.com/gnosis/zodiac-module-reality):** allows on-chain execution based on the outcome of events reported by Reality.eth. Used to build the SafeSnap module for [Snapshot](https://snapshot.org). (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
+- **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
+- **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
+- **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol):** This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe to later delegate governance to a Moloch DAO. (Built by [DAOHaus](https://daohaus.club))
 
 #### Modifiers
 
-- **[Delay](https://github.com/gnosis/zodiac-modifier-delay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar.
+- **[Delay](https://github.com/gnosis/zodiac-modifier-delay):** allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by the avatar. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 
 #### Guards.
 
-- **[Scope](https://github.com/gnosis/zodiac-guard-scope):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures.
+- **[Scope](https://github.com/gnosis/zodiac-guard-scope):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 
 Built something cool Zodiac and want to add it to the list? Open a PR!
 

@@ -23,8 +23,8 @@ contract TestModifier is Modifier {
         bool success
     );
 
-    constructor(address _avatar) {
-        bytes memory initParams = abi.encode(_avatar);
+    constructor(address _avatar, address _target) {
+        bytes memory initParams = abi.encode(_avatar, _target);
         setUp(initParams);
     }
 
@@ -72,10 +72,13 @@ contract TestModifier is Modifier {
         );
     }
 
-    function setUp(bytes memory initializeParams) public override {
+    function setUp(bytes memory initializeParams) public override initializer {
         __Ownable_init();
-        address _avatar = abi.decode(initializeParams, (address));
+        (address _avatar, address _target) = abi.decode(
+            initializeParams,
+            (address, address)
+        );
         avatar = _avatar;
-        initialized = true;
+        target = _target;
     }
 }

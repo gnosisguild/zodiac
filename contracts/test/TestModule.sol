@@ -6,8 +6,8 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../core/Module.sol";
 
 contract TestModule is Module {
-    constructor(address _avatar) {
-        bytes memory initParams = abi.encode(_avatar);
+    constructor(address _avatar, address _target) {
+        bytes memory initParams = abi.encode(_avatar, _target);
         setUp(initParams);
     }
 
@@ -54,10 +54,13 @@ contract TestModule is Module {
         );
     }
 
-    function setUp(bytes memory initializeParams) public override {
+    function setUp(bytes memory initializeParams) public override initializer {
         __Ownable_init();
-        address _avatar = abi.decode(initializeParams, (address));
+        (address _avatar, address _target) = abi.decode(
+            initializeParams,
+            (address, address)
+        );
         avatar = _avatar;
-        initialized = true;
+        target = _target;
     }
 }

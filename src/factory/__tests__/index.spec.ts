@@ -50,7 +50,7 @@ describe("Factory JS functions ", () => {
       ],
     };
     const { transaction: deployTx, expectedModuleAddress } =
-      await deployAndSetUpModule("dao", args, provider, chainId, saltNonce);
+      await deployAndSetUpModule("realityETH", args, provider, chainId, saltNonce);
 
     const transaction = await signer.sendTransaction(deployTx);
 
@@ -63,7 +63,7 @@ describe("Factory JS functions ", () => {
 
   it("should retrieve module instance", async () => {
     const module = await getModuleInstance(
-      "dao",
+      "realityETH",
       mockContract.address,
       provider
     );
@@ -79,7 +79,7 @@ describe("Factory JS functions ", () => {
 
   it("should retrieve factory and module instance", async () => {
     const { module, factory } = await getFactoryAndMasterCopy(
-      "dao",
+      "realityETH",
       provider,
       chainId
     );

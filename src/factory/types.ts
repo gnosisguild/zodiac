@@ -1,10 +1,12 @@
 export interface KnownContracts {
-  dao: string;
-  amb: string;
+  realityETH: string;
+  realityERC20: string;
+  bridge: string;
   delay: string;
   exit: string;
   scopeGuard: string;
   factory: string;
+  circulatingSupply: string;
 }
 
 export type ContractAddresses = Record<keyof KnownContracts, string>;
