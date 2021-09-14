@@ -16,7 +16,7 @@ contract ModuleProxyFactory {
             "createProxy: address can not be zero"
         );
         bytes memory deployment = abi.encodePacked(
-            hex"3d602d80600a3d3981f3363d3d373d3d3d363d73",
+            hex"602d8060093d393df3363d3d373d3d3d363d73",
             target,
             hex"5af43d82803e903d91602b57fd5bf3"
         );

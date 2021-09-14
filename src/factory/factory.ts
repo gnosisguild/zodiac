@@ -58,7 +58,7 @@ export const calculateProxyAddress = (
 ) => {
   const masterCopyAddress = masterCopy.toLowerCase().replace(/^0x/, "");
   const byteCode =
-    "0x3d602d80600a3d3981f3363d3d373d3d3d363d73" +
+    "0x602d8060093d393df3363d3d373d3d3d363d73" +
     masterCopyAddress +
     "5af43d82803e903d91602b57fd5bf3";
 

@@ -58,6 +58,7 @@ contract MyModule is Module {
 - **[Bridge](https://github.com/gnosis/zodiac-module-bridge):** allows an address on one chain to control an avatar on another chain, via an arbitrary message bridge. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 - **[Exit](https://github.com/gnosis/zodiac-module-exit):** allows users to redeem a designated token for a relative share of an avatars assets, similar to Moloch's infamous `rageQuit()` function. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 - **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol):** This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe to later delegate governance to a Moloch DAO. (Built by [DAOHaus](https://daohaus.club))
+- **[Seele](https://github.com/TokenWalk/Seele):** allows avatars to operate with trustless DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts, allowing DAOs to choose from various on-chain voting methods that best suit their needs. (Built by [TokenWalk](https://www.tokenwalk.org))
 
 #### Modifiers
 
@@ -68,6 +69,18 @@ contract MyModule is Module {
 - **[Scope](https://github.com/gnosis/zodiac-guard-scope):** a transaction guard for the Gnosis Safe that restricts the multisig owners to only calling specific addresses and function signatures. (Built by [Gnosis Guild](https://twitter.com/gnosisguild))
 
 Built something cool Zodiac and want to add it to the list? Open a PR!
+
+### Audits
+
+Zodiac has been audited by the [G0 group](https://github.com/g0-group).
+
+All issues and notes of the audit have been addressed in the release candidate [v0.1.0](https://github.com/gnosis/zodiac/releases/tag/v0.1.0) with commit hash [8a77e7b224af8004bd9f2ff4e2919642e93ffd85](https://github.com/gnosis/zodiac/commit/8a77e7b224af8004bd9f2ff4e2919642e93ffd85), and the subsequent release [v1.0.0](https://github.com/gnosis/zodiac/releases/tag/v1.0.0)
+
+The audit results are available as a pdf [in this repo](./audits/GnosisZodiac2021Sep.pdf) or in the [g0-group's github repo](https://github.com/g0-group/Audits/blob/master/GnosisZodiac2021Sep.pdf).
+
+### Security and Liability
+
+All contracts are WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 ### License
 
