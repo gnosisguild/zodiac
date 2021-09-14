@@ -2,7 +2,7 @@ import { simpleEncode, simpleDecode, soliditySHA3 } from "ethereumjs-abi";
 import { bufferToHex, toBuffer, toChecksumAddress } from "ethereumjs-util";
 import { keccak256 } from "ethers/lib/utils";
 
-import { bytecode as ProxyFactoryByteCode } from "../../build/artifacts/contracts/factory/ModuleProxyFactory.sol/ModuleProxyFactory.json";
+import { bytecode as ProxyFactoryByteCode } from "../../../build/artifacts/contracts/factory/ModuleProxyFactory.sol/ModuleProxyFactory.json";
 
 export { ProxyFactoryByteCode };
 
