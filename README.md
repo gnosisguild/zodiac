@@ -70,6 +70,18 @@ contract MyModule is Module {
 
 Built something cool Zodiac and want to add it to the list? Open a PR!
 
+### Audits
+
+Zodiac has been audited by the [G0 group](https://github.com/g0-group).
+
+All issues and notes of the audit have been addressed in the release candidate [v0.1.0](https://github.com/gnosis/zodiac/releases/tag/v0.1.0) with commit hash [8a77e7b224af8004bd9f2ff4e2919642e93ffd85](https://github.com/gnosis/zodiac/commit/8a77e7b224af8004bd9f2ff4e2919642e93ffd85), and the subsequent release [v1.0.0](https://github.com/gnosis/zodiac/releases/tag/v1.0.0)
+
+The audit results are available as a pdf [in this repo](./audits/GnosisZodiac2021Sep.pdf) or in the [g0-group's github repo](https://github.com/g0-group/Audits/blob/master/GnosisZodiac2021Sep.pdf).
+
+### Security and Liability
+
+All contracts are WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 ### License
 
 Zodiac is created under the [LGPL-3.0+ license](LICENSE).
