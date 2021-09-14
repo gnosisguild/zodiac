@@ -6,6 +6,9 @@ const deploy: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
+
+// await deploySingletonFactory()
+
   const factory = await deploy("ModuleProxyFactory", {
     from: deployer,
     args: [],
