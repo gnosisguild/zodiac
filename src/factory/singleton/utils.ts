@@ -48,7 +48,6 @@ export const estimateDeploymentGas = async (
     tries++;
     try {
       const resp = await provider.call(tx);
-      console.log({ resp });
       [address] = simpleDecode(
         "deploy(bytes,bytes32):(address)",
         toBuffer(resp)
