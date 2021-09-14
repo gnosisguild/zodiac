@@ -6,5 +6,4 @@ env/
 .env
 .history
 coverage*
-package
 dist/
