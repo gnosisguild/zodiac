@@ -21,7 +21,7 @@ Avatars must expose an interface like `IAvatar.sol`.
 **Modifiers:** Contracts that sit between Modules and Avatars to modify the Module's behavior. For example, they might enforce a timelock on all functions a Module attempts to execute. Modifiers should import `Modifier.sol` and must expose an interface like `IAvatar.sol`
 
 **Guards:** Contracts that can be enabled on Modules and implement pre and/or post-checks on each transaction that the Module executes. Allowing Avatars to do things like limit the scope of addresses and functions that a module can call or ensure certain state is never changed by a module.
-Guards should improt `BaseGuard.sol`.
+Guards should import `BaseGuard.sol`.
 
 ## Overview
 
