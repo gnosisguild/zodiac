@@ -16,11 +16,11 @@ Zodiac defines four key components:
 **1. Avatars:** Programmable Ethereum accounts, like the [Gnosis Safe](https://gnosis-safe.io). Avatars are the address that holds balances, owns systems, executes transaction, is referenced externally, and ultimately represents your DAO.
 Avatars must expose an interface like `IAvatar.sol`.
 
-**Modules:** Contracts that are enabled by an Avatar and implement some decision making logic. They should import `Module.sol`.
+**2. Modules:** Contracts that are enabled by an Avatar and implement some decision making logic. They should import `Module.sol`.
 
-**Modifiers:** Contracts that sit between Modules and Avatars to modify the Module's behavior. For example, they might enforce a timelock on all functions a Module attempts to execute. Modifiers should import `Modifier.sol` and must expose an interface like `IAvatar.sol`
+**3. Modifiers:** Contracts that sit between Modules and Avatars to modify the Module's behavior. For example, they might enforce a timelock on all functions a Module attempts to execute. Modifiers should import `Modifier.sol` and must expose an interface like `IAvatar.sol`
 
-**Guards:** Contracts that can be enabled on Modules and implement pre and/or post-checks on each transaction that the Module executes. Allowing Avatars to do things like limit the scope of addresses and functions that a module can call or ensure certain state is never changed by a module.
+**4. Guards:** Contracts that can be enabled on Modules and implement pre and/or post-checks on each transaction that the Module executes. Allowing Avatars to do things like limit the scope of addresses and functions that a module can call or ensure certain state is never changed by a module.
 Guards should import `BaseGuard.sol`.
 
 ## Overview
