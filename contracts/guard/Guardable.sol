@@ -3,7 +3,6 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
 import "./BaseGuard.sol";
 
 /// @title Guardable - A contract that manages fallback calls made to this contract

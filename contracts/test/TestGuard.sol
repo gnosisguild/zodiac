@@ -6,7 +6,6 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../guard/BaseGuard.sol";
 import "../factory/FactoryFriendly.sol";
 import "@gnosis.pm/safe-contracts/contracts/GnosisSafe.sol";
-import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../core/Module.sol";
 
