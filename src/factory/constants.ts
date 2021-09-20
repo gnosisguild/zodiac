@@ -1,57 +1,32 @@
 import { ContractAddresses, KnownContracts } from "./types";
 
+const MasterCopyAddresses = {
+  realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+  realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+  bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+  delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+  factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+  exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+  scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+  circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+};
+
 export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   1: {
-    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
-    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
-    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
-    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
-    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
-    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+    ...MasterCopyAddresses,
   },
   4: {
-    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
-    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
-    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
-    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
-    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
-    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+    ...MasterCopyAddresses,
   },
   100: {
-    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
-    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
-    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
-    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
-    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
-    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+    ...MasterCopyAddresses,
   },
   137: {
-    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
-    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
-    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
-    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
-    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
-    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
-
+    ...MasterCopyAddresses,
   },
   31337: {
-    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
-    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
-    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
-    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
-    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
-    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
-  }
+    ...MasterCopyAddresses,
+  },
 };
 
 export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
@@ -149,6 +124,6 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
     `function removeExclusion(address prevExclusion, address exclusion) public`,
     `function exclude(address exclusion) public`,
     `function isExcluded(address _exclusion) public view returns (bool)`,
-    `function getExclusionsPaginated(address start, uint256 pageSize) public view`
-  ]
+    `function getExclusionsPaginated(address start, uint256 pageSize) public view`,
+  ],
 };
