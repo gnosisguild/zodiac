@@ -5,9 +5,12 @@
 
 A composable design philosophy for DAOs, [Zodiac](https://gnosisguild.mirror.xyz/OuhG5s2X5uSVBx1EK4tKPhnUc91Wh9YM0fwSnC8UNcg) is a collection of tools built according to an open standard. 
 
-The Zodiac collection of tools can be accessed through the Zodiac App available on [Gnosis Safe](https://gnosis-safe.io/), as well as through the repositories below. If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
+![Zodiac Icons](https://images.mirror-media.xyz/nft/c8c9031b-06b1-4344-baf2-c1d2d24cfc4f.png)
 
-The [Zodiac documentation](https://gnosis.github.io/zodiac/) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
+The Zodiac collection of tools can be accessed through the Zodiac App available on [Gnosis Safe](https://gnosis-safe.io/), as well as through the repositories below. If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq).
+
+This repository links to technical tutorials on how to configure each using the CLI.
+
 
 Zodiac enables:
 
@@ -76,6 +79,8 @@ contract MyModule is Module {
 Have you built something cool belonging to the Zodiac collection of tools, and want to add it to the list? Open a PR!
 
 If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
+
+The [Zodiac documentation](https://gnosis.github.io/zodiac/) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
 
 ### Audits
 
