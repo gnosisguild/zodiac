@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-bridge/about",
+  "id": "tutorial-module-bridge/about",
+  "isDocsHomePage": false,
+  "title": "Get Started",
+  "description": "About the Zodiac Bridge Module",
+  "source": "@site/docs/tutorial-module-bridge/about.md",
+  "sourceDirName": "tutorial-module-bridge",
+  "slug": "/tutorial-module-bridge/about",
+  "permalink": "/zodiac/docs/tutorial-module-bridge/about",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/about.md",
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Review module",
+    "permalink": "/zodiac/docs/tutorial-module-exit/review-module"
+  },
+  "next": {
+    "title": "Setup a Gnosis Safe",
+    "permalink": "/zodiac/docs/tutorial-module-bridge/create-safe"
+  }
+}

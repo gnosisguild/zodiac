@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-reality/monitor-module",
+  "id": "tutorial-module-reality/monitor-module",
+  "isDocsHomePage": false,
+  "title": "Monitor module",
+  "description": "As anyone can submit proposals to your Reality Module, it is strongly recommended to put in place monitoring practices. The Reality Module relies on the oracle (e.g. Reality.eth) to provide the correct answer, so that no malicious transactions are executed. In the worst case, the avatar can invalidate a submitted proposal.",
+  "source": "@site/docs/tutorial-module-reality/monitor-module.md",
+  "sourceDirName": "tutorial-module-reality",
+  "slug": "/tutorial-module-reality/monitor-module",
+  "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/monitor-module.md",
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Integrate Snapshot",
+    "permalink": "/zodiac/docs/tutorial-module-reality/integrate-snapshot"
+  },
+  "next": {
+    "title": "Technical guide",
+    "permalink": "/zodiac/docs/tutorial-module-reality/tech-guide"
+  }
+}

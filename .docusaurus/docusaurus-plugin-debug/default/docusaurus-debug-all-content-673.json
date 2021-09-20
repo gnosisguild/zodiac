@@ -1,0 +1,710 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "versionLabel": "Next",
+          "versionPath": "/zodiac/docs",
+          "versionEditUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs",
+          "versionEditUrlLocalized": "https://github.com/gnosis/zodiac/edit/master/website/i18n/en/docusaurus-plugin-content-docs/current",
+          "versionBanner": "none",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "/Users/keikreutler/Development/zodiac/sidebars.js",
+          "contentPath": "/Users/keikreutler/Development/zodiac/docs",
+          "contentPathLocalized": "/Users/keikreutler/Development/zodiac/i18n/en/docusaurus-plugin-content-docs/current",
+          "mainDocId": "intro",
+          "sidebars": {
+            "tutorialSidebar": [
+              {
+                "type": "doc",
+                "id": "intro"
+              },
+              {
+                "type": "category",
+                "label": "Tutorial: Exit Module",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-exit/get-started"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-exit/designate-token"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-exit/add-module"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-exit/review-module"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-exit/tech-guide"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              },
+              {
+                "type": "category",
+                "label": "Tutorial: Delay Modifier",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "tutorial-modifier-delay/get-started"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-modifier-delay/add-modifier"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-modifier-delay/review-modifier"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-modifier-delay/tech-guide"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              },
+              {
+                "type": "category",
+                "label": "Tutorial: Bridge Module",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-bridge/get-started"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-bridge/finalize-parameters"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-bridge/review-module"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-bridge/tech-guide"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              },
+              {
+                "type": "category",
+                "label": "Tutorial: Reality Module",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/get-started"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/add-template"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/finalize-parameters"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/review-module"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/integrate-snapshot"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/monitor-module"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial-module-reality/tech-guide"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              }
+            ]
+          },
+          "docs": [
+            {
+              "unversionedId": "intro",
+              "id": "intro",
+              "isDocsHomePage": false,
+              "title": "Zodiac Introduction",
+              "description": "Let's discover Zodiac in less than 5 minutes.",
+              "source": "@site/docs/intro.md",
+              "sourceDirName": ".",
+              "slug": "/intro",
+              "permalink": "/zodiac/docs/intro",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/intro.md",
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "next": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-exit/get-started"
+              }
+            },
+            {
+              "unversionedId": "tutorial-modifier-delay/add-modifier",
+              "id": "tutorial-modifier-delay/add-modifier",
+              "isDocsHomePage": false,
+              "title": "Add modifier",
+              "description": "Next you should click on the Delay Modifier available through the Zodiac App on Gnosis Safe. When you open the Delay Modifier, it will look like this:",
+              "source": "@site/docs/tutorial-modifier-delay/add-modifier.md",
+              "sourceDirName": "tutorial-modifier-delay",
+              "slug": "/tutorial-modifier-delay/add-modifier",
+              "permalink": "/zodiac/docs/tutorial-modifier-delay/add-modifier",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/add-modifier.md",
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/get-started"
+              },
+              "next": {
+                "title": "Review modifier",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier"
+              }
+            },
+            {
+              "unversionedId": "tutorial-modifier-delay/get-started",
+              "id": "tutorial-modifier-delay/get-started",
+              "isDocsHomePage": false,
+              "title": "Get started",
+              "description": "About the Zodiac Delay Modifier",
+              "source": "@site/docs/tutorial-modifier-delay/get-started.md",
+              "sourceDirName": "tutorial-modifier-delay",
+              "slug": "/tutorial-modifier-delay/get-started",
+              "permalink": "/zodiac/docs/tutorial-modifier-delay/get-started",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/get-started.md",
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-module-exit/tech-guide"
+              },
+              "next": {
+                "title": "Add modifier",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/add-modifier"
+              }
+            },
+            {
+              "unversionedId": "tutorial-modifier-delay/review-modifier",
+              "id": "tutorial-modifier-delay/review-modifier",
+              "isDocsHomePage": false,
+              "title": "Review modifier",
+              "description": "After confirming the transaction, you should return to a window that displays your configured Delay Modifier's settings. From here, you can read, write, or remove the module at any time:",
+              "source": "@site/docs/tutorial-modifier-delay/review-modifier.md",
+              "sourceDirName": "tutorial-modifier-delay",
+              "slug": "/tutorial-modifier-delay/review-modifier",
+              "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/review-modifier.md",
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Add modifier",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/add-modifier"
+              },
+              "next": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/tech-guide"
+              }
+            },
+            {
+              "unversionedId": "tutorial-modifier-delay/tech-guide",
+              "id": "tutorial-modifier-delay/tech-guide",
+              "isDocsHomePage": false,
+              "title": "Technical guide",
+              "description": "For a more technical guide on how to use the Delay Modifier beyond the Zodiac App interface, see the Github repo Setup Guide.",
+              "source": "@site/docs/tutorial-modifier-delay/tech-guide.md",
+              "sourceDirName": "tutorial-modifier-delay",
+              "slug": "/tutorial-modifier-delay/tech-guide",
+              "permalink": "/zodiac/docs/tutorial-modifier-delay/tech-guide",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/tech-guide.md",
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Review modifier",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier"
+              },
+              "next": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/get-started"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-bridge/finalize-parameters",
+              "id": "tutorial-module-bridge/finalize-parameters",
+              "isDocsHomePage": false,
+              "title": "Finalize parameters",
+              "description": "Next you should click on the Bridge Module available through the Zodiac App on Gnosis Safe. When you open the Bridge Module, it will look like this:",
+              "source": "@site/docs/tutorial-module-bridge/finalize-parameters.md",
+              "sourceDirName": "tutorial-module-bridge",
+              "slug": "/tutorial-module-bridge/finalize-parameters",
+              "permalink": "/zodiac/docs/tutorial-module-bridge/finalize-parameters",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/finalize-parameters.md",
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/get-started"
+              },
+              "next": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/review-module"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-bridge/get-started",
+              "id": "tutorial-module-bridge/get-started",
+              "isDocsHomePage": false,
+              "title": "Get started",
+              "description": "About the Zodiac Bridge Module",
+              "source": "@site/docs/tutorial-module-bridge/get-started.md",
+              "sourceDirName": "tutorial-module-bridge",
+              "slug": "/tutorial-module-bridge/get-started",
+              "permalink": "/zodiac/docs/tutorial-module-bridge/get-started",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/get-started.md",
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/tech-guide"
+              },
+              "next": {
+                "title": "Finalize parameters",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/finalize-parameters"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-bridge/review-module",
+              "id": "tutorial-module-bridge/review-module",
+              "isDocsHomePage": false,
+              "title": "Review module",
+              "description": "After confirming the transaction, you should return to a window that displays your configured Bridge Module's settings. From here, you can read, write, or remove the module at any time:",
+              "source": "@site/docs/tutorial-module-bridge/review-module.md",
+              "sourceDirName": "tutorial-module-bridge",
+              "slug": "/tutorial-module-bridge/review-module",
+              "permalink": "/zodiac/docs/tutorial-module-bridge/review-module",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/review-module.md",
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Finalize parameters",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/finalize-parameters"
+              },
+              "next": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/tech-guide"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-bridge/tech-guide",
+              "id": "tutorial-module-bridge/tech-guide",
+              "isDocsHomePage": false,
+              "title": "Technical guide",
+              "description": "For a more technical guide on how to use the Bridge Module beyond the Zodiac App interface, see the Github repo Setup Guide.",
+              "source": "@site/docs/tutorial-module-bridge/tech-guide.md",
+              "sourceDirName": "tutorial-module-bridge",
+              "slug": "/tutorial-module-bridge/tech-guide",
+              "permalink": "/zodiac/docs/tutorial-module-bridge/tech-guide",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/tech-guide.md",
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/review-module"
+              },
+              "next": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-reality/get-started"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-exit/add-module",
+              "id": "tutorial-module-exit/add-module",
+              "isDocsHomePage": false,
+              "title": "Add module",
+              "description": "Once you've entered the ERC20 token's Token Contract Address and Circulating Supply Amount, click the Add Module button:",
+              "source": "@site/docs/tutorial-module-exit/add-module.md",
+              "sourceDirName": "tutorial-module-exit",
+              "slug": "/tutorial-module-exit/add-module",
+              "permalink": "/zodiac/docs/tutorial-module-exit/add-module",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/add-module.md",
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Designate token",
+                "permalink": "/zodiac/docs/tutorial-module-exit/designate-token"
+              },
+              "next": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-exit/review-module"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-exit/designate-token",
+              "id": "tutorial-module-exit/designate-token",
+              "isDocsHomePage": false,
+              "title": "Designate token",
+              "description": "Next you should click on the Exit Module available through the Zodiac App on Gnosis Safe. When you open the Exit Module, it will look like this:",
+              "source": "@site/docs/tutorial-module-exit/designate-token.md",
+              "sourceDirName": "tutorial-module-exit",
+              "slug": "/tutorial-module-exit/designate-token",
+              "permalink": "/zodiac/docs/tutorial-module-exit/designate-token",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/designate-token.md",
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-exit/get-started"
+              },
+              "next": {
+                "title": "Add module",
+                "permalink": "/zodiac/docs/tutorial-module-exit/add-module"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-exit/get-started",
+              "id": "tutorial-module-exit/get-started",
+              "isDocsHomePage": false,
+              "title": "Get started",
+              "description": "About the Zodiac Exit Module",
+              "source": "@site/docs/tutorial-module-exit/get-started.md",
+              "sourceDirName": "tutorial-module-exit",
+              "slug": "/tutorial-module-exit/get-started",
+              "permalink": "/zodiac/docs/tutorial-module-exit/get-started",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/get-started.md",
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Zodiac Introduction",
+                "permalink": "/zodiac/docs/intro"
+              },
+              "next": {
+                "title": "Designate token",
+                "permalink": "/zodiac/docs/tutorial-module-exit/designate-token"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-exit/review-module",
+              "id": "tutorial-module-exit/review-module",
+              "isDocsHomePage": false,
+              "title": "Review module",
+              "description": "After confirming the transaction, you should return to a window that displays your configured Exit Module's settings. From here you can read, write, or remove the module at any time:",
+              "source": "@site/docs/tutorial-module-exit/review-module.md",
+              "sourceDirName": "tutorial-module-exit",
+              "slug": "/tutorial-module-exit/review-module",
+              "permalink": "/zodiac/docs/tutorial-module-exit/review-module",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/review-module.md",
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Add module",
+                "permalink": "/zodiac/docs/tutorial-module-exit/add-module"
+              },
+              "next": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-module-exit/tech-guide"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-exit/tech-guide",
+              "id": "tutorial-module-exit/tech-guide",
+              "isDocsHomePage": false,
+              "title": "Technical guide",
+              "description": "For a more technical guide on how to use the Exit Module beyond the Zodiac App interface, see the Github repo Setup Guide.",
+              "source": "@site/docs/tutorial-module-exit/tech-guide.md",
+              "sourceDirName": "tutorial-module-exit",
+              "slug": "/tutorial-module-exit/tech-guide",
+              "permalink": "/zodiac/docs/tutorial-module-exit/tech-guide",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/tech-guide.md",
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-exit/review-module"
+              },
+              "next": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-modifier-delay/get-started"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/add-template",
+              "id": "tutorial-module-reality/add-template",
+              "isDocsHomePage": false,
+              "title": "Add template",
+              "description": "Next you should click on the Reality Module available through the Zodiac App on Gnosis Safe. When you open the Reality Module, it will look like this:",
+              "source": "@site/docs/tutorial-module-reality/add-template.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/add-template",
+              "permalink": "/zodiac/docs/tutorial-module-reality/add-template",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/add-template.md",
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Get started",
+                "permalink": "/zodiac/docs/tutorial-module-reality/get-started"
+              },
+              "next": {
+                "title": "Finalize parameters",
+                "permalink": "/zodiac/docs/tutorial-module-reality/finalize-parameters"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/finalize-parameters",
+              "id": "tutorial-module-reality/finalize-parameters",
+              "isDocsHomePage": false,
+              "title": "Finalize parameters",
+              "description": "Now you can return to the Reality Module interface and enter your TemplateId. Here we'll enter ours from the example, 31.",
+              "source": "@site/docs/tutorial-module-reality/finalize-parameters.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/finalize-parameters",
+              "permalink": "/zodiac/docs/tutorial-module-reality/finalize-parameters",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/finalize-parameters.md",
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Add template",
+                "permalink": "/zodiac/docs/tutorial-module-reality/add-template"
+              },
+              "next": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-reality/review-module"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/get-started",
+              "id": "tutorial-module-reality/get-started",
+              "isDocsHomePage": false,
+              "title": "Get started",
+              "description": "About the Zodiac Reality Module",
+              "source": "@site/docs/tutorial-module-reality/get-started.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/get-started",
+              "permalink": "/zodiac/docs/tutorial-module-reality/get-started",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/get-started.md",
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-module-bridge/tech-guide"
+              },
+              "next": {
+                "title": "Add template",
+                "permalink": "/zodiac/docs/tutorial-module-reality/add-template"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/integrate-snapshot",
+              "id": "tutorial-module-reality/integrate-snapshot",
+              "isDocsHomePage": false,
+              "title": "Integrate Snapshot",
+              "description": "Once the module is set up, it is possible to integrate a space on Snapshot with the Reality Module plugin. For this, the space configuration needs to include \"plugins\" { \"address\"",
+              "source": "@site/docs/tutorial-module-reality/integrate-snapshot.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/integrate-snapshot",
+              "permalink": "/zodiac/docs/tutorial-module-reality/integrate-snapshot",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/integrate-snapshot.md",
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Review module",
+                "permalink": "/zodiac/docs/tutorial-module-reality/review-module"
+              },
+              "next": {
+                "title": "Monitor module",
+                "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/monitor-module",
+              "id": "tutorial-module-reality/monitor-module",
+              "isDocsHomePage": false,
+              "title": "Monitor module",
+              "description": "As anyone can submit proposals to your Reality Module, it is strongly recommended to put in place monitoring practices. The Reality Module relies on the oracle (e.g. Reality.eth) to provide the correct answer, so that no malicious transactions are executed. In the worst case, the avatar can invalidate a submitted proposal.",
+              "source": "@site/docs/tutorial-module-reality/monitor-module.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/monitor-module",
+              "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/monitor-module.md",
+              "version": "current",
+              "sidebarPosition": 6,
+              "frontMatter": {
+                "sidebar_position": 6
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Integrate Snapshot",
+                "permalink": "/zodiac/docs/tutorial-module-reality/integrate-snapshot"
+              },
+              "next": {
+                "title": "Technical guide",
+                "permalink": "/zodiac/docs/tutorial-module-reality/tech-guide"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/review-module",
+              "id": "tutorial-module-reality/review-module",
+              "isDocsHomePage": false,
+              "title": "Review module",
+              "description": "After confirming the transaction, you should return to a window that displays your configured Exit Module's settings. From here, you can read, write, or remove the module at any time:",
+              "source": "@site/docs/tutorial-module-reality/review-module.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/review-module",
+              "permalink": "/zodiac/docs/tutorial-module-reality/review-module",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/review-module.md",
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Finalize parameters",
+                "permalink": "/zodiac/docs/tutorial-module-reality/finalize-parameters"
+              },
+              "next": {
+                "title": "Integrate Snapshot",
+                "permalink": "/zodiac/docs/tutorial-module-reality/integrate-snapshot"
+              }
+            },
+            {
+              "unversionedId": "tutorial-module-reality/tech-guide",
+              "id": "tutorial-module-reality/tech-guide",
+              "isDocsHomePage": false,
+              "title": "Technical guide",
+              "description": "For a more technical guide on how to use the Reality Module beyond the Zodiac App interface, see the Github repo Setup Guide.",
+              "source": "@site/docs/tutorial-module-reality/tech-guide.md",
+              "sourceDirName": "tutorial-module-reality",
+              "slug": "/tutorial-module-reality/tech-guide",
+              "permalink": "/zodiac/docs/tutorial-module-reality/tech-guide",
+              "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/tech-guide.md",
+              "version": "current",
+              "sidebarPosition": 7,
+              "frontMatter": {
+                "sidebar_position": 7
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Monitor module",
+                "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogPosts": [],
+      "blogListPaginated": [],
+      "blogTags": {},
+      "blogTagsListPath": null
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/zodiac/",
+        "source": "@site/src/pages/index.js"
+      },
+      {
+        "type": "mdx",
+        "permalink": "/zodiac/markdown-page",
+        "source": "@site/src/pages/markdown-page.md"
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {
+    "default": null
+  },
+  "docusaurus-theme-classic": {
+    "default": null
+  }
+}

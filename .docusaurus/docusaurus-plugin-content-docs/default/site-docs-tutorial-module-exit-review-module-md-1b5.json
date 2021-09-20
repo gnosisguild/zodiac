@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-exit/review-module",
+  "id": "tutorial-module-exit/review-module",
+  "isDocsHomePage": false,
+  "title": "Review module",
+  "description": "After confirming the transaction, you should return to a window that displays your configured Exit Module's settings. From here you can read, write, or remove the module at any time:",
+  "source": "@site/docs/tutorial-module-exit/review-module.md",
+  "sourceDirName": "tutorial-module-exit",
+  "slug": "/tutorial-module-exit/review-module",
+  "permalink": "/zodiac/docs/tutorial-module-exit/review-module",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/review-module.md",
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Add module",
+    "permalink": "/zodiac/docs/tutorial-module-exit/add-module"
+  },
+  "next": {
+    "title": "Technical guide",
+    "permalink": "/zodiac/docs/tutorial-module-exit/tech-guide"
+  }
+}

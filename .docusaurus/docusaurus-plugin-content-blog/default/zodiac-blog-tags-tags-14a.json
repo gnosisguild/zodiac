@@ -1,0 +1,23 @@
+{
+  "facebook": {
+    "allTagsPath": "/zodiac/blog/tags",
+    "slug": "facebook",
+    "name": "facebook",
+    "count": 1,
+    "permalink": "/zodiac/blog/tags/facebook"
+  },
+  "hello": {
+    "allTagsPath": "/zodiac/blog/tags",
+    "slug": "hello",
+    "name": "hello",
+    "count": 1,
+    "permalink": "/zodiac/blog/tags/hello"
+  },
+  "docusaurus": {
+    "allTagsPath": "/zodiac/blog/tags",
+    "slug": "docusaurus",
+    "name": "docusaurus",
+    "count": 1,
+    "permalink": "/zodiac/blog/tags/docusaurus"
+  }
+}

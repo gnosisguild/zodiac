@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-reality/integrate-snapshot",
+  "id": "tutorial-module-reality/integrate-snapshot",
+  "isDocsHomePage": false,
+  "title": "Integrate Snapshot",
+  "description": "Once the module is set up, it is possible to integrate a space on Snapshot with the Reality Module plugin. For this, the space configuration needs to include \"plugins\" { \"address\"",
+  "source": "@site/docs/tutorial-module-reality/integrate-snapshot.md",
+  "sourceDirName": "tutorial-module-reality",
+  "slug": "/tutorial-module-reality/integrate-snapshot",
+  "permalink": "/zodiac/docs/tutorial-module-reality/integrate-snapshot",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/integrate-snapshot.md",
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Review module",
+    "permalink": "/zodiac/docs/tutorial-module-reality/review-module"
+  },
+  "next": {
+    "title": "Monitor module",
+    "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "unversionedId": "tutorial-module-reality/tech-guide",
+  "id": "tutorial-module-reality/tech-guide",
+  "isDocsHomePage": false,
+  "title": "Technical guide",
+  "description": "For a more technical guide on how to use the Reality Module beyond the Zodiac App interface, see the Github repo Setup Guide.",
+  "source": "@site/docs/tutorial-module-reality/tech-guide.md",
+  "sourceDirName": "tutorial-module-reality",
+  "slug": "/tutorial-module-reality/tech-guide",
+  "permalink": "/zodiac/docs/tutorial-module-reality/tech-guide",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-reality/tech-guide.md",
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Monitor module",
+    "permalink": "/zodiac/docs/tutorial-module-reality/monitor-module"
+  }
+}

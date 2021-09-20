@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-modifier-delay/review-modifier",
+  "id": "tutorial-modifier-delay/review-modifier",
+  "isDocsHomePage": false,
+  "title": "Review modifier",
+  "description": "After confirming the transaction, you should return to a window that displays your configured Delay Modifier's settings. From here, you can read, write, or remove the module at any time:",
+  "source": "@site/docs/tutorial-modifier-delay/review-modifier.md",
+  "sourceDirName": "tutorial-modifier-delay",
+  "slug": "/tutorial-modifier-delay/review-modifier",
+  "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/review-modifier.md",
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Add modifier",
+    "permalink": "/zodiac/docs/tutorial-modifier-delay/add-modifier"
+  },
+  "next": {
+    "title": "Technical guide",
+    "permalink": "/zodiac/docs/tutorial-modifier-delay/tech-guide"
+  }
+}

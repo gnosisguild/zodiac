@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-reality/markdown-features",
+  "id": "tutorial-reality/markdown-features",
+  "isDocsHomePage": false,
+  "title": "Markdown Features",
+  "description": "Docusaurus supports Markdown and a few additional features.",
+  "source": "@site/docs/tutorial-reality/markdown-features.mdx",
+  "sourceDirName": "tutorial-reality",
+  "slug": "/tutorial-reality/markdown-features",
+  "permalink": "/zodiac/docs/tutorial-reality/markdown-features",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-reality/markdown-features.mdx",
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Create a Blog Post",
+    "permalink": "/zodiac/docs/tutorial-reality/create-a-blog-post"
+  },
+  "next": {
+    "title": "Deploy your site",
+    "permalink": "/zodiac/docs/tutorial-reality/deploy-your-site"
+  }
+}

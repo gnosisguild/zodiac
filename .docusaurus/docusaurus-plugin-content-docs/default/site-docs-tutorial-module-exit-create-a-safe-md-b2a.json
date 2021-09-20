@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-exit/create-a-safe",
+  "id": "tutorial-module-exit/create-a-safe",
+  "isDocsHomePage": false,
+  "title": "Setup a Gnosis Safe",
+  "description": "If you've already set up a Gnosis Safe you'd like to use for this tutorial, skip to the next step.",
+  "source": "@site/docs/tutorial-module-exit/create-a-safe.md",
+  "sourceDirName": "tutorial-module-exit",
+  "slug": "/tutorial-module-exit/create-a-safe",
+  "permalink": "/zodiac/docs/tutorial-module-exit/create-a-safe",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/create-a-safe.md",
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Get Started",
+    "permalink": "/zodiac/docs/tutorial-module-exit/get-started"
+  },
+  "next": {
+    "title": "Designate token",
+    "permalink": "/zodiac/docs/tutorial-module-exit/designate-token"
+  }
+}

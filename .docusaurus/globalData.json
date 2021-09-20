@@ -1,0 +1,123 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/zodiac/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/zodiac/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "intro",
+              "path": "/zodiac/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-modifier-delay/add-modifier",
+              "path": "/zodiac/docs/tutorial-modifier-delay/add-modifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-modifier-delay/get-started",
+              "path": "/zodiac/docs/tutorial-modifier-delay/get-started",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-modifier-delay/review-modifier",
+              "path": "/zodiac/docs/tutorial-modifier-delay/review-modifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-modifier-delay/tech-guide",
+              "path": "/zodiac/docs/tutorial-modifier-delay/tech-guide",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-bridge/finalize-parameters",
+              "path": "/zodiac/docs/tutorial-module-bridge/finalize-parameters",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-bridge/get-started",
+              "path": "/zodiac/docs/tutorial-module-bridge/get-started",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-bridge/review-module",
+              "path": "/zodiac/docs/tutorial-module-bridge/review-module",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-bridge/tech-guide",
+              "path": "/zodiac/docs/tutorial-module-bridge/tech-guide",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-exit/add-module",
+              "path": "/zodiac/docs/tutorial-module-exit/add-module",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-exit/designate-token",
+              "path": "/zodiac/docs/tutorial-module-exit/designate-token",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-exit/get-started",
+              "path": "/zodiac/docs/tutorial-module-exit/get-started",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-exit/review-module",
+              "path": "/zodiac/docs/tutorial-module-exit/review-module",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-exit/tech-guide",
+              "path": "/zodiac/docs/tutorial-module-exit/tech-guide",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/add-template",
+              "path": "/zodiac/docs/tutorial-module-reality/add-template",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/finalize-parameters",
+              "path": "/zodiac/docs/tutorial-module-reality/finalize-parameters",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/get-started",
+              "path": "/zodiac/docs/tutorial-module-reality/get-started",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/integrate-snapshot",
+              "path": "/zodiac/docs/tutorial-module-reality/integrate-snapshot",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/monitor-module",
+              "path": "/zodiac/docs/tutorial-module-reality/monitor-module",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/review-module",
+              "path": "/zodiac/docs/tutorial-module-reality/review-module",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-module-reality/tech-guide",
+              "path": "/zodiac/docs/tutorial-module-reality/tech-guide",
+              "sidebar": "tutorialSidebar"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

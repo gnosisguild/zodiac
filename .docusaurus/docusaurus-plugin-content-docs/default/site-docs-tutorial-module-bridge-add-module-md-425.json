@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-bridge/add-module",
+  "id": "tutorial-module-bridge/add-module",
+  "isDocsHomePage": false,
+  "title": "Finalize parameters",
+  "description": "Next you should click on the Bridge Module available through the Zodiac App on Gnosis Safe. When you open the Bridge Module, it will look like this:",
+  "source": "@site/docs/tutorial-module-bridge/add-module.md",
+  "sourceDirName": "tutorial-module-bridge",
+  "slug": "/tutorial-module-bridge/add-module",
+  "permalink": "/zodiac/docs/tutorial-module-bridge/add-module",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-bridge/add-module.md",
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Get started",
+    "permalink": "/zodiac/docs/tutorial-module-bridge/get-started"
+  },
+  "next": {
+    "title": "Get started",
+    "permalink": "/zodiac/docs/tutorial-module-reality/get-started"
+  }
+}

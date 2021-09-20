@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-exit/create-a-document",
+  "id": "tutorial-module-exit/create-a-document",
+  "isDocsHomePage": false,
+  "title": "Create a Document",
+  "description": "Documents are groups of pages connected through:",
+  "source": "@site/docs/tutorial-module-exit/create-a-document.md",
+  "sourceDirName": "tutorial-module-exit",
+  "slug": "/tutorial-module-exit/create-a-document",
+  "permalink": "/zodiac/docs/tutorial-module-exit/create-a-document",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/create-a-document.md",
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Setup a Gnosis Safe",
+    "permalink": "/zodiac/docs/tutorial-module-exit/create-a-safe"
+  },
+  "next": {
+    "title": "Designate token",
+    "permalink": "/zodiac/docs/tutorial-module-exit/designate-token"
+  }
+}

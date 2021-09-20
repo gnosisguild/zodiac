@@ -6,14 +6,13 @@ const deploy: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  const factory = await deploy("ModuleProxyFactory", {
+  await deploy("ModuleProxyFactory", {
     from: deployer,
     args: [],
     log: true,
-  });
-  await hre.run("verify:verify", {
-    address: factory.address,
-    constructorArguments: [],
+    deterministicDeployment: true,
   });
 };
+
+deploy.tags = ["proxy-factory"];
 export default deploy;

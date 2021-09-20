@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-reality/deploy-your-site",
+  "id": "tutorial-reality/deploy-your-site",
+  "isDocsHomePage": false,
+  "title": "Deploy your site",
+  "description": "Docusaurus is a static-site-generator (also called Jamstack).",
+  "source": "@site/docs/tutorial-reality/deploy-your-site.md",
+  "sourceDirName": "tutorial-reality",
+  "slug": "/tutorial-reality/deploy-your-site",
+  "permalink": "/zodiac/docs/tutorial-reality/deploy-your-site",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-reality/deploy-your-site.md",
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Markdown Features",
+    "permalink": "/zodiac/docs/tutorial-reality/markdown-features"
+  },
+  "next": {
+    "title": "Congratulations!",
+    "permalink": "/zodiac/docs/tutorial-reality/congratulations"
+  }
+}

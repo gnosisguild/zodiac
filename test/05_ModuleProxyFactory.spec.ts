@@ -23,10 +23,13 @@ describe("ModuleProxyFactory", async () => {
     moduleFactory = await ModuleProxyFactory.deploy();
 
     const MasterCopyModule = await ethers.getContractFactory("TestModule");
-    moduleMasterCopy = await MasterCopyModule.deploy(avatar.address);
+    moduleMasterCopy = await MasterCopyModule.deploy(
+      avatar.address,
+      avatar.address
+    );
     const encodedInitParams = new ethers.utils.AbiCoder().encode(
-      ["address"],
-      [avatar.address]
+      ["address", "address"],
+      [avatar.address, avatar.address]
     );
     initData = moduleMasterCopy.interface.encodeFunctionData("setUp", [
       encodedInitParams,
@@ -78,7 +81,7 @@ describe("ModuleProxyFactory", async () => {
   });
 
   describe("deployModule ", () => {
-    it("should deploy module and call init function ", async () => {
+    it("should deploy module", async () => {
       const deploymentTx = await moduleFactory.deployModule(
         moduleMasterCopy.address,
         initData,
@@ -88,9 +91,6 @@ describe("ModuleProxyFactory", async () => {
       const [moduleAddress] = transaction.events[1].args;
 
       const newModule = await ethers.getContractAt("TestModule", moduleAddress);
-
-      const isInitialized = await newModule.initialized();
-      expect(isInitialized).to.be.true
 
       const moduleAvatar = await newModule.avatar();
       expect(moduleAvatar).to.be.equal(avatarAddress);

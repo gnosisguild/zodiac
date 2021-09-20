@@ -1,0 +1,22 @@
+{
+  "unversionedId": "intro",
+  "id": "intro",
+  "isDocsHomePage": false,
+  "title": "Zodiac Introduction",
+  "description": "Let's discover Zodiac in less than 5 minutes.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/zodiac/docs/intro",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/intro.md",
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Get started",
+    "permalink": "/zodiac/docs/tutorial-module-exit/get-started"
+  }
+}

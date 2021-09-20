@@ -6,5 +6,6 @@ env/
 .env
 .history
 coverage*
-
 dist/
+deployments
+yarn-error.log

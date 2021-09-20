@@ -2,33 +2,60 @@ import { ContractAddresses, KnownContracts } from "./types";
 
 export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
   1: {
-    dao: "",
-    amb: "",
-    delay: "",
-    factory: "",
-    exit: "",
-    scopeGuard: "",
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   },
   4: {
-    dao: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
-    amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
-    delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
-    factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
-    exit: "0xe1a55322aDE704208129E74E963fa25C8C257eD6",
-    scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+  },
+  100: {
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+  },
+  137: {
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+
   },
   31337: {
-    dao: "0x8f097901aE9A10Ff250A755eA1817f98aFF1eE5C",
-    amb: "0xf04e9c4aE09fCBb6DF20F0717B08eE298761C770",
-    delay: "0xb8215f0f08b204644507D706b544c541caD0ec16",
-    factory: "0x569F2e024D0aD6bBfBd8135097DFa7D0641Ae79b",
-    exit: "0xe1a55322aDE704208129E74E963fa25C8C257eD6",
-    scopeGuard: "0x13d233567817E3a38B4082217E44CBa77c06Eb7f",
+    realityETH: "0x1cB7D83A87708B55C4ff3c0be5f48717c222B2e5",
+    realityERC20: "0xF669cfdf499e48e0B189206eED98C424F5f83dA7",
+    bridge: "0x457042756F2B1056487173003D27f37644C119f3",
+    delay: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
+    factory: "0x00000000062c52e29e8029dc2413172f6d619d85",
+    exit: "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    scopeGuard: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+    circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
   }
 };
 
 export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
-  dao: [
+  realityETH: [
     `function setArbitrator(address arbitrator) public`,
     `function setQuestionTimeout(uint32 timeout) public`,
     `function setQuestionCooldown(uint32 cooldown) public`,
@@ -38,7 +65,17 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
     `function setUp(bytes memory initParams) public`,
     `function initialized() public view returns (bool)`,
   ],
-  amb: [
+  realityERC20: [
+    `function setArbitrator(address arbitrator) public`,
+    `function setQuestionTimeout(uint32 timeout) public`,
+    `function setQuestionCooldown(uint32 cooldown) public`,
+    `function setMinimumBond(uint256 bond) public`,
+    `function setTemplate(bytes32 template) public`,
+    `function setAnswerExpiration(uint32 expiration) public`,
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`,
+  ],
+  bridge: [
     `function setAmb(address _amb) public`,
     `function setChainId(bytes32 _chainId) public`,
     `function setOwner(address _owner) public`,
@@ -66,7 +103,7 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
     `function exit(uint256 amountToRedeem, address[] calldata tokens) public`,
     `function addToDenylist(address[] calldata tokens) external`,
     `function removeFromDenylist(address[] calldata tokens) external `,
-    `function setDesignatedToken(address _token) public onlyOwner`,
+    `function setDesignatedToken(address _token) public`,
     `function getCirculatingSupply() public view returns (uint256)`,
     `function initialized() public view returns (bool)`,
   ],
@@ -105,4 +142,13 @@ export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
       uint256 saltNonce
     ) public returns (address proxy)`,
   ],
+  circulatingSupply: [
+    `function setUp(bytes memory initializeParams) public`,
+    `function get() public view returns (uint256 circulatingSupply)`,
+    `function setToken(address _token) public`,
+    `function removeExclusion(address prevExclusion, address exclusion) public`,
+    `function exclude(address exclusion) public`,
+    `function isExcluded(address _exclusion) public view returns (bool)`,
+    `function getExclusionsPaginated(address start, uint256 pageSize) public view`
+  ]
 };

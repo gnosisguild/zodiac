@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-reality/create-a-page",
+  "id": "tutorial-reality/create-a-page",
+  "isDocsHomePage": false,
+  "title": "Setup Gnosis Safe",
+  "description": "Add Markdown or React files to src/pages to create a standalone page:",
+  "source": "@site/docs/tutorial-reality/create-a-page.md",
+  "sourceDirName": "tutorial-reality",
+  "slug": "/tutorial-reality/create-a-page",
+  "permalink": "/zodiac/docs/tutorial-reality/create-a-page",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-reality/create-a-page.md",
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Zodiac Introduction",
+    "permalink": "/zodiac/docs/intro"
+  },
+  "next": {
+    "title": "Create a Document",
+    "permalink": "/zodiac/docs/tutorial-reality/create-a-document"
+  }
+}

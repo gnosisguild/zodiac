@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-modifier-delay/add-modifier",
+  "id": "tutorial-modifier-delay/add-modifier",
+  "isDocsHomePage": false,
+  "title": "Add modifier",
+  "description": "Next you should click on the Delay Modifier available through the Zodiac App on Gnosis Safe. When you open the Delay Modifier, it will look like this:",
+  "source": "@site/docs/tutorial-modifier-delay/add-modifier.md",
+  "sourceDirName": "tutorial-modifier-delay",
+  "slug": "/tutorial-modifier-delay/add-modifier",
+  "permalink": "/zodiac/docs/tutorial-modifier-delay/add-modifier",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/add-modifier.md",
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Get started",
+    "permalink": "/zodiac/docs/tutorial-modifier-delay/get-started"
+  },
+  "next": {
+    "title": "Review modifier",
+    "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier"
+  }
+}

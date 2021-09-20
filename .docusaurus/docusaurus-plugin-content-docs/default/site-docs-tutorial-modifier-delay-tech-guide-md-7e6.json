@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-modifier-delay/tech-guide",
+  "id": "tutorial-modifier-delay/tech-guide",
+  "isDocsHomePage": false,
+  "title": "Technical guide",
+  "description": "For a more technical guide on how to use the Delay Modifier beyond the Zodiac App interface, see the Github repo Setup Guide.",
+  "source": "@site/docs/tutorial-modifier-delay/tech-guide.md",
+  "sourceDirName": "tutorial-modifier-delay",
+  "slug": "/tutorial-modifier-delay/tech-guide",
+  "permalink": "/zodiac/docs/tutorial-modifier-delay/tech-guide",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-modifier-delay/tech-guide.md",
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Review modifier",
+    "permalink": "/zodiac/docs/tutorial-modifier-delay/review-modifier"
+  },
+  "next": {
+    "title": "Get started",
+    "permalink": "/zodiac/docs/tutorial-module-bridge/get-started"
+  }
+}

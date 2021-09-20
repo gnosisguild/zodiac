@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-exit/add-module",
+  "id": "tutorial-module-exit/add-module",
+  "isDocsHomePage": false,
+  "title": "Add module",
+  "description": "Once you've entered the ERC20 token's Token Contract Address and Circulating Supply Amount, click the Add Module button:",
+  "source": "@site/docs/tutorial-module-exit/add-module.md",
+  "sourceDirName": "tutorial-module-exit",
+  "slug": "/tutorial-module-exit/add-module",
+  "permalink": "/zodiac/docs/tutorial-module-exit/add-module",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/add-module.md",
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Designate token",
+    "permalink": "/zodiac/docs/tutorial-module-exit/designate-token"
+  },
+  "next": {
+    "title": "Review module",
+    "permalink": "/zodiac/docs/tutorial-module-exit/review-module"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "unversionedId": "tutorial-module-exit/markdown-features",
+  "id": "tutorial-module-exit/markdown-features",
+  "isDocsHomePage": false,
+  "title": "Markdown Features",
+  "description": "Docusaurus supports Markdown and a few additional features.",
+  "source": "@site/docs/tutorial-module-exit/markdown-features.mdx",
+  "sourceDirName": "tutorial-module-exit",
+  "slug": "/tutorial-module-exit/markdown-features",
+  "permalink": "/zodiac/docs/tutorial-module-exit/markdown-features",
+  "editUrl": "https://github.com/gnosis/zodiac/edit/master/website/docs/tutorial-module-exit/markdown-features.mdx",
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Congratulations",
+    "permalink": "/zodiac/docs/tutorial-module-exit/congratulations"
+  },
+  "next": {
+    "title": "Manage Docs Versions",
+    "permalink": "/zodiac/docs/tutorial-extras/manage-docs-versions"
+  }
+}
