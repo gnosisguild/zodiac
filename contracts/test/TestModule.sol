@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 
-/// @title Modifier Interface - A contract that sits between a Aodule and an Avatar and enforce some additional logic.
+/// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
 import "../core/Module.sol";
