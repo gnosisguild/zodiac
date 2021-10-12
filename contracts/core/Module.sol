@@ -61,7 +61,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                 address(0),
                 payable(0),
                 bytes("0x"),
-                address(0)
+                msg.sender
             );
         }
         success = IAvatar(target).execTransactionFromModule(
