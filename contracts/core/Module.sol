@@ -8,15 +8,15 @@ import "../factory/FactoryFriendly.sol";
 import "../guard/Guardable.sol";
 
 abstract contract Module is FactoryFriendly, Guardable {
-    /// @dev Emitted each time the avatar is set.
-    event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
-    /// @dev Emitted each time the Target is set.
-    event TargetSet(address indexed previousTarget, address indexed newTarget);
-
     /// @dev Address that will ultimately execute function calls.
     address public avatar;
     /// @dev Address that this module will pass transactions to.
     address public target;
+
+    /// @dev Emitted each time the avatar is set.
+    event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
+    /// @dev Emitted each time the Target is set.
+    event TargetSet(address indexed previousTarget, address indexed newTarget);
 
     /// @dev Sets the avatar to a new avatar (`newAvatar`).
     /// @notice Can only be called by the current owner.
