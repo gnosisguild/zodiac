@@ -60,7 +60,7 @@ describe("ModuleProxyFactory", async () => {
     it("should fail to deploy module because address is zero ", async () => {
       await expect(
         moduleFactory.deployModule(AddressZero, initData, saltNonce)
-      ).to.be.revertedWith("createProxy: address can not be zero");
+      ).to.be.revertedWith("reverted with custom error 'ZeroAddress()'");
     });
 
     it("should fail to deploy because address its already taken ", async () => {
@@ -76,7 +76,7 @@ describe("ModuleProxyFactory", async () => {
           initData,
           saltNonce
         )
-      ).to.be.revertedWith("createProxy: address already taken");
+      ).to.be.revertedWith("reverted with custom error 'TakenAddress()'");
     });
   });
 
@@ -121,7 +121,7 @@ describe("ModuleProxyFactory", async () => {
           "0xaabc",
           saltNonce
         )
-      ).to.be.revertedWith("deployModule: initialization failed");
+      ).to.be.revertedWith("reverted with custom error 'FailedInitialization()'");
     });
   });
 });

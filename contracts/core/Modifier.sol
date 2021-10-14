@@ -77,7 +77,7 @@ abstract contract Modifier is Module {
         public
         onlyOwner
     {
-        if (module == address(0) && module == SENTINEL_MODULES) revert InvalidModule();
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
         if (modules[prevModule] != module) revert AlreadyDisabledModule();
         modules[prevModule] = modules[module];
         modules[module] = address(0);
@@ -88,7 +88,7 @@ abstract contract Modifier is Module {
     /// @param module Address of the module to be enabled
     /// @notice This can only be called by the owner
     function enableModule(address module) public onlyOwner {
-        if (module == address(0) && module == SENTINEL_MODULES) revert InvalidModule();
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
         if (modules[module] != address(0)) revert AlreadyEnabledModule(); 
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
