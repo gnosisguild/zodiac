@@ -20,9 +20,9 @@ Click on the link at the right top of the TemplateId parameter that says "Get a 
 
 ![Reality.eth Template Builder](/img/tutorial/reality_4.jpg)
 
-When you arrive at the Template Builder, select the appropriate Reality Instance (Eth for this example), and 'Dao Module' as the template type. The DAO Module type has defaults set for connecting the Reality Module to Safesnap. If you need a more specific setup, use the 'Custom' type.
+When you arrive at the Template Builder, select the appropriate Reality Instance (Eth for this example), and 'Zodiac Reality Module' as the template type. The Zodiac Reality Module type has defaults set for connecting the Reality Module to Safesnap. If you need a more specific setup, use the 'Custom' type.
 
-`Language` can be freely choosen, as it is only used on the Reality.eth web interface.
+`Language` can be freely chosen, as it is only used on the Reality.eth web interface.
 
 Enter in an appropriate ENS name, this will be used in the question template (e.g. "Did the Snapshot proposal with the id %s in the YOUR_ENS_NAME space pass..."). It does not have to be an actual ENS domain name, but often is when used in conjunction with the SafeSnap plugin.
 
