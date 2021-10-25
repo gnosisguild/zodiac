@@ -7,13 +7,21 @@ import "../interfaces/IAvatar.sol";
 import "./Module.sol";
 
 abstract contract Modifier is Module {
+    address internal constant SENTINEL_MODULES = address(0x1);
+    // Mapping of modules
+    mapping(address => address) internal modules;
+
     event EnabledModule(address module);
     event DisabledModule(address module);
 
-    address internal constant SENTINEL_MODULES = address(0x1);
-
-    // Mapping of modules
-    mapping(address => address) internal modules;
+    /// `sender` is not an authorized module.
+    error NotAuthorized(address sender);
+    /// @notice Invalid module.
+    error InvalidModule();
+    /// @notice Module already disabled.
+    error AlreadyDisabledModule();
+    /// @notice Module already enabled. 
+    error AlreadyEnabledModule(); 
 
     /*
     --------------------------------------------------
@@ -57,7 +65,7 @@ abstract contract Modifier is Module {
     */
 
     modifier moduleOnly() {
-        require(modules[msg.sender] != address(0), "Module not authorized");
+        if (modules[msg.sender] == address(0)) revert NotAuthorized(msg.sender);
         _;
     }
 
@@ -69,11 +77,8 @@ abstract contract Modifier is Module {
         public
         onlyOwner
     {
-        require(
-            module != address(0) && module != SENTINEL_MODULES,
-            "Invalid module"
-        );
-        require(modules[prevModule] == module, "Module already disabled");
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
+        if (modules[prevModule] != module) revert AlreadyDisabledModule();
         modules[prevModule] = modules[module];
         modules[module] = address(0);
         emit DisabledModule(module);
@@ -83,11 +88,8 @@ abstract contract Modifier is Module {
     /// @param module Address of the module to be enabled
     /// @notice This can only be called by the owner
     function enableModule(address module) public onlyOwner {
-        require(
-            module != address(0) && module != SENTINEL_MODULES,
-            "Invalid module"
-        );
-        require(modules[module] == address(0), "Module already enabled");
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
+        if (modules[module] != address(0)) revert AlreadyEnabledModule(); 
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
         emit EnabledModule(module);

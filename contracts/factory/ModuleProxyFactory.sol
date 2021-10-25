@@ -7,14 +7,18 @@ contract ModuleProxyFactory {
         address indexed masterCopy
     );
 
+    /// @notice Address can not be zero.
+    error ZeroAddress();
+    /// @notice Address already taken. 
+    error TakenAddress();
+    /// @notice Initialization failed
+    error FailedInitialization();
+
     function createProxy(address target, bytes32 salt)
         internal
         returns (address result)
     {
-        require(
-            address(target) != address(0),
-            "createProxy: address can not be zero"
-        );
+        if (address(target) == address(0)) revert ZeroAddress();
         bytes memory deployment = abi.encodePacked(
             hex"602d8060093d393df3363d3d373d3d3d363d73",
             target,
@@ -24,7 +28,7 @@ contract ModuleProxyFactory {
         assembly {
             result := create2(0, add(deployment, 0x20), mload(deployment), salt)
         }
-        require(result != address(0), "createProxy: address already taken");
+        if (result == address(0)) revert TakenAddress();
     }
 
     function deployModule(
@@ -37,7 +41,7 @@ contract ModuleProxyFactory {
             keccak256(abi.encodePacked(keccak256(initializer), saltNonce))
         );
         (bool success, ) = proxy.call(initializer);
-        require(success, "deployModule: initialization failed");
+        if (!success) revert FailedInitialization();
 
         emit ModuleProxyCreation(proxy, masterCopy);
     }
