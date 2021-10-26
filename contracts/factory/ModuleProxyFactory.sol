@@ -13,7 +13,7 @@ contract ModuleProxyFactory {
     /// @notice Address already taken. 
     error TakenAddress();
 
-    /// @notice Initialization failed
+    /// @notice Initialization failed.
     error FailedInitialization();
 
     function createProxy(address target, bytes32 salt)
