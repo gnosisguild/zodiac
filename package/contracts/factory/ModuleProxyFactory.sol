@@ -9,8 +9,10 @@ contract ModuleProxyFactory {
 
     /// @notice Address can not be zero.
     error ZeroAddress();
+
     /// @notice Address already taken. 
     error TakenAddress();
+
     /// @notice Initialization failed
     error FailedInitialization();
 
