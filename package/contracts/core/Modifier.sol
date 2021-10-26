@@ -15,6 +15,7 @@ abstract contract Modifier is Module {
     event DisabledModule(address module);
 
     /// `sender` is not an authorized module.
+    /// @param sender The address of the sender.
     error NotAuthorized(address sender);
     /// @notice Invalid module.
     error InvalidModule();
