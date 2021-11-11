@@ -41,7 +41,7 @@ It has four parameters:
 - **operation:** defines whether the transaction should be a call or a delegate call. In our case, we'll just do a call.
 
 ```solidity
-address button;
+address public button;
 
 function pushButton() external {
     exec(
@@ -62,8 +62,7 @@ Wait... I'm still seeing compiler errors.
 
 `Module.sol` provides another convenience feature to enable any module to be compatible with our [ModuleProxyFactory](https://github.com/gnosis/zodiac/blob/master/contracts/factory/ModuleProxyFactory.sol) and the Zodiac Safe App. This makes it easier to streamline deployment and setup of modules so, for example, we can do things like batch deployment of a safe, its modules, and the calls to enable the modules into one Ethereum transaction. 🤯
 
-Before our contract will compile, you'll need to add a constructor and a setup function.
-Notice that our constructor simply ABI encodes the parameters that were passed in and then calls the `setUp()` function. This gives users the option to deploy the module directly, or to deploy it using the [ModuleProxyFactory](https://github.com/gnosis/zodiac/blob/master/contracts/factory/ModuleProxyFactory.sol).
+Before our contract will compile, you'll need to add a constructor and a setup function. The constructor is a function that is automatically called only once when the contract is deployed and is usually used to initialize the contract. Notice that our constructor simply ABI encodes the parameters that were passed in and then calls the `setUp()` function. This gives users the option to deploy the module directly, or to deploy it using the [ModuleProxyFactory](https://github.com/gnosis/zodiac/blob/master/contracts/factory/ModuleProxyFactory.sol).
 
 ```solidity
 constructor(address _owner, address _button) {

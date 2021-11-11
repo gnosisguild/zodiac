@@ -40,13 +40,15 @@ With `Button.sol` open, navigate to the "Deploy & Run Transactions" tab, select 
 
 ![Remix: deploy](/img/tutorial/build_module_04.png)
 
-You should now see two items have appeared, one each for `Button.sol` and `MockSafe.sol`. You can expand the view of either by clicking the carat to the left of the name, exposing the variables and functions for the contract.
+You should now see two items have appeared in the "deployed contracts" section slightly below the deploy button, one each for `Button.sol` and `MockSafe.sol`. You can expand the view of either by clicking the carat to the left of the name, exposing the variables and functions for the contract.
 
 You can test that your button works by pushing the "pushes" button on your deployed Button. It should return `0`. Now push the "pushButton" button and then then "pushes" button again, this time it should return `1`.
 
+![Remix: deploy](/img/tutorial/build_module_23.png)
+
 Copy the address of your `MockSafe`, expand your deployed `Button`, and call the `transferOwnership()` function, pasting in your MockSafe's address for the parameter.
 
-![Remix: transfer ownership](/img/tutorial/build_module_04.png)
+![Remix: transfer ownership](/img/tutorial/build_module_05.png)
 
 Now that you've transferred ownership, pushing the "pushButton" button on your Button will now fail. Rather, you'll need make your MockSafe execute the transaction.
 

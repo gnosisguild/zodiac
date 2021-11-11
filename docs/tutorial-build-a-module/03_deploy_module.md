@@ -12,7 +12,7 @@ Once it's deployed, you can expand it to see your `pushButton()` function, along
 
 ![Remix: deploy module](/img/tutorial/build_module_06.png)
 
-Before your `pushButton` function will work, you'll need to enable your module on your safe by calling the `enableModule()` function.
+Safe's must explicitly enable addresses as modules to give them access to the `execTransactionFromModule()` function. So before your `pushButton` function will work, you'll need to enable your module on your safe by calling the `enableModule()` function.
 
 > _Note: a real Gnosis Safe can have multiple modules enabled at once, but our Mock Safe can have only one._
 
