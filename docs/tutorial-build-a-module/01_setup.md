@@ -13,6 +13,7 @@ In this tutorial, you'll learn the the fundamental concepts of Zodiac modules wh
 For this tutorial, we'll make use of [Remix](https://remix.ethereum.org/), a powerful web-based IDE for building Ethereum applications. However, if you would prefer to use some other developer environment, the instructions should port easily to wherever you like to work.
 
 Start by importing [this gist](https://gist.github.com/auryn-macmillan/105ae8f09c34406997d217ee4dc0f63a).
+
 ![Remix: insert from gist](/img/tutorial/build_module_01.png)
 
 This will add three files to your working directory: `Button.sol`, `MockSafe.sol`, and `MyModule.sol`.
