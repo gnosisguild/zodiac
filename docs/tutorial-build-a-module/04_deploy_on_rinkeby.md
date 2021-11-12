@@ -38,7 +38,7 @@ Open your module on Etherscan by clicking the Etherscan button next to your cont
 
 ![Zodiac App: Etherscan](/img/tutorial/build_module_12.png)
 
-Navigate to the "Code" tab and select "verify and publish".
+Navigate to the "Contract" tab and select "verify and publish".
 
 ![Etherscan: Code tab](/img/tutorial/build_module_13.png)
 
