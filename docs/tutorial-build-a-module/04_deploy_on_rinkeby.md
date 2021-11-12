@@ -68,7 +68,7 @@ Then press verify and publish.
 
 ![Remix: Copy flattened code](/img/tutorial/build_module_20.png)
 
-If all goes well, you should see a success screen on Remix and if you refresh the Zodiac app you should more details about your Module.
+If all goes well, you should see a success screen on Etherscan and if you refresh the Zodiac app you should more details about your Module.
 
 ![Etherscan: Verify and Publish](/img/tutorial/build_module_21.png)
 
