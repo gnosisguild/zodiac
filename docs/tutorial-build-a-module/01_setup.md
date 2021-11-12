@@ -24,7 +24,7 @@ Alternatively, you can create each of the files manually and copy the code from 
 
 `Button.sol` is a silly little contract with one function, `pushButton()`, which increments a counter, `pushes`. The `pushButton()` function is only callable by the contracts "owner", which will be our Gnosis Safe.
 
-`MockSafe.sol` is a mock of the Gnosis Safe that we'll use for simplicity as we build and test in our local environment. Later we'll replace it with a real Gnosis Safe on a public test network to make sure our really works.
+`MockSafe.sol` is a mock of the Gnosis Safe that we'll use for simplicity as we build and test in our local environment. Later we'll replace it with a real Gnosis Safe on a public test network to make sure our module really works.
 
 `MyModule.sol` is where you'll be adding your own code to control our Gnosis Safes and make it push the button in our `Button.sol` contract.
 
