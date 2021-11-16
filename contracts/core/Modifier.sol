@@ -6,7 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../interfaces/IAvatar.sol";
 import "./Module.sol";
 
-abstract contract Modifier is Module {
+abstract contract Modifier is Module, IAvatar {
     address internal constant SENTINEL_MODULES = address(0x1);
     // Mapping of modules
     mapping(address => address) internal modules;
@@ -20,8 +20,8 @@ abstract contract Modifier is Module {
     error InvalidModule();
     /// @notice Module already disabled.
     error AlreadyDisabledModule();
-    /// @notice Module already enabled. 
-    error AlreadyEnabledModule(); 
+    /// @notice Module already enabled.
+    error AlreadyEnabledModule();
 
     /*
     --------------------------------------------------
@@ -40,7 +40,7 @@ abstract contract Modifier is Module {
         uint256 value,
         bytes calldata data,
         Enum.Operation operation
-    ) public virtual moduleOnly returns (bool success) {}
+    ) public virtual override moduleOnly returns (bool success) {}
 
     /// @dev Passes a transaction to the modifier, expects return data.
     /// @param to Destination address of module transaction
@@ -56,6 +56,7 @@ abstract contract Modifier is Module {
     )
         public
         virtual
+        override
         moduleOnly
         returns (bool success, bytes memory returnData)
     {}
@@ -75,6 +76,7 @@ abstract contract Modifier is Module {
     /// @notice This can only be called by the owner
     function disableModule(address prevModule, address module)
         public
+        override
         onlyOwner
     {
         if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
@@ -87,9 +89,9 @@ abstract contract Modifier is Module {
     /// @dev Enables a module that can add transactions to the queue
     /// @param module Address of the module to be enabled
     /// @notice This can only be called by the owner
-    function enableModule(address module) public onlyOwner {
+    function enableModule(address module) public override onlyOwner {
         if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
-        if (modules[module] != address(0)) revert AlreadyEnabledModule(); 
+        if (modules[module] != address(0)) revert AlreadyEnabledModule();
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
         emit EnabledModule(module);
@@ -97,7 +99,12 @@ abstract contract Modifier is Module {
 
     /// @dev Returns if an module is enabled
     /// @return True if the module is enabled
-    function isModuleEnabled(address _module) public view returns (bool) {
+    function isModuleEnabled(address _module)
+        public
+        view
+        override
+        returns (bool)
+    {
         return SENTINEL_MODULES != _module && modules[_module] != address(0);
     }
 
