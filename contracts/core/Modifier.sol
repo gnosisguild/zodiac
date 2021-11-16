@@ -116,6 +116,7 @@ abstract contract Modifier is Module, IAvatar {
     function getModulesPaginated(address start, uint256 pageSize)
         external
         view
+        override
         returns (address[] memory array, address next)
     {
         // Init array with max page size
