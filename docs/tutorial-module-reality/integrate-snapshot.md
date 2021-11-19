@@ -10,7 +10,7 @@ To accomplish this you can set it up through the Snapshot Space settings, or by 
 
 ![Configured Reality Module](/img/tutorial/reality_review_3.jpg)
 
-To set the JSON directly, the space configuration needs to include `"plugins": { "daoModule": { "address": "<module_address>"} }`.
+To set the JSON directly, the space configuration needs to include `"plugins": {"safeSnap": {"safes": [{"network": "CHAIN_ID","realityAddress": "0xSWITCH_WITH_REALITY_MODULE_ADDRESS"}]}}`.
 
 More information and an example of this can be found here [Snapshot documentation.](https://docs.snapshot.org/spaces/alternative-way-to-create-a-space).
 
@@ -19,9 +19,14 @@ Note that your plugins field should look similar to this:
 ```
 "plugins": {
     "safeSnap": {
-      "address": "0xSWITCH_WITH_REALITY_MODULE_ADDRESS"
-    }
-  },
+      "safes": [
+        {
+          "network": "CHAIN_ID",
+          "realityAddress": "0xSWITCH_WITH_REALITY_MODULE_ADDRESS"
+        }
+      ]
+  }
+},
 ```
 
 ## To setup SafeSnap using the UI:
