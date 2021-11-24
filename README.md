@@ -56,7 +56,7 @@ contract MyModule is Module {
 
 #### Avatars
 
-- **[Gnosis Safe](https://gnosis-safe.io)**: The most trusted platform for managing digital assets on Ethereum. Zodiac embraces Gnosis Safe as a powerful, extensible and programmable account standard. Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/core/IAvatar.sol) interface specified in this library. However, all Zodiac tools are framework agnostic, and they can be plugged into any programmable account that implements the IAvatar interface.
+- **[Gnosis Safe](https://gnosis-safe.io)**: The most trusted platform for managing digital assets on Ethereum. Zodiac embraces Gnosis Safe as a powerful, extensible and programmable account standard. Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/interfaces/IAvatar.sol) interface specified in this library. However, all Zodiac tools are framework agnostic, and they can be plugged into any programmable account that implements the IAvatar interface.
 
 #### Modules
 
