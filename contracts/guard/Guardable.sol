@@ -11,14 +11,14 @@ contract Guardable is OwnableUpgradeable {
 
     event ChangedGuard(address guard);
 
-    /// @notice Guard does not implement IERC165.
-    error NotIERC165Compliant();
+    /// `guard_` does not implement IERC165.
+    error NotIERC165Compliant(address guard_);
 
     /// @dev Set a guard that checks transactions before execution.
     /// @param _guard The address of the guard to be used or the 0 address to disable the guard.
     function setGuard(address _guard) external onlyOwner {
         if (_guard != address(0)) {
-            if (!BaseGuard(_guard).supportsInterface(type(IGuard).interfaceId)) revert NotIERC165Compliant(); 
+            if (!BaseGuard(_guard).supportsInterface(type(IGuard).interfaceId)) revert NotIERC165Compliant(_guard); 
         }
         guard = _guard;
         emit ChangedGuard(guard);

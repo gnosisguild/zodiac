@@ -7,20 +7,20 @@ contract ModuleProxyFactory {
         address indexed masterCopy
     );
 
-    /// @notice Address can not be zero.
-    error ZeroAddress();
+    /// `target` can not be zero.
+    error ZeroAddress(address target);
 
-    /// @notice Address already taken. 
-    error TakenAddress();
+    /// `address_` is already taken.
+    error TakenAddress(address address_);
 
-    /// @notice Initialization failed
+    /// @notice Initialization failed.
     error FailedInitialization();
 
     function createProxy(address target, bytes32 salt)
         internal
         returns (address result)
     {
-        if (address(target) == address(0)) revert ZeroAddress();
+        if (address(target) == address(0)) revert ZeroAddress(target);
         bytes memory deployment = abi.encodePacked(
             hex"602d8060093d393df3363d3d373d3d3d363d73",
             target,
@@ -30,7 +30,7 @@ contract ModuleProxyFactory {
         assembly {
             result := create2(0, add(deployment, 0x20), mload(deployment), salt)
         }
-        if (result == address(0)) revert TakenAddress();
+        if (result == address(0)) revert TakenAddress(result);
     }
 
     function deployModule(
