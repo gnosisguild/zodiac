@@ -25,7 +25,7 @@ abstract contract Modifier is Module {
     error AlreadyDisabledModule(address module);
 
     /// `module` is already enabled.
-    error AlreadyEnabledModule(address module); 
+    error AlreadyEnabledModule(address module);
 
     /*
     --------------------------------------------------
@@ -81,7 +81,8 @@ abstract contract Modifier is Module {
         public
         onlyOwner
     {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule(module);
+        if (module == address(0) || module == SENTINEL_MODULES)
+            revert InvalidModule(module);
         if (modules[prevModule] != module) revert AlreadyDisabledModule(module);
         modules[prevModule] = modules[module];
         modules[module] = address(0);
@@ -92,8 +93,9 @@ abstract contract Modifier is Module {
     /// @notice This can only be called by the owner.
     /// @param module Address of the module to be enabled.
     function enableModule(address module) public onlyOwner {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule(module);
-        if (modules[module] != address(0)) revert AlreadyEnabledModule(module); 
+        if (module == address(0) || module == SENTINEL_MODULES)
+            revert InvalidModule(module);
+        if (modules[module] != address(0)) revert AlreadyEnabledModule(module);
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
         emit EnabledModule(module);
