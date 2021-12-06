@@ -46,15 +46,15 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
-        /// check if a transactioon guard is enabled.
+        /// Check if a transactioon guard is enabled.
         if (guard != address(0)) {
             IGuard(guard).checkTransaction(
-                /// Transaction info used by module transactions
+                /// Transaction info used by module transactions.
                 to,
                 value,
                 data,
                 operation,
-                /// Zero out the redundant transaction information only used for Safe multisig transctions
+                /// Zero out the redundant transaction information only used for Safe multisig transctions.
                 0,
                 0,
                 0,
@@ -88,15 +88,15 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success, bytes memory returnData) {
-        /// check if a transactioon guard is enabled.
+        /// Check if a transactioon guard is enabled.
         if (guard != address(0)) {
             IGuard(guard).checkTransaction(
-                /// Transaction info used by module transactions
+                /// Transaction info used by module transactions.
                 to,
                 value,
                 data,
                 operation,
-                /// Zero out the redundant transaction information only used for Safe multisig transctions
+                /// Zero out the redundant transaction information only used for Safe multisig transctions.
                 0,
                 0,
                 0,
