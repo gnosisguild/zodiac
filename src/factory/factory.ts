@@ -1,5 +1,6 @@
-import { ethers, Contract, Signer, BigNumber } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
+import { ethers, Contract, Signer, BigNumber } from "ethers";
+
 import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownModules } from "./types";
 
@@ -19,7 +20,7 @@ export const deployAndSetUpModule = (
     chainId
   );
 
-  const encodedInitParams = new ethers.utils.AbiCoder().encode(
+  const encodedInitParams = ethers.utils.defaultAbiCoder.encode(
     args.types,
     args.values
   );
