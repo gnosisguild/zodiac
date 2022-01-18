@@ -46,14 +46,14 @@ describe("Modifier", async () => {
     it("reverts if module is zero address", async () => {
       const { modifier } = await setupTests();
       await expect(modifier.enableModule(AddressZero)).to.be.revertedWith(
-        "reverted with custom error 'InvalidModule()'"
+        "reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000000\")'"
       );
     });
 
     it("reverts if module is SENTINEL_MODULES", async () => {
       const { iAvatar, modifier } = await setupTests();
       await expect(modifier.enableModule(SENTINEL_MODULES)).to.be.revertedWith(
-        "reverted with custom error 'InvalidModule()'"
+        "reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000001\")'"
       );
     });
 
@@ -66,7 +66,7 @@ describe("Modifier", async () => {
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
       await expect(modifier.enableModule(user1.address)).to.be.revertedWith(
-        "reverted with custom error 'AlreadyEnabledModule()'"
+        "reverted with custom error 'AlreadyEnabledModule(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'"
       );
     });
 
@@ -90,14 +90,14 @@ describe("Modifier", async () => {
       const { modifier } = await setupTests();
       await expect(
         modifier.disableModule(SENTINEL_MODULES, AddressZero)
-      ).to.be.revertedWith("reverted with custom error 'InvalidModule()'");
+      ).to.be.revertedWith("reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000000\")'");
     });
 
     it("reverts if module is SENTINEL_MODULES", async () => {
       const { modifier } = await setupTests();
       await expect(
         modifier.disableModule(SENTINEL_MODULES, SENTINEL_MODULES)
-      ).to.be.revertedWith("reverted with custom error 'InvalidModule()'");
+      ).to.be.revertedWith("reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000001\")'");
     });
 
     it("reverts if module is already disabled", async () => {
@@ -110,7 +110,7 @@ describe("Modifier", async () => {
         .withArgs(user1.address);
       await expect(
         modifier.disableModule(SENTINEL_MODULES, user1.address)
-      ).to.be.revertedWith("reverted with custom error 'AlreadyDisabledModule()'");
+      ).to.be.revertedWith("reverted with custom error 'AlreadyDisabledModule(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'");
     });
 
     it("disables a module", async () => {

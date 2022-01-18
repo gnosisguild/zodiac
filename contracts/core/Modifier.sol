@@ -8,14 +8,16 @@ import "./Module.sol";
 
 abstract contract Modifier is Module, IAvatar {
     address internal constant SENTINEL_MODULES = address(0x1);
-    // Mapping of modules
+    /// Mapping of modules.
     mapping(address => address) internal modules;
 
     event EnabledModule(address module);
     event DisabledModule(address module);
 
     /// `sender` is not an authorized module.
+    /// @param sender The address of the sender.
     error NotAuthorized(address sender);
+
     /// @notice Invalid module.
     error InvalidModule();
     /// @notice Module already disabled.
@@ -30,11 +32,11 @@ abstract contract Modifier is Module, IAvatar {
     */
 
     /// @dev Passes a transaction to the modifier.
-    /// @param to Destination address of module transaction
-    /// @param value Ether value of module transaction
-    /// @param data Data payload of module transaction
-    /// @param operation Operation type of module transaction
-    /// @notice Can only be called by enabled modules
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
     function execTransactionFromModule(
         address to,
         uint256 value,
@@ -43,11 +45,11 @@ abstract contract Modifier is Module, IAvatar {
     ) public virtual override moduleOnly returns (bool success) {}
 
     /// @dev Passes a transaction to the modifier, expects return data.
-    /// @param to Destination address of module transaction
-    /// @param value Ether value of module transaction
-    /// @param data Data payload of module transaction
-    /// @param operation Operation type of module transaction
-    /// @notice Can only be called by enabled modules
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
     function execTransactionFromModuleReturnData(
         address to,
         uint256 value,
@@ -70,17 +72,18 @@ abstract contract Modifier is Module, IAvatar {
         _;
     }
 
-    /// @dev Disables a module on the modifier
-    /// @param prevModule Module that pointed to the module to be removed in the linked list
-    /// @param module Module to be removed
-    /// @notice This can only be called by the owner
+    /// @dev Disables a module on the modifier.
+    /// @notice This can only be called by the owner.
+    /// @param prevModule Module that pointed to the module to be removed in the linked list.
+    /// @param module Module to be removed.
     function disableModule(address prevModule, address module)
         public
         override
         onlyOwner
     {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
-        if (modules[prevModule] != module) revert AlreadyDisabledModule();
+        if (module == address(0) || module == SENTINEL_MODULES)
+            revert InvalidModule(module);
+        if (modules[prevModule] != module) revert AlreadyDisabledModule(module);
         modules[prevModule] = modules[module];
         modules[module] = address(0);
         emit DisabledModule(module);
@@ -119,10 +122,10 @@ abstract contract Modifier is Module, IAvatar {
         override
         returns (address[] memory array, address next)
     {
-        // Init array with max page size
+        /// Init array with max page size.
         array = new address[](pageSize);
 
-        // Populate return array
+        /// Populate return array.
         uint256 moduleCount = 0;
         address currentModule = modules[start];
         while (
@@ -135,7 +138,7 @@ abstract contract Modifier is Module, IAvatar {
             moduleCount++;
         }
         next = currentModule;
-        // Set correct size of returned array
+        /// Set correct size of returned array.
         // solhint-disable-next-line no-inline-assembly
         assembly {
             mstore(array, moduleCount)

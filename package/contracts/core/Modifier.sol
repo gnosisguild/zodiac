@@ -8,20 +8,24 @@ import "./Module.sol";
 
 abstract contract Modifier is Module {
     address internal constant SENTINEL_MODULES = address(0x1);
-    // Mapping of modules
+    /// Mapping of modules.
     mapping(address => address) internal modules;
 
     event EnabledModule(address module);
     event DisabledModule(address module);
 
     /// `sender` is not an authorized module.
+    /// @param sender The address of the sender.
     error NotAuthorized(address sender);
-    /// @notice Invalid module.
-    error InvalidModule();
-    /// @notice Module already disabled.
-    error AlreadyDisabledModule();
-    /// @notice Module already enabled. 
-    error AlreadyEnabledModule(); 
+
+    /// `module` is invalid.
+    error InvalidModule(address module);
+
+    /// `module` is already disabled.
+    error AlreadyDisabledModule(address module);
+
+    /// `module` is already enabled.
+    error AlreadyEnabledModule(address module); 
 
     /*
     --------------------------------------------------
@@ -30,11 +34,11 @@ abstract contract Modifier is Module {
     */
 
     /// @dev Passes a transaction to the modifier.
-    /// @param to Destination address of module transaction
-    /// @param value Ether value of module transaction
-    /// @param data Data payload of module transaction
-    /// @param operation Operation type of module transaction
-    /// @notice Can only be called by enabled modules
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
     function execTransactionFromModule(
         address to,
         uint256 value,
@@ -43,11 +47,11 @@ abstract contract Modifier is Module {
     ) public virtual moduleOnly returns (bool success) {}
 
     /// @dev Passes a transaction to the modifier, expects return data.
-    /// @param to Destination address of module transaction
-    /// @param value Ether value of module transaction
-    /// @param data Data payload of module transaction
-    /// @param operation Operation type of module transaction
-    /// @notice Can only be called by enabled modules
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
     function execTransactionFromModuleReturnData(
         address to,
         uint256 value,
@@ -69,34 +73,34 @@ abstract contract Modifier is Module {
         _;
     }
 
-    /// @dev Disables a module on the modifier
-    /// @param prevModule Module that pointed to the module to be removed in the linked list
-    /// @param module Module to be removed
-    /// @notice This can only be called by the owner
+    /// @dev Disables a module on the modifier.
+    /// @notice This can only be called by the owner.
+    /// @param prevModule Module that pointed to the module to be removed in the linked list.
+    /// @param module Module to be removed.
     function disableModule(address prevModule, address module)
         public
         onlyOwner
     {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
-        if (modules[prevModule] != module) revert AlreadyDisabledModule();
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule(module);
+        if (modules[prevModule] != module) revert AlreadyDisabledModule(module);
         modules[prevModule] = modules[module];
         modules[module] = address(0);
         emit DisabledModule(module);
     }
 
-    /// @dev Enables a module that can add transactions to the queue
-    /// @param module Address of the module to be enabled
-    /// @notice This can only be called by the owner
+    /// @dev Enables a module that can add transactions to the queue.
+    /// @notice This can only be called by the owner.
+    /// @param module Address of the module to be enabled.
     function enableModule(address module) public onlyOwner {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
-        if (modules[module] != address(0)) revert AlreadyEnabledModule(); 
+        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule(module);
+        if (modules[module] != address(0)) revert AlreadyEnabledModule(module); 
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
         emit EnabledModule(module);
     }
 
-    /// @dev Returns if an module is enabled
-    /// @return True if the module is enabled
+    /// @dev Returns if an module is enabled.
+    /// @return True if the module is enabled.
     function isModuleEnabled(address _module) public view returns (bool) {
         return SENTINEL_MODULES != _module && modules[_module] != address(0);
     }
@@ -111,10 +115,10 @@ abstract contract Modifier is Module {
         view
         returns (address[] memory array, address next)
     {
-        // Init array with max page size
+        /// Init array with max page size.
         array = new address[](pageSize);
 
-        // Populate return array
+        /// Populate return array.
         uint256 moduleCount = 0;
         address currentModule = modules[start];
         while (
@@ -127,7 +131,7 @@ abstract contract Modifier is Module {
             moduleCount++;
         }
         next = currentModule;
-        // Set correct size of returned array
+        /// Set correct size of returned array.
         // solhint-disable-next-line no-inline-assembly
         assembly {
             mstore(array, moduleCount)
