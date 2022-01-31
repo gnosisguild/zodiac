@@ -72,7 +72,7 @@ constructor(address _owner, address _button) {
 
 /// @dev Initialize function, will be triggered when a new proxy is deployed
 /// @param initializeParams Parameters of initialization encoded
-function setUp(bytes memory initializeParams) public override {
+function setUp(bytes memory initializeParams) public override initializer {
     __Ownable_init();
     (address _owner, address _button) = abi.decode(initializeParams, (address, address));
 
