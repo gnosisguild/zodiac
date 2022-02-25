@@ -13,7 +13,7 @@ You can check the factory file to see more details, it consists of 4 methods, de
 
 - Interface: `deployAndSetUpModule(moduleName, args, provider, chainId)`
 - Arguments:
-  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./src/constants.ts) object
+  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
   - `args`: An object with two attributes: `value` and `types` 
     - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
     - In `types` it expects an array of the types of every value
@@ -46,7 +46,7 @@ You can check the factory file to see more details, it consists of 4 methods, de
 - Interface: `getModuleInstance(moduleName, address, provider)`
 - Arguments:
 
-  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./src/constants.ts) object
+  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
   - `address`: Address of the Module contract
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
 
@@ -56,7 +56,7 @@ You can check the factory file to see more details, it consists of 4 methods, de
 
 - Interface: `getFactoryAndMasterCopy(moduleName, provider, chainId)`
 - Arguments:
-  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./src/constants.ts) object
+  - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
 - Returns: An object with the the factory contract instance and with the module contracts instance. Example:
@@ -70,4 +70,4 @@ You can check the factory file to see more details, it consists of 4 methods, de
 
 ## Deployments
 
-The latest deployments for each network (supported on mainnet and rinkeby) can be found in the [constants](./src/constants.ts) file
+Deterministic deployment is being used, meaning that modules will have the same address in supported networks, you can check which networks are supported in the [constants](./constants.ts) file
