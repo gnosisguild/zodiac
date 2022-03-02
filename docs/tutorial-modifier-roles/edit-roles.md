@@ -8,4 +8,10 @@ You can add and remove members and targets in the edit role view. You can also s
 ----
 *Image of the Edit Role page*
 
+## Functions
+Each target function can be allowed/revoked individually. You can also customize select a specific execution type for each function.
+
+## Parameters
+Click on the function to expand and view the parameters. To add a condition to a parameter click "+ add a condition" next to the parameter, select a condition from the select and enter an appropriate value. To delete an existing condition, click on the delete button.
+
 *Please note that any changes you make to the role will not be saved to the role unless the "Update Role" button is clicked.*
