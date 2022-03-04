@@ -6,8 +6,7 @@ sidebar_position: 2
 
 Next you should click on the Roles Modifier available through the Zodiac App on Gnosis Safe. When you open the Roles Modifier, it will look like this:
 
-----
-*Image of Roles Modifier Deployment*
+![Roles Modifier Deployment](/img/tutorial/roles_01.png)
 
 Now, you should fill in the fields:
 
@@ -23,7 +22,6 @@ Once you've entered the Cooldown and Expiration parameters, click the Add Module
 # Submit transaction
 After that, you should see a Gnosis Safe modal prompting you to review the transaction. Click Submit when ready:
 
-----
-*Image of Roles Modifier Transaction Submission*
+![Roles Modifier Transaction Submission](/img/tutorial/roles_02.png)
 
 Confirm the transaction with your web3 wallet that is a signer on the Gnosis Safe.

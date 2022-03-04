@@ -5,7 +5,7 @@ sidebar_position: 5
 # Edit Roles
 You can add and remove members and targets in the edit role view. You can also select a target on the left side panel, and edit the permissions of that target in the right panel.
 
-![Edit Role view](/img/tutorial/roles_08.png)
+![Edit Role view](/img/tutorial/roles_09.png)
 
 ## Functions
 Each target function can be allowed/revoked individually. You can also customize select a specific execution type for each function.
