@@ -11,7 +11,7 @@ After confirming the transaction, you should return to the Zodiac App, where you
 ## Create a Role
 
 ![Roles App - zero state](/img/tutorial/roles_04.png)
-Click on the "Create a Role" button to open the Role view where you can add members and targets to the role. The Role name is created automatically.
+Click on the "Create a Role" button to open the Role view where you can add members and targets to the role. The Role name is created automatically by using the role's index.
 
 Once you've added the appropriate members and targets to this role (see below), you can click "Create Role". Only then will your changes to the role be saved. Note that you must connect your wallet (and be a key signer in connected safe) in order to create the role.
 ![Create Role view](/img/tutorial/roles_05.png)
@@ -20,7 +20,7 @@ Once you've added the appropriate members and targets to this role (see below), 
 
 ![Roles App - Add a Member modal](/img/tutorial/roles_06.png)
 
-Members are accounts that that the role is assigned to. Once an account is assigned the role, it can call the targets on behalf of the avatar by passing transactions to the avatar for execution (via the Roles Modifier).
+Members are accounts that the role is assigned to. Once an account is assigned the role, it can call the targets on behalf of the avatar by passing transactions to the avatar for execution (via the Roles Modifier).
 
 ## Targets
 
