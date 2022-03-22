@@ -1,0 +1,188 @@
+{
+  "1": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "4": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "56": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "100": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "137": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "80001": {
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  }
+}
