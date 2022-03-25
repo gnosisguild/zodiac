@@ -69,9 +69,11 @@ contract MyModule is Module {
 #### Modifiers
 
 - **[Delay](https://github.com/gnosis/zodiac-modifier-delay)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This modifier allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by an avatar.
+- **[Roles](https://github.com/gnosis/zodiac-modifier-roles)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This modifier allows for fine-grained, role-based, access control for enabled modules. Scopes for a given role include allowed addresses, and optionally include allowed functions on allowed addresses, allowed parameters on allowed functions, whether or not delegate calls are allowed to an allowed address, and whether or not value (ETH) can be sent to an allowed address. 
 
 #### Guards
 - **[Scope](https://github.com/gnosis/zodiac-guard-scope)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to limit the scope of the addressable functions with which its owners can interact. This enables the avatar to define granular permissions for different control mechanisms.
+- **[Mod](https://github.com/gnosis/zodiac-guard-mod)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to prevent the removal of a given module. For example, a DAO might have it's governance contracts enabled as a module to a Gnosis Safe, in parallel with some multisig signers. This guard could be used to prevent the multisig signers from removing the DAO's governance contracts as a module.
 
 
 ## Support and Contributions
