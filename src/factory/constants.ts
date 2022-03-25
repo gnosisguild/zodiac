@@ -11,23 +11,24 @@ const MasterCopyAddresses = {
   circulatingSupply: "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
 };
 
-export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = {
-  1: {
-    ...MasterCopyAddresses,
-  },
-  4: {
-    ...MasterCopyAddresses,
-  },
-  100: {
-    ...MasterCopyAddresses,
-  },
-  137: {
-    ...MasterCopyAddresses,
-  },
-  31337: {
-    ...MasterCopyAddresses,
-  },
-};
+/*
+ * 1     - Mainnet
+ * 4     - Rinkeby
+ * 56    - Binance smart chain
+ * 100   - Gnosis chain (Previously xdai)
+ * 137   - Polygon
+ * 31337 - Localhost in hardhat
+ * 80001 - Mumbai
+ */
+export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001]
+
+const mapNetworks = (acc: Record<string, ContractAddresses>, current: number) => {
+  return {
+    ...acc,
+    [current]: MasterCopyAddresses
+  }
+}
+export const CONTRACT_ADDRESSES: Record<number, ContractAddresses> = SUPPORTED_NETWORKS.reduce(mapNetworks, {})
 
 export const CONTRACT_ABIS: Record<keyof KnownContracts, string[]> = {
   realityETH: [
