@@ -18,12 +18,14 @@ abstract contract Modifier is Module, IAvatar {
     /// @param sender The address of the sender.
     error NotAuthorized(address sender);
 
-    /// @notice Invalid module.
-    error InvalidModule();
-    /// @notice Module already disabled.
-    error AlreadyDisabledModule();
-    /// @notice Module already enabled.
-    error AlreadyEnabledModule();
+    /// `module` is invalid.
+    error InvalidModule(address module);
+
+    /// `module` is already disabled.
+    error AlreadyDisabledModule(address module);
+
+    /// `module` is already enabled.
+    error AlreadyEnabledModule(address module);
 
     /*
     --------------------------------------------------
@@ -93,8 +95,9 @@ abstract contract Modifier is Module, IAvatar {
     /// @param module Address of the module to be enabled
     /// @notice This can only be called by the owner
     function enableModule(address module) public override onlyOwner {
-        if (module == address(0) || module == SENTINEL_MODULES) revert InvalidModule();
-        if (modules[module] != address(0)) revert AlreadyEnabledModule();
+        if (module == address(0) || module == SENTINEL_MODULES)
+            revert InvalidModule(module);
+        if (modules[module] != address(0)) revert AlreadyEnabledModule(module);
         modules[module] = modules[SENTINEL_MODULES];
         modules[SENTINEL_MODULES] = module;
         emit EnabledModule(module);
