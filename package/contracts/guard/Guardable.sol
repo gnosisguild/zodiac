@@ -18,7 +18,8 @@ contract Guardable is OwnableUpgradeable {
     /// @param _guard The address of the guard to be used or the 0 address to disable the guard.
     function setGuard(address _guard) external onlyOwner {
         if (_guard != address(0)) {
-            if (!BaseGuard(_guard).supportsInterface(type(IGuard).interfaceId)) revert NotIERC165Compliant(_guard); 
+            if (!BaseGuard(_guard).supportsInterface(type(IGuard).interfaceId))
+                revert NotIERC165Compliant(_guard);
         }
         guard = _guard;
         emit ChangedGuard(guard);

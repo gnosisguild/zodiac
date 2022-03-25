@@ -2,7 +2,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
-import "@gnosis.pm/safe-contracts/contracts/interfaces/IERC165.sol";
+import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "../interfaces/IGuard.sol";
 
 abstract contract BaseGuard is IERC165 {
@@ -17,9 +17,9 @@ abstract contract BaseGuard is IERC165 {
             interfaceId == type(IERC165).interfaceId; // 0x01ffc9a7
     }
 
-    /// Module transactions only use the first four parameters: to, value, data, and operation.
+    /// @dev Module transactions only use the first four parameters: to, value, data, and operation.
     /// Module.sol hardcodes the remaining parameters as 0 since they are not used for module transactions.
-    /// This interface is used to maintain compatibilty with Gnosis Safe transaction guards.
+    /// @notice This interface is used to maintain compatibilty with Gnosis Safe transaction guards.
     function checkTransaction(
         address to,
         uint256 value,
