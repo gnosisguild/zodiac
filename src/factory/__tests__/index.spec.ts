@@ -8,6 +8,7 @@ import {
 } from "../factory";
 
 import "@nomiclabs/hardhat-ethers";
+import { KnownContracts } from "../types";
 
 const AddressOne = "0x0000000000000000000000000000000000000001";
 
@@ -50,7 +51,13 @@ describe("Factory JS functions ", () => {
       ],
     };
     const { transaction: deployTx, expectedModuleAddress } =
-      await deployAndSetUpModule("realityETH", args, provider, chainId, saltNonce);
+      await deployAndSetUpModule(
+        KnownContracts.REALITY_ETH,
+        args,
+        provider,
+        chainId,
+        saltNonce
+      );
 
     const transaction = await signer.sendTransaction(deployTx);
 
@@ -63,7 +70,7 @@ describe("Factory JS functions ", () => {
 
   it("should retrieve module instance", async () => {
     const module = await getModuleInstance(
-      "realityETH",
+      KnownContracts.REALITY_ETH,
       mockContract.address,
       provider
     );
@@ -79,7 +86,7 @@ describe("Factory JS functions ", () => {
 
   it("should retrieve factory and module instance", async () => {
     const { module, factory } = await getFactoryAndMasterCopy(
-      "realityETH",
+      KnownContracts.REALITY_ETH,
       provider,
       chainId
     );

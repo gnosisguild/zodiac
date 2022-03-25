@@ -6,9 +6,10 @@ import { KnownContracts } from "./types";
  * 56    - Binance smart chain
  * 100   - Gnosis chain (Previously xdai)
  * 137   - Polygon
+ * 31337 - hardhat network
  * 80001 - Mumbai
  */
-export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 80001];
+export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8",
