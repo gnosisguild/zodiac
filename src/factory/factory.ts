@@ -1,5 +1,5 @@
 import { ethers, Contract, Signer, BigNumber } from "ethers";
-import { JsonRpcProvider } from "@ethersproject/providers";
+
 import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownContracts } from "./types";
 
@@ -9,7 +9,7 @@ export const deployAndSetUpModule = (
     types: Array<string>;
     values: Array<any>;
   },
-  provider: JsonRpcProvider,
+  provider: ethers.providers.JsonRpcProvider,
   chainId: number,
   saltNonce: string
 ) => {
@@ -19,7 +19,7 @@ export const deployAndSetUpModule = (
     chainId
   );
 
-  const encodedInitParams = new ethers.utils.AbiCoder().encode(
+  const encodedInitParams = ethers.utils.defaultAbiCoder.encode(
     args.types,
     args.values
   );
@@ -77,7 +77,7 @@ export const calculateProxyAddress = (
 export const getModuleInstance = (
   moduleName: KnownContracts,
   address: string,
-  provider: JsonRpcProvider | Signer
+  provider: ethers.providers.JsonRpcProvider | Signer
 ) => {
   const moduleIsNotSupported = !Object.keys(CONTRACT_ABIS).includes(moduleName);
   if (moduleIsNotSupported) {
@@ -88,7 +88,7 @@ export const getModuleInstance = (
 
 export const getFactoryAndMasterCopy = (
   moduleName: KnownContracts,
-  provider: JsonRpcProvider,
+  provider: ethers.providers.JsonRpcProvider,
   chainId: number
 ) => {
   const chainContracts = CONTRACT_ADDRESSES[chainId];
