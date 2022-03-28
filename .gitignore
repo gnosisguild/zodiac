@@ -10,3 +10,4 @@ dist/
 deployments
 yarn-error.log
 .docusaurus
+.idea

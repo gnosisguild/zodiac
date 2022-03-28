@@ -18,6 +18,8 @@ const argv = yargs
 dotenv.config();
 const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK } = process.env;
 
+import "./src/factory/singleton-deployment";
+
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
 
@@ -67,6 +69,10 @@ export default {
     matic: {
       ...sharedNetworkConfig,
       url: "https://rpc-mainnet.maticvigil.com"
+    },
+    bsc: {
+      ...sharedNetworkConfig,
+      url: "https://bsc-dataseed.binance.org"
     }
   },
   namedAccounts: {
