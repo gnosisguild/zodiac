@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## About the Zodiac Exit App
 
-This app works in companion with the [Zodiac Exit Module](/zodiac/tutorial-module-exit-app).
+This app works in companion with the [Zodiac Exit Module](https://gnosis.github.io/zodiac/docs/tutorial-module-exit/get-started).
 
 The Exit App provides a friendly interface to redeem a designated token for a proportional share of an avatar's (Safe or other account’s) ERC-20 and native digital assets, similar to Moloch DAO's rageQuit() function. With the Exit App, members can even exit by redeeming an NFT (ERC-721) they hold.
 
