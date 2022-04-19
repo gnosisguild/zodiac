@@ -17,17 +17,9 @@ Note: The Exit App can only be used with Safes equipped with the Zodiac Exit Mod
 If you need support or have questions about this tutorial or Zodiac, join the Gnosis Guild Discord: https://discord.gg/gnosisguild.
 
 
-## Setup a Gnosis Safe
-
-If you've already set up a Gnosis Safe you'd like to use for this tutorial, skip to the next step below.
-
-If not, check out the Gnosis Safe Help Center. The [Create a Safe](https://help.gnosis-safe.io/en/articles/3876461-create-a-safe) tutorial will walk you through the full process of creating a new Gnosis Safe account in just 60 seconds.
-
-Note that for the purposes of this tutorial, we'll be using a Gnosis Safe deployed on the Rinkeby testnetwork. You can create a Gnosis Safe on Rinkeby at [http://rinkeby.gnosis-safe.io](http://rinkeby.gnosis-safe.io/).
-
 ## Navigate to the Zodiac App
 
-There are two ways to find the Exit App.
+There are two ways to find the Exit App depending on your use case.
 
 * **Standalone version**: If you are a member exiting with an web3 wallet, visit https://exit.gnosisguild.org/. Using the standalone version of the Exit App will be the most common.
 
