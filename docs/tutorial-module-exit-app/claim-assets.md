@@ -6,13 +6,11 @@ sidebar_position: 4
 
 ## Initiate transaction
 
-Verify that the transaction details (the Exit Token and Amount, the claimable asset[s], and the Claimable Value) are correct 
-
-Click on "Exit and Claim Assets".
+Verify that the transaction details (the Exit Token and Amount, the claimable asset[s], and the Claimable Value) are correct. Click on "Exit and Claim Assets".
 
 The Exit App will ask you to "Approve token expense". 
 
-If you’re using an web3 wallet, confirm when your wallet prompts you to give access to the redeeming token in your wallet.
+If you’re using a web3 wallet, confirm when your wallet prompts you to give access to the redeeming token in your wallet.
 
 The screenshot below is an example using the ALUM token and MetaMask.
 

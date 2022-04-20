@@ -12,7 +12,7 @@ Here is a list of terms that you’ll see the Exit App tutorial use that you can
 
 * **Exit App**: an application that provides members a friendly interface to redeem a designated token from a Safe equipped with the Exit Module.
 
-* **Redeemable assets**: an avatar’s designated fungible or non-fungible tokens that an exiting member's can be redeem for an avatar’s claimable assets.
+* **Redeemable assets**: an avatar’s designated fungible or non-fungible tokens that an exiting member can redeem for an avatar’s claimable assets.
 
 * **Claimable assets**: an avatar’s assets that an exiting member can claim in exchange for the redeemable asset.
 

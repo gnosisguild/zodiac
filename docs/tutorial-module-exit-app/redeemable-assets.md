@@ -36,4 +36,4 @@ Verify that the "Claimable Value" is correct.
 Important Notes: 
 * If you do not select any assets to claim, you will receive a proportional share of the Safe's native asset (ETH or something similar, depending on your network).
 * You can claim other proportional assets in a separate transaction only if you have any remaining designated tokens.
-* A Safe’s assets are divided equally per NFT among an entire NFT collection. In the example above, the account is exiting with the WAND #5 NFT. Because the circulating supply is 3, the account can choose to claim 1/3 of the attached Safe's assets.
+* A Safe’s assets are divided equally per NFT among an entire NFT collection. In the example above, the account is exiting with the WAND #3 NFT. Because the circulating supply is 3, the account can choose to claim 1/3 of the attached Safe's assets.

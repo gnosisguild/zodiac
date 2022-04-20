@@ -12,7 +12,7 @@ The Exit App provides a friendly interface to redeem a designated token for a pr
 
 This tutorial is for using the standalone Exit App site or the Exit App available as a Safe App.
 
-Note: The Exit App can only be used with Safes equipped with the Zodiac Exit Module. Click here for more information on the Exit Module.
+Note: The Exit App can only be used with Safes equipped with the Zodiac Exit Module. Click [here](https://gnosis.github.io/zodiac/docs/tutorial-module-exit/get-started) for more information on the Exit Module.
 
 If you need support or have questions about this tutorial or Zodiac, join the Gnosis Guild Discord: https://discord.gg/gnosisguild.
 
@@ -21,6 +21,6 @@ If you need support or have questions about this tutorial or Zodiac, join the Gn
 
 There are two ways to find the Exit App depending on your use case.
 
-* **Standalone version**: If you are a member exiting with an web3 wallet, visit https://exit.gnosisguild.org/. Using the standalone version of the Exit App will be the most common.
+* **Standalone version**: If you are a member exiting with a web3 wallet, visit https://exit.gnosisguild.org/. Using the standalone version of the Exit App will be the most common.
 
 * **Safe Apps version**: If you are a member exiting a Safe while using a Safe account to store your redeemable assets, find the Exit App through the Safe Apps list in your Gnosis Safe. (Instructions: On your Gnosis Safe's left menu, click the <code>APPS</code> option. Here you'll find apps available through Gnosis Safe. Search or scroll until you find the Exit App.)
