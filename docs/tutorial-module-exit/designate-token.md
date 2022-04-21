@@ -8,7 +8,7 @@ Next you should click on the Exit Module available through the Zodiac App on Gno
 
 ![Exit Module interface](/img/tutorial/exit_1.png)
 
-The Exit Module prompts you to enter a `Token Contract Address` and a `Circulating Supply Amount`. The Token Contract Address and Circulting Supply Amount refer to the ERC20 token participants can redeem for a proportional share of this account’s compatible ERC20 digital assets.
+The Exit Module prompts you to enter a `Token Contract Address` and a `Circulating Supply Amount`. The Token Contract Address and Circulting Supply Amount refer to the ERC20 token participants can redeem for a proportion of this account’s compatible ERC20 digital assets.
 
 ## Token Contract Address
 
