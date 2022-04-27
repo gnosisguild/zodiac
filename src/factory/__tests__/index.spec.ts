@@ -95,11 +95,6 @@ describe("Factory JS functions ", () => {
       ],
     };
 
-    const { factory, module } = getFactoryAndMasterCopy(
-      KnownContracts.REALITY_ETH,
-      provider,
-      chainId
-    );
     const chainContracts = CONTRACT_ADDRESSES[chainId];
     const masterCopyAddress = chainContracts[KnownContracts.REALITY_ETH];
     const abi = CONTRACT_ABIS[KnownContracts.REALITY_ETH];
