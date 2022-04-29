@@ -1,4 +1,5 @@
 import { ethers, Contract, Signer, BigNumber } from "ethers";
+import { ABI } from "hardhat-deploy/dist/types";
 
 import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
 import { KnownContracts } from "./types";
@@ -18,7 +19,37 @@ export const deployAndSetUpModule = (
     provider,
     chainId
   );
+  return getDeployAndSetupTx(factory, module, args, saltNonce);
+};
 
+export const deployAndSetUpCustomModule = (
+  masterCopyAddress: string,
+  abi: ABI,
+  setupArgs: {
+    types: Array<string>;
+    values: Array<any>;
+  },
+  provider: ethers.providers.JsonRpcProvider,
+  chainId: number,
+  saltNonce: string
+) => {
+  const chainContracts = CONTRACT_ADDRESSES[chainId];
+  const factoryAddress = chainContracts.factory;
+  const factory = new Contract(factoryAddress, CONTRACT_ABIS.factory, provider);
+  const module = new Contract(masterCopyAddress, abi, provider);
+
+  return getDeployAndSetupTx(factory, module, setupArgs, saltNonce);
+};
+
+const getDeployAndSetupTx = (
+  factory: ethers.Contract,
+  module: ethers.Contract,
+  args: {
+    types: Array<string>;
+    values: Array<any>;
+  },
+  saltNonce: string
+) => {
   const encodedInitParams = ethers.utils.defaultAbiCoder.encode(
     args.types,
     args.values
