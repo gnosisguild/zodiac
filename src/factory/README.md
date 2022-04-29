@@ -34,11 +34,11 @@ This method is menthe for deploying contracts that is available in `./constants.
 }
 ```
 
-### 2. Deploy and set up an unknown module
+### 2. Deploy and set up an custom module
 
 This method is similar to `deployAndSetUpModule`. However it deals with the deployment of contracts that is NOT available in `./constants.ts`.
 
-- Interface: `deployAndSetUpUnknownModule(masterCopyAddress, abi, args, provider, chainId)`
+- Interface: `deployAndSetUpCustomModule(masterCopyAddress, abi, args, provider, chainId)`
 - Arguments:
   - `masterCopyAddress`: The address of the module to be deployed
   - `abi`: The ABI of the module to be deployed

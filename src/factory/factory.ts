@@ -22,7 +22,7 @@ export const deployAndSetUpModule = (
   return getDeployAndSetupTx(factory, module, args, saltNonce);
 };
 
-export const deployAndSetUpUnknownModule = (
+export const deployAndSetUpCustomModule = (
   masterCopyAddress: string,
   abi: ABI,
   setupArgs: {

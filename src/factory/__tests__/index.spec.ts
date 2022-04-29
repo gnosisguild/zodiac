@@ -3,7 +3,7 @@ import { Contract } from "ethers";
 import { expect } from "chai";
 import {
   deployAndSetUpModule,
-  deployAndSetUpUnknownModule,
+  deployAndSetUpCustomModule,
   getModuleInstance,
   getFactoryAndMasterCopy,
 } from "../factory";
@@ -100,7 +100,7 @@ describe("Factory JS functions ", () => {
     const abi = CONTRACT_ABIS[KnownContracts.REALITY_ETH];
 
     const { transaction: deployTx, expectedModuleAddress } =
-      await deployAndSetUpUnknownModule(
+      await deployAndSetUpCustomModule(
         masterCopyAddress,
         abi,
         args,
