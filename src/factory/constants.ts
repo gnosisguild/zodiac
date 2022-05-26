@@ -12,6 +12,7 @@ import { ContractAddresses, KnownContracts } from "./types";
 export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
+  [KnownContracts.TELLOR]: "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590", //mainnet, rinkeby, polygon, mumbai
   [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8",
   [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889",
   [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3",
@@ -40,6 +41,10 @@ export const CONTRACT_ADDRESSES: Record<
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
+  [KnownContracts.TELLOR]: [
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`,
+  ],
   [KnownContracts.REALITY_ETH]: [
     `function setArbitrator(address arbitrator) public`,
     `function setQuestionTimeout(uint32 timeout) public`,
