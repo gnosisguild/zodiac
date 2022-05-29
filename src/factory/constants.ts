@@ -1,4 +1,4 @@
-import { ContractAddresses, KnownContracts } from "./types";
+import { ContractAddresses, KnownContracts } from "./types"
 
 /*
  * 1     - Mainnet
@@ -9,7 +9,7 @@ import { ContractAddresses, KnownContracts } from "./types";
  * 31337 - hardhat network
  * 80001 - Mumbai
  */
-export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
+export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001]
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.TELLOR]: "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590", //mainnet, rinkeby, polygon, mumbai
@@ -26,7 +26,7 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
     "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
-};
+}
 
 export const CONTRACT_ADDRESSES: Record<
   number,
@@ -38,7 +38,7 @@ export const CONTRACT_ADDRESSES: Record<
   137: { ...MasterCopyAddresses },
   31337: { ...MasterCopyAddresses },
   80001: { ...MasterCopyAddresses },
-};
+}
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
   [KnownContracts.TELLOR]: [
@@ -80,10 +80,10 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     `function txCooldown() public view returns (uint256)`,
     `function txExpiration() public view returns (uint256)`,
     `function getModulesPaginated(
-      address start, 
+      address start,
       uint256 pageSize
     ) external view returns (
-      address[] memory array, 
+      address[] memory array,
       address next
     )`,
     `function initialized() public view returns (bool)`,
@@ -136,7 +136,7 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
   ],
   [KnownContracts.FACTORY]: [
     `function deployModule(
-      address masterCopy, 
+      address masterCopy,
       bytes memory initializer,
       uint256 saltNonce
     ) public returns (address proxy)`,
@@ -160,31 +160,22 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     `function getExclusionsPaginated(address start, uint256 pageSize) public view`,
   ],
   [KnownContracts.ROLES]: [
+    "constructor(address _owner, address _avatar, address _target)",
     "error ArraysDifferentLength()",
     "error ModuleTransactionFailed()",
     "error NoMembership()",
     "error SetUpModulesAlreadyCalled()",
-    "event AllowTarget(uint16 role, address targetAddress, bool canSend, bool canDelegate)",
-    "event AllowTargetPartially(uint16 role, address targetAddress, bool canSend, bool canDelegate)",
-    "event AssignRoles(address module, uint16[] roles)",
+    "event AssignRoles(address module, uint16[] roles, bool[] memberOf)",
     "event AvatarSet(address indexed previousAvatar, address indexed newAvatar)",
     "event ChangedGuard(address guard)",
     "event DisabledModule(address module)",
     "event EnabledModule(address module)",
     "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-    "event RevokeTarget(uint16 role, address targetAddress)",
     "event RolesModSetup(address indexed initiator, address indexed owner, address indexed avatar, address target)",
-    "event ScopeAllowFunction(uint16 role, address targetAddress, bytes4 selector)",
-    "event ScopeFunction(uint16 role, address targetAddress, bytes4 functionSig, bool[] paramIsScoped, bool[] paramIsDynamic, uint8[] paramCompType, bytes[] paramCompValue)",
-    "event ScopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex, bool isDynamic, uint8 compType, bytes compValue)",
-    "event ScopeParameterAsOneOf(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex, bool isDynamic, bytes[] compValues)",
-    "event ScopeRevokeFunction(uint16 role, address targetAddress, bytes4 selector)",
     "event SetDefaultRole(address module, uint16 defaultRole)",
-    "event SetMulitSendAddress(address multiSendAddress)",
+    "event SetMultisendAddress(address multisendAddress)",
     "event TargetSet(address indexed previousTarget, address indexed newTarget)",
-    "event UnscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
-    "function allowTarget(uint16 role, address targetAddress, bool canSend, bool canDelegate)",
-    "function allowTargetPartially(uint16 role, address targetAddress, bool canSend, bool canDelegate)",
+    "function allowTarget(uint16 role, address targetAddress, uint8 options)",
     "function assignRoles(address module, uint16[] _roles, bool[] memberOf)",
     "function avatar() view returns (address)",
     "function defaultRoles(address) view returns (uint16)",
@@ -198,23 +189,25 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     "function getModulesPaginated(address start, uint256 pageSize) view returns (address[] array, address next)",
     "function guard() view returns (address)",
     "function isModuleEnabled(address _module) view returns (bool)",
-    "function multiSend() view returns (address)",
+    "function multisend() view returns (address)",
     "function owner() view returns (address)",
     "function renounceOwnership()",
     "function revokeTarget(uint16 role, address targetAddress)",
-    "function scopeAllowFunction(uint16 role, address targetAddress, bytes4 functionSig)",
-    "function scopeFunction(uint16 role, address targetAddress, bytes4 functionSig, bool[] isParamScoped, bool[] isParamDynamic, uint8[] paramCompType, bytes[] paramCompValue)",
-    "function scopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex, bool isDynamic, uint8 compType, bytes compValue)",
-    "function scopeParameterAsOneOf(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex, bool isDynamic, bytes[] compValues)",
+    "function scopeAllowFunction(uint16 role, address targetAddress, bytes4 functionSig, uint8 options)",
+    "function scopeFunction(uint16 role, address targetAddress, bytes4 functionSig, bool[] isParamScoped, uint8[] paramType, uint8[] paramComp, bytes[] compValue, uint8 options)",
+    "function scopeFunctionExecutionOptions(uint16 role, address targetAddress, bytes4 functionSig, uint8 options)",
+    "function scopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint256 paramIndex, uint8 paramType, uint8 paramComp, bytes compValue)",
+    "function scopeParameterAsOneOf(uint16 role, address targetAddress, bytes4 functionSig, uint256 paramIndex, uint8 paramType, bytes[] compValues)",
     "function scopeRevokeFunction(uint16 role, address targetAddress, bytes4 functionSig)",
+    "function scopeTarget(uint16 role, address targetAddress)",
     "function setAvatar(address _avatar)",
     "function setDefaultRole(address module, uint16 role)",
     "function setGuard(address _guard)",
-    "function setMultiSend(address _multiSend)",
+    "function setMultisend(address _multisend)",
     "function setTarget(address _target)",
     "function setUp(bytes initParams)",
     "function target() view returns (address)",
     "function transferOwnership(address newOwner)",
     "function unscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
   ],
-};
+}

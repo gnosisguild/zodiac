@@ -1,11 +1,18 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
   "main": "./dist/src/factory/index.js",
   "typings": "./dist/src/factory/index.d.ts",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "dist",
+    "contracts"
+  ],
   "scripts": {
     "build": "hardhat compile",
     "build:factory": "tsc -p tsconfig.json",
@@ -17,9 +24,8 @@
     "lint:sol": "solhint 'contracts/**/*.sol'",
     "lint:ts": "eslint --max-warnings 0 .",
     "fmt:sol": "prettier 'contracts/**/*.sol' -w",
-    "release:copyfiles": "cp -r ./dist/ ./package/dist && cp README.md package.json ./package && cp -r ./contracts ./package/contracts",
-    "prerelease": "yarn build && yarn build:factory && rm -rf ./package && mkdir ./package && yarn release:copyfiles",
-    "release": "yarn publish ./package --access public"
+    "prerelease": "yarn build && yarn build:factory",
+    "release": "yarn publish --access public"
   },
   "directories": {
     "test": "test"
