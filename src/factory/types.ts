@@ -5,11 +5,11 @@ export enum KnownContracts {
   DELAY = "delay",
   EXIT_ERC20 = "exit",
   EXIT_ERC721 = "exitERC721",
-  CIRCULATING_SUPPLY_ERC20 = "circulatingSupply",
+  CIRCULATING_SUPPLY_ERC20 = "circulatingSupplyERC20",
   CIRCULATING_SUPPLY_ERC721 = "circulatingSupplyERC721",
   SCOPE_GUARD = "scopeGuard",
   FACTORY = "factory",
-  ROLES = 'roles'
+  ROLES = "roles",
 }
 
 type REALITY_ETH_VERSION = "v1.0.0";
