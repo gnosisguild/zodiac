@@ -8,7 +8,7 @@ sidebar_position: 1
 
 This modifier allows avatars (accounts) to enforce a set of permissions for certain .
 
-For a more technical guide on how to use the Roles Modifier beyond the Zodiac App interface, see the [Github repo](https://github.com/gnosis/zodiac-roles-modifier). 
+For a more technical guide on how to use the Roles Modifier beyond the Zodiac App interface, see the [Github repo](https://github.com/gnosis/zodiac-modifier-roles). 
 
 ## Setup a Gnosis Safe
 
