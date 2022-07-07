@@ -78,7 +78,7 @@ contract MyModule is Module {
 
 ## Support and Contributions
 
-Have you built something cool that belongs in this collection of Zodiac tools and want to add it to the list? Follow our [contribution guidelines](/CONTRIBUTING.md) to open a PR! Your PR should update this [README.md](/README.md) file (list items are sorted alphabetically), along with [src/factory/constants.ts](/src/factory/constants.ts) and [src/factory/types.ts](/src/factory/types.ts). The mastercopy address provided in [src/factory/constants.ts](/src/factory/constants.ts) should be a deterministic deployment that can be replayed on other networks or a canonical address should be provided for each network. Please make a companion PR to the [Zodiac Safe App](https://github.com/gnosis/zodiac-safe-app) repo if you wish for your module to also be listed in the Zodiac Safe App.
+Have you built something cool that belongs in this collection of Zodiac tools and want to add it to the list? Follow our [contribution guidelines](/CONTRIBUTING.md) to open a PR!
 
 If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
 
