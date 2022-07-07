@@ -12,6 +12,7 @@ Reading and following these guidelines will help us make the contribution proces
   - [Getting Started](#getting-started)
     - [Issues](#issues)
     - [Pull Requests](#pull-requests)
+    - [Adding Mods To This Repo](#adding-mods-to-this-repo)
   - [Getting Help](#getting-help)
 
 ## Code of Conduct
@@ -34,7 +35,7 @@ If you find an Issue that addresses the problem you're having, please add your o
 
 ### Pull Requests
 
-PRs to our libraries are always welcome and can be a quick way to get your fix or improvement slated for the next release. In general, PRs should:
+PRs are always welcome and can be a quick way to get your fix or improvement slated for the next release. In general, PRs should:
 
 - Only fix/add the functionality in question **OR** address wide-spread whitespace/style issues, not both.
 - Add unit or integration tests for fixed or changed functionality (if a test suite already exists).
@@ -52,6 +53,12 @@ In general, we follow the ["fork-and-pull" Git workflow](https://github.com/susa
 5. Following any formatting and testing guidelines specific to this repo
 6. Push changes to your fork
 7. Open a PR in our repository and follow the PR template so that we can efficiently review the changes.
+
+### Adding Mods To This Repo
+
+If you have built a mod or guard and want to add it to this repo, your PR should update the [README.md](/README.md) file (list items are sorted alphabetically), along with [constants.ts](/src/factory/constants.ts) and [types.ts](/src/factory/types.ts).
+
+The mastercopy address provided in [constants.ts](/src/factory/constants.ts) should be a deterministic deployment that can be replayed on other networks or a canonical address should be provided for each network. Please make a companion PR to the [Zodiac Safe App](https://github.com/gnosis/zodiac-safe-app) repo if you wish for your module to also be listed in the Zodiac Safe App.
 
 ## Getting Help
 
