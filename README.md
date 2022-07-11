@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/gnosis/zodiac/workflows/zodiac/badge.svg?branch=master)](https://github.com/gnosis/zodiac/actions?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/zodiac/badge.svg?branch=master)](https://coveralls.io/github/gnosis/zodiac?branch=master)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/gnosis/CODE_OF_CONDUCT)
 
 A composable design philosophy for DAOs, [Zodiac](https://gnosisguild.mirror.xyz/OuhG5s2X5uSVBx1EK4tKPhnUc91Wh9YM0fwSnC8UNcg) is a collection of tools built according to an open standard. 
 
@@ -72,13 +73,12 @@ contract MyModule is Module {
 
 
 #### Guards
-- **[Scope](https://github.com/gnosis/zodiac-guard-scope)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to limit the scope of the addressable functions with which its owners can interact. This enables the avatar to define granular permissions for different control mechanisms.
 - **[Mod](https://github.com/gnosis/zodiac-guard-mod)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to prevent the removal of a given module. For example, a DAO might have it's governance contracts enabled as a module to a Gnosis Safe, in parallel with some multisig signers. This guard could be used to prevent the multisig signers from removing the DAO's governance contracts as a module.
-
+- **[Scope](https://github.com/gnosis/zodiac-guard-scope)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to limit the scope of the addressable functions with which its owners can interact. This enables the avatar to define granular permissions for different control mechanisms.
 
 ## Support and Contributions
 
-Have you built something cool belonging to the Zodiac collection of tools, and want to add it to the list? Open a PR!
+Have you built something cool that belongs in this collection of Zodiac tools and want to add it to the list? Follow our [contribution guidelines](/CONTRIBUTING.md) to open a PR!
 
 If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
 
