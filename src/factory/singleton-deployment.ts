@@ -69,8 +69,7 @@ const deployFactory = async (_: null, hardhat: HardhatRuntimeEnvironment) => {
 
   const transactionResponse = await singletonFactory.deploy(
     Factory.bytecode,
-    factorySalt,
-    { gasLimit: 1000000 }
+    factorySalt
   );
 
   const result = await transactionResponse.wait();
