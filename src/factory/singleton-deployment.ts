@@ -9,7 +9,7 @@ const singletonFactoryAbi = [
 ];
 const singletonFactoryAddress = "0xce0042b868300000d44a59004da54a005ffdcf9f";
 const factorySalt =
-  "0xddab1fa8c9085d8d8677711bcd78e94f7af3cbd1ca711def31ea3e0cf982d90c";
+  "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";
 const AddressZero = "0x0000000000000000000000000000000000000000";
 
 const deployFactory = async (_: null, hardhat: HardhatRuntimeEnvironment) => {
