@@ -22,7 +22,7 @@ jobs:
           path-to-document: "https://github.com/gnosis/CLA"
           # branch should not be protected
           branch: "cla-signatures"
-          allowlist: rmeissner,Uxio0,*bot # may need to update this expression if we add new bots
+          allowlist: auryn-macmillan, nginnever, *bot # may need to update this expression if we add new bots
 
 
           #below are the optional inputs - If the optional inputs are not given, then default values will be taken
