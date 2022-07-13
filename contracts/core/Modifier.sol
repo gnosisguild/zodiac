@@ -11,9 +11,6 @@ abstract contract Modifier is Module, IAvatar {
     /// Mapping of modules.
     mapping(address => address) internal modules;
 
-    event EnabledModule(address module);
-    event DisabledModule(address module);
-
     /// `sender` is not an authorized module.
     /// @param sender The address of the sender.
     error NotAuthorized(address sender);
