@@ -23,7 +23,7 @@ const deployFactory = async (_: null, hardhat: HardhatRuntimeEnvironment) => {
     deployer
   );
 
-  // check if singleton factory is deplyed.
+  // check if singleton factory is deployed.
   if (
     (await hardhat.ethers.provider.getCode(singletonFactory.address)) === "0x"
   ) {
