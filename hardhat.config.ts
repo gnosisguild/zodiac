@@ -38,7 +38,6 @@ if (["rinkeby", "mainnet"].includes(argv.network) && INFURA_KEY === undefined) {
   );
 }
 
-
 export default {
   paths: {
     artifacts: "build/artifacts",
@@ -62,18 +61,22 @@ export default {
       ...sharedNetworkConfig,
       url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
     },
-    xdai: {
+    gnosis: {
       ...sharedNetworkConfig,
-      url: "https://xdai.poanetwork.dev",
+      url: "https://rpc.gnosischain.com",
     },
-    matic: {
+    polygon: {
       ...sharedNetworkConfig,
-      url: "https://rpc-mainnet.maticvigil.com"
+      url: "https://rpc.ankr.com/polygon",
     },
     bsc: {
       ...sharedNetworkConfig,
-      url: "https://bsc-dataseed.binance.org"
-    }
+      url: "https://bsc-dataseed.binance.org",
+    },
+    arbitrum: {
+      ...sharedNetworkConfig,
+      url: "https://arb1.arbitrum.io/rpc",
+    },
   },
   namedAccounts: {
     deployer: 0,
