@@ -1,4 +1,4 @@
-import { ContractAddresses, KnownContracts } from "./types"
+import { ContractAddresses, KnownContracts } from "./types";
 
 /*
  * 1     - Mainnet
@@ -9,10 +9,12 @@ import { ContractAddresses, KnownContracts } from "./types"
  * 31337 - hardhat network
  * 80001 - Mumbai
  */
-export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001]
+export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
-  [KnownContracts.TELLOR]: "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590", //mainnet, rinkeby, polygon, mumbai
+  [KnownContracts.TELLOR_MAINNET]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
+  [KnownContracts.TELLOR_RINKEBY]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343",
+  [KnownContracts.TELLOR_POLYGON]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
   [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8",
   [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889",
   [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3",
@@ -26,7 +28,7 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
     "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
-}
+};
 
 export const CONTRACT_ADDRESSES: Record<
   number,
@@ -38,10 +40,18 @@ export const CONTRACT_ADDRESSES: Record<
   137: { ...MasterCopyAddresses },
   31337: { ...MasterCopyAddresses },
   80001: { ...MasterCopyAddresses },
-}
+};
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
-  [KnownContracts.TELLOR]: [
+  [KnownContracts.TELLOR_MAINNET]: [
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`,
+  ],
+  [KnownContracts.TELLOR_RINKEBY]: [
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`,
+  ],
+  [KnownContracts.TELLOR_POLYGON]: [
     `function setUp(bytes memory initParams) public`,
     `function initialized() public view returns (bool)`,
   ],
@@ -210,4 +220,4 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     "function transferOwnership(address newOwner)",
     "function unscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
   ],
-}
+};

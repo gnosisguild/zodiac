@@ -1,5 +1,7 @@
 export enum KnownContracts {
-  TELLOR = 'tellor',
+  TELLOR_MAINNET = "tellor_mainnet",
+  TELLOR_RINKEBY = "tellor_rinkeby",
+  TELLOR_POLYGON = "tellor_polygon",
   REALITY_ETH = "realityETH",
   REALITY_ERC20 = "realityERC20",
   BRIDGE = "bridge",
@@ -10,10 +12,12 @@ export enum KnownContracts {
   CIRCULATING_SUPPLY_ERC721 = "circulatingSupplyERC721",
   SCOPE_GUARD = "scopeGuard",
   FACTORY = "factory",
-  ROLES = 'roles'
+  ROLES = "roles",
 }
 
-type TELLOR_VERSION = "v1.0.0";
+type TELLOR_MAINNET_VERSION = "v1.0.1";
+type TELLOR_RINKEBY_VERSION = "v1.0.1";
+type TELLOR_POLYGON_VERSION = "v1.0.1";
 type REALITY_ETH_VERSION = "v1.0.0";
 type BRIDGE_VERSION = "v1.0.0";
 type DELAY_VERSION = "v1.0.0";
@@ -28,7 +32,9 @@ type ROLES_MOD_VERSION = "v1.0.0";
 type ContractMasterCopies<V extends string> = Record<V, string>;
 
 export interface ContractAddresses {
-  tellor: ContractMasterCopies<TELLOR_VERSION>;
+  tellor_mainnet: ContractMasterCopies<TELLOR_MAINNET_VERSION>;
+  tellor_rinkeby: ContractMasterCopies<TELLOR_RINKEBY_VERSION>;
+  tellor_polygon: ContractMasterCopies<TELLOR_POLYGON_VERSION>;
   realityETH: ContractMasterCopies<REALITY_ETH_VERSION>;
   realityERC20: ContractMasterCopies<REALITY_ETH_VERSION>;
   bridge: ContractMasterCopies<BRIDGE_VERSION>;
