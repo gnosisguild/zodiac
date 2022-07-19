@@ -6,6 +6,11 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 
 interface IAvatar {
+    event EnabledModule(address module);
+    event DisabledModule(address module);
+    event ExecutionFromModuleSuccess(address indexed module);
+    event ExecutionFromModuleFailure(address indexed module);
+
     /// @dev Enables a module on the avatar.
     /// @notice Can only be called by the avatar.
     /// @notice Modules should be stored as a linked list.
