@@ -1,7 +1,7 @@
 {
   "1": {
-    "tellor": {
-      "v1.0.0": "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590"
+    "tellor":{
+      "v1.0.1": "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE"
     },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
@@ -35,8 +35,8 @@
     }
   },
   "4": {
-    "tellor": {
-      "v1.0.0": "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590"
+    "tellor":{
+      "v1.0.1": "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343"
     },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
@@ -134,7 +134,7 @@
   },
   "137": {
     "tellor": {
-      "v1.0.0": "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590"
+      "v1.0.1": "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79"
     },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
@@ -174,7 +174,7 @@
   },
   "80001": {
     "tellor": {
-      "v1.0.0": "0xe3D2a3eBdbF477be05b5fF7b7585Ced6Fce12590"
+      "v1.0.1": "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD"
     },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
