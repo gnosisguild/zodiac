@@ -1,8 +1,7 @@
 # Module Factory
 
-The purpose of the Module Factory is to make the deployment of Safe Modules easier.
-Applying the Minimal Proxy Pattern, this module reduces the gas cost and simplifies the track of deployed modules.
-The Minimal Proxy Pattern has been used because the modules do not need to be upgradeable since a safe can deploy a new one.
+The purpose of the Module Proxy Factory is to make the deployment of Zodiac Modules easier. Applying the Minimal Proxy Pattern, this factory reduces the gas cost of deployment and simplifies the tracking of deployed modules. The Minimal Proxy Pattern has been used because the modules do not need to be upgradeable, since a safe can cheaply deploy a module if needed.
+
 It's worth mentioning that it costs roughly 5k additional gas for each transaction when using a proxy.
 Thus, after a certain number of transactions (~700) it would likely be cheaper to deploy the module from the constructor rather than the proxy.
 
@@ -11,7 +10,7 @@ You can check the factory file to see more details, it consists of 5 methods, de
 
 ### 1. Deploy and set up a known module
 
-This method is menthe for deploying contracts that is available in `./constants.ts`.
+This method is used to deploy contracts listed in `./constants.ts`.
 
 - Interface: `deployAndSetUpModule(moduleName, args, provider, chainId)`
 - Arguments:
@@ -36,7 +35,7 @@ This method is menthe for deploying contracts that is available in `./constants.
 
 ### 2. Deploy and set up an custom module
 
-This method is similar to `deployAndSetUpModule`. However it deals with the deployment of contracts that is NOT available in `./constants.ts`.
+This method is similar to `deployAndSetUpModule`, however, it deals with the deployment of contracts that is NOT listed in `./constants.ts`.
 
 - Interface: `deployAndSetUpCustomModule(masterCopyAddress, abi, args, provider, chainId)`
 - Arguments:
@@ -62,6 +61,8 @@ This method is similar to `deployAndSetUpModule`. However it deals with the depl
 
 ### 3. Calculate new module address
 
+This method is used to calculate the resulting address of a deployed module given the provided parameters. It is useful for building multisend transactions that both deploy a module and then make calls to that module or calls referencing the module's address.
+
 - Interface: `calculateProxyAddress(factory, masterCopy, initData)`
 - Arguments:
   - `factory`: Address of the Module Proxy Factory contract
@@ -70,6 +71,8 @@ This method is similar to `deployAndSetUpModule`. However it deals with the depl
 - Returns: A string with the expected address
 
 ### 4. Get Module
+
+This method returns an instance of a given module.
 
 - Interface: `getModuleInstance(moduleName, address, provider)`
 - Arguments:
@@ -81,6 +84,8 @@ This method is similar to `deployAndSetUpModule`. However it deals with the depl
 - Returns: A Contract instance of the Module
 
 ### 5. Get Factory and Master Copy
+
+This method returns an object with the an instance of the factory contract and the given module's mastercopy.
 
 - Interface: `getFactoryAndMasterCopy(moduleName, provider, chainId)`
 - Arguments:
@@ -98,9 +103,7 @@ This method is similar to `deployAndSetUpModule`. However it deals with the depl
 
 ## Deployments
 
-Deterministic deployment is being used to deploy factory and modules, meaning that the modules
-will have the same address in supported networks, you can check which networks are supported in the
+We use a deterministic deployment to deploy the factory and mastercopies of each module, so that they can be deployed with the same address on supported networks. You can check which networks are supported in the
 [constants file](./constants.ts#L14-L22)
 
-[Singleton factory](https://eips.ethereum.org/EIPS/eip-2470) is used to deploy the Module Factory, if you want to deploy it
-into a not supported chain, you will need to use the [`singleton-deployment` script file](./singleton-deployment.ts)
+The [Singleton Factory](https://eips.ethereum.org/EIPS/eip-2470) is used to deploy the Module Factory. If it is not already deployed at the correct address on your network, the [`singleton-deployment` script file](./singleton-deployment.ts) will attempt to deploy it before deploying the Module Proxy Factory. If the Singleton Factory cannot be deployed to the correct address, the script will fail.

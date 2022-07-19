@@ -36,6 +36,7 @@ export const CONTRACT_ADDRESSES: Record<
 > = {
   1: { ...MasterCopyAddresses },
   4: { ...MasterCopyAddresses },
+  56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
   137: { ...MasterCopyAddresses },
   31337: { ...MasterCopyAddresses },

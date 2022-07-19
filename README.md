@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/gnosis/zodiac/workflows/zodiac/badge.svg?branch=master)](https://github.com/gnosis/zodiac/actions?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/zodiac/badge.svg?branch=master)](https://coveralls.io/github/gnosis/zodiac?branch=master)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/gnosis/CODE_OF_CONDUCT)
 
 A composable design philosophy for DAOs, [Zodiac](https://gnosisguild.mirror.xyz/OuhG5s2X5uSVBx1EK4tKPhnUc91Wh9YM0fwSnC8UNcg) is a collection of tools built according to an open standard. 
 
@@ -63,11 +64,8 @@ contract MyModule is Module {
 - **[Exit](https://github.com/gnosis/zodiac-module-exit)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows users to redeem a designated token for a relative share of an avatar's assets, similar to MolochDAO's infamous rageQuit() function. 
 - **[Reality](https://github.com/gnosis/zodiac-module-reality)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows on-chain execution based on the outcome of events reported by Reality.eth. While built initially to execute Gnosis Safe transactions according to Snapshot proposals, this module is framework agnostic. It can enable proposal execution from just about anywhere. For example, it can bring Discord polls on-chain.
 - **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol)** (developed by [DAOHaus](https://daohaus.club)): This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe to later delegate governance to a Moloch DAO.  
-- **[Seele](https://github.com/TokenWalk/Seele)** (developed by [TokenWalk](https://www.tokenwalk.org)): This module allows avatars to operate with trustless tokenized DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts. This enables DAOs to choose from various on-chain voting methods that best suit their needs.
 - **[Tellor](https://github.com/gnosis/zodiac-module-reality)** (developed by [Tellor](https://tellor.io)): This module allows on-chain executions based on Snapshot proposal results, it uses the Tellor oracle to retrieve the data in a secure and decentralized manner.
-
-
-
+- **[Usul](https://github.com/SekerDAO/Usul)** (developed by [SekerDAO](https://github.com/SekerDAO)): This module allows avatars to operate with trustless tokenized DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts. This enables DAOs to choose from various on-chain voting methods that best suit their needs.
 
 #### Modifiers
 - **[Delay](https://github.com/gnosis/zodiac-modifier-delay)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This modifier allows avatars to enforce a time delay between when a module initiates a transaction and when it will be executed by an avatar.
@@ -75,13 +73,12 @@ contract MyModule is Module {
 
 
 #### Guards
-- **[Scope](https://github.com/gnosis/zodiac-guard-scope)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to limit the scope of the addressable functions with which its owners can interact. This enables the avatar to define granular permissions for different control mechanisms.
 - **[Mod](https://github.com/gnosis/zodiac-guard-mod)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to prevent the removal of a given module. For example, a DAO might have it's governance contracts enabled as a module to a Gnosis Safe, in parallel with some multisig signers. This guard could be used to prevent the multisig signers from removing the DAO's governance contracts as a module.
-
+- **[Scope](https://github.com/gnosis/zodiac-guard-scope)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This guard allows an avatar to limit the scope of the addressable functions with which its owners can interact. This enables the avatar to define granular permissions for different control mechanisms.
 
 ## Support and Contributions
 
-Have you built something cool belonging to the Zodiac collection of tools, and want to add it to the list? Open a PR!
+Have you built something cool that belongs in this collection of Zodiac tools and want to add it to the list? Follow our [contribution guidelines](/CONTRIBUTING.md) to open a PR!
 
 If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
 

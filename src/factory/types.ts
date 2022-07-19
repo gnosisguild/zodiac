@@ -8,7 +8,7 @@ export enum KnownContracts {
   DELAY = "delay",
   EXIT_ERC20 = "exit",
   EXIT_ERC721 = "exitERC721",
-  CIRCULATING_SUPPLY_ERC20 = "circulatingSupply",
+  CIRCULATING_SUPPLY_ERC20 = "circulatingSupplyERC20",
   CIRCULATING_SUPPLY_ERC721 = "circulatingSupplyERC721",
   SCOPE_GUARD = "scopeGuard",
   FACTORY = "factory",
