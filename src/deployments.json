@@ -1,6 +1,6 @@
 {
   "1": {
-    "tellor_mainnet":{
+    "tellor":{
       "v1.0.1": "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE"
     },
     "realityETH": {
@@ -34,7 +34,7 @@
     }
   },
   "4": {
-    "tellor_rinkeby":{
+    "tellor":{
       "v1.0.1": "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343"
     },
     "realityETH": {
@@ -130,7 +130,7 @@
     }
   },
   "137": {
-    "tellor_polygon": {
+    "tellor": {
       "v1.0.1": "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79"
     },
     "realityETH": {
@@ -164,8 +164,8 @@
     }
   },
   "80001": {
-    "tellor_mumbai": {
-      "v1.0.0": "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD"
+    "tellor": {
+      "v1.0.1": "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD"
     },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
