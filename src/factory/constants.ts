@@ -23,23 +23,28 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.CIRCULATING_SUPPLY_ERC20]: "0xb50fab2e2892E3323A5300870C042B428B564FE3",
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]: "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
-  tellor: ""
+  tellor: "",
+  optimisticGovernor: "",
 };
 
 export const CONTRACT_ADDRESSES: Record<
   number,
   Record<KnownContracts, string>
 > = {
-  1: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE" },
-  4: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343" },
+  1: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0xC419A1dc987d7c34243f98d66211d356023F344E" },
+  4: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x4Db708AF68c21CcEF080Cc0C90f06bB5B8491798" },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
-  137: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79" },
+  137: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x59bC80BC7703f2573C0B31542828fFF993548994" },
   31337: { ...MasterCopyAddresses },
   80001: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD" },
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
+  [KnownContracts.OPTIMISTIC_GOVERNOR]: [
+    `function setUp(bytes memory initParams) public`,
+    `function initialized() public view returns (bool)`
+  ],
   [KnownContracts.TELLOR]: [
     `function setUp(bytes memory initParams) public`,
     `function initialized() public view returns (bool)`,

@@ -1,5 +1,8 @@
 {
   "1": {
+    "optimisticGovernor":{
+      "v1.0.0": "0xC419A1dc987d7c34243f98d66211d356023F344E"
+    },
     "tellor":{
       "v1.0.1": "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE"
     },
@@ -35,6 +38,9 @@
     }
   },
   "4": {
+    "optimisticGovernor":{
+      "v1.0.0": "0x4Db708AF68c21CcEF080Cc0C90f06bB5B8491798"
+    },
     "tellor":{
       "v1.0.1": "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343"
     },
@@ -133,6 +139,9 @@
     }
   },
   "137": {
+    "optimisticGovernor":{
+      "v1.0.0": "0x59bC80BC7703f2573C0B31542828fFF993548994"
+    },
     "tellor": {
       "v1.0.1": "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79"
     },
