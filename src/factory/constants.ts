@@ -32,7 +32,7 @@ export const CONTRACT_ADDRESSES: Record<
   Record<KnownContracts, string>
 > = {
   1: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0xC419A1dc987d7c34243f98d66211d356023F344E" },
-  4: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x4Db708AF68c21CcEF080Cc0C90f06bB5B8491798" },
+  4: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89" },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
   137: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x59bC80BC7703f2573C0B31542828fFF993548994" },
