@@ -1,5 +1,8 @@
 export enum KnownContracts {
+<<<<<<< HEAD
   META_GUARD = "metaGuard",
+=======
+>>>>>>> master
   OPTIMISTIC_GOVERNOR = 'optimisticGovernor',
   TELLOR = "tellor",
   REALITY_ETH = "realityETH",
@@ -15,7 +18,10 @@ export enum KnownContracts {
   ROLES = "roles",
 }
 
+<<<<<<< HEAD
 type META_GUARD_VERSION = "v1.0.0";
+=======
+>>>>>>> master
 type OPTIMISTIC_GOVERNOR_VERSION = "v1.0.0";
 type TELLOR_VERSION = "v1.0.1";
 type REALITY_ETH_VERSION = "v1.0.0";
@@ -32,7 +38,10 @@ type ROLES_MOD_VERSION = "v1.0.0";
 type ContractMasterCopies<V extends string> = Record<V, string>;
 
 export interface ContractAddresses {
+<<<<<<< HEAD
   metaGuard: ContractMasterCopies<META_GUARD_VERSION>;
+=======
+>>>>>>> master
   optimisticGovernor: ContractMasterCopies<OPTIMISTIC_GOVERNOR_VERSION>;
   tellor: ContractMasterCopies<TELLOR_VERSION>;
   realityETH: ContractMasterCopies<REALITY_ETH_VERSION>;
