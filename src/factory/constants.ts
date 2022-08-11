@@ -16,12 +16,14 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889",
   [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3",
   [KnownContracts.DELAY]: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-  [KnownContracts.FACTORY]: "0x00000000062c52e29e8029dc2413172f6d619d85",
+  [KnownContracts.FACTORY]: "0x00000000000DC7F163742Eb4aBEf650037b1f588",
   [KnownContracts.EXIT_ERC20]: "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da",
   [KnownContracts.EXIT_ERC721]: "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718",
   [KnownContracts.SCOPE_GUARD]: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
-  [KnownContracts.CIRCULATING_SUPPLY_ERC20]: "0xb50fab2e2892E3323A5300870C042B428B564FE3",
-  [KnownContracts.CIRCULATING_SUPPLY_ERC721]: "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
+  [KnownContracts.CIRCULATING_SUPPLY_ERC20]:
+    "0xb50fab2e2892E3323A5300870C042B428B564FE3",
+  [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
+    "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
   tellor: "",
   optimisticGovernor: "",
@@ -31,19 +33,37 @@ export const CONTRACT_ADDRESSES: Record<
   number,
   Record<KnownContracts, string>
 > = {
-  1: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0xC419A1dc987d7c34243f98d66211d356023F344E" },
-  4: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89" },
+  1: {
+    ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0xC419A1dc987d7c34243f98d66211d356023F344E",
+  },
+  4: {
+    ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343",
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89",
+  },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
-  137: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79", [KnownContracts.OPTIMISTIC_GOVERNOR]: "0x59bC80BC7703f2573C0B31542828fFF993548994" },
+  137: {
+    ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x59bC80BC7703f2573C0B31542828fFF993548994",
+  },
   31337: { ...MasterCopyAddresses },
-  80001: { ...MasterCopyAddresses, [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD" },
+  80001: {
+    ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD",
+  },
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
   [KnownContracts.OPTIMISTIC_GOVERNOR]: [
     `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`
+    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.TELLOR]: [
     `function setUp(bytes memory initParams) public`,
