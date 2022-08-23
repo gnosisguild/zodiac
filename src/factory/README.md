@@ -65,7 +65,7 @@ This method is used to calculate the resulting address of a deployed module give
 
 - Interface: `calculateProxyAddress(factory, masterCopy, initData)`
 - Arguments:
-  - `factory`: Address of the Module Proxy Factory contract
+  - `factory`: Factory contract object of the Module Proxy Factory contract
   - `masterCopy`: Address of the Master Copy of the Module
   - `initData`: Encoded function data that is used to set up the module
 - Returns: A string with the expected address
