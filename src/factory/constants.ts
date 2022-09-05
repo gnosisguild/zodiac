@@ -3,6 +3,7 @@ import { ContractAddresses, KnownContracts } from "./types";
 /*
  * 1     - Mainnet
  * 4     - Rinkeby
+ * 5     - Goerli
  * 56    - Binance smart chain
  * 100   - Gnosis chain (Previously xdai)
  * 137   - Polygon
@@ -45,6 +46,7 @@ export const CONTRACT_ADDRESSES: Record<
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89",
   },
+  5: { ...MasterCopyAddresses },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
   137: {
