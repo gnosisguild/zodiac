@@ -3,10 +3,10 @@
     "metaGuard":{
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
-    "optimisticGovernor":{
+    "optimisticGovernor": {
       "v1.0.0": "0xC419A1dc987d7c34243f98d66211d356023F344E"
     },
-    "tellor":{
+    "tellor": {
       "v1.0.1": "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE"
     },
     "realityETH": {
@@ -44,12 +44,44 @@
     "metaGuard":{
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
-    "optimisticGovernor":{
+    "optimisticGovernor": {
       "v1.0.0": "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89"
     },
-    "tellor":{
+    "tellor": {
       "v1.0.1": "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343"
     },
+    "realityETH": {
+      "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+    },
+    "realityERC20": {
+      "v1.0.0": "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889"
+    },
+    "bridge": {
+      "v1.0.0": "0x457042756F2B1056487173003D27f37644C119f3"
+    },
+    "delay": {
+      "v1.0.0": "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485"
+    },
+    "factory": {
+      "v1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85",
+      "v1.1.0": "0x00000000000DC7F163742Eb4aBEf650037b1f588"
+    },
+    "exitERC20": {
+      "v1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+      "v1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da"
+    },
+    "exitERC721": {
+      "v1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718"
+    },
+    "circulatingSupplyERC20": {
+      "v1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+      "v1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3"
+    },
+    "circulatingSupplyERC721": {
+      "v1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E"
+    }
+  },
+  "5": {
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
     },
@@ -154,7 +186,7 @@
     "metaGuard":{
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
-    "optimisticGovernor":{
+    "optimisticGovernor": {
       "v1.0.0": "0x59bC80BC7703f2573C0B31542828fFF993548994"
     },
     "tellor": {
