@@ -1,5 +1,8 @@
 {
   "1": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "optimisticGovernor": {
       "v1.0.0": "0xC419A1dc987d7c34243f98d66211d356023F344E"
     },
@@ -38,6 +41,9 @@
     }
   },
   "4": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "optimisticGovernor": {
       "v1.0.0": "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89"
     },
@@ -108,6 +114,9 @@
     }
   },
   "56": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
     },
@@ -139,6 +148,9 @@
     }
   },
   "100": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
     },
@@ -171,6 +183,9 @@
     }
   },
   "137": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "optimisticGovernor": {
       "v1.0.0": "0x59bC80BC7703f2573C0B31542828fFF993548994"
     },
@@ -214,6 +229,9 @@
     }
   },
   "80001": {
+    "metaGuard":{
+      "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
+    },
     "tellor": {
       "v1.0.1": "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD"
     },

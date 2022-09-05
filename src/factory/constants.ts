@@ -13,6 +13,7 @@ import { ContractAddresses, KnownContracts } from "./types";
 export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
+  [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691",
   [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8",
   [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889",
   [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3",
@@ -63,6 +64,29 @@ export const CONTRACT_ADDRESSES: Record<
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
+  [KnownContracts.META_GUARD]: [
+    `function setUp(bytes memory initParams) public`,
+    `function setAvatar(address _avatar) public`,
+    `function setMaxGuard(uint256 _maxGuard) public`,
+    `function checkTransaction(
+      address to,
+      uint256 value,
+      bytes memory data,
+      Enum.Operation operation,
+      uint256 safeTxGas,
+      uint256 baseGas,
+      uint256 gasPrice,
+      address gasToken,
+      address payable refundReceiver,
+      bytes memory signatures,
+      address msgSender
+    ) external`,
+    `function checkAfterExecution(bytes32 txHash, bool success) external`,
+    `function removeGuard(address prevGuard, address guard) public`,
+    `function addGuard(address guard) public`,
+    `function isGuardAdded(address _guard) public`,
+    `function getAllGuards() external`
+  ],
   [KnownContracts.OPTIMISTIC_GOVERNOR]: [
     `function setUp(bytes memory initParams) public`,
     `function initialized() public view returns (bool)`,
