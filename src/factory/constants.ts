@@ -39,22 +39,26 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0xC419A1dc987d7c34243f98d66211d356023F344E",
+      "0x56C11dE61e249cbBf337027B53Ed3b1dFA8a4e6F",
   },
   4: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89",
+      "0x82C60B22Ee1A814a14122c7Bd78652Fbc3fD8CB2",
   },
-  5: { ...MasterCopyAddresses },
+  5: {
+    ...MasterCopyAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
+  },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
   137: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x59bC80BC7703f2573C0B31542828fFF993548994",
+      "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
   },
   31337: { ...MasterCopyAddresses },
   80001: {
