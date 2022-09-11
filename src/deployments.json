@@ -4,7 +4,7 @@
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
     "optimisticGovernor": {
-      "v1.0.0": "0xC419A1dc987d7c34243f98d66211d356023F344E"
+      "v1.0.0": "0x56C11dE61e249cbBf337027B53Ed3b1dFA8a4e6F"
     },
     "tellor": {
       "v1.0.1": "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE"
@@ -45,7 +45,7 @@
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
     "optimisticGovernor": {
-      "v1.0.0": "0x6Ff461b854F5349857c2Ad41e0f558C19953DF89"
+      "v1.0.0": "0x82C60B22Ee1A814a14122c7Bd78652Fbc3fD8CB2"
     },
     "tellor": {
       "v1.0.1": "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343"
@@ -82,6 +82,9 @@
     }
   },
   "5": {
+    "optimisticGovernor": {
+      "v1.0.0": "0x1340229DCF6e0bed7D9c2356929987C2A720F836"
+    },
     "realityETH": {
       "v1.0.0": "0x72d453a685c27580acDFcF495830EB16B7E165f8"
     },
@@ -187,7 +190,7 @@
       "v1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691"
     },
     "optimisticGovernor": {
-      "v1.0.0": "0x59bC80BC7703f2573C0B31542828fFF993548994"
+      "v1.0.0": "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB"
     },
     "tellor": {
       "v1.0.1": "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79"
