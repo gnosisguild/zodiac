@@ -12,7 +12,7 @@ You can check the factory file to see more details, it consists of 5 methods, de
 
 This method is used to deploy contracts listed in `./constants.ts`.
 
-- Interface: `deployAndSetUpModule(moduleName, args, provider, chainId)`
+- Interface: `deployAndSetUpModule(moduleName, args, provider, chainId, salt)`
 - Arguments:
   - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
   - `args`: An object with two attributes: `value` and `types`
@@ -20,6 +20,7 @@ This method is used to deploy contracts listed in `./constants.ts`.
     - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
+  - `salt`: For the Create2 op code 
 - Returns: An object with the transaction built in order to be executed by the Safe, and the expected address of the new module, this will allow developers to batch the transaction of deployment + enable module on safe. Example:
 
 ```json
