@@ -21,9 +21,9 @@
     "test": "hardhat test && yarn test:js",
     "coverage": "hardhat coverage",
     "lint": "yarn lint:sol && yarn lint:ts",
-    "lint:sol": "npx solhint './contracts/**/*.sol'",
-    "lint:ts": "eslint --max-warnings 0 .",
-    "fmt:sol": "prettier './contracts/**/*.sol' -w",
+    "lint:sol": "npx solhint ./contracts/**/*.sol",
+    "lint:ts": "npx eslint --max-warnings 0 .",
+    "fmt:sol": "npx prettier ./contracts/**/*.sol -w",
     "prerelease": "yarn build && yarn build:factory",
     "release": "yarn publish --access public",
     "verify": "yarn hardhat verify --network"
