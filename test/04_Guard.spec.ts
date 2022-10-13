@@ -1,10 +1,10 @@
-import { expect } from "chai";
-import hre, { deployments, waffle, ethers } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { expect } from "chai";
+import hre, { deployments, waffle } from "hardhat";
+import "@nomiclabs/hardhat-ethers";
 
 describe("Guardable", async () => {
-  const [user1, user2] = waffle.provider.getWallets();
+  const wallets = waffle.provider.getWallets();
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
@@ -27,7 +27,7 @@ describe("Guardable", async () => {
     it("reverts if reverts if caller is not the owner", async () => {
       const { module } = await setupTests();
       await expect(
-        module.connect(user2).setGuard(user2.address)
+        module.connect(wallets[1]).setGuard(wallets[1].address)
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
@@ -53,7 +53,7 @@ describe("Guardable", async () => {
 });
 
 describe("BaseGuard", async () => {
-  const [user1, user2] = waffle.provider.getWallets();
+  const [user1] = waffle.provider.getWallets();
   const txHash =
     "0x0000000000000000000000000000000000000000000000000000000000000001";
 
@@ -130,13 +130,13 @@ describe("BaseGuard", async () => {
 
   describe("checkAfterExecution", async () => {
     it("reverts if test fails", async () => {
-      const { module, guard, tx } = await setupTests();
+      const { guard } = await setupTests();
       await expect(guard.checkAfterExecution(txHash, true)).to.be.revertedWith(
         "Module cannot remove its own guard."
       );
     });
     it("checks state after execution", async () => {
-      const { module, guard, tx } = await setupTests();
+      const { module, guard } = await setupTests();
       await expect(module.setGuard(guard.address))
         .to.emit(module, "ChangedGuard")
         .withArgs(guard.address);

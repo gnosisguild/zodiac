@@ -1,4 +1,4 @@
-import { ContractAddresses, KnownContracts } from "./types";
+import { KnownContracts } from "./types";
 
 /*
  * 1     - Mainnet
@@ -89,7 +89,7 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     `function removeGuard(address prevGuard, address guard) public`,
     `function addGuard(address guard) public`,
     `function isGuardAdded(address _guard) public`,
-    `function getAllGuards() external`
+    `function getAllGuards() external`,
   ],
   [KnownContracts.OPTIMISTIC_GOVERNOR]: [
     `function setUp(bytes memory initParams) public`,

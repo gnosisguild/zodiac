@@ -1,13 +1,14 @@
-import { ethers } from "hardhat";
-import { Contract } from "ethers";
 import { expect } from "chai";
+import { Contract } from "ethers";
+import { ethers } from "hardhat";
+
+import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "../constants";
 import {
   deployAndSetUpModule,
   deployAndSetUpCustomModule,
   getModuleInstance,
   getFactoryAndMasterCopy,
 } from "../factory";
-import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "../constants";
 
 import "@nomiclabs/hardhat-ethers";
 import { KnownContracts } from "../types";
@@ -15,11 +16,11 @@ import { KnownContracts } from "../types";
 const AddressOne = "0x0000000000000000000000000000000000000001";
 
 describe("Factory JS functions ", () => {
-  let newModuleAddress: string;
+  //let newModuleAddress: string;
   let chainId: number;
   let mockContract: Contract;
 
-  const saltNonce: string = "0x7255";
+  const saltNonce = "0x7255";
   const provider = ethers.provider;
 
   before(async () => {
@@ -67,7 +68,7 @@ describe("Factory JS functions ", () => {
     expect(receipt.transactionHash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
-    newModuleAddress = expectedModuleAddress;
+    //newModuleAddress = expectedModuleAddress;
   });
 
   it("should execute transaction and retrieve expected address when providing the address and ABI directly", async () => {
@@ -115,7 +116,7 @@ describe("Factory JS functions ", () => {
     expect(receipt.transactionHash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
-    newModuleAddress = expectedModuleAddress;
+    //newModuleAddress = expectedModuleAddress;
   });
 
   it("should retrieve module instance", async () => {

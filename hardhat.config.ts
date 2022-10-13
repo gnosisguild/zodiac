@@ -32,12 +32,17 @@ if (PK) {
   };
 }
 
+let network = "";
+Promise.resolve(argv).then((x) => {
+  network = x.network;
+});
+
 if (
-  ["rinkeby", "mainnet", "goerli", "ropsten"].includes(argv.network) &&
+  ["rinkeby", "mainnet", "goerli", "ropsten"].includes(network) &&
   INFURA_KEY === undefined
 ) {
   throw new Error(
-    `Could not find Infura key in env, unable to connect to network ${argv.network}`
+    `Could not find Infura key in env, unable to connect to network ${network}`
   );
 }
 

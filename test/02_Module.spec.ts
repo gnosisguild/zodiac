@@ -1,10 +1,10 @@
-import { expect } from "chai";
-import hre, { deployments, waffle, ethers } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { expect } from "chai";
+import hre, { deployments, waffle } from "hardhat";
+import "@nomiclabs/hardhat-ethers";
 
 describe("Module", async () => {
-  const [user1, user2] = waffle.provider.getWallets();
+  const wallets = waffle.provider.getWallets();
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
@@ -39,7 +39,7 @@ describe("Module", async () => {
   describe("setAvatar", async () => {
     it("reverts if caller is not the owner", async () => {
       const { iAvatar, module } = await setupTests();
-      await module.transferOwnership(user2.address);
+      await module.transferOwnership(wallets[1].address);
       await expect(module.setAvatar(iAvatar.address)).to.be.revertedWith(
         "Ownable: caller is not the owner"
       );
@@ -52,16 +52,16 @@ describe("Module", async () => {
 
     it("emits previous owner and new owner", async () => {
       const { iAvatar, module } = await setupTests();
-      await expect(module.setAvatar(user2.address))
+      await expect(module.setAvatar(wallets[1].address))
         .to.emit(module, "AvatarSet")
-        .withArgs(iAvatar.address, user2.address);
+        .withArgs(iAvatar.address, wallets[1].address);
     });
   });
 
   describe("setTarget", async () => {
     it("reverts if caller is not the owner", async () => {
       const { iAvatar, module } = await setupTests();
-      await module.transferOwnership(user2.address);
+      await module.transferOwnership(wallets[1].address);
       await expect(module.setTarget(iAvatar.address)).to.be.revertedWith(
         "Ownable: caller is not the owner"
       );
@@ -74,22 +74,22 @@ describe("Module", async () => {
 
     it("emits previous owner and new owner", async () => {
       const { iAvatar, module } = await setupTests();
-      await expect(module.setTarget(user2.address))
+      await expect(module.setTarget(wallets[1].address))
         .to.emit(module, "TargetSet")
-        .withArgs(iAvatar.address, user2.address);
+        .withArgs(iAvatar.address, wallets[1].address);
     });
   });
 
   describe("exec", async () => {
     it("skips guard pre-check if no guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       );
     });
 
     it("pre-checks transaction if guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await module.setGuard(guard.address);
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
@@ -99,21 +99,21 @@ describe("Module", async () => {
     });
 
     it("executes a transaction", async () => {
-      const { iAvatar, module, tx } = await setupTests();
+      const { module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       );
     });
 
     it("skips post-check if no guard is enabled", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
       ).not.to.emit(guard, "PostChecked");
     });
 
     it("post-checks transaction if guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await module.setGuard(guard.address);
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
@@ -125,7 +125,7 @@ describe("Module", async () => {
 
   describe("execAndReturnData", async () => {
     it("skips guard pre-check if no guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { module, tx } = await setupTests();
       await expect(
         module.executeTransactionReturnData(
           tx.to,
@@ -137,7 +137,7 @@ describe("Module", async () => {
     });
 
     it("pre-checks transaction if guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await module.setGuard(guard.address);
       await expect(
         module.executeTransactionReturnData(
@@ -152,7 +152,7 @@ describe("Module", async () => {
     });
 
     it("executes a transaction", async () => {
-      const { iAvatar, module, tx } = await setupTests();
+      const { module, tx } = await setupTests();
       await expect(
         module.executeTransactionReturnData(
           tx.to,
@@ -164,7 +164,7 @@ describe("Module", async () => {
     });
 
     it("skips post-check if no guard is enabled", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await expect(
         module.executeTransactionReturnData(
           tx.to,
@@ -176,7 +176,7 @@ describe("Module", async () => {
     });
 
     it("post-checks transaction if guard is set", async () => {
-      const { iAvatar, guard, module, tx } = await setupTests();
+      const { guard, module, tx } = await setupTests();
       await module.setGuard(guard.address);
       await expect(
         module.executeTransactionReturnData(

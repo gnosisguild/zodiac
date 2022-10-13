@@ -1,10 +1,10 @@
-import { expect } from "chai";
-import hre, { deployments, waffle, ethers } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { expect } from "chai";
+import hre, { deployments, waffle } from "hardhat";
+import "@nomiclabs/hardhat-ethers";
 
 describe("IAvatar", async () => {
-  const [user1, user2] = waffle.provider.getWallets();
+  const [user1] = waffle.provider.getWallets();
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
     await deployments.fixture();
@@ -36,8 +36,8 @@ describe("IAvatar", async () => {
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iAvatar.enableModule(user1.address);
-      let receipt = await transaction.wait();
+      const transaction = await iAvatar.enableModule(user1.address);
+      await transaction.wait();
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
@@ -51,12 +51,12 @@ describe("IAvatar", async () => {
         false
       );
       let transaction = await iAvatar.enableModule(user1.address);
-      let receipt = await transaction.wait();
+      await transaction.wait();
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
       transaction = await iAvatar.disableModule(AddressZero, user1.address);
-      receipt = await transaction.wait();
+      await transaction.wait();
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
@@ -130,8 +130,8 @@ describe("IAvatar", async () => {
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
-      let transaction = await iAvatar.enableModule(user1.address);
-      let receipt = await transaction.wait();
+      const transaction = await iAvatar.enableModule(user1.address);
+      await transaction.wait();
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         true
       );
@@ -141,9 +141,8 @@ describe("IAvatar", async () => {
   describe("getModulesPaginated", async () => {
     it("returns array of enabled modules", async () => {
       const { iAvatar } = await setupTests();
-      let transaction = await iAvatar.enableModule(user1.address);
-      let array, next;
-      [array, next] = await iAvatar.getModulesPaginated(user1.address, 1);
+      await iAvatar.enableModule(user1.address);
+      const [array, next] = await iAvatar.getModulesPaginated(user1.address, 1);
       await expect(array.toString()).to.be.equals([user1.address].toString());
       await expect(next).to.be.equals(user1.address);
     });

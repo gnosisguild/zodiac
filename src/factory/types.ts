@@ -1,6 +1,6 @@
 export enum KnownContracts {
   META_GUARD = "metaGuard",
-  OPTIMISTIC_GOVERNOR = 'optimisticGovernor',
+  OPTIMISTIC_GOVERNOR = "optimisticGovernor",
   TELLOR = "tellor",
   REALITY_ETH = "realityETH",
   REALITY_ERC20 = "realityERC20",

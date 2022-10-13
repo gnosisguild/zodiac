@@ -1,7 +1,7 @@
-import { expect } from "chai";
-import { ethers } from "hardhat";
-import { Contract } from "ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { expect } from "chai";
+import { Contract } from "ethers";
+import { ethers } from "hardhat";
 import { calculateProxyAddress } from "../src/factory";
 
 import "@nomiclabs/hardhat-ethers";
@@ -12,7 +12,7 @@ describe("ModuleProxyFactory", async () => {
   let avatarAddress: string;
   let initData: string;
 
-  const saltNonce: string = "0x7255";
+  const saltNonce = "0x7255";
 
   beforeEach(async () => {
     const Avatar = await ethers.getContractFactory("TestAvatar");
@@ -53,14 +53,16 @@ describe("ModuleProxyFactory", async () => {
       );
 
       const transaction = await deploymentTx.wait();
-      const [moduleAddress] = transaction.events[1].args;
+      const [moduleAddress] = transaction.events[2].args;
       expect(moduleAddress).to.be.equal(expectedAddress);
     });
 
     it("should fail to deploy module because address is zero ", async () => {
       await expect(
         moduleFactory.deployModule(AddressZero, initData, saltNonce)
-      ).to.be.revertedWith("reverted with custom error 'ZeroAddress(\"0x0000000000000000000000000000000000000000\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'ZeroAddress(\"0x0000000000000000000000000000000000000000\")'"
+      );
     });
 
     it("should fail to deploy because address its already taken ", async () => {
@@ -76,7 +78,9 @@ describe("ModuleProxyFactory", async () => {
           initData,
           saltNonce
         )
-      ).to.be.revertedWith("reverted with custom error 'TakenAddress(\"0x0000000000000000000000000000000000000000\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'TakenAddress(\"0x0000000000000000000000000000000000000000\")'"
+      );
     });
   });
 
@@ -88,7 +92,7 @@ describe("ModuleProxyFactory", async () => {
         saltNonce
       );
       const transaction = await deploymentTx.wait();
-      const [moduleAddress] = transaction.events[1].args;
+      const [moduleAddress] = transaction.events[2].args;
 
       const newModule = await ethers.getContractAt("TestModule", moduleAddress);
 
@@ -121,7 +125,9 @@ describe("ModuleProxyFactory", async () => {
           "0xaabc",
           saltNonce
         )
-      ).to.be.revertedWith("reverted with custom error 'FailedInitialization()'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'FailedInitialization()'"
+      );
     });
   });
 });
