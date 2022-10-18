@@ -24,12 +24,6 @@ module.exports = {
     "!.prettierrc.js",
   ],
   rules: {
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto",
-      },
-    ],
     "import/order": [
       "error",
       {
