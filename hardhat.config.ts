@@ -6,13 +6,14 @@ import dotenv from "dotenv";
 import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
 
-const argv = yargs
+const { network } = yargs
   .option("network", {
     type: "string",
     default: "hardhat",
   })
   .help(false)
-  .version(false).argv;
+  .version(false)
+  .parseSync();
 
 // Load environment variables.
 dotenv.config();
@@ -31,11 +32,6 @@ if (PK) {
     mnemonic: MNEMONIC || DEFAULT_MNEMONIC,
   };
 }
-
-let network = "";
-Promise.resolve(argv).then((x) => {
-  network = x.network;
-});
 
 if (
   ["rinkeby", "mainnet", "goerli", "ropsten"].includes(network) &&

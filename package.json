@@ -24,6 +24,9 @@
     "lint:sol": "solhint ./contracts/**/*.sol",
     "lint:ts": "eslint --max-warnings 0 .",
     "fmt:sol": "prettier ./contracts/**/*.sol -w",
+    "format": "yarn format:sol && yarn format:ts",
+    "format:sol": "prettier ./contracts/**/*.sol -w",
+    "format:ts": "prettier ./src/**/*.ts ./test/**/*.ts ./*.ts -w",
     "prerelease": "yarn build && yarn build:factory",
     "release": "yarn publish --access public",
     "verify": "yarn hardhat verify --network"
