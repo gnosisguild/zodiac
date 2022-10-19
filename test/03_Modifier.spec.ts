@@ -1,7 +1,7 @@
-import { expect } from "chai";
-import hre, { deployments, waffle, ethers } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { expect } from "chai";
+import hre, { deployments, waffle } from "hardhat";
+import "@nomiclabs/hardhat-ethers";
 
 describe("Modifier", async () => {
   const [user1, user2] = waffle.provider.getWallets();
@@ -51,7 +51,7 @@ describe("Modifier", async () => {
     });
 
     it("reverts if module is SENTINEL_MODULES", async () => {
-      const { iAvatar, modifier } = await setupTests();
+      const { modifier } = await setupTests();
       await expect(modifier.enableModule(SENTINEL_MODULES)).to.be.revertedWith(
         "reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000001\")'"
       );
@@ -90,14 +90,18 @@ describe("Modifier", async () => {
       const { modifier } = await setupTests();
       await expect(
         modifier.disableModule(SENTINEL_MODULES, AddressZero)
-      ).to.be.revertedWith("reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000000\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000000\")'"
+      );
     });
 
     it("reverts if module is SENTINEL_MODULES", async () => {
       const { modifier } = await setupTests();
       await expect(
         modifier.disableModule(SENTINEL_MODULES, SENTINEL_MODULES)
-      ).to.be.revertedWith("reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000001\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'InvalidModule(\"0x0000000000000000000000000000000000000001\")'"
+      );
     });
 
     it("reverts if module is already disabled", async () => {
@@ -110,7 +114,9 @@ describe("Modifier", async () => {
         .withArgs(user1.address);
       await expect(
         modifier.disableModule(SENTINEL_MODULES, user1.address)
-      ).to.be.revertedWith("reverted with custom error 'AlreadyDisabledModule(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'AlreadyDisabledModule(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'"
+      );
     });
 
     it("disables a module", async () => {
@@ -208,7 +214,7 @@ describe("Modifier", async () => {
 
   describe("execTransactionFromModule", async () => {
     it("reverts if module is not enabled", async () => {
-      const { iAvatar, modifier, tx } = await setupTests();
+      const { modifier, tx } = await setupTests();
       await expect(
         modifier.execTransactionFromModule(
           tx.to,
@@ -216,11 +222,13 @@ describe("Modifier", async () => {
           tx.data,
           tx.operation
         )
-      ).to.be.revertedWith("reverted with custom error 'NotAuthorized(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'NotAuthorized(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'"
+      );
     });
 
     it("execute a transaction.", async () => {
-      const { iAvatar, modifier, tx } = await setupTests();
+      const { modifier, tx } = await setupTests();
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
@@ -242,7 +250,7 @@ describe("Modifier", async () => {
 
   describe("execTransactionFromModuleReturnData", async () => {
     it("reverts if module is not enabled", async () => {
-      const { iAvatar, modifier, tx } = await setupTests();
+      const { modifier, tx } = await setupTests();
       await expect(
         modifier.execTransactionFromModuleReturnData(
           tx.to,
@@ -250,11 +258,13 @@ describe("Modifier", async () => {
           tx.data,
           tx.operation
         )
-      ).to.be.revertedWith("reverted with custom error 'NotAuthorized(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'");
+      ).to.be.revertedWith(
+        "reverted with custom error 'NotAuthorized(\"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266\")'"
+      );
     });
 
     it("execute a transaction.", async () => {
-      const { iAvatar, modifier, tx } = await setupTests();
+      const { modifier, tx } = await setupTests();
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);

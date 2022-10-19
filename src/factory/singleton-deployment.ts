@@ -2,7 +2,6 @@ import "hardhat-deploy";
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { resolvePtr } from "dns";
 
 const singletonFactoryAbi = [
   "function deploy(bytes memory _initCode, bytes32 _salt) public returns (address payable createdContract)",
