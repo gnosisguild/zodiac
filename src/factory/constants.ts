@@ -1,16 +1,16 @@
 import { KnownContracts } from "./types";
 
-/*
- * 1     - Mainnet
- * 4     - Rinkeby
- * 5     - Goerli
- * 56    - Binance smart chain
- * 100   - Gnosis chain (Previously xdai)
- * 137   - Polygon
- * 31337 - hardhat network
- * 80001 - Mumbai
- */
-export const SUPPORTED_NETWORKS = [1, 4, 56, 100, 137, 31337, 80001];
+export enum SUPPORTED_NETWORKS {
+  Mainnet = 1,
+  Goerli = 5,
+  BinanceSmartChain = 56,
+  GnosisChain = 100,
+  Polygon = 137,
+  HardhatNetwork = 31337,
+  Mumbai = 80001,
+  ArbitrumOne = 42161,
+  Optimism = 10,
+}
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691",
@@ -32,39 +32,35 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
 };
 
 export const CONTRACT_ADDRESSES: Record<
-  number,
+  SUPPORTED_NETWORKS,
   Record<KnownContracts, string>
 > = {
-  1: {
+  [SUPPORTED_NETWORKS.Mainnet]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x56C11dE61e249cbBf337027B53Ed3b1dFA8a4e6F",
   },
-  4: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0x2b0bfeBCDFE2228cAbA56dfDE9F067643B357343",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x82C60B22Ee1A814a14122c7Bd78652Fbc3fD8CB2",
-  },
-  5: {
+  [SUPPORTED_NETWORKS.Goerli]: {
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
   },
-  56: { ...MasterCopyAddresses },
-  100: { ...MasterCopyAddresses },
-  137: {
+  [SUPPORTED_NETWORKS.BinanceSmartChain]: { ...MasterCopyAddresses },
+  [SUPPORTED_NETWORKS.GnosisChain]: { ...MasterCopyAddresses },
+  [SUPPORTED_NETWORKS.Polygon]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
   },
-  31337: { ...MasterCopyAddresses },
-  80001: {
+  [SUPPORTED_NETWORKS.HardhatNetwork]: { ...MasterCopyAddresses },
+  [SUPPORTED_NETWORKS.Mumbai]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD",
   },
+  [SUPPORTED_NETWORKS.ArbitrumOne]: { ...MasterCopyAddresses }, //TODO: figure out what to change
+  [SUPPORTED_NETWORKS.Optimism]: { ...MasterCopyAddresses }, //TODO: figure out what to change
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
