@@ -6,27 +6,28 @@ export enum SUPPORTED_NETWORKS {
   BinanceSmartChain = 56,
   GnosisChain = 100,
   Polygon = 137,
-  HardhatNetwork = 31337,
-  Mumbai = 80001,
+  Mumbai = 80001, // not supported yet
   ArbitrumOne = 42161,
   Optimism = 10,
+  Avalanche = 43114,
+  HardhatNetwork = 31337,
 }
 
 const MasterCopyAddresses: Record<KnownContracts, string> = {
-  [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691",
-  [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8",
-  [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889",
-  [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3",
-  [KnownContracts.DELAY]: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485",
-  [KnownContracts.FACTORY]: "0x00000000000DC7F163742Eb4aBEf650037b1f588",
-  [KnownContracts.EXIT_ERC20]: "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da",
-  [KnownContracts.EXIT_ERC721]: "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718",
-  [KnownContracts.SCOPE_GUARD]: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832",
+  [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691", // missing: optimism, arbitrum, bsc
+  [KnownContracts.REALITY_ETH]: "0x72d453a685c27580acDFcF495830EB16B7E165f8", // missing: optimism, arbitrum, mumbai
+  [KnownContracts.REALITY_ERC20]: "0x6f628F0c3A3Ff75c39CF310901f10d79692Ed889", // missing: optimism, arbitrum, mumbai
+  [KnownContracts.BRIDGE]: "0x457042756F2B1056487173003D27f37644C119f3", // missing: i
+  [KnownContracts.DELAY]: "0xeD2323128055cE9539c6C99e5d7EBF4CA44A2485", // missing: optimism, goerli, bsc
+  [KnownContracts.FACTORY]: "0x00000000000DC7F163742Eb4aBEf650037b1f588", // missing: optimism
+  [KnownContracts.EXIT_ERC20]: "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da", // missing: mumbai, optimism, arbitrum,
+  [KnownContracts.EXIT_ERC721]: "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718", // missing: mumbai, arbitrum, optimism
+  [KnownContracts.SCOPE_GUARD]: "0xfDc921764b88A889F9BFa5Ba874f77607a63b832", // missing: goerli, bsc, mumbai, arbitrum, optimism
   [KnownContracts.CIRCULATING_SUPPLY_ERC20]:
-    "0xb50fab2e2892E3323A5300870C042B428B564FE3",
+    "0xb50fab2e2892E3323A5300870C042B428B564FE3", // missing: mumbai, arbitrum, optimism
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
-    "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
-  [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
+    "0x71530ec830CBE363bab28F4EC52964a550C0AB1E", // missing: mumbai, arbitrum, optimism
+  [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9", // missing: mumbai, arbitrum, optimism
   tellor: "",
   optimisticGovernor: "",
 };
@@ -61,6 +62,7 @@ export const CONTRACT_ADDRESSES: Record<
   },
   [SUPPORTED_NETWORKS.ArbitrumOne]: { ...MasterCopyAddresses }, //TODO: figure out what to change
   [SUPPORTED_NETWORKS.Optimism]: { ...MasterCopyAddresses }, //TODO: figure out what to change
+  [SUPPORTED_NETWORKS.Avalanche]: { ...MasterCopyAddresses }, //TODO: figure out what to change
 };
 
 export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
