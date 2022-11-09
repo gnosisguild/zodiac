@@ -29,6 +29,7 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9",
   tellor: "",
   optimisticGovernor: "",
+  [KnownContracts.OZ_GOVERNOR]: "",
 };
 
 export const CONTRACT_ADDRESSES: Record<
@@ -51,6 +52,7 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
+    [KnownContracts.OZ_GOVERNOR]: "0x119bAebEDCF2A32dFAc3868Cd2F446db744ab675",
   },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
