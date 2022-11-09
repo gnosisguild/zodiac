@@ -60,7 +60,7 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
+      "0x7E67f2D27B0193980F49DcCed96fE3Ac1Ce44641",
   },
   31337: { ...MasterCopyAddresses },
   80001: {
