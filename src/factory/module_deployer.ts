@@ -21,7 +21,7 @@ type TxAndExpectedAddress = {
  * Get the transaction for deploying a module proxy through the module factory.
  * This will also initialize the module proxy by calling the setup function.
  *
- * @param contractName Name of the module to deploy (must be present in `KnownContracts`)
+ * @param moduleName Name of the module to deploy (must be present in `KnownContracts`)
  * @param setupArgs The arguments for the setup function of the module
  * @param provider
  * @param chainId
@@ -29,7 +29,7 @@ type TxAndExpectedAddress = {
  * @returns the transaction and the expected address of the module proxy
  */
 export const deployAndSetUpModule = (
-  contractName: KnownContracts,
+  moduleName: KnownContracts,
   setupArgs: {
     types: Array<string>;
     values: Array<any>;
@@ -39,7 +39,7 @@ export const deployAndSetUpModule = (
   saltNonce: string
 ): TxAndExpectedAddress => {
   const { moduleFactory, moduleMastercopy } = getModuleFactoryAndMasterCopy(
-    contractName,
+    moduleName,
     provider,
     chainId
   );
