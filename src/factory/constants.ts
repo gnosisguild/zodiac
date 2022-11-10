@@ -1,3 +1,4 @@
+import OzGovernorAbi from "../abi/oz_governor";
 import { KnownContracts } from "./types";
 
 export enum SUPPORTED_NETWORKS {
@@ -30,6 +31,7 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9", // missing: mumbai, arbitrum, optimism
   tellor: "",
   optimisticGovernor: "",
+  [KnownContracts.OZ_GOVERNOR]: "",
 };
 
 export const CONTRACT_ADDRESSES: Record<
@@ -46,6 +48,7 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
+    [KnownContracts.OZ_GOVERNOR]: "0x011Ad6A7FE4FB9226204dDBe2b6a5Fc109961dce",
   },
   [SUPPORTED_NETWORKS.BinanceSmartChain]: { ...MasterCopyAddresses },
   [SUPPORTED_NETWORKS.GnosisChain]: { ...MasterCopyAddresses },
@@ -65,7 +68,7 @@ export const CONTRACT_ADDRESSES: Record<
   [SUPPORTED_NETWORKS.Avalanche]: { ...MasterCopyAddresses }, //TODO: figure out what to change
 };
 
-export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
+export const CONTRACT_ABIS: Record<KnownContracts, any> = {
   [KnownContracts.META_GUARD]: [
     `function setUp(bytes memory initParams) public`,
     `function setAvatar(address _avatar) public`,
@@ -262,4 +265,5 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     "function transferOwnership(address newOwner)",
     "function unscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
   ],
+  ozGovernor: OzGovernorAbi,
 };

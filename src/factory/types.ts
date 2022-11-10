@@ -13,6 +13,7 @@ export enum KnownContracts {
   SCOPE_GUARD = "scopeGuard",
   FACTORY = "factory",
   ROLES = "roles",
+  OZ_GOVERNOR = "ozGovernor",
 }
 
 type META_GUARD_VERSION = "v1.0.0";
