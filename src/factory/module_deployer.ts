@@ -1,8 +1,21 @@
 import { ethers, Contract, Signer, BigNumber } from "ethers";
 import { ABI } from "hardhat-deploy/dist/types";
 
-import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "./constants";
+import {
+  CONTRACT_ADDRESSES,
+  CONTRACT_ABIS,
+  SUPPORTED_NETWORKS,
+} from "./constants";
 import { KnownContracts } from "./types";
+
+type TxAndExpectedAddress = {
+  transaction: {
+    data: string;
+    to: string;
+    value: ethers.BigNumber;
+  };
+  expectedModuleAddress: string;
+};
 
 /**
  * Get the transaction for deploying a module proxy through the module factory.
@@ -24,7 +37,7 @@ export const deployAndSetUpModule = (
   provider: ethers.providers.JsonRpcProvider,
   chainId: number,
   saltNonce: string
-) => {
+): TxAndExpectedAddress => {
   const { moduleFactory, moduleMastercopy } = getModuleFactoryAndMasterCopy(
     contractName,
     provider,
@@ -61,8 +74,8 @@ export const deployAndSetUpCustomModule = (
   provider: ethers.providers.JsonRpcProvider,
   chainId: number,
   saltNonce: string
-) => {
-  const chainContracts = CONTRACT_ADDRESSES[chainId];
+): TxAndExpectedAddress => {
+  const chainContracts = CONTRACT_ADDRESSES[chainId as SUPPORTED_NETWORKS];
   const moduleFactoryAddress = chainContracts.factory;
   const moduleFactory = new Contract(
     moduleFactoryAddress,
@@ -124,7 +137,7 @@ export const calculateProxyAddress = (
   mastercopyAddress: string,
   initData: string,
   saltNonce: string
-) => {
+): string => {
   const mastercopyAddressFormatted = mastercopyAddress
     .toLowerCase()
     .replace(/^0x/, "");
@@ -149,7 +162,7 @@ export const getModuleInstance = (
   moduleName: KnownContracts,
   moduleAddress: string,
   provider: ethers.providers.JsonRpcProvider | Signer
-) => {
+): ethers.Contract => {
   const moduleIsNotSupported = !Object.keys(CONTRACT_ABIS).includes(moduleName);
   if (moduleIsNotSupported) {
     throw new Error("Module " + moduleName + " not supported");
@@ -161,8 +174,11 @@ export const getModuleFactoryAndMasterCopy = (
   moduleName: KnownContracts,
   provider: ethers.providers.JsonRpcProvider,
   chainId: number
-) => {
-  const chainContracts = CONTRACT_ADDRESSES[chainId];
+): {
+  moduleFactory: ethers.Contract;
+  moduleMastercopy: ethers.Contract;
+} => {
+  const chainContracts = CONTRACT_ADDRESSES[chainId as SUPPORTED_NETWORKS];
   const masterCopyAddress = chainContracts[moduleName];
   const factoryAddress = chainContracts.factory;
   const moduleMastercopy = getModuleInstance(

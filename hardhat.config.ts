@@ -34,7 +34,7 @@ if (PK) {
 }
 
 if (
-  ["rinkeby", "mainnet", "goerli", "ropsten"].includes(network) &&
+  ["mainnet", "goerli", "ropsten"].includes(network) &&
   INFURA_KEY === undefined
 ) {
   throw new Error(
@@ -56,10 +56,6 @@ export default {
     mainnet: {
       ...sharedNetworkConfig,
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    },
-    rinkeby: {
-      ...sharedNetworkConfig,
-      url: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
     },
     ropsten: {
       ...sharedNetworkConfig,
@@ -84,6 +80,14 @@ export default {
     arbitrum: {
       ...sharedNetworkConfig,
       url: "https://arb1.arbitrum.io/rpc",
+    },
+    optimism: {
+      ...sharedNetworkConfig,
+      url: "https://mainnet.optimism.io",
+    },
+    avalanche: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/avalanche",
     },
   },
   namedAccounts: {
