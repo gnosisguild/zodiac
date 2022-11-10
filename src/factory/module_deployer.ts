@@ -56,7 +56,7 @@ export const deployAndSetUpModule = (
  * This will also initialize the module proxy by calling the setup function.
  *
  * This method is for modules that do not have a mastercopy listed in the `KnownContracts`
- * @param masterCopyAddress address of the mastercopy to use
+ * @param mastercopyAddress address of the mastercopy to use
  * @param abi abi of the module
  * @param setupArgs The arguments for the setup function of the module
  * @param provider
@@ -65,7 +65,7 @@ export const deployAndSetUpModule = (
  * @returns the transaction and the expected address of the module proxy
  */
 export const deployAndSetUpCustomModule = (
-  masterCopyAddress: string,
+  mastercopyAddress: string,
   abi: ABI,
   setupArgs: {
     types: Array<string>;
@@ -82,7 +82,7 @@ export const deployAndSetUpCustomModule = (
     CONTRACT_ABIS.factory,
     provider
   );
-  const moduleMastercopy = new Contract(masterCopyAddress, abi, provider);
+  const moduleMastercopy = new Contract(mastercopyAddress, abi, provider);
 
   return getDeployAndSetupTx(
     moduleFactory,

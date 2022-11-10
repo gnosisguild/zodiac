@@ -12,15 +12,15 @@ You can check the factory file to see more details, it consists of 5 methods, de
 
 This method is used to deploy contracts listed in `./constants.ts`.
 
-- Interface: `deployAndSetUpModule(moduleName, args, provider, chainId, salt)`
+- Interface: `deployAndSetUpModule(moduleName, setupArgs, provider, chainId, salt)`
 - Arguments:
   - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
-  - `args`: An object with two attributes: `value` and `types`
+  - `setupArgs`: An object with two attributes: `value` and `types`
     - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
     - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
-  - `salt`: For the Create2 op code 
+  - `salt`: For the Create2 op code
 - Returns: An object with the transaction built in order to be executed by the Safe, and the expected address of the new module, this will allow developers to batch the transaction of deployment + enable module on safe. Example:
 
 ```json
@@ -38,15 +38,16 @@ This method is used to deploy contracts listed in `./constants.ts`.
 
 This method is similar to `deployAndSetUpModule`, however, it deals with the deployment of contracts that is NOT listed in `./constants.ts`.
 
-- Interface: `deployAndSetUpCustomModule(masterCopyAddress, abi, args, provider, chainId)`
+- Interface: `deployAndSetUpCustomModule(mastercopyAddress, abi, setupArgs, provider, chainId, saltNonce)`
 - Arguments:
-  - `masterCopyAddress`: The address of the module to be deployed
+  - `mastercopyAddress`: The address of the module to be deployed
   - `abi`: The ABI of the module to be deployed
-  - `args`: An object with two attributes: `value` and `types`
+  - `setupArgs`: An object with two attributes: `value` and `types`
     - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
     - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
+  - `saltNonce`: Some salt to use for the deployment
 - Returns: An object with the transaction built in order to be executed by the Safe, and the expected address of the new module, this will allow developers to batch the transaction of deployment + enable module on safe. Example:
 
 ```json
@@ -64,22 +65,23 @@ This method is similar to `deployAndSetUpModule`, however, it deals with the dep
 
 This method is used to calculate the resulting address of a deployed module given the provided parameters. It is useful for building multisend transactions that both deploy a module and then make calls to that module or calls referencing the module's address.
 
-- Interface: `calculateProxyAddress(factory, masterCopy, initData)`
+- Interface: `calculateProxyAddress(moduleFactory, mastercopyAddress, initData, saltNonce)`
 - Arguments:
-  - `factory`: Factory contract object of the Module Proxy Factory contract
-  - `masterCopy`: Address of the Master Copy of the Module
+  - `moduleFactory`: Module factory contract object of the Module Proxy Factory contract
+  - `mastercopyAddress`: Address of the Master Copy of the Module
   - `initData`: Encoded function data that is used to set up the module
+  - `saltNonce`: Some salt to use for the deployment
 - Returns: A string with the expected address
 
 ### 4. Get Module
 
 This method returns an instance of a given module.
 
-- Interface: `getModuleInstance(moduleName, address, provider)`
+- Interface: `getModuleInstance(moduleName, moduleAddress, provider)`
 - Arguments:
 
   - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
-  - `address`: Address of the Module contract
+  - `moduleAddress`: Address of the Module contract
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
 
 - Returns: A Contract instance of the Module
@@ -97,8 +99,8 @@ This method returns an object with the an instance of the factory contract and t
 
 ```json
 {
-    "factory": Contract,
-    "module": Contract,
+    "moduleFactory": Contract,
+    "moduleMastercopy": Contract,
 }
 ```
 
