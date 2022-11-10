@@ -52,7 +52,7 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
-    [KnownContracts.OZ_GOVERNOR]: "0x119bAebEDCF2A32dFAc3868Cd2F446db744ab675",
+    [KnownContracts.OZ_GOVERNOR]: "0x011Ad6A7FE4FB9226204dDBe2b6a5Fc109961dce",
   },
   56: { ...MasterCopyAddresses },
   100: { ...MasterCopyAddresses },
@@ -60,7 +60,7 @@ export const CONTRACT_ADDRESSES: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x7E67f2D27B0193980F49DcCed96fE3Ac1Ce44641",
+      "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
   },
   31337: { ...MasterCopyAddresses },
   80001: {
