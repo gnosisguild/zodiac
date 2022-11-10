@@ -1,3 +1,4 @@
+import OzGovernorAbi from "../abi/oz_governor";
 import { KnownContracts } from "./types";
 
 /*
@@ -69,7 +70,7 @@ export const CONTRACT_ADDRESSES: Record<
   },
 };
 
-export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
+export const CONTRACT_ABIS: Record<KnownContracts, any> = {
   [KnownContracts.META_GUARD]: [
     `function setUp(bytes memory initParams) public`,
     `function setAvatar(address _avatar) public`,
@@ -266,4 +267,5 @@ export const CONTRACT_ABIS: Record<KnownContracts, string[]> = {
     "function transferOwnership(address newOwner)",
     "function unscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
   ],
+  ozGovernor: OzGovernorAbi,
 };
