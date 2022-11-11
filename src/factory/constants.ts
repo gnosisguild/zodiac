@@ -1,3 +1,5 @@
+import Erc20VotesAbi from "../abi/erc20_votes";
+import Erc721VotesAbi from "../abi/erc721_votes";
 import OzGovernorAbi from "../abi/oz_governor";
 import { KnownContracts } from "./types";
 
@@ -270,4 +272,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     "function unscopeParameter(uint16 role, address targetAddress, bytes4 functionSig, uint8 paramIndex)",
   ],
   ozGovernor: OzGovernorAbi,
+  erc20Votes: Erc20VotesAbi,
+  erc721Votes: Erc721VotesAbi,
 };
