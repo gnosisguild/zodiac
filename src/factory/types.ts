@@ -14,6 +14,8 @@ export enum KnownContracts {
   FACTORY = "factory",
   ROLES = "roles",
   OZ_GOVERNOR = "ozGovernor",
+  ERC20_VOTES = "erc20Votes",
+  ERC721_VOTES = "erc721Votes",
 }
 
 type META_GUARD_VERSION = "v1.0.0";
