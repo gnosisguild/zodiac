@@ -29,9 +29,11 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
     "0x71530ec830CBE363bab28F4EC52964a550C0AB1E", // missing: mumbai, arbitrum, optimism
   [KnownContracts.ROLES]: "0x85388a8cd772b19a468F982Dc264C238856939C9", // missing: mumbai, arbitrum, optimism
-  tellor: "",
-  optimisticGovernor: "",
+  [KnownContracts.TELLOR]: "",
+  [KnownContracts.OPTIMISTIC_GOVERNOR]: "",
   [KnownContracts.OZ_GOVERNOR]: "",
+  [KnownContracts.ERC20_VOTES]: "",
+  [KnownContracts.ERC721_VOTES]: "",
 };
 
 export const CONTRACT_ADDRESSES: Record<
@@ -49,6 +51,8 @@ export const CONTRACT_ADDRESSES: Record<
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
     [KnownContracts.OZ_GOVERNOR]: "0x011Ad6A7FE4FB9226204dDBe2b6a5Fc109961dce",
+    [KnownContracts.ERC20_VOTES]: "0x245CA18e8c05500160D2F0B406f89167C9efDF86",
+    [KnownContracts.ERC721_VOTES]: "0x26fBbE4b69d737a8EF7afa71056256900d6647c9",
   },
   [SUPPORTED_NETWORKS.BinanceSmartChain]: { ...MasterCopyAddresses },
   [SUPPORTED_NETWORKS.GnosisChain]: { ...MasterCopyAddresses },

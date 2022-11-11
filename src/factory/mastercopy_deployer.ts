@@ -30,23 +30,27 @@ export const deployMastercopy = async (
 
   if (targetAddress == "0x0000000000000000000000000000000000000000") {
     throw new Error(
-      "Mastercopy already deployed to target address on this network."
+      "Mastercopy already deployed to target address on this network. " +
+        "Or the deployment will revert (the error can be checked by deploying directly without the mastercopy deployer)."
     );
   }
 
-  console.log("targetAddress", targetAddress);
+  console.log("   Mastercopy targetAddress", targetAddress);
 
   const deployData = await singletonFactory.deploy(deploymentTx.data, salt, {
     gasLimit: 10000000,
   });
 
-  const recept = await deployData.wait();
-  console.log("recept", recept);
+  console.log("   Mastercopy deploy tx hash", deployData.hash);
+
+  await deployData.wait();
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      "Successfully deployed ModuleProxyFactory to target address! 🎉"
+      `   Successfully deployed ModuleProxyFactory to target address (${targetAddress})! 🎉`
     );
+  } else {
+    throw new Error("   Deployment failed.");
   }
   return targetAddress;
 };

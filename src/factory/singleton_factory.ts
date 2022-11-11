@@ -17,7 +17,6 @@ export const getSingletonFactory = async (
   hardhat: HardhatRuntimeEnvironment
 ): Promise<Contract> => {
   const [deployer] = await hardhat.ethers.getSigners();
-  console.log("Deployer address:      ", deployer.address);
 
   const singletonDeployer = "0xBb6e024b9cFFACB947A71991E386681B1Cd1477D";
   const singletonFactory = new hardhat.ethers.Contract(
