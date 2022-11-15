@@ -100,12 +100,8 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
   ],
   [KnownContracts.OPTIMISTIC_GOVERNOR]: [
     `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`,
   ],
-  [KnownContracts.TELLOR]: [
-    `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`,
-  ],
+  [KnownContracts.TELLOR]: [`function setUp(bytes memory initParams) public`],
   [KnownContracts.REALITY_ETH]: [
     `function setArbitrator(address arbitrator) public`,
     `function setQuestionTimeout(uint32 timeout) public`,
@@ -114,7 +110,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     `function setTemplate(bytes32 template) public`,
     `function setAnswerExpiration(uint32 expiration) public`,
     `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.REALITY_ERC20]: [
     `function setArbitrator(address arbitrator) public`,
@@ -124,14 +119,12 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     `function setTemplate(bytes32 template) public`,
     `function setAnswerExpiration(uint32 expiration) public`,
     `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.BRIDGE]: [
     `function setAmb(address _amb) public`,
     `function setChainId(bytes32 _chainId) public`,
     `function setOwner(address _owner) public`,
     `function setUp(bytes memory initParams) public`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.DELAY]: [
     `function setTxCooldown(uint256 cooldown) public`,
@@ -147,7 +140,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
       address[] memory array,
       address next
     )`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.EXIT_ERC20]: [
     `function setUp(bytes memory initParams) public`,
@@ -156,7 +148,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     `function removeFromDenylist(address[] calldata tokens) external `,
     `function setDesignatedToken(address _token) public`,
     `function getCirculatingSupply() public view returns (uint256)`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.EXIT_ERC721]: [
     `function setUp(bytes memory initParams) public`,
@@ -165,7 +156,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     `function removeFromDenylist(address[] calldata tokens) external `,
     `function setDesignatedToken(address _token) public`,
     `function getCirculatingSupply() public view returns (uint256)`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.SCOPE_GUARD]: [
     `function setUp(bytes memory initParams) public`,
@@ -193,7 +183,6 @@ export const CONTRACT_ABIS: Record<KnownContracts, any> = {
     `function allowDelegateCall(address target) public`,
     `function disallowTarget(address target) public`,
     `function allowTarget(address target) public`,
-    `function initialized() public view returns (bool)`,
   ],
   [KnownContracts.FACTORY]: [
     `function deployModule(
