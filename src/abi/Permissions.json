@@ -1,0 +1,520 @@
+[
+  {
+    "inputs": [],
+    "name": "ArraysDifferentLength",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "CalldataOutOfBounds",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "DelegateCallNotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "FunctionNotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "FunctionSignatureTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoMembership",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotEnoughCompValuesForOneOf",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ParameterGreaterThanAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ParameterLessThanAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ParameterNotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ParameterNotOneOfAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ScopeMaxParametersExceeded",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SendNotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TargetAddressNotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnacceptableMultiSendOffset",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsuitableDynamic32CompValueSize",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsuitableOneOfComparison",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsuitableRelativeComparison",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsuitableStaticCompValueSize",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      }
+    ],
+    "name": "AllowTarget",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      }
+    ],
+    "name": "RevokeTarget",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "selector",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeAllowFunction",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool[]",
+        "name": "isParamScoped",
+        "type": "bool[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ParameterType[]",
+        "name": "paramType",
+        "type": "uint8[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum Comparison[]",
+        "name": "paramComp",
+        "type": "uint8[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes[]",
+        "name": "compValue",
+        "type": "bytes[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeFunction",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeFunctionExecutionOptions",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ParameterType",
+        "name": "paramType",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum Comparison",
+        "name": "paramComp",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "compValue",
+        "type": "bytes"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeParameter",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum ParameterType",
+        "name": "paramType",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes[]",
+        "name": "compValues",
+        "type": "bytes[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeParameterAsOneOf",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "selector",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "ScopeRevokeFunction",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      }
+    ],
+    "name": "ScopeTarget",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resultingScopeConfig",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnscopeParameter",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "keyForCompValues",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      }
+    ],
+    "name": "keyForFunctions",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]
