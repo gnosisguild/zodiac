@@ -2,10 +2,10 @@ import { ethers, Contract, Signer, BigNumber } from "ethers";
 import { ABI } from "hardhat-deploy/dist/types";
 
 import {
-  CONTRACT_ADDRESSES,
-  CONTRACT_ABIS,
-  SUPPORTED_NETWORKS,
-} from "./constants";
+  ContractAddresses,
+  ContractAbis,
+  SupportedNetworks,
+} from "./contracts";
 import { KnownContracts } from "./types";
 
 type TxAndExpectedAddress = {
@@ -75,11 +75,11 @@ export const deployAndSetUpCustomModule = (
   chainId: number,
   saltNonce: string
 ): TxAndExpectedAddress => {
-  const chainContracts = CONTRACT_ADDRESSES[chainId as SUPPORTED_NETWORKS];
+  const chainContracts = ContractAddresses[chainId as SupportedNetworks];
   const moduleFactoryAddress = chainContracts.factory;
   const moduleFactory = new Contract(
     moduleFactoryAddress,
-    CONTRACT_ABIS.factory,
+    ContractAbis.factory,
     provider
   );
   const moduleMastercopy = new Contract(mastercopyAddress, abi, provider);
@@ -163,11 +163,11 @@ export const getModuleInstance = (
   moduleAddress: string,
   provider: ethers.providers.JsonRpcProvider | Signer
 ): ethers.Contract => {
-  const moduleIsNotSupported = !Object.keys(CONTRACT_ABIS).includes(moduleName);
+  const moduleIsNotSupported = !Object.keys(ContractAbis).includes(moduleName);
   if (moduleIsNotSupported) {
     throw new Error("Module " + moduleName + " not supported");
   }
-  return new Contract(moduleAddress, CONTRACT_ABIS[moduleName], provider);
+  return new Contract(moduleAddress, ContractAbis[moduleName], provider);
 };
 
 export const getModuleFactoryAndMasterCopy = (
@@ -178,7 +178,7 @@ export const getModuleFactoryAndMasterCopy = (
   moduleFactory: ethers.Contract;
   moduleMastercopy: ethers.Contract;
 } => {
-  const chainContracts = CONTRACT_ADDRESSES[chainId as SUPPORTED_NETWORKS];
+  const chainContracts = ContractAddresses[chainId as SupportedNetworks];
   const masterCopyAddress = chainContracts[moduleName];
   const factoryAddress = chainContracts.factory;
   const moduleMastercopy = getModuleInstance(
@@ -188,7 +188,7 @@ export const getModuleFactoryAndMasterCopy = (
   );
   const moduleFactory = new Contract(
     factoryAddress,
-    CONTRACT_ABIS.factory,
+    ContractAbis.factory,
     provider
   );
 

@@ -19,7 +19,7 @@ import TellorAbi from "../abi/Tellor.json";
 // import UsulAbi from "../abi/Usul.json";
 import { KnownContracts } from "./types";
 
-export enum SUPPORTED_NETWORKS {
+export enum SupportedNetworks {
   Mainnet = 1,
   Goerli = 5,
   BinanceSmartChain = 56,
@@ -54,17 +54,17 @@ const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.ERC721_VOTES]: "",
 };
 
-export const CONTRACT_ADDRESSES: Record<
-  SUPPORTED_NETWORKS,
+export const ContractAddresses: Record<
+  SupportedNetworks,
   Record<KnownContracts, string>
 > = {
-  [SUPPORTED_NETWORKS.Mainnet]: {
+  [SupportedNetworks.Mainnet]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x56C11dE61e249cbBf337027B53Ed3b1dFA8a4e6F",
   },
-  [SUPPORTED_NETWORKS.Goerli]: {
+  [SupportedNetworks.Goerli]: {
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
@@ -72,25 +72,25 @@ export const CONTRACT_ADDRESSES: Record<
     [KnownContracts.ERC20_VOTES]: "0x245CA18e8c05500160D2F0B406f89167C9efDF86",
     [KnownContracts.ERC721_VOTES]: "0x26fBbE4b69d737a8EF7afa71056256900d6647c9",
   },
-  [SUPPORTED_NETWORKS.BinanceSmartChain]: { ...MasterCopyAddresses },
-  [SUPPORTED_NETWORKS.GnosisChain]: { ...MasterCopyAddresses },
-  [SUPPORTED_NETWORKS.Polygon]: {
+  [SupportedNetworks.BinanceSmartChain]: { ...MasterCopyAddresses },
+  [SupportedNetworks.GnosisChain]: { ...MasterCopyAddresses },
+  [SupportedNetworks.Polygon]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
   },
-  [SUPPORTED_NETWORKS.HardhatNetwork]: { ...MasterCopyAddresses },
-  [SUPPORTED_NETWORKS.Mumbai]: {
+  [SupportedNetworks.HardhatNetwork]: { ...MasterCopyAddresses },
+  [SupportedNetworks.Mumbai]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD",
   },
-  [SUPPORTED_NETWORKS.ArbitrumOne]: { ...MasterCopyAddresses }, //TODO: figure out what to change
-  [SUPPORTED_NETWORKS.Optimism]: { ...MasterCopyAddresses }, //TODO: figure out what to change
-  [SUPPORTED_NETWORKS.Avalanche]: { ...MasterCopyAddresses }, //TODO: figure out what to change
+  [SupportedNetworks.ArbitrumOne]: { ...MasterCopyAddresses }, //TODO: figure out what to change
+  [SupportedNetworks.Optimism]: { ...MasterCopyAddresses }, //TODO: figure out what to change
+  [SupportedNetworks.Avalanche]: { ...MasterCopyAddresses }, //TODO: figure out what to change
 };
 
-export const CONTRACT_ABIS: Record<KnownContracts, any> = {
+export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.BRIDGE]: BridgeAbi,
   [KnownContracts.CIRCULATING_SUPPLY_ERC20]: CirculatingSupplyErc20Abi,
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]: CirculatingSupplyErc721Abi,
