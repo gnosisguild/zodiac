@@ -1,5 +1,6 @@
 build/
 artifacts/
+abi-typechain-types/
 typechain-types/
 node_modules/
 .DS_Store

@@ -1,3 +1,4 @@
+import { factories } from "../../abi-typechain-types";
 import BridgeAbi from "../abi/Bridge.json";
 import CirculatingSupplyErc20Abi from "../abi/CirculatingSupplyErc20.json";
 import CirculatingSupplyErc721Abi from "../abi/CirculatingSupplyErc721.json";
@@ -110,4 +111,28 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.SCOPE_GUARD]: ScopeGuardAbi,
   [KnownContracts.TELLOR]: TellorAbi,
   // [KnownContracts.USUL]: UsulAbi,
+};
+
+export const ContractFactories = {
+  [KnownContracts.BRIDGE]: factories.Bridge__factory,
+  [KnownContracts.CIRCULATING_SUPPLY_ERC20]:
+    factories.CirculatingSupplyErc20__factory,
+  [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
+    factories.CirculatingSupplyErc721__factory,
+  [KnownContracts.DELAY]: factories.Delay__factory,
+  [KnownContracts.ERC20_VOTES]: factories.Erc20Votes__factory,
+  [KnownContracts.ERC721_VOTES]: factories.Erc721Votes__factory,
+  [KnownContracts.EXIT_ERC20]: factories.ExitErc20__factory,
+  [KnownContracts.EXIT_ERC721]: factories.ExitErc721__factory,
+  [KnownContracts.FACTORY]: factories.ModuleProxyFactory__factory,
+  [KnownContracts.META_GUARD]: factories.MetaGuard__factory,
+  [KnownContracts.OPTIMISTIC_GOVERNOR]: factories.OptimisticGovernor__factory,
+  [KnownContracts.OZ_GOVERNOR]: factories.OzGovernor__factory,
+  // [KnownContracts.PERMISSIONS]: factories.Permissions__factory,
+  [KnownContracts.REALITY_ERC20]: factories.RealityErc20__factory,
+  [KnownContracts.REALITY_ETH]: factories.RealityEth__factory,
+  [KnownContracts.ROLES]: factories.Roles__factory,
+  [KnownContracts.SCOPE_GUARD]: factories.ScopeGuard__factory,
+  [KnownContracts.TELLOR]: factories.Tellor__factory,
+  // [KnownContracts.USUL]: factories.Usul__factory,
 };

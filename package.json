@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "hardhat compile",
+    "generate:types": "typechain --target ethers-v5 --out-dir abi-typechain-types './src/abi/*.json'",
     "build:factory": "tsc -p tsconfig.json",
     "deploy": "hardhat singleton-deployment --network",
     "test:js": "hardhat test ./src/factory/__tests__/index.spec.ts",

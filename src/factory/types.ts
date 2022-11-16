@@ -1,3 +1,25 @@
+export type {
+  Bridge,
+  CirculatingSupplyErc20,
+  CirculatingSupplyErc721,
+  Delay,
+  Erc20Votes,
+  Erc721Votes,
+  ExitErc20,
+  ExitErc721,
+  MetaGuard,
+  ModuleProxyFactory,
+  OptimisticGovernor,
+  OzGovernor,
+  Permissions,
+  RealityErc20,
+  RealityEth,
+  Roles,
+  ScopeGuard,
+  Tellor,
+  Usul,
+} from "../../abi-typechain-types";
+
 export enum KnownContracts {
   META_GUARD = "metaGuard",
   OPTIMISTIC_GOVERNOR = "optimisticGovernor",
