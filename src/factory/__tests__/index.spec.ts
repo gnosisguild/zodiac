@@ -126,12 +126,12 @@ describe("Factory JS functions ", () => {
       provider
     );
     await mockContract.givenMethodReturnBool(
-      module.interface.getSighash("initialized"),
+      module.interface.getSighash("owner"),
       true
     );
 
-    const initialized = await module.initialized();
-    expect(initialized).to.be.true;
+    const owner = await module.owner();
+    expect(owner).to.equal("0x0000000000000000000000000000000000000001");
     expect(module).to.be.instanceOf(Contract);
   });
 
