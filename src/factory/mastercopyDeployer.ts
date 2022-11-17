@@ -1,6 +1,6 @@
 import { ContractFactory } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { getSingletonFactory } from "./singleton_factory";
+import { getSingletonFactory } from "./singletonFactory";
 
 const salt =
   "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";

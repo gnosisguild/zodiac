@@ -2,13 +2,13 @@ import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
 
-import { CONTRACT_ADDRESSES, CONTRACT_ABIS } from "../constants";
+import { ContractAddresses, ContractAbis } from "../contracts";
 import {
   deployAndSetUpModule,
   deployAndSetUpCustomModule,
   getModuleInstance,
-  getFactoryAndMasterCopy,
-} from "../factory";
+  getModuleFactoryAndMasterCopy,
+} from "../moduleDeployer";
 
 import "@nomiclabs/hardhat-ethers";
 import { KnownContracts } from "../types";
@@ -96,9 +96,9 @@ describe("Factory JS functions ", () => {
       ],
     };
 
-    const chainContracts = CONTRACT_ADDRESSES[chainId];
+    const chainContracts = ContractAddresses[chainId];
     const masterCopyAddress = chainContracts[KnownContracts.REALITY_ETH];
-    const abi = CONTRACT_ABIS[KnownContracts.REALITY_ETH];
+    const abi = ContractAbis[KnownContracts.REALITY_ETH];
 
     const { transaction: deployTx, expectedModuleAddress } =
       await deployAndSetUpCustomModule(
@@ -126,22 +126,23 @@ describe("Factory JS functions ", () => {
       provider
     );
     await mockContract.givenMethodReturnBool(
-      module.interface.getSighash("initialized"),
+      module.interface.getSighash("owner"),
       true
     );
 
-    const initialized = await module.initialized();
-    expect(initialized).to.be.true;
+    const owner = await module.owner();
+    expect(owner).to.equal("0x0000000000000000000000000000000000000001");
     expect(module).to.be.instanceOf(Contract);
   });
 
   it("should retrieve factory and module instance", async () => {
-    const { module, factory } = await getFactoryAndMasterCopy(
-      KnownContracts.REALITY_ETH,
-      provider,
-      chainId
-    );
-    expect(module).to.be.instanceOf(Contract);
-    expect(factory).to.be.instanceOf(Contract);
+    const { moduleFactory, moduleMastercopy } =
+      await getModuleFactoryAndMasterCopy(
+        KnownContracts.REALITY_ETH,
+        provider,
+        chainId
+      );
+    expect(moduleFactory).to.be.instanceOf(Contract);
+    expect(moduleMastercopy).to.be.instanceOf(Contract);
   });
 });

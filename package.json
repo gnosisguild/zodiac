@@ -16,6 +16,8 @@
   "scripts": {
     "build": "hardhat compile",
     "build:factory": "tsc -p tsconfig.json",
+    "clean": "rm -rf build typechain-types",
+    "clean:factory": "rm -rf dist abi-typechain-types",
     "deploy": "hardhat singleton-deployment --network",
     "test:js": "hardhat test ./src/factory/__tests__/index.spec.ts",
     "test": "hardhat test && yarn test:js",
@@ -27,7 +29,10 @@
     "format": "yarn format:sol && yarn format:ts",
     "format:sol": "prettier ./contracts/**/*.sol -w",
     "format:ts": "prettier ./src/**/*.ts ./test/**/*.ts ./*.ts -w",
-    "prerelease": "yarn build && yarn build:factory",
+    "generate:types": "typechain --target ethers-v5 --out-dir abi-typechain-types './src/abi/*.json'",
+    "postinstall": "yarn build && yarn generate:types",
+    "prebuild:factory": "yarn generate:types",
+    "prerelease": "yarn clean && yarn build && yarn clean:factory && yarn build:factory",
     "release": "yarn publish --access public",
     "verify": "yarn hardhat verify --network"
   },
@@ -42,6 +47,8 @@
     "@nomiclabs/hardhat-ethers": "^2.2.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.1",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@typechain/ethers-v5": "^10.1.1",
+    "@typechain/hardhat": "^6.1.4",
     "@types/chai": "^4.3.3",
     "@types/ethereumjs-abi": "^0.6.3",
     "@types/mocha": "^10.0.0",
@@ -64,10 +71,12 @@
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
     "prettier-plugin-solidity": "^1.0.0-beta.24",
+    "rimraf": "^3.0.2",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.1",
+    "typechain": "^8.1.1",
     "typescript": "^4.8.4"
   },
   "dependencies": {
