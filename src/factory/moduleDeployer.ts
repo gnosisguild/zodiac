@@ -1,10 +1,12 @@
 import { ethers, Contract, Signer, BigNumber } from "ethers";
 import { ABI } from "hardhat-deploy/dist/types";
+import { ModuleProxyFactory__factory } from "../../abi-typechain-types";
 
 import {
   ContractAddresses,
   ContractAbis,
   SupportedNetworks,
+  ContractFactories,
 } from "./contracts";
 import { KnownContracts } from "./types";
 
@@ -158,26 +160,27 @@ export const calculateProxyAddress = (
   );
 };
 
-export const getModuleInstance = (
-  moduleName: KnownContracts,
+export const getModuleInstance = <T extends KnownContracts>(
+  moduleName: T,
   moduleAddress: string,
   provider: ethers.providers.JsonRpcProvider | Signer
-): ethers.Contract => {
-  const moduleIsNotSupported = !Object.keys(ContractAbis).includes(moduleName);
+) => {
+  const moduleIsNotSupported =
+    !Object.keys(ContractFactories).includes(moduleName);
   if (moduleIsNotSupported) {
     throw new Error("Module " + moduleName + " not supported");
   }
-  return new Contract(moduleAddress, ContractAbis[moduleName], provider);
+  return ContractFactories[moduleName].connect(
+    moduleAddress,
+    provider
+  ) as ReturnType<typeof ContractFactories[T]["connect"]>;
 };
 
-export const getModuleFactoryAndMasterCopy = (
-  moduleName: KnownContracts,
+export const getModuleFactoryAndMasterCopy = <T extends KnownContracts>(
+  moduleName: T,
   provider: ethers.providers.JsonRpcProvider,
-  chainId: number
-): {
-  moduleFactory: ethers.Contract;
-  moduleMastercopy: ethers.Contract;
-} => {
+  chainId: SupportedNetworks
+) => {
   const chainContracts = ContractAddresses[chainId as SupportedNetworks];
   const masterCopyAddress = chainContracts[moduleName];
   const factoryAddress = chainContracts.factory;
@@ -186,11 +189,10 @@ export const getModuleFactoryAndMasterCopy = (
     masterCopyAddress,
     provider
   );
-  const moduleFactory = new Contract(
+  const moduleFactory = ModuleProxyFactory__factory.connect(
     factoryAddress,
-    ContractAbis.factory,
     provider
-  );
+  ) as ReturnType<typeof ContractFactories[T]["connect"]>;
 
   return {
     moduleFactory,
