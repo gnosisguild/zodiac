@@ -1,6 +1,6 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
@@ -30,7 +30,7 @@
     "format:sol": "prettier ./contracts/**/*.sol -w",
     "format:ts": "prettier ./src/**/*.ts ./test/**/*.ts ./*.ts -w",
     "generate:types": "typechain --target ethers-v5 --out-dir abi-typechain-types './src/abi/*.json'",
-    "postinstall": "yarn build && yarn generate:types",
+    "prepare": "yarn build && yarn generate:types",
     "prebuild:factory": "yarn generate:types",
     "prerelease": "yarn clean && yarn build && yarn clean:factory && yarn build:factory",
     "release": "yarn publish --access public",
