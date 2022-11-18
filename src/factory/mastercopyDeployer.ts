@@ -47,7 +47,7 @@ export const deployMastercopy = async (
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      `Successfully deployed ModuleProxyFactory to target address (${targetAddress})! 🎉`
+      `Successfully deployed ModuleProxyFactory to target address ${targetAddress}! 🎉`
     );
   } else {
     throw new Error("Deployment failed.      ");
