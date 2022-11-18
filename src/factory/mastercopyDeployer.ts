@@ -35,22 +35,22 @@ export const deployMastercopy = async (
     );
   }
 
-  console.log("   Mastercopy targetAddress", targetAddress);
+  console.log("Mastercopy target:      ", targetAddress);
 
   const deployData = await singletonFactory.deploy(deploymentTx.data, salt, {
     gasLimit: 10000000,
   });
 
-  console.log("   Mastercopy deploy tx hash", deployData.hash);
+  console.log("Mastercopy deploy tx:   ", deployData.hash);
 
   await deployData.wait();
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      `   Successfully deployed ModuleProxyFactory to target address (${targetAddress})! 🎉`
+      `Successfully deployed ModuleProxyFactory to target address (${targetAddress})! 🎉`
     );
   } else {
-    throw new Error("   Deployment failed.");
+    throw new Error("Deployment failed.      ");
   }
   return targetAddress;
 };
