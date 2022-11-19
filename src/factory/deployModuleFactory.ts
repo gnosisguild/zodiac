@@ -15,7 +15,7 @@ const AddressZero = "0x0000000000000000000000000000000000000000";
  */
 export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
   const singletonFactory = await getSingletonFactory(hre);
-  console.log("Singleton Factory:     ", singletonFactory.address);
+  console.log("    Singleton Factory:     ", singletonFactory.address);
   const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
   // const singletonFactory = new hardhat.ethers.Contract(singletonFactoryAddress, singletonFactoryAbi)
 
@@ -25,20 +25,21 @@ export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
   );
   if (targetAddress == AddressZero) {
     console.log(
-      "ModuleProxyFactory already deployed to target address on this network."
+      "    ModuleProxyFactory already deployed to target address on this network."
     );
     return;
   } else {
-    console.log("Target Factory Address:", targetAddress);
+    console.log("    Target Factory Address:", targetAddress);
   }
 
   const transactionResponse = await singletonFactory.deploy(
     Factory.bytecode,
-    factorySalt
+    factorySalt,
+    { gasLimit: 1000000 }
   );
 
   const result = await transactionResponse.wait();
-  console.log("Deploy transaction:    ", result.transactionHash);
+  console.log("    Deploy transaction:    ", result.transactionHash);
 
   const factory = await hre.ethers.getContractAt(
     "ModuleProxyFactory",
@@ -54,11 +55,11 @@ export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
     factoryArtifact.deployedBytecode
   ) {
     throw new Error(
-      "Deployment unsuccessful: deployed bytecode does not match."
+      "    Deployment unsuccessful: deployed bytecode does not match."
     );
   } else {
     console.log(
-      "Successfully deployed ModuleProxyFactory to target address! 🎉"
+      "    Successfully deployed ModuleProxyFactory to target address! 🎉"
     );
   }
   return targetAddress;
