@@ -7,6 +7,7 @@ import "hardhat-deploy";
 import dotenv from "dotenv";
 import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
+import "hardhat-change-network";
 
 const { network } = yargs
   .option("network", {
@@ -22,6 +23,7 @@ dotenv.config();
 const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK } = process.env;
 
 import "./src/tasks/singleton-deployment";
+import "./src/tasks/deploy-replay";
 
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
@@ -55,42 +57,38 @@ export default {
     compilers: [{ version: "0.8.6" }, { version: "0.6.12" }],
   },
   networks: {
-    mainnet: {
-      ...sharedNetworkConfig,
-      url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    },
-    ropsten: {
-      ...sharedNetworkConfig,
-      url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-    },
-    goerli: {
-      ...sharedNetworkConfig,
-      url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    },
-    gnosis: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.gnosischain.com",
-    },
-    polygon: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/polygon",
-    },
-    bsc: {
-      ...sharedNetworkConfig,
-      url: "https://bsc-dataseed.binance.org",
-    },
-    arbitrum: {
-      ...sharedNetworkConfig,
-      url: "https://arb1.arbitrum.io/rpc",
-    },
-    optimism: {
-      ...sharedNetworkConfig,
-      url: "https://mainnet.optimism.io",
-    },
-    avalanche: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/avalanche",
-    },
+    // mainnet: {
+    //   ...sharedNetworkConfig,
+    //   url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+    // },
+    // goerli: {
+    //   ...sharedNetworkConfig,
+    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    // },
+    // gnosis: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.gnosischain.com",
+    // },
+    // polygon: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/polygon",
+    // },
+    // bsc: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://bsc-dataseed.binance.org",
+    // },
+    // arbitrum: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://arb1.arbitrum.io/rpc",
+    // },
+    // optimism: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://mainnet.optimism.io",
+    // },
+    // avalanche: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/avalanche",
+    // },
   },
   namedAccounts: {
     deployer: 0,
