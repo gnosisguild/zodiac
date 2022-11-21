@@ -1,31 +1,41 @@
 import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { deployModuleFactory } from "../factory/deployModuleFactory";
 import {
-  deployMastercopy,
-  ContractFactories,
-  ContractAbis,
   KnownContracts,
+  MasterCopyAddresses,
+  MasterCopyInitData,
+  deployMastercopyWithInitData,
 } from "../factory";
 
 export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
   const networks = hre.config.networks;
   const contracts = Object.values(KnownContracts);
+  const [wallet] = await hre.ethers.getSigners();
   for (const network in networks) {
+    console.log(`\n\x1B[4m\x1B[1m${hre.network.name.toUpperCase()}\x1B[0m`);
     if (
       // network != "hardhat" &&
-      network != "localhost"
+      network != "localhost" &&
+      (await (await wallet.getBalance()).gt(0))
     ) {
       hre.changeNetwork(network);
-      console.log(`\n\x1B[4m\x1B[1m${hre.network.name.toUpperCase()}\x1B[0m`);
-      await deployModuleFactory(hre);
       for (let index = 0; index < contracts.length; index++) {
-        console.log(`\n\x1B[4m${contracts[index]}\x1B[0m`);
-
-        // figure out how to get `factory`
-        // Do I need to import it from each of the repos?
-        await deployMastercopy(hre, factory, []);
+        const initData = MasterCopyInitData[contracts[index]];
+        if (
+          MasterCopyInitData[contracts[index]] &&
+          initData.initCode &&
+          initData.salt
+        ) {
+          console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
+          await deployMastercopyWithInitData(
+            hre,
+            initData.initCode,
+            initData.salt
+          );
+        }
       }
+    } else {
+      console.log("    Skipped because connected wallet has 0 balance.");
     }
   }
 };

@@ -38,6 +38,8 @@ export enum KnownContracts {
   OZ_GOVERNOR = "ozGovernor",
   ERC20_VOTES = "erc20Votes",
   ERC721_VOTES = "erc721Votes",
+  MULTISEND_ENCODER = "multisendEncoder",
+  PERMISSIONS = "permissions",
 }
 
 // type META_GUARD_VERSION = "v1.0.0";
