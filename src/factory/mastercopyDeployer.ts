@@ -47,7 +47,7 @@ export const deployMastercopyWithInitData = async (
 
   if (targetAddress == "0x0000000000000000000000000000000000000000") {
     console.log(
-      `        ⊖ Mastercopy already deployed to: ${computedTargetAddress}`
+      `        ✔ Mastercopy already deployed to: ${computedTargetAddress}`
     );
     return;
   }
@@ -60,7 +60,7 @@ export const deployMastercopyWithInitData = async (
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      `        \x1B[32m✔\x1B[0m\x1B[0m Mastercopy deployed to:         ${targetAddress}`
+      `        \x1B[32m✔ Mastercopy deployed to:\x1B[0m         ${targetAddress}`
     );
   } else {
     console.log("        \x1B[31m✘ Deployment failed.\x1B[0m");
