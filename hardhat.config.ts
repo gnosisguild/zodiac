@@ -65,10 +65,10 @@ export default {
     //   ...sharedNetworkConfig,
     //   url: "https://rpc.gnosischain.com",
     // },
-    // goerli: {
-    //   ...sharedNetworkConfig,
-    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    // },
+    goerli: {
+      ...sharedNetworkConfig,
+      url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    },
     // arbitrum: {
     //   ...sharedNetworkConfig,
     //   url: "https://arb1.arbitrum.io/rpc",
