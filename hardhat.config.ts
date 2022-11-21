@@ -61,21 +61,13 @@ export default {
     //   ...sharedNetworkConfig,
     //   url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
     // },
-    // goerli: {
-    //   ...sharedNetworkConfig,
-    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    // },
     // gnosis: {
     //   ...sharedNetworkConfig,
     //   url: "https://rpc.gnosischain.com",
     // },
-    // polygon: {
+    // goerli: {
     //   ...sharedNetworkConfig,
-    //   url: "https://rpc.ankr.com/polygon",
-    // },
-    // bsc: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://bsc-dataseed.binance.org",
+    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
     // },
     // arbitrum: {
     //   ...sharedNetworkConfig,
@@ -85,9 +77,21 @@ export default {
     //   ...sharedNetworkConfig,
     //   url: "https://mainnet.optimism.io",
     // },
+    // polygon: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/polygon",
+    // },
+    // mumbai: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/polygon_mumbai",
+    // },
     // avalanche: {
     //   ...sharedNetworkConfig,
     //   url: "https://rpc.ankr.com/avalanche",
+    // },
+    // bsc: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://bsc-dataseed.binance.org",
     // },
   },
   namedAccounts: {

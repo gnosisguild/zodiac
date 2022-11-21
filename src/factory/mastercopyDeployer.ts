@@ -1,9 +1,6 @@
-import { ContractFactory } from "ethers";
+import { BytesLike, ContractFactory } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getSingletonFactory } from "./singletonFactory";
-
-const salt =
-  "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";
 
 /**
  * Deploy a module's mastercopy via the singleton factory.
@@ -17,38 +14,56 @@ const salt =
 export const deployMastercopy = async (
   hre: HardhatRuntimeEnvironment,
   mastercopyContractFactory: ContractFactory,
-  args: Array<any>
+  args: Array<any>,
+  salt: string
 ) => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+  if (deploymentTx.data) {
+    await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
+  }
+};
 
+export const deployMastercopyWithInitData = async (
+  hre: HardhatRuntimeEnvironment,
+  initCode: BytesLike,
+  salt: string
+) => {
   const singletonFactory = await getSingletonFactory(hre);
 
   const targetAddress = await singletonFactory.callStatic.deploy(
-    deploymentTx.data,
+    initCode,
     salt
   );
 
+  const initCodeHash = await hre.ethers.utils.solidityKeccak256(
+    ["bytes"],
+    [initCode]
+  );
+  const computedTargetAddress = await hre.ethers.utils.getCreate2Address(
+    singletonFactory.address,
+    salt,
+    initCodeHash
+  );
+
   if (targetAddress == "0x0000000000000000000000000000000000000000") {
-    console.log("    Mastercopy already deployed.");
+    console.log(
+      `        ⊖ Mastercopy already deployed to: ${computedTargetAddress}`
+    );
     return;
   }
 
-  console.log("    Mastercopy targetAddress", targetAddress);
-
-  const deployData = await singletonFactory.deploy(deploymentTx.data, salt, {
+  const deployData = await singletonFactory.deploy(initCode, salt, {
     gasLimit: 10000000,
   });
-
-  console.log("    Mastercopy deploy tx hash", deployData.hash);
 
   await deployData.wait();
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      `    Successfully deployed ModuleProxyFactory to target address (${targetAddress})! 🎉`
+      `        \x1B[32m✔\x1B[0m\x1B[0m Mastercopy deployed to:         ${targetAddress}`
     );
   } else {
-    console.log("    \x1B[31mDeployment failed.\x1B[0m");
+    console.log("        \x1B[31m✘ Deployment failed.\x1B[0m");
   }
   return targetAddress;
 };
