@@ -34,7 +34,8 @@ export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
 
   const transactionResponse = await singletonFactory.deploy(
     Factory.bytecode,
-    factorySalt
+    factorySalt,
+    { gasLimit: 1000000 }
   );
 
   const result = await transactionResponse.wait();
