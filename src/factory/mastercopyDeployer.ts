@@ -52,9 +52,14 @@ export const deployMastercopyWithInitData = async (
     return;
   }
 
-  const deployData = await singletonFactory.deploy(initCode, salt, {
-    gasLimit: 10000000,
-  });
+  let deployData;
+  if (hre.network.name == "optimism" || hre.network.name == "arbitrum") {
+    deployData = await singletonFactory.deploy(initCode, salt);
+  } else {
+    deployData = await singletonFactory.deploy(initCode, salt, {
+      gasLimit: 10000000,
+    });
+  }
 
   await deployData.wait();
 
