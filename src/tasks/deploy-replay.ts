@@ -7,8 +7,16 @@ import {
   deployMastercopyWithInitData,
 } from "../factory";
 
-export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
-  const networks = hre.config.networks;
+interface DeployTaskArgs {
+  networks: string;
+}
+
+export const deploy = async (
+  taskArgs: DeployTaskArgs,
+  hre: HardhatRuntimeEnvironment
+) => {
+  const networks = taskArgs.networks?.split(", ") || hre.config.networks;
+
   delete networks.localhost;
   // delete networks.hardhat;
   const contracts = Object.values(KnownContracts);
@@ -47,4 +55,11 @@ export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
 task(
   "deploy-replay",
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
-).setAction(deploy);
+)
+  .addOptionalParam(
+    "networks",
+    "list of network names, as defined in hardhat.config.ts",
+    undefined,
+    types.string
+  )
+  .setAction(deploy);
