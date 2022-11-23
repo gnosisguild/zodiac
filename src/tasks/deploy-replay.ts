@@ -22,32 +22,43 @@ export const deploy = async (
   const contracts = Object.values(KnownContracts);
 
   for (const network in networks) {
+    console.log(`\n\x1B[4m\x1B[1m${network.toUpperCase()}\x1B[0m`);
+
     hre.changeNetwork(network);
 
     const [wallet] = await hre.ethers.getSigners();
-    const balance = await hre.ethers.provider.getBalance(wallet.address);
-
-    console.log(`\n\x1B[4m\x1B[1m${hre.network.name.toUpperCase()}\x1B[0m`);
-
-    if (balance.gt(0)) {
-      for (let index = 0; index < contracts.length; index++) {
-        const initData = MasterCopyInitData[contracts[index]];
-        if (
-          MasterCopyInitData[contracts[index]] &&
-          initData.initCode &&
-          initData.salt
-        ) {
-          console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
-          await deployMastercopyWithInitData(
-            hre,
-            initData.initCode,
+    try {
+      const balance = await hre.ethers.provider.getBalance(wallet.address);
+      if (balance.gt(0)) {
+        for (let index = 0; index < contracts.length; index++) {
+          const initData = MasterCopyInitData[contracts[index]];
+          if (
+            MasterCopyInitData[contracts[index]] &&
+            initData.initCode &&
             initData.salt
-          );
+          ) {
+            console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
+            try {
+              await deployMastercopyWithInitData(
+                hre,
+                initData.initCode,
+                initData.salt
+              );
+            } catch (error) {
+              console.log(
+                `        \x1B[31m✘ Deployment failed:\x1B[0m              ${error.reason}`
+              );
+            }
+          }
         }
+      } else {
+        console.log(
+          "    \x1B[31m✘ Network skipped because connected wallet has 0 balance.\x1B[0m"
+        );
       }
-    } else {
+    } catch (error) {
       console.log(
-        "    \x1B[31m✘ Network skipped because connected wallet has 0 balance.\x1B[0m"
+        `    \x1B[31m✘ Network skipped because:\x1B[0m            ${error.reason}`
       );
     }
   }
