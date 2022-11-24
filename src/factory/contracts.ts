@@ -47,8 +47,7 @@ export const MasterCopyAddresses: Record<KnownContracts, string> = {
     "0xBD34D00dC0ae37C687F784A11FA6a0F2c5726Ba3", // missing: mumbai, arbitrum, optimism
   [KnownContracts.ROLES]: "0xD8DfC1d938D7D163C5231688341e9635E9011889", // missing: mumbai, arbitrum, optimism
   [KnownContracts.TELLOR]: "",
-  [KnownContracts.OPTIMISTIC_GOVERNOR]:
-    "0xe28c39FAC73cce2B33C4C003049e2F3AE43f77d5",
+  [KnownContracts.OPTIMISTIC_GOVERNOR]: "",
   [KnownContracts.OZ_GOVERNOR]: "0xe28c39FAC73cce2B33C4C003049e2F3AE43f77d5",
   [KnownContracts.ERC20_VOTES]: "0x752c61de75ADA0F8a33e048d2F773f51172f033e",
   [KnownContracts.ERC721_VOTES]: "0xeFf38b2eBB95ACBA09761246045743f40e762568",
