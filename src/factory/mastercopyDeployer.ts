@@ -53,12 +53,20 @@ export const deployMastercopyWithInitData = async (
   }
 
   let deployData;
-  if (hre.network.name == "optimism" || hre.network.name == "arbitrum") {
-    deployData = await singletonFactory.deploy(initCode, salt);
-  } else {
-    deployData = await singletonFactory.deploy(initCode, salt, {
-      gasLimit: 10000000,
-    });
+  switch (hre.network.name) {
+    case "optimism":
+      deployData = await singletonFactory.deploy(initCode, salt);
+      break;
+    case "arbitrum":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 200000000,
+      });
+      break;
+    default:
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 10000000,
+      });
+      break;
   }
 
   await deployData.wait();

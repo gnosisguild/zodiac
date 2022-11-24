@@ -20,7 +20,8 @@ const { network } = yargs
 
 // Load environment variables.
 dotenv.config();
-const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK } = process.env;
+const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK, ALCHEMY_KEY } =
+  process.env;
 
 import "./src/tasks/singleton-deployment";
 import "./src/tasks/deploy-replay";
@@ -57,42 +58,42 @@ export default {
     compilers: [{ version: "0.8.6" }, { version: "0.6.12" }],
   },
   networks: {
-    mainnet: {
-      ...sharedNetworkConfig,
-      url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    },
-    gnosis: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.gnosischain.com",
-    },
-    goerli: {
-      ...sharedNetworkConfig,
-      url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    },
+    // mainnet: {
+    //   ...sharedNetworkConfig,
+    //   url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+    // },
+    // gnosis: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.gnosischain.com",
+    // },
+    // goerli: {
+    //   ...sharedNetworkConfig,
+    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    // },
     arbitrum: {
       ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/arbitrum",
+      url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
     },
-    optimism: {
-      ...sharedNetworkConfig,
-      url: "https://mainnet.optimism.io",
-    },
-    polygon: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/polygon",
-    },
-    mumbai: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/polygon_mumbai",
-    },
-    avalanche: {
-      ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/avalanche",
-    },
-    bsc: {
-      ...sharedNetworkConfig,
-      url: "https://bsc-dataseed.binance.org",
-    },
+    // optimism: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://mainnet.optimism.io",
+    // },
+    // polygon: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/polygon",
+    // },
+    // mumbai: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/polygon_mumbai",
+    // },
+    // avalanche: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://rpc.ankr.com/avalanche",
+    // },
+    // bsc: {
+    //   ...sharedNetworkConfig,
+    //   url: "https://bsc-dataseed.binance.org",
+    // },
   },
   namedAccounts: {
     deployer: 0,
