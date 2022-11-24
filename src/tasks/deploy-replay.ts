@@ -2,7 +2,6 @@ import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
   KnownContracts,
-  MasterCopyAddresses,
   MasterCopyInitData,
   deployMastercopyWithInitData,
 } from "../factory";
