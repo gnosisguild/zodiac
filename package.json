@@ -34,7 +34,8 @@
     "prebuild:factory": "yarn generate:types",
     "prerelease": "yarn clean && yarn build && yarn clean:factory && yarn build:factory",
     "release": "yarn publish --access public",
-    "verify": "yarn hardhat verify --network"
+    "verify": "yarn hardhat verify --network",
+    "setup:monitoring": "ts-node monitoring/setup-script.ts"
   },
   "directories": {
     "test": "test"
