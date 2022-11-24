@@ -70,14 +70,14 @@ export default {
     //   ...sharedNetworkConfig,
     //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
     // },
-    arbitrum: {
-      ...sharedNetworkConfig,
-      url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
-    },
-    // optimism: {
+    // arbitrum: {
     //   ...sharedNetworkConfig,
-    //   url: "https://mainnet.optimism.io",
+    //   url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
     // },
+    optimism: {
+      ...sharedNetworkConfig,
+      url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
+    },
     // polygon: {
     //   ...sharedNetworkConfig,
     //   url: "https://rpc.ankr.com/polygon",
