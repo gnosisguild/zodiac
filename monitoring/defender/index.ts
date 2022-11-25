@@ -1,22 +1,22 @@
-import {
-  AutotaskClient,
-  CreateAutotaskRequest,
-} from "defender-autotask-client";
 import { Network } from "defender-base-client";
 import {
   CreateSentinelRequest,
   NotificationType,
   SentinelClient,
 } from "defender-sentinel-client";
-import { packageCode, readFileAndReplace } from "../util";
-import autotaskJsCode from "./autotasks/on_new_question_from_module";
+import { ContractAbis, ContractAddresses } from "../../src/factory/contracts";
+import { KnownContracts } from "../../src/factory/types";
+import { defenderNetworkToSupportedNetwork } from "./util";
+
 export { NotificationType } from "defender-sentinel-client";
 
-export const setupSentinelClient = ({ apiKey, apiSecret }) =>
-  new SentinelClient({ apiKey, apiSecret });
-
-export const setupAutotaskClient = ({ apiKey, apiSecret }) =>
-  new AutotaskClient({ apiKey, apiSecret });
+export const setupSentinelClient = ({
+  apiKey,
+  apiSecret,
+}: {
+  apiKey: string;
+  apiSecret: string;
+}) => new SentinelClient({ apiKey, apiSecret });
 
 export const setupNewNotificationChannel = async (
   client: SentinelClient,
@@ -42,8 +42,7 @@ export const setupNewNotificationChannel = async (
  * @param client The SentinelClient
  * @param notificationChannels Where to send notifications
  * @param network What network to monitor
- * @param moduleMasterCopyAddress Address of master copy of the module
- * @param moduleName Name of the module. For nice notification messages
+ * @param module The module from the `KnownContracts`
  * @param autotaskId Optional: ID of autotask to run when the sentinel triggers
  * @returns
  */
@@ -51,38 +50,26 @@ export const createSentinelForModuleFactory = async (
   client: SentinelClient,
   notificationChannels: string[],
   network: Network,
-  moduleMasterCopyAddress: string,
-  moduleName: string,
+  module: KnownContracts,
   autotaskId?: string
 ) => {
+  const moduleMastercopyAddress =
+    ContractAddresses[defenderNetworkToSupportedNetwork(network)][module];
+  const moduleProxyFactoryAddress =
+    ContractAddresses[defenderNetworkToSupportedNetwork(network)][
+      KnownContracts.FACTORY
+    ];
   const requestParameters: CreateSentinelRequest = {
     type: "BLOCK",
     network,
-    name: `New ${moduleName} Module is set up (${moduleMasterCopyAddress} on ${network})`,
-    addresses: [moduleMasterCopyAddress],
+    name: `New ${module} Module is set up via the Module Factory on ${network})`,
+    addresses: [moduleProxyFactoryAddress],
     paused: false,
-    abi: `[{
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "questionId",
-          "type": "bytes32"
-        },
-        {
-          "indexed": true,
-          "internalType": "string",
-          "name": "proposalId",
-          "type": "string"
-        }
-      ],
-      "name": "ProposalQuestionCreated",
-      "type": "event"
-    }]`,
+    abi: ContractAbis[KnownContracts.FACTORY],
     eventConditions: [
       {
-        eventSignature: "ProposalQuestionCreated(bytes32,string)",
+        eventSignature: "ModuleProxyCreation(address,address)", // ModuleProxyCreation(proxy, mastercopy)
+        expression: '$1 == "' + moduleMastercopyAddress + '"',
       },
     ],
     autotaskTrigger: autotaskId,
@@ -93,35 +80,4 @@ export const createSentinelForModuleFactory = async (
   console.log("Created Sentinel with subscriber ID: ", sentinel.subscriberId);
 
   return sentinel.subscriberId;
-};
-
-export const createAutotask = async (
-  client: AutotaskClient,
-  oracleAddress: string,
-  notificationChannels: string[],
-  network: string,
-  apiKey: string,
-  apiSecret: string
-) => {
-  const code = readFileAndReplace(autotaskJsCode as unknown as string, {
-    "{{network}}": network,
-    "{{oracleAddress}}": oracleAddress,
-    "{{notificationChannels}}": JSON.stringify(notificationChannels),
-    "{{apiKey}}": apiKey,
-    "{{apiSecret}}": apiSecret,
-  });
-
-  const params: CreateAutotaskRequest = {
-    name: "Setup Sentinel for new Reality.eth question",
-    encodedZippedCode: await packageCode(code),
-    trigger: {
-      type: "webhook",
-    },
-    paused: false,
-  };
-
-  const createdAutotask = await client.create(params);
-  console.log("Created Autotask with ID: ", createdAutotask.autotaskId);
-
-  return createdAutotask.autotaskId;
 };

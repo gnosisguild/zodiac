@@ -1,13 +1,11 @@
+import dotenv from "dotenv";
+
+import { KnownContracts } from "../src/factory/types";
 import {
   setupSentinelClient,
-  NotificationType,
   setupNewNotificationChannel,
-  createSentinel,
-  createAutotask,
-  setupAutotaskClient,
+  createSentinelForModuleFactory,
 } from "./defender";
-
-import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -25,50 +23,27 @@ if (DISCORD_URL_WITH_KEY == null) {
 }
 
 const setup = async () => {
-  try {
-    const sentinelClient = setupSentinelClient({
-      apiKey: API_KEY,
-      apiSecret: API_SECRET,
-    });
-    console.log("Client is ready");
+  const sentinelClient = setupSentinelClient({
+    apiKey: API_KEY,
+    apiSecret: API_SECRET,
+  });
+  console.log("Client is ready");
 
-    const notificationChannel = {
-      channel: "discord",
-      config: {
-        url: DISCORD_URL_WITH_KEY,
-      },
-    };
+  const notificationChannelId = await setupNewNotificationChannel(
+    sentinelClient,
+    "discord",
+    {
+      url: DISCORD_URL_WITH_KEY,
+    }
+  );
 
-    const notificationChannelId = await setupNewNotificationChannel(
-      sentinelClient,
-      notificationChannel.channel,
-      notificationChannel.config
-    );
-
-    const sentinelCreationResponds = await createSentinel(
-      sentinelClient,
-      [notificationChannelId],
-      "mainnet",
-      realityModuleAddress,
-      autotaskId
-    );
-    console.log("Sentinel creation responds", sentinelCreationResponds);
-    return response
-      .status(200)
-      .setHeader("content-type", "application/json;charset=UTF-8")
-      .setHeader("Access-Control-Allow-Origin", "*")
-      .send({
-        success: true,
-      });
-  } catch (e) {
-    console.error(e);
-
-    const { name, message } = e;
-    // this is safe for we are requesting on behalf of the user (with their API key)
-    return response.status(500).send({
-      name,
-      message,
-      success: false,
-    });
-  }
+  const sentinelCreationResponds = await createSentinelForModuleFactory(
+    sentinelClient,
+    [notificationChannelId],
+    "mainnet",
+    KnownContracts.REALITY_ETH
+  );
+  console.log("Sentinel creation responds", sentinelCreationResponds);
 };
+
+setup();
