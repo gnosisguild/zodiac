@@ -7,6 +7,8 @@ export const defenderNetworkToSupportedNetwork = (networks: Network) => {
       return SupportedNetworks.Mainnet;
     case "goerli":
       return SupportedNetworks.Goerli;
+    case "xdai":
+      return SupportedNetworks.GnosisChain;
     default:
       throw new Error(`Unsupported network ${networks}`);
   }
