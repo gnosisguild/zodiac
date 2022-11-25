@@ -40,7 +40,7 @@ const setup = async () => {
   const sentinelCreationResponds = await createSentinelForModuleFactory(
     sentinelClient,
     [notificationChannelId],
-    "mainnet",
+    "goerli",
     KnownContracts.REALITY_ETH
   );
   console.log("Sentinel creation responds", sentinelCreationResponds);
