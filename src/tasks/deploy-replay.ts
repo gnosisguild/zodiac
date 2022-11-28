@@ -17,7 +17,7 @@ export const deploy = async (
   const networks = taskArgs.networks?.split(", ") || hre.config.networks;
 
   delete networks.localhost;
-  // delete networks.hardhat;
+  delete networks.hardhat;
   const contracts = Object.values(KnownContracts);
 
   for (const network in networks) {
@@ -28,32 +28,26 @@ export const deploy = async (
     const [wallet] = await hre.ethers.getSigners();
     try {
       const balance = await hre.ethers.provider.getBalance(wallet.address);
-      if (balance.gt(0)) {
-        for (let index = 0; index < contracts.length; index++) {
-          const initData = MasterCopyInitData[contracts[index]];
-          if (
-            MasterCopyInitData[contracts[index]] &&
-            initData.initCode &&
-            initData.salt
-          ) {
-            console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
-            try {
-              await deployMastercopyWithInitData(
-                hre,
-                initData.initCode,
-                initData.salt
-              );
-            } catch (error) {
-              console.log(
-                `        \x1B[31m✘ Deployment failed:\x1B[0m              ${error.reason}`
-              );
-            }
+      for (let index = 0; index < contracts.length; index++) {
+        const initData = MasterCopyInitData[contracts[index]];
+        if (
+          MasterCopyInitData[contracts[index]] &&
+          initData.initCode &&
+          initData.salt
+        ) {
+          console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
+          try {
+            await deployMastercopyWithInitData(
+              hre,
+              initData.initCode,
+              initData.salt
+            );
+          } catch (error) {
+            console.log(
+              `        \x1B[31m✘ Deployment failed:\x1B[0m              ${error.reason}`
+            );
           }
         }
-      } else {
-        console.log(
-          "    \x1B[31m✘ Network skipped because connected wallet has 0 balance.\x1B[0m"
-        );
       }
     } catch (error) {
       console.log(
