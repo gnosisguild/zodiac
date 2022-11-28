@@ -59,41 +59,41 @@ export default {
   },
   networks: {
     // mainnet: {
-    //   ...sharedNetworkConfig,
-    //   url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    // },
-    // gnosis: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://rpc.gnosischain.com",
-    // },
-    // goerli: {
-    //   ...sharedNetworkConfig,
-    //   url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    // },
-    // arbitrum: {
-    //   ...sharedNetworkConfig,
-    //   url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
-    // },
+      ...sharedNetworkConfig,
+      url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+    },
+    gnosis: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.gnosischain.com",
+    },
+    goerli: {
+      ...sharedNetworkConfig,
+      url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    },
+    arbitrum: {
+      ...sharedNetworkConfig,
+      url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
+    },
     optimism: {
       ...sharedNetworkConfig,
       url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
     },
-    // polygon: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://rpc.ankr.com/polygon",
-    // },
-    // mumbai: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://rpc.ankr.com/polygon_mumbai",
-    // },
-    // avalanche: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://rpc.ankr.com/avalanche",
-    // },
-    // bsc: {
-    //   ...sharedNetworkConfig,
-    //   url: "https://bsc-dataseed.binance.org",
-    // },
+    polygon: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.ankr.com/polygon",
+    },
+    mumbai: {
+      ...sharedNetworkConfig,
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_KEY}`,
+    },
+    avalanche: {
+      ...sharedNetworkConfig,
+      url: `https://avalanche-mainnet.infura.io/v3/${INFURA_KEY}`,
+    },
+    bsc: {
+      ...sharedNetworkConfig,
+      url: "https://bsc-dataseed.binance.org",
+    },
   },
   namedAccounts: {
     deployer: 0,

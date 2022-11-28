@@ -56,12 +56,22 @@ export const deployMastercopyWithInitData = async (
   switch (hre.network.name) {
     case "optimism":
       deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 1000000,
+        gasLimit: 6000000,
       });
       break;
     case "arbitrum":
       deployData = await singletonFactory.deploy(initCode, salt, {
         gasLimit: 200000000,
+      });
+      break;
+    case "avalanche":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 8000000,
+      });
+      break;
+    case "mumbai":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 8000000,
       });
       break;
     default:
