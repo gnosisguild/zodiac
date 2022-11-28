@@ -14,10 +14,13 @@ export const deploy = async (
   taskArgs: DeployTaskArgs,
   hre: HardhatRuntimeEnvironment
 ) => {
-  const networks = taskArgs.networks?.split(", ") || hre.config.networks;
+  const networks = hre.config.networks;
+  const hh = taskArgs.hh;
 
   delete networks.localhost;
-  delete networks.hardhat;
+  if (!hh) {
+    delete networks.hardhat;
+  }
   const contracts = Object.values(KnownContracts);
 
   for (const network in networks) {
@@ -60,10 +63,5 @@ task(
   "deploy-replay",
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
-  .addOptionalParam(
-    "networks",
-    "list of network names, as defined in hardhat.config.ts",
-    undefined,
-    types.string
-  )
+  .addOptionalParam("hh", "deploy to hardhat network", undefined, types.bool)
   .setAction(deploy);
