@@ -58,7 +58,7 @@ export default {
     compilers: [{ version: "0.8.6" }, { version: "0.6.12" }],
   },
   networks: {
-    // mainnet: {
+    mainnet: {
       ...sharedNetworkConfig,
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
     },
