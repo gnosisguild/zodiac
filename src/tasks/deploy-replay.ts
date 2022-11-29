@@ -16,8 +16,11 @@ export const deploy = async (
 ) => {
   const networks = hre.config.networks;
   const hh = taskArgs.hh;
+  const lh = taskArgs.lh;
 
-  delete networks.localhost;
+  if (!lh) {
+    delete networks.localhost;
+  }
   if (!hh) {
     delete networks.hardhat;
   }
@@ -64,4 +67,5 @@ task(
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
   .addOptionalParam("hh", "deploy to hardhat network", undefined, types.bool)
+  .addOptionalParam("lh", "deploy to localhost", undefined, types.bool)
   .setAction(deploy);
