@@ -30,7 +30,7 @@
     "format:sol": "prettier ./contracts/**/*.sol -w",
     "format:ts": "prettier ./src/**/*.ts ./test/**/*.ts ./*.ts -w",
     "generate:types": "typechain --target ethers-v5 --out-dir abi-typechain-types './src/abi/*.json'",
-    "prepare": "yarn build && yarn generate:types",
+    "prepare": "yarn generate:types && yarn build",
     "prebuild:factory": "yarn generate:types",
     "prerelease": "yarn clean && yarn build && yarn clean:factory && yarn build:factory",
     "release": "yarn publish --access public",
