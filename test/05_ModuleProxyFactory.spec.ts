@@ -1,4 +1,5 @@
 import { AddressZero } from "@ethersproject/constants";
+import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
@@ -63,6 +64,11 @@ describe("ModuleProxyFactory", async () => {
       ).to.be.revertedWith(
         "reverted with custom error 'ZeroAddress(\"0x0000000000000000000000000000000000000000\")'"
       );
+    });
+    it("should fail to deploy module because target has no code deployed ", async () => {
+      await expect(
+        moduleFactory.deployModule(AddressOne, initData, saltNonce)
+      ).to.be.revertedWith(`TargetHasNoCode("${AddressOne}")`);
     });
 
     it("should fail to deploy because address its already taken ", async () => {
