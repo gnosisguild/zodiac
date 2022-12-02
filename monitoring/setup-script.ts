@@ -2,9 +2,10 @@ import dotenv from "dotenv";
 
 import { KnownContracts } from "../src/factory/types";
 import {
-  setupSentinelClient,
   setupNewNotificationChannel,
   createSentinelForModuleFactory,
+  setupClients,
+  createAutotaskForModuleFactory,
 } from "./defender";
 
 dotenv.config();
@@ -22,11 +23,18 @@ if (DISCORD_URL_WITH_KEY == null) {
   throw new Error("DISCORD_URL_WITH_KEY is not defined");
 }
 
+const NODE_PROVIDER = process.env.NODE_PROVIDER;
+if (NODE_PROVIDER == null) {
+  throw new Error("NODE_PROVIDER is not defined");
+}
+
 const setup = async () => {
-  const sentinelClient = setupSentinelClient({
+  const clients = setupClients({
     apiKey: API_KEY,
     apiSecret: API_SECRET,
   });
+  const sentinelClient = clients.sentinel;
+  const autotaskClient = clients.autotask;
   console.log("Client is ready");
 
   const notificationChannelId = await setupNewNotificationChannel(
@@ -37,11 +45,17 @@ const setup = async () => {
     }
   );
 
+  const autotaskId = await createAutotaskForModuleFactory(
+    autotaskClient,
+    NODE_PROVIDER
+  );
+
   const sentinelCreationResponds = await createSentinelForModuleFactory(
     sentinelClient,
     [notificationChannelId],
     "goerli",
-    KnownContracts.REALITY_ETH
+    KnownContracts.REALITY_ETH,
+    autotaskId
   );
   console.log("Sentinel creation responds", sentinelCreationResponds);
 };
