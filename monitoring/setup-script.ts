@@ -23,9 +23,9 @@ if (DISCORD_URL_WITH_KEY == null) {
   throw new Error("DISCORD_URL_WITH_KEY is not defined");
 }
 
-const NODE_PROVIDER = process.env.NODE_PROVIDER;
-if (NODE_PROVIDER == null) {
-  throw new Error("NODE_PROVIDER is not defined");
+const RPC_URL = process.env.RPC_URL;
+if (RPC_URL == null) {
+  throw new Error("RPC_URL is not defined");
 }
 
 const setup = async () => {
@@ -47,7 +47,8 @@ const setup = async () => {
 
   const autotaskId = await createAutotaskForModuleFactory(
     autotaskClient,
-    NODE_PROVIDER
+    RPC_URL,
+    DISCORD_URL_WITH_KEY
   );
 
   const sentinelCreationResponds = await createSentinelForModuleFactory(
