@@ -21,14 +21,8 @@ module.exports = {
       },
       items: [
         {
-          type: "doc",
-          docId: "intro",
-          position: "left",
-          label: "Get Started",
-        },
-        {
-          href: "https://github.com/gnosis/zodiac",
-          label: "GitHub",
+          href: "https://zodiac.wiki/",
+          label: "zodiac.wiki",
           position: "right",
         },
       ],
@@ -40,8 +34,8 @@ module.exports = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
-              to: "/docs/intro",
+              label: "zodiac.wiki",
+              to: "https://zodiac.wiki/index.php/Category:Documentation",
             },
           ],
         },
@@ -50,7 +44,7 @@ module.exports = {
           items: [
             {
               label: "Discord",
-              href: "https://discord.gg/wwmBWTgyEq",
+              href: "https://discord.gg/gnosisguild",
             },
             {
               label: "Twitter",

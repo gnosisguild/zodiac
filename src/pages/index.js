@@ -16,9 +16,9 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro"
+            to="https://zodiac.wiki/index.php/Category:Documentation"
           >
-            Get Started
+            Documentation now lives at zodiac.wiki
           </Link>
         </div>
       </div>
