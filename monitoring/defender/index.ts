@@ -98,19 +98,19 @@ export const createSentinelForModuleFactory = async (
 /**
  *
  * @param client The AutotaskClient
- * @param nodeProvider URL to generate Json Rpc Provider
+ * @param rpcUrl URL to generate Json Rpc Provider
  * @param discordWebHookUrl Discord URL with key
  * @returns
  */
 export const createAutotaskForModuleFactory = async (
   client: AutotaskClient,
-  nodeProvider: string,
+  rpcUrl: string,
   discordWebHookUrl: string
 ) => {
   const code = readFileAndReplace(
     "monitoring/defender/autotask/on_module_factory_events.js",
     {
-      "{{nodeProvider}}": nodeProvider,
+      "{{rpcUrl}}": rpcUrl,
       "{{discordWebHookUrl}}": discordWebHookUrl,
     }
   );

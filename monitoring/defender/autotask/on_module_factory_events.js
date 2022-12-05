@@ -910,12 +910,12 @@ exports.handler = async function (event) {
   );
   if (event && event.request && event.request.body) {
     // variables from autotask creation
-    const nodeProvider = "{{nodeProvider}}";
+    const rpcUrl = "{{rpcUrl}}";
     const discordWebHookUrl = "{{discordWebHookUrl}}";
     const transaction = event.request.body.transaction;
     const chainId = event.request.body.sentinel.chainId;
     const txHash = transaction.transactionHash;
-    const provider = new ethers.providers.JsonRpcProvider(nodeProvider);
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     const tx = await provider.getTransactionReceipt(txHash);
     const utils = ethers.utils;
     console.log(
