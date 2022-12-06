@@ -4,7 +4,6 @@ const axios = require("axios");
 const MIN_TIMEOUT = 86400; // 1 Day
 const MIN_COOLDOWN = 0;
 const MIN_BOND = 0.1;
-
 const NETWORKS = {
   1: {
     name: "mainnet",
@@ -19,7 +18,6 @@ const NETWORKS = {
     networkExplorerUrl: "https://blockscout.com/xdai/mainnet",
   },
 };
-
 const DISCORD_PARAMS = {
   username: "zodiacbot",
   avatar_url: "",
@@ -27,7 +25,6 @@ const DISCORD_PARAMS = {
   content: "",
   embeds: [],
 };
-
 const REALITY_ETH_ABI = [
   {
     inputs: [
@@ -899,6 +896,273 @@ const REALITY_ETH_ABI = [
     type: "function",
   },
 ];
+const ENS_REGISTRY = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"; // ENS: Registry with Fallback (singleton same address on different chains)
+const ABI_REGISTRY = [
+  "function owner(bytes32 node) external view returns (address)",
+  "function resolver(bytes32 node) external view returns (address)",
+];
+const ENS_BASE_REGISTRAR_GOERLI = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
+const ENS_BASE_REGISTRAR_MAINNET = "0x8436F16c090B0A6B2A7ae4CfCc82E007302a4b38";
+const ABI_BASE_REGISTRAR = [
+  {
+    inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
+    name: "ownerOf",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+/**
+ *
+ * @param {number} chainId
+ * @returns {string}
+ */
+const getBaseRegistrarContractAddress = (chainId) => {
+  if (chainId === 1) {
+    return ENS_BASE_REGISTRAR_MAINNET;
+  }
+  if (chainId === 5) {
+    return ENS_BASE_REGISTRAR_GOERLI;
+  }
+};
+
+/**
+ *
+ * @param {*} provider Ethers.providers.Provider,
+ * @param {string} ensName Ens name
+ * @param {string} address Avatar address
+ * @returns {boolean}
+ */
+const checkIfIsController = async (provider, ensName, address) => {
+  const ensRegistryContract = new ethers.Contract(
+    ENS_REGISTRY,
+    ABI_REGISTRY,
+    provider
+  );
+  const nameHash = ethers.utils.namehash(ensName);
+  const owner = await ensRegistryContract.owner(nameHash);
+  return ethers.utils.getAddress(address) === ethers.utils.getAddress(owner);
+};
+
+/**
+ * Grab the owner using https://docs.ens.domains/dapp-developer-guide/ens-as-nft#deriving-tokenid-from-ens-name
+ * @param {*} provider Ethers.providers.Provider,
+ * @param {string} ensName Ens name
+ * @param {string} address Avatar address
+ * @param {number} chainId Chain Id
+ * @returns {boolean}
+ */
+const checkIfIsOwner = async (provider, ensName, address, chainId) => {
+  const contract = new ethers.Contract(
+    getBaseRegistrarContractAddress(chainId),
+    ABI_BASE_REGISTRAR,
+    provider
+  );
+  const BigNumber = ethers.BigNumber;
+  const utils = ethers.utils;
+  const name = ensName.replace(".eth", "");
+  const labelHash = utils.keccak256(utils.toUtf8Bytes(name));
+  const tokenId = BigNumber.from(labelHash).toString();
+  const ensOwner = await contract.ownerOf(tokenId);
+  return ethers.utils.getAddress(address) === ethers.utils.getAddress(ensOwner);
+};
+
+/**
+ *
+ * @param {Array} logs //Array of transactions logs
+ * @param {*} utils //EtherJS utils
+ * @returns
+ */
+const decode = async (logs, utils) => {
+  const sig = "ModuleProxyCreation(address,address)"; //ModuleProxyCreation (index_topic_1 address proxy, index_topic_2 address masterCopy)
+  const templateSig = "LogNewTemplate(uint256,address,string)"; //LogNewTemplate (index_topic_1 uint256 template_id, index_topic_2 address user, string question_text)
+  const bytes = utils.toUtf8Bytes(sig);
+  const templateBytes = utils.toUtf8Bytes(templateSig);
+  const keccak = utils.keccak256(bytes);
+  const templateKeccak = utils.keccak256(templateBytes);
+  if (logs) {
+    const newRealityModuleProxies = logs
+      .filter((log) => log.topics !== null)
+      .filter((log) => log.topics[0] === keccak)
+      .map((log) => {
+        const proxy = utils.defaultAbiCoder.decode(
+          ["address"],
+          log.topics[1]
+        )[0];
+        const mastercopy = utils.defaultAbiCoder.decode(
+          ["address"],
+          log.topics[2]
+        )[0];
+        const values = [proxy, mastercopy].map((_) => _.toLowerCase());
+        return { proxy: values[0], mastercopy: values[1] };
+      });
+
+    const newRealityModuleTemplate = logs
+      .filter((log) => log.topics !== null)
+      .filter((log) => log.topics[0] === templateKeccak);
+    const templateQuestionText = utils.defaultAbiCoder.decode(
+      ["string"],
+      newRealityModuleTemplate[0].data
+    );
+    return {
+      proxyAddress: newRealityModuleProxies[0].proxy,
+      templateQuestionText: templateQuestionText[0],
+    };
+  }
+};
+
+/**
+ *
+ * @param {number} questionTimeout
+ * @param {number} questionCooldown
+ * @param {number} bond
+ * @param {boolean} isController
+ * @param {boolean} isOwner
+ * @param {string} ensName
+ * @param {number} chainId
+ * @param {string} txHash
+ * @returns
+ */
+const generateDiscordParams = (
+  questionTimeout,
+  questionCooldown,
+  bond,
+  isController,
+  isOwner,
+  ensName,
+  chainId,
+  txHash
+) => {
+  const minBond = ethers.utils.parseUnits(MIN_BOND.toString(), 18);
+  const params = DISCORD_PARAMS;
+  let invalidTimeout = false;
+  let invalidCooldown = false;
+  let invalidBond = false;
+  let sendNotification = false;
+  if (questionTimeout < MIN_TIMEOUT) {
+    invalidTimeout = true;
+  }
+  if (questionCooldown < MIN_COOLDOWN) {
+    invalidCooldown = true;
+  }
+  if (bond.toString() < minBond.toString()) {
+    invalidBond = true;
+  }
+  console.log("invalidTimeout", invalidTimeout);
+  console.log("invalidCooldown", invalidCooldown);
+  console.log("invalidBond", invalidBond);
+  console.log("isOwner", isOwner);
+  console.log("isController", isController);
+  if (invalidTimeout) {
+    invalidInputs = `Timeout (Min expected -  ${MIN_TIMEOUT}) = ${questionTimeout}\n`;
+  }
+  if (invalidCooldown) {
+    invalidInputs = `${invalidInputs}Cooldown (Min expected -  ${MIN_COOLDOWN}) = ${questionCooldown}\n`;
+  }
+  if (invalidBond) {
+    invalidInputs = `${invalidInputs}Minimum Bond (Min expected - ${minBond.toString()}) = ${bond.toString()}\n`;
+  }
+  if (!isController) {
+    invalidInputs = `${invalidInputs}The ENS (${ensName}) controller is not the Avatar.\n`;
+  }
+  if (!isOwner) {
+    invalidInputs = `${invalidInputs}The ENS (${ensName}) owner is not the Avatar.\n`;
+  }
+  params.embeds = [
+    {
+      type: "rich",
+      title: `⚡ Autotask Notification - Some inputs from Reality Module didn't pass the validations ⚡`,
+      description: `A matching transaction was detected on ${NETWORKS[chainId].name}`,
+      color: 0x0e0e0e,
+      fields: [
+        {
+          name: `Network`,
+
+          value: `${NETWORKS[chainId].name}`,
+        },
+        {
+          name: `Hash`,
+          value: txHash,
+        },
+        {
+          name: `Link`,
+
+          value: `${NETWORKS[chainId].networkExplorerUrl}/tx/${txHash}`,
+        },
+        {
+          name: `Invalid Inputs`,
+          value: invalidInputs,
+        },
+      ],
+      url: `${NETWORKS[chainId].networkExplorerUrl}/tx/${txHash}`,
+    },
+  ];
+
+  if ([invalidTimeout, invalidCooldown, invalidBond].includes(true)) {
+    sendNotification = true;
+  }
+
+  if ([isController, isOwner].includes(false)) {
+    sendNotification = true;
+  }
+  return { sendNotification, params };
+};
+
+/**
+ *
+ * @param {*} realityContract
+ * @param {*} provider
+ * @param {string} txHash
+ * @param {number} chainId
+ * @param {string} ensName
+ * @param {string} discordWebHookUrl
+ */
+const handleContractMethods = async (
+  realityContract,
+  provider,
+  txHash,
+  chainId,
+  ensName,
+  discordWebHookUrl
+) => {
+  const avatar = await realityContract.avatar();
+  const isController = await checkIfIsController(provider, ensName, avatar);
+  const isOwner = await checkIfIsOwner(provider, ensName, avatar, chainId);
+  const questionTimeout = await realityContract.questionTimeout();
+  const questionCooldown = await realityContract.questionCooldown();
+  const bond = await realityContract.minimumBond();
+  const { sendNotification, params } = generateDiscordParams(
+    questionTimeout,
+    questionCooldown,
+    bond,
+    isController,
+    isOwner,
+    ensName,
+    chainId,
+    txHash
+  );
+  if (sendNotification) {
+    await axios.post(discordWebHookUrl, params);
+  }
+};
+
+/**
+ *
+ * @param {string} templateQuestionText //Template question text
+ * @returns {string}
+ */
+const getEnsName = (templateQuestionText) => {
+  if (templateQuestionText.includes(".eth")) {
+    const initialTemplateText = templateQuestionText.substr(
+      0,
+      templateQuestionText.indexOf(".eth")
+    );
+    const words = initialTemplateText.split(" ");
+    const ensName = words[words.length - 1];
+    return `${ensName}.eth`;
+  }
+};
 
 exports.handler = async function (event) {
   console.log(
@@ -913,99 +1177,31 @@ exports.handler = async function (event) {
     const rpcUrl = "{{rpcUrl}}";
     const discordWebHookUrl = "{{discordWebHookUrl}}";
     const transaction = event.request.body.transaction;
-    const chainId = event.request.body.sentinel.chainId;
+    const logs = transaction.logs;
     const txHash = transaction.transactionHash;
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-    const tx = await provider.getTransactionReceipt(txHash);
+    const chainId = event.request.body.sentinel.chainId;
     const utils = ethers.utils;
     console.log(
       "\n\n/*********************** TRANSACTION **************************/"
     );
-    const sig = "ModuleProxyCreation(address,address)"; //ModuleProxyCreation (index_topic_1 address proxy, index_topic_2 address masterCopy)
-    const bytes = utils.toUtf8Bytes(sig);
-    const keccak = utils.keccak256(bytes);
-    let proxyTopic = "";
-    const logs = tx.logs || [];
-    console.log("logs", JSON.stringify(logs));
-    if (logs) {
-      logs.forEach((logs) => {
-        if (logs.topics) {
-          logs.topics.forEach((topic, topicIndex) => {
-            if (topic === keccak) {
-              proxyTopic = logs.topics[topicIndex + 1]; // Position 0 = keccak, Position 1 = address proxy, Position 2 = address masterCopy
-            }
-          });
-        }
-      });
-    }
-    const proxyAddress = utils.defaultAbiCoder.decode(["address"], proxyTopic); // Returns an array
-    const realityContract = new ethers.Contract(
-      proxyAddress[0],
-      REALITY_ETH_ABI,
-      provider
-    );
-    const questionTimeout = await realityContract.questionTimeout();
-    const questionCooldown = await realityContract.questionCooldown();
-    const bond = await realityContract.minimumBond();
-    const minBond = utils.parseUnits(MIN_BOND.toString(), 18);
-    let invalidTimeout = false;
-    let invalidCooldown = false;
-    let invalidBond = false;
-    if (questionTimeout < MIN_TIMEOUT) {
-      invalidTimeout = true;
-    }
-    if (questionCooldown < MIN_COOLDOWN) {
-      invalidCooldown = true;
-    }
-    if (bond.toString() < minBond.toString()) {
-      invalidBond = true;
-    }
-    console.log("txHash", txHash);
-    console.log("invalidTimeout", invalidTimeout);
-    console.log("invalidCooldown", invalidCooldown);
-    console.log("invalidBond", invalidBond);
-    if ([invalidBond, invalidCooldown, invalidTimeout].includes(true)) {
-      const params = DISCORD_PARAMS;
-      let invalidInputs = "";
-      if (invalidTimeout) {
-        invalidInputs = `Timeout (Min expected -  ${MIN_TIMEOUT}) = ${questionTimeout}\n`;
-      }
-      if (invalidCooldown) {
-        invalidInputs = `${invalidInputs}Cooldown (Min expected -  ${MIN_COOLDOWN}) = ${questionCooldown}\n`;
-      }
-      if (invalidBond) {
-        invalidInputs = `${invalidInputs}Minimum Bond (Min expected - ${minBond.toString()}) = ${bond.toString()}\n`;
-      }
-      params.embeds = [
-        {
-          type: "rich",
-          title: `⚡ Autotask Notification - Some inputs from Reality Module didn't pass the validations ⚡`,
-          description: `A matching transaction was detected on ${NETWORKS[chainId].name}`,
-          color: 0x0e0e0e,
-          fields: [
-            {
-              name: `Network`,
-
-              value: `${NETWORKS[chainId].name}`,
-            },
-            {
-              name: `Hash`,
-              value: txHash,
-            },
-            {
-              name: `Link`,
-
-              value: `${NETWORKS[chainId].networkExplorerUrl}/tx/${txHash}`,
-            },
-            {
-              name: `Invalid Inputs`,
-              value: invalidInputs,
-            },
-          ],
-          url: `${NETWORKS[chainId].networkExplorerUrl}/tx/${txHash}`,
-        },
-      ];
-      await axios.post(discordWebHookUrl, params);
+    const decoded = await decode(logs, utils);
+    if (decoded) {
+      const { proxyAddress, templateQuestionText } = decoded;
+      const ensName = getEnsName(templateQuestionText);
+      const realityContract = new ethers.Contract(
+        proxyAddress,
+        REALITY_ETH_ABI,
+        provider
+      );
+      await handleContractMethods(
+        realityContract,
+        provider,
+        txHash,
+        chainId,
+        ensName,
+        discordWebHookUrl
+      );
     }
     console.log(
       "/**********************************************************/\n\n"
