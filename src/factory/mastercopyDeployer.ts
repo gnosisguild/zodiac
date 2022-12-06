@@ -1,9 +1,6 @@
-import { ContractFactory } from "ethers";
+import { BytesLike, ContractFactory } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getSingletonFactory } from "./singletonFactory";
-
-const salt =
-  "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";
 
 /**
  * Deploy a module's mastercopy via the singleton factory.
@@ -17,40 +14,81 @@ const salt =
 export const deployMastercopy = async (
   hre: HardhatRuntimeEnvironment,
   mastercopyContractFactory: ContractFactory,
-  args: Array<any>
+  args: Array<any>,
+  salt: string
 ) => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+  if (deploymentTx.data) {
+    await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
+  }
+};
 
+export const deployMastercopyWithInitData = async (
+  hre: HardhatRuntimeEnvironment,
+  initCode: BytesLike,
+  salt: string
+) => {
   const singletonFactory = await getSingletonFactory(hre);
 
   const targetAddress = await singletonFactory.callStatic.deploy(
-    deploymentTx.data,
+    initCode,
     salt
   );
 
+  const initCodeHash = await hre.ethers.utils.solidityKeccak256(
+    ["bytes"],
+    [initCode]
+  );
+  const computedTargetAddress = await hre.ethers.utils.getCreate2Address(
+    singletonFactory.address,
+    salt,
+    initCodeHash
+  );
+
   if (targetAddress == "0x0000000000000000000000000000000000000000") {
-    throw new Error(
-      "Mastercopy already deployed to target address on this network. " +
-        "Or the deployment will revert (the error can be checked by deploying directly without the mastercopy deployer)."
+    console.log(
+      `        ✔ Mastercopy already deployed to: ${computedTargetAddress}`
     );
+    return;
   }
 
-  console.log("Mastercopy target:      ", targetAddress);
-
-  const deployData = await singletonFactory.deploy(deploymentTx.data, salt, {
-    gasLimit: 10000000,
-  });
-
-  console.log("Mastercopy deploy tx:   ", deployData.hash);
+  let deployData;
+  switch (hre.network.name) {
+    case "optimism":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 6000000,
+      });
+      break;
+    case "arbitrum":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 200000000,
+      });
+      break;
+    case "avalanche":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 8000000,
+      });
+      break;
+    case "mumbai":
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 8000000,
+      });
+      break;
+    default:
+      deployData = await singletonFactory.deploy(initCode, salt, {
+        gasLimit: 10000000,
+      });
+      break;
+  }
 
   await deployData.wait();
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
     console.log(
-      `Successfully deployed ModuleProxyFactory to target address ${targetAddress}! 🎉`
+      `        \x1B[32m✔ Mastercopy deployed to:\x1B[0m         ${targetAddress}`
     );
   } else {
-    throw new Error("Deployment failed.      ");
+    console.log("        \x1B[31m✘ Deployment failed.\x1B[0m");
   }
   return targetAddress;
 };

@@ -7,6 +7,7 @@ import "hardhat-deploy";
 import dotenv from "dotenv";
 import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
+import "hardhat-change-network";
 
 const { network } = yargs
   .option("network", {
@@ -19,9 +20,11 @@ const { network } = yargs
 
 // Load environment variables.
 dotenv.config();
-const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK } = process.env;
+const { INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK, ALCHEMY_KEY } =
+  process.env;
 
 import "./src/tasks/singleton-deployment";
+import "./src/tasks/deploy-replay";
 
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
@@ -59,37 +62,37 @@ export default {
       ...sharedNetworkConfig,
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
     },
-    ropsten: {
+    gnosis: {
       ...sharedNetworkConfig,
-      url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+      url: "https://rpc.gnosischain.com",
     },
     goerli: {
       ...sharedNetworkConfig,
       url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
     },
-    gnosis: {
+    arbitrum: {
       ...sharedNetworkConfig,
-      url: "https://rpc.gnosischain.com",
+      url: `https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
+    },
+    optimism: {
+      ...sharedNetworkConfig,
+      url: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
     },
     polygon: {
       ...sharedNetworkConfig,
       url: "https://rpc.ankr.com/polygon",
     },
-    bsc: {
+    mumbai: {
       ...sharedNetworkConfig,
-      url: "https://bsc-dataseed.binance.org",
-    },
-    arbitrum: {
-      ...sharedNetworkConfig,
-      url: "https://arb1.arbitrum.io/rpc",
-    },
-    optimism: {
-      ...sharedNetworkConfig,
-      url: "https://mainnet.optimism.io",
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_KEY}`,
     },
     avalanche: {
       ...sharedNetworkConfig,
-      url: "https://rpc.ankr.com/avalanche",
+      url: `https://avalanche-mainnet.infura.io/v3/${INFURA_KEY}`,
+    },
+    bsc: {
+      ...sharedNetworkConfig,
+      url: "https://bsc-dataseed.binance.org",
     },
   },
   namedAccounts: {
