@@ -912,6 +912,9 @@ const ABI_BASE_REGISTRAR = [
     type: "function",
   },
 ];
+const REALITY_MODULE_MASTERCOPY = ethers.utils.getAddress(
+  "0x72d453a685c27580acDFcF495830EB16B7E165f8"
+); // for testing. In prod it should be "{{mastercopyAddress}}";
 
 /**
  *
@@ -994,19 +997,26 @@ const decode = async (logs, utils) => {
           ["address"],
           log.topics[2]
         )[0];
-        const values = [proxy, mastercopy].map((_) => _.toLowerCase());
-        return { proxy: values[0], mastercopy: values[1] };
-      });
+        return {
+          proxy: ethers.utils.getAddress(proxy),
+          mastercopy: ethers.utils.getAddress(mastercopy),
+        };
+      })
+      // in tx it can be more than one proxy creation. We need to find only the ones that is the reality module
+      .filter(({ mastercopy }) => mastercopy != REALITY_MODULE_MASTERCOPY)
+      .map(({ proxy }) => proxy);
 
     const newRealityModuleTemplate = logs
       .filter((log) => log.topics !== null)
       .filter((log) => log.topics[0] === templateKeccak);
+
     const templateQuestionText = utils.defaultAbiCoder.decode(
       ["string"],
       newRealityModuleTemplate[0].data
     );
+
     return {
-      proxyAddress: newRealityModuleProxies[0].proxy,
+      proxyAddresses: newRealityModuleProxies, // we must return all the proxies created in the tx (can be more then one)
       templateQuestionText: templateQuestionText[0],
     };
   }
@@ -1187,21 +1197,23 @@ exports.handler = async function (event) {
     );
     const decoded = await decode(logs, utils);
     if (decoded) {
-      const { proxyAddress, templateQuestionText } = decoded;
-      const ensName = getEnsName(templateQuestionText);
-      const realityContract = new ethers.Contract(
-        proxyAddress,
-        REALITY_ETH_ABI,
-        provider
-      );
-      await handleContractMethods(
-        realityContract,
-        provider,
-        txHash,
-        chainId,
-        ensName,
-        discordWebHookUrl
-      );
+      const { templateQuestionText } = decoded;
+      decoded.proxyAddresses.forEach(async (proxyAddress) => {
+        const ensName = getEnsName(templateQuestionText);
+        const realityContract = new ethers.Contract(
+          proxyAddress,
+          REALITY_ETH_ABI,
+          provider
+        );
+        await handleContractMethods(
+          realityContract,
+          provider,
+          txHash,
+          chainId,
+          ensName,
+          discordWebHookUrl
+        );
+      });
     }
     console.log(
       "/**********************************************************/\n\n"
