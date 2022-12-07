@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { ContractAddresses } from "../src/factory/contracts";
 
 import { KnownContracts } from "../src/factory/types";
 import {
@@ -7,8 +8,11 @@ import {
   setupClients,
   createAutotaskForModuleFactory,
 } from "./defender";
+import { defenderNetworkToSupportedNetwork } from "./defender/util";
 
 dotenv.config();
+
+const NETWORK = "goerli"; // for testing
 
 const API_KEY = process.env.OZ_DEFENDER_API_KEY;
 if (API_KEY == null) {
@@ -45,16 +49,22 @@ const setup = async () => {
     }
   );
 
+  const moduleMastercopyAddress =
+    ContractAddresses[defenderNetworkToSupportedNetwork(NETWORK)][
+      KnownContracts.REALITY_ETH
+    ];
+
   const autotaskId = await createAutotaskForModuleFactory(
     autotaskClient,
     RPC_URL,
-    DISCORD_URL_WITH_KEY
+    DISCORD_URL_WITH_KEY,
+    moduleMastercopyAddress
   );
 
   const sentinelCreationResponds = await createSentinelForModuleFactory(
     sentinelClient,
     [notificationChannelId],
-    "goerli",
+    NETWORK,
     KnownContracts.REALITY_ETH,
     autotaskId
   );
