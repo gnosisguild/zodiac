@@ -1,10 +1,10 @@
-import { task, types } from "hardhat/config";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { task, types } from 'hardhat/config';
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import {
   KnownContracts,
   MasterCopyInitData,
   deployMastercopyWithInitData,
-} from "../factory";
+} from '../factory';
 
 interface DeployTaskArgs {
   hh: boolean;
@@ -17,19 +17,17 @@ interface InitData {
 }
 
 export const deploy = async (
-  taskArgs: DeployTaskArgs,
+  { hh, lh }: DeployTaskArgs,
   hre: HardhatRuntimeEnvironment
 ) => {
-  const networks = hre.config.networks;
-  const hh = taskArgs.hh;
-  const lh = taskArgs.lh;
+  let { hardhat, localhost, ...others } = hre.config.networks;
 
-  if (!lh) {
-    delete networks.localhost;
-  }
-  if (!hh) {
-    delete networks.hardhat;
-  }
+  const networks = {
+    ...others,
+    ...(lh ? { localhost } : {}),
+    ...(hh ? { hardhat } : {}),
+  };
+
   const contracts = Object.values(KnownContracts);
 
   for (const network in networks) {
@@ -55,22 +53,27 @@ export const deploy = async (
             );
           } catch (error: any) {
             console.log(
-              `        \x1B[31m✘ Deployment failed:\x1B[0m              ${error.reason}`
+              `        \x1B[31m✘ Deployment failed:\x1B[0m              ${
+                error?.reason || error
+              }`
             );
           }
         }
       }
     } catch (error: any) {
       console.log(
-        `    \x1B[31m✘ Network skipped because:\x1B[0m            ${error.reason}`
+        `    \x1B[31m✘ Network skipped because:\x1B[0m            ${
+          error?.reason || error
+        }`
       );
     }
   }
 };
 task(
-  "deploy-replay",
-  "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
+  'deploy-replay',
+  'Replay deployment of all mastercopies on all networks defined in hardhat.config.ts'
 )
-  .addOptionalParam("hh", "deploy to hardhat network", undefined, types.boolean)
-  .addOptionalParam("lh", "deploy to localhost", undefined, types.boolean)
+  .addOptionalParam('hh', 'deploy to hardhat network', false, types.boolean)
+  .addOptionalParam('lh', 'deploy to localhost', false, types.boolean)
+
   .setAction(deploy);
