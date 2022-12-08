@@ -1,4 +1,4 @@
-import { task, types } from "hardhat/config";
+import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
   KnownContracts,
@@ -6,36 +6,24 @@ import {
   deployMastercopyWithInitData,
 } from "../factory";
 
-interface DeployTaskArgs {
-  hh: boolean;
-  lh: boolean;
-}
-
 interface InitData {
   initCode?: string;
   salt?: string;
 }
 
 export const deploy = async (
-  { hh, lh }: DeployTaskArgs,
+  { networks }: { networks: string[] },
   hre: HardhatRuntimeEnvironment
 ) => {
-  let { hardhat, localhost, ...others } = hre.config.networks;
-
-  const networks = {
-    ...others,
-    ...(lh ? { localhost } : {}),
-    ...(hh ? { hardhat } : {}),
-  };
-
   const contracts = Object.values(KnownContracts);
 
-  for (const network in networks) {
+  for (const network of networks) {
     console.log(`\n\x1B[4m\x1B[1m${network.toUpperCase()}\x1B[0m`);
 
-    hre.changeNetwork(network);
     const [wallet] = await hre.ethers.getSigners();
     try {
+      hre.changeNetwork(network);
+
       await hre.ethers.provider.getBalance(wallet.address);
       for (let index = 0; index < contracts.length; index++) {
         const initData: InitData = MasterCopyInitData[contracts[index]];
@@ -69,11 +57,11 @@ export const deploy = async (
     }
   }
 };
+
 task(
   "deploy-replay",
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
-  .addOptionalParam("hh", "deploy to hardhat network", false, types.boolean)
-  .addOptionalParam("lh", "deploy to localhost", false, types.boolean)
+  .addVariadicPositionalParam("networks")
 
   .setAction(deploy);
