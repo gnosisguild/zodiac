@@ -1,4 +1,4 @@
-import { task } from "hardhat/config";
+import { task, types } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
   KnownContracts,
@@ -36,7 +36,6 @@ export const deploy = async (
     console.log(`\n\x1B[4m\x1B[1m${network.toUpperCase()}\x1B[0m`);
 
     hre.changeNetwork(network);
-
     const [wallet] = await hre.ethers.getSigners();
     try {
       await hre.ethers.provider.getBalance(wallet.address);
@@ -54,14 +53,14 @@ export const deploy = async (
               initData.initCode,
               initData.salt
             );
-          } catch (error) {
+          } catch (error: any) {
             console.log(
               `        \x1B[31m✘ Deployment failed:\x1B[0m              ${error.reason}`
             );
           }
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(
         `    \x1B[31m✘ Network skipped because:\x1B[0m            ${error.reason}`
       );
@@ -72,6 +71,6 @@ task(
   "deploy-replay",
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
-  .addOptionalParam("hh", "deploy to hardhat network", undefined, types.bool)
-  .addOptionalParam("lh", "deploy to localhost", undefined, types.bool)
+  .addOptionalParam("hh", "deploy to hardhat network", undefined, types.boolean)
+  .addOptionalParam("lh", "deploy to localhost", undefined, types.boolean)
   .setAction(deploy);
