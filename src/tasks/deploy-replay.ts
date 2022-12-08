@@ -61,7 +61,7 @@ export const deploy = async (
 
 task(
   "deploy-replay",
-  "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
+  "Replay deployment of all mastercopies on network names provided as arguments. If no networks names are provided, the task will iterate through all networks defined in hardhat.config.ts"
 )
   .addOptionalVariadicPositionalParam("networks")
   .setAction(deploy);
