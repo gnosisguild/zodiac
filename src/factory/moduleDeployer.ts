@@ -192,7 +192,7 @@ export const getModuleFactoryAndMasterCopy = <T extends KnownContracts>(
   const moduleFactory = ModuleProxyFactory__factory.connect(
     factoryAddress,
     provider
-  ) as ReturnType<typeof ContractFactories[T]["connect"]>;
+  );
 
   return {
     moduleFactory,
