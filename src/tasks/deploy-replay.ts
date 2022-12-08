@@ -17,13 +17,14 @@ export const deploy = async (
 ) => {
   const contracts = Object.values(KnownContracts);
 
-  for (const network of networks) {
+  const networkList = networks ? networks : Object.keys(hre.config.networks);
+
+  for (const network of networkList) {
     console.log(`\n\x1B[4m\x1B[1m${network.toUpperCase()}\x1B[0m`);
 
-    const [wallet] = await hre.ethers.getSigners();
     try {
       hre.changeNetwork(network);
-
+      const [wallet] = await hre.ethers.getSigners();
       await hre.ethers.provider.getBalance(wallet.address);
       for (let index = 0; index < contracts.length; index++) {
         const initData: InitData = MasterCopyInitData[contracts[index]];
@@ -62,6 +63,5 @@ task(
   "deploy-replay",
   "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
-  .addVariadicPositionalParam("networks")
-
+  .addOptionalVariadicPositionalParam("networks")
   .setAction(deploy);
