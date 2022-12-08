@@ -1,10 +1,10 @@
-import { task, types } from 'hardhat/config';
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { task, types } from "hardhat/config";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
   KnownContracts,
   MasterCopyInitData,
   deployMastercopyWithInitData,
-} from '../factory';
+} from "../factory";
 
 interface DeployTaskArgs {
   hh: boolean;
@@ -70,10 +70,10 @@ export const deploy = async (
   }
 };
 task(
-  'deploy-replay',
-  'Replay deployment of all mastercopies on all networks defined in hardhat.config.ts'
+  "deploy-replay",
+  "Replay deployment of all mastercopies on all networks defined in hardhat.config.ts"
 )
-  .addOptionalParam('hh', 'deploy to hardhat network', false, types.boolean)
-  .addOptionalParam('lh', 'deploy to localhost', false, types.boolean)
+  .addOptionalParam("hh", "deploy to hardhat network", false, types.boolean)
+  .addOptionalParam("lh", "deploy to localhost", false, types.boolean)
 
   .setAction(deploy);
