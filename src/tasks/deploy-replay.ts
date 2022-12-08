@@ -7,7 +7,13 @@ import {
 } from "../factory";
 
 interface DeployTaskArgs {
-  networks: string;
+  hh: boolean;
+  lh: boolean;
+}
+
+interface InitData {
+  initCode?: string;
+  salt?: string;
 }
 
 export const deploy = async (
@@ -33,9 +39,9 @@ export const deploy = async (
 
     const [wallet] = await hre.ethers.getSigners();
     try {
-      const balance = await hre.ethers.provider.getBalance(wallet.address);
+      await hre.ethers.provider.getBalance(wallet.address);
       for (let index = 0; index < contracts.length; index++) {
-        const initData = MasterCopyInitData[contracts[index]];
+        const initData: InitData = MasterCopyInitData[contracts[index]];
         if (
           MasterCopyInitData[contracts[index]] &&
           initData.initCode &&

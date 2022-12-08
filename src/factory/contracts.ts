@@ -2,6 +2,7 @@ import { factories } from "../../abi-typechain-types";
 import BridgeAbi from "../abi/Bridge.json";
 import CirculatingSupplyErc20Abi from "../abi/CirculatingSupplyErc20.json";
 import CirculatingSupplyErc721Abi from "../abi/CirculatingSupplyErc721.json";
+import ConnextAbi from "../abi/Connext.json";
 import DelayAbi from "../abi/Delay.json";
 import Erc20VotesAbi from "../abi/Erc20Votes.json";
 import Erc721VotesAbi from "../abi/Erc721Votes.json";
@@ -9,8 +10,10 @@ import ExitErc20Abi from "../abi/ExitErc20.json";
 import ExitErc721Abi from "../abi/ExitErc721.json";
 import MetaGuardAbi from "../abi/MetaGuard.json";
 import ModuleProxyFactoryAbi from "../abi/ModuleProxyFactory.json";
+import MultisendEncoderAbi from "../abi/MultisendEncoder.json";
 import OptimisticGovernorAbi from "../abi/OptimisticGovernor.json";
 import OzGovernorAbi from "../abi/OzGovernor.json";
+import PermissionsAbi from "../abi/Permissions.json";
 import RealityErc20Abi from "../abi/RealityErc20.json";
 import RealityEthAbi from "../abi/RealityEth.json";
 import RolesAbi from "../abi/Roles.json";
@@ -108,6 +111,9 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.ROLES]: RolesAbi,
   [KnownContracts.SCOPE_GUARD]: ScopeGuardAbi,
   [KnownContracts.TELLOR]: TellorAbi,
+  [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderAbi,
+  [KnownContracts.PERMISSIONS]: PermissionsAbi,
+  [KnownContracts.CONNEXT]: ConnextAbi,
 };
 
 export const ContractFactories = {
@@ -130,6 +136,9 @@ export const ContractFactories = {
   [KnownContracts.ROLES]: factories.Roles__factory,
   [KnownContracts.SCOPE_GUARD]: factories.ScopeGuard__factory,
   [KnownContracts.TELLOR]: factories.Tellor__factory,
+  [KnownContracts.MULTISEND_ENCODER]: factories.MultisendEncoder__factory,
+  [KnownContracts.PERMISSIONS]: factories.Permissions__factory,
+  [KnownContracts.CONNEXT]: factories.Connext__factory,
 };
 
 export const MasterCopyInitData: Record<KnownContracts, object> = {
