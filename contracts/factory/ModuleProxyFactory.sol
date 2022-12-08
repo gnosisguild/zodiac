@@ -10,6 +10,9 @@ contract ModuleProxyFactory {
     /// `target` can not be zero.
     error ZeroAddress(address target);
 
+    /// `target` has no code deployed.
+    error TargetHasNoCode(address target);
+
     /// `address_` is already taken.
     error TakenAddress(address address_);
 
@@ -21,6 +24,7 @@ contract ModuleProxyFactory {
         returns (address result)
     {
         if (address(target) == address(0)) revert ZeroAddress(target);
+        if (address(target).code.length == 0) revert TargetHasNoCode(target);
         bytes memory deployment = abi.encodePacked(
             hex"602d8060093d393df3363d3d373d3d3d363d73",
             target,
