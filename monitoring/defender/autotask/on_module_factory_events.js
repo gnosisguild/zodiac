@@ -1,6 +1,5 @@
 const { ethers } = require("ethers");
 const axios = require("axios");
-
 const MIN_TIMEOUT = 86400; // 1 Day
 const MIN_COOLDOWN = 0;
 const MIN_BOND = 0.1;
@@ -912,9 +911,8 @@ const ABI_BASE_REGISTRAR = [
     type: "function",
   },
 ];
-const REALITY_MODULE_MASTERCOPY = ethers.utils.getAddress(
-  "0x72d453a685c27580acDFcF495830EB16B7E165f8"
-); // for testing. In prod it should be "{{mastercopyAddress}}";
+const ORACLE_REALITY_ETH_MAINNET = "0x5b7dD1E86623548AF054A4985F7fc8Ccbb554E2c";
+const ORACLE_REALITY_ETH_GOERLI = "0x6F80C5cBCF9FbC2dA2F0675E56A5900BB70Df72f";
 
 /**
  *
@@ -973,17 +971,15 @@ const checkIfIsOwner = async (provider, ensName, address, chainId) => {
 
 /**
  *
- * @param {Array} logs //Array of transactions logs
- * @param {*} utils //EtherJS utils
+ * @param {Array} logs //Array of transaction logs
+ * @param {string} realityMastercopy //RealityMasterCopy Address
+ * @param {*} utils
  * @returns
  */
-const decode = async (logs, utils) => {
+const decode = async (logs, realityMastercopy, utils) => {
   const sig = "ModuleProxyCreation(address,address)"; //ModuleProxyCreation (index_topic_1 address proxy, index_topic_2 address masterCopy)
-  const templateSig = "LogNewTemplate(uint256,address,string)"; //LogNewTemplate (index_topic_1 uint256 template_id, index_topic_2 address user, string question_text)
   const bytes = utils.toUtf8Bytes(sig);
-  const templateBytes = utils.toUtf8Bytes(templateSig);
   const keccak = utils.keccak256(bytes);
-  const templateKeccak = utils.keccak256(templateBytes);
   if (logs) {
     const newRealityModuleProxies = logs
       .filter((log) => log.topics !== null)
@@ -1003,23 +999,40 @@ const decode = async (logs, utils) => {
         };
       })
       // in tx it can be more than one proxy creation. We need to find only the ones that is the reality module
-      .filter(({ mastercopy }) => mastercopy != REALITY_MODULE_MASTERCOPY)
+      .filter(({ mastercopy }) => mastercopy == realityMastercopy)
       .map(({ proxy }) => proxy);
-
-    const newRealityModuleTemplate = logs
-      .filter((log) => log.topics !== null)
-      .filter((log) => log.topics[0] === templateKeccak);
-
-    const templateQuestionText = utils.defaultAbiCoder.decode(
-      ["string"],
-      newRealityModuleTemplate[0].data
-    );
-
     return {
-      proxyAddresses: newRealityModuleProxies, // we must return all the proxies created in the tx (can be more then one)
-      templateQuestionText: templateQuestionText[0],
+      proxyAddresses: newRealityModuleProxies,
     };
   }
+};
+
+/**
+ *
+ * @param {Array} oracleLogs //Array of transaction logs
+ * @param {*} templateId
+ * @param {*} utils
+ * @returns
+ */
+const decodeTemplate = async (oracleLogs, templateId, utils) => {
+  const templateSig = "LogNewTemplate(uint256,address,string)"; //LogNewTemplate (index_topic_1 uint256 template_id, index_topic_2 address user, string question_text)
+  const templateBytes = utils.toUtf8Bytes(templateSig);
+  const templateKeccak = utils.keccak256(templateBytes);
+  const newRealityModuleTemplate = oracleLogs
+    .filter((log) => log.topics !== null)
+    .filter((log) => log.topics[0] === templateKeccak)
+    .filter(
+      (log) =>
+        utils.defaultAbiCoder.decode(["uint256"], log.topics[1]).toString() ==
+        templateId
+    );
+  const templateQuestionText = utils.defaultAbiCoder.decode(
+    ["string"],
+    newRealityModuleTemplate[0].data
+  );
+  return {
+    templateQuestionText: templateQuestionText[0],
+  };
 };
 
 /**
@@ -1046,6 +1059,7 @@ const generateDiscordParams = (
 ) => {
   const minBond = ethers.utils.parseUnits(MIN_BOND.toString(), 18);
   const params = DISCORD_PARAMS;
+  let invalidInputs = "";
   let invalidTimeout = false;
   let invalidCooldown = false;
   let invalidBond = false;
@@ -1073,10 +1087,10 @@ const generateDiscordParams = (
   if (invalidBond) {
     invalidInputs = `${invalidInputs}Minimum Bond (Min expected - ${minBond.toString()}) = ${bond.toString()}\n`;
   }
-  if (!isController) {
+  if (!isController && ensName) {
     invalidInputs = `${invalidInputs}The ENS (${ensName}) controller is not the Avatar.\n`;
   }
-  if (!isOwner) {
+  if (!isOwner && ensName) {
     invalidInputs = `${invalidInputs}The ENS (${ensName}) owner is not the Avatar.\n`;
   }
   params.embeds = [
@@ -1121,11 +1135,46 @@ const generateDiscordParams = (
 
 /**
  *
+ * @param {string} url //Etherscan URL
+ * @param {string} apiKey
+ * @param {number} chainId
+ * @param {number} fromBlock
+ * @param {number} toBlock
+ * @returns
+ */
+const getRealityEthLogs = async (url, apiKey, chainId, fromBlock, toBlock) => {
+  let contract = "";
+  if (chainId === 1) {
+    contract = ORACLE_REALITY_ETH_MAINNET;
+  }
+  if (chainId === 5) {
+    contract = ORACLE_REALITY_ETH_GOERLI;
+  }
+  try {
+    const response = await axios.get(
+      `${url}api?module=logs&action=getLogs&address=${contract}&fromBlock=${fromBlock}&toBlock=${toBlock}&page=1&offset=1000&apikey=${apiKey}`,
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "accept-encoding": "*",
+        },
+      }
+    );
+    if (response.status === 200) {
+      return response.data.result;
+    }
+  } catch {
+    throw new Error("Error getting Reality ETH logs");
+  }
+};
+
+/**
+ *
  * @param {*} realityContract
  * @param {*} provider
  * @param {string} txHash
  * @param {number} chainId
- * @param {string} ensName
+ * @param {*} ensName
  * @param {string} discordWebHookUrl
  */
 const handleContractMethods = async (
@@ -1137,8 +1186,12 @@ const handleContractMethods = async (
   discordWebHookUrl
 ) => {
   const avatar = await realityContract.avatar();
-  const isController = await checkIfIsController(provider, ensName, avatar);
-  const isOwner = await checkIfIsOwner(provider, ensName, avatar, chainId);
+  let isController;
+  let isOwner;
+  if (ensName) {
+    isController = await checkIfIsController(provider, ensName, avatar);
+    isOwner = await checkIfIsOwner(provider, ensName, avatar, chainId);
+  }
   const questionTimeout = await realityContract.questionTimeout();
   const questionCooldown = await realityContract.questionCooldown();
   const bond = await realityContract.minimumBond();
@@ -1163,14 +1216,18 @@ const handleContractMethods = async (
  * @returns {string}
  */
 const getEnsName = (templateQuestionText) => {
-  if (templateQuestionText.includes(".eth")) {
-    const initialTemplateText = templateQuestionText.substr(
-      0,
-      templateQuestionText.indexOf(".eth")
-    );
-    const words = initialTemplateText.split(" ");
-    const ensName = words[words.length - 1];
-    return `${ensName}.eth`;
+  try {
+    if (templateQuestionText.includes(".eth")) {
+      const initialTemplateText = templateQuestionText.substr(
+        0,
+        templateQuestionText.indexOf(".eth")
+      );
+      const words = initialTemplateText.split(" ");
+      const ensName = words[words.length - 1];
+      return `${ensName}.eth`;
+    }
+  } catch {
+    throw new Error("ENS Name error");
   }
 };
 
@@ -1184,27 +1241,46 @@ exports.handler = async function (event) {
   );
   if (event && event.request && event.request.body) {
     // variables from autotask creation
+    const etherscanUrl = "{{etherscanUrl}}";
+    const etherscanApiKey = "{{etherscanApiKey}}";
     const rpcUrl = "{{rpcUrl}}";
     const discordWebHookUrl = "{{discordWebHookUrl}}";
+    const mastercopy = "{{mastercopyAddress}}";
+    const blockHash = parseInt(event.request.body.blockNumber, 16);
+    const chainId = event.request.body.sentinel.chainId;
     const transaction = event.request.body.transaction;
     const logs = transaction.logs;
     const txHash = transaction.transactionHash;
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-    const chainId = event.request.body.sentinel.chainId;
+    const currentBlock = await provider.getBlock();
+    const templateLogs = await getRealityEthLogs(
+      etherscanUrl,
+      etherscanApiKey,
+      chainId,
+      blockHash,
+      currentBlock.number
+    );
     const utils = ethers.utils;
     console.log(
       "\n\n/*********************** TRANSACTION **************************/"
     );
-    const decoded = await decode(logs, utils);
-    if (decoded) {
-      const { templateQuestionText } = decoded;
-      decoded.proxyAddresses.forEach(async (proxyAddress) => {
-        const ensName = getEnsName(templateQuestionText);
+    const decoded = await decode(logs, mastercopy, utils);
+    if (decoded && decoded.proxyAddresses.length) {
+      for (const proxyAddress of decoded.proxyAddresses) {
         const realityContract = new ethers.Contract(
           proxyAddress,
           REALITY_ETH_ABI,
           provider
         );
+        const template = await realityContract.template();
+        const templateId = template.toString();
+        const decodedTemplate = await decodeTemplate(
+          templateLogs,
+          templateId,
+          utils
+        );
+        const ensName = getEnsName(decodedTemplate.templateQuestionText);
+        console.log("ensName", ensName);
         await handleContractMethods(
           realityContract,
           provider,
@@ -1213,8 +1289,11 @@ exports.handler = async function (event) {
           ensName,
           discordWebHookUrl
         );
-      });
+      }
+    } else {
+      console.log("No proxy addresses found!");
     }
+
     console.log(
       "/**********************************************************/\n\n"
     );

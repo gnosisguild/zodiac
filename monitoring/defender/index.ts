@@ -101,13 +101,17 @@ export const createSentinelForModuleFactory = async (
  * @param rpcUrl URL to generate Json Rpc Provider
  * @param discordWebHookUrl Discord URL with key
  * @param mastercopyAddress Will only handle modules using this mastercopy
+ * @param etherscanUrl
+ * @param etherscanApiKey
  * @returns
  */
 export const createAutotaskForModuleFactory = async (
   client: AutotaskClient,
   rpcUrl: string,
   discordWebHookUrl: string,
-  mastercopyAddress: string
+  mastercopyAddress: string,
+  etherscanUrl: string,
+  etherscanApiKey: string
 ) => {
   const code = readFileAndReplace(
     "monitoring/defender/autotask/on_module_factory_events.js",
@@ -115,6 +119,8 @@ export const createAutotaskForModuleFactory = async (
       "{{rpcUrl}}": rpcUrl,
       "{{discordWebHookUrl}}": discordWebHookUrl,
       "{{mastercopyAddress}}": mastercopyAddress,
+      "{{etherscanUrl}}": etherscanUrl,
+      "{{etherscanApiKey}}": etherscanApiKey,
     }
   );
   const params: CreateAutotaskRequest = {

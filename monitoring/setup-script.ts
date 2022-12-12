@@ -32,6 +32,16 @@ if (RPC_URL == null) {
   throw new Error("RPC_URL is not defined");
 }
 
+const EXPLORER_URL = process.env.EXPLORER_URL;
+if (EXPLORER_URL == null) {
+  throw new Error("EXPLORER_URL is not defined");
+}
+
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
+if (ETHERSCAN_API_KEY == null) {
+  throw new Error("ETHERSCAN_API_KEY is not defined");
+}
+
 const setup = async () => {
   const clients = setupClients({
     apiKey: API_KEY,
@@ -58,7 +68,9 @@ const setup = async () => {
     autotaskClient,
     RPC_URL,
     DISCORD_URL_WITH_KEY,
-    moduleMastercopyAddress
+    moduleMastercopyAddress,
+    EXPLORER_URL,
+    ETHERSCAN_API_KEY
   );
 
   const sentinelCreationResponds = await createSentinelForModuleFactory(
