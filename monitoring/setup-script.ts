@@ -64,17 +64,11 @@ const setup = async () => {
       KnownContracts.REALITY_ETH
     ];
 
-  const factoryMastercopyAddress =
-    ContractAddresses[defenderNetworkToSupportedNetwork(NETWORK)][
-      KnownContracts.FACTORY
-    ];
-
   const autotaskId = await createAutotaskForModuleFactory(
     autotaskClient,
     RPC_URL,
     DISCORD_URL_WITH_KEY,
     moduleMastercopyAddress,
-    factoryMastercopyAddress,
     EXPLORER_URL,
     ETHERSCAN_API_KEY
   );
