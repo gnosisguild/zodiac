@@ -973,10 +973,16 @@ const checkIfIsOwner = async (provider, ensName, address, chainId) => {
  *
  * @param {Array} logs //Array of transaction logs
  * @param {string} realityMastercopy //RealityMasterCopy Address
+ * @param {string} factoryMastercopy //factoryMastercopy Address
  * @param {*} utils
  * @returns
  */
-const decode = async (logs, realityMastercopy, utils) => {
+const extractModuleProxyCreations = async (
+  logs,
+  realityMastercopy,
+  factoryMastercopy,
+  utils
+) => {
   const sig = "ModuleProxyCreation(address,address)"; //ModuleProxyCreation (index_topic_1 address proxy, index_topic_2 address masterCopy)
   const bytes = utils.toUtf8Bytes(sig);
   const keccak = utils.keccak256(bytes);
@@ -984,6 +990,10 @@ const decode = async (logs, realityMastercopy, utils) => {
     const newRealityModuleProxies = logs
       .filter((log) => log.topics !== null)
       .filter((log) => log.topics[0] === keccak)
+      .filter(
+        (log) =>
+          utils.getAddress(log.address) === utils.getAddress(factoryMastercopy)
+      )
       .map((log) => {
         const proxy = utils.defaultAbiCoder.decode(
           ["address"],
@@ -1280,6 +1290,7 @@ exports.handler = async function (event) {
   );
   if (event && event.request && event.request.body) {
     // variables from autotask creation
+    const factoryMastercopy = "{{factoryMastercopy}}";
     const etherscanUrl = "{{etherscanUrl}}";
     const etherscanApiKey = "{{etherscanApiKey}}";
     const rpcUrl = "{{rpcUrl}}";
@@ -1296,7 +1307,12 @@ exports.handler = async function (event) {
     console.log(
       "\n\n/*********************** TRANSACTION **************************/"
     );
-    const decoded = await decode(logs, mastercopy, utils);
+    const decoded = await extractModuleProxyCreations(
+      logs,
+      mastercopy,
+      factoryMastercopy,
+      utils
+    );
     if (decoded && decoded.proxyAddresses.length) {
       for (const proxyAddress of decoded.proxyAddresses) {
         const realityContract = new ethers.Contract(
