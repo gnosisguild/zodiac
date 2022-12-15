@@ -1,3 +1,7 @@
+import {
+  AutotaskClient,
+  CreateAutotaskRequest,
+} from "defender-autotask-client";
 import { Network } from "defender-base-client";
 import {
   CreateSentinelRequest,
@@ -6,17 +10,25 @@ import {
 } from "defender-sentinel-client";
 import { ContractAbis, ContractAddresses } from "../../src/factory/contracts";
 import { KnownContracts } from "../../src/factory/types";
-import { defenderNetworkToSupportedNetwork } from "./util";
-
+import {
+  defenderNetworkToSupportedNetwork,
+  packageCode,
+  readFileAndReplace,
+} from "./util";
 export { NotificationType } from "defender-sentinel-client";
 
-export const setupSentinelClient = ({
+export const setupClients = ({
   apiKey,
   apiSecret,
 }: {
   apiKey: string;
   apiSecret: string;
-}) => new SentinelClient({ apiKey, apiSecret });
+}) => {
+  return {
+    sentinel: new SentinelClient({ apiKey, apiSecret }),
+    autotask: new AutotaskClient({ apiKey, apiSecret }),
+  };
+};
 
 export const setupNewNotificationChannel = async (
   client: SentinelClient,
@@ -51,6 +63,7 @@ export const createSentinelForModuleFactory = async (
   notificationChannels: string[],
   network: Network,
   module: KnownContracts,
+
   autotaskId?: string
 ) => {
   const moduleMastercopyAddress =
@@ -62,7 +75,7 @@ export const createSentinelForModuleFactory = async (
   const requestParameters: CreateSentinelRequest = {
     type: "BLOCK",
     network,
-    name: `New ${module} Module is set up via the Module Factory on ${network})`,
+    name: `New ${module} Module is set up via the Module Factory on (${network})`,
     addresses: [moduleProxyFactoryAddress],
     paused: false,
     abi: ContractAbis[KnownContracts.FACTORY],
@@ -80,4 +93,48 @@ export const createSentinelForModuleFactory = async (
   console.log("Created Sentinel with subscriber ID: ", sentinel.subscriberId);
 
   return sentinel.subscriberId;
+};
+
+/**
+ *
+ * @param client The AutotaskClient
+ * @param rpcUrl URL to generate Json Rpc Provider
+ * @param discordWebHookUrl Discord URL with key
+ * @param mastercopyAddress Will only handle modules using this mastercopy
+ * @param factoryMastercopyAddress Will only handle modules using this factoryMastercopyAddress
+ * @param etherscanUrl
+ * @param etherscanApiKey
+ * @returns
+ */
+export const createAutotaskForModuleFactory = async (
+  client: AutotaskClient,
+  rpcUrl: string,
+  discordWebHookUrl: string,
+  mastercopyAddress: string,
+  factoryMastercopyAddress: string,
+  etherscanUrl: string,
+  etherscanApiKey: string
+) => {
+  const code = readFileAndReplace(
+    "monitoring/defender/autotask/on_module_factory_events.js",
+    {
+      "{{proxyFactoryAddress}}": factoryMastercopyAddress,
+      "{{rpcUrl}}": rpcUrl,
+      "{{discordWebHookUrl}}": discordWebHookUrl,
+      "{{mastercopyAddress}}": mastercopyAddress,
+      "{{etherscanUrl}}": etherscanUrl,
+      "{{etherscanApiKey}}": etherscanApiKey,
+    }
+  );
+  const params: CreateAutotaskRequest = {
+    name: "Reality Module Autotask",
+    encodedZippedCode: await packageCode(code),
+    trigger: {
+      type: "webhook",
+    },
+    paused: false,
+  };
+  const createdAutotask = await client.create(params);
+  console.log("Created Autotask with ID: ", createdAutotask.autotaskId);
+  return createdAutotask.autotaskId;
 };
