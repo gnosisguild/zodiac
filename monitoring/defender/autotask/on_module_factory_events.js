@@ -972,11 +972,11 @@ const checkIfIsOwner = async (provider, ensName, address, chainId) => {
 /**
  *
  * @param {Array} logs //Array of transaction logs
- * @param {string} realityMastercopy //RealityMasterCopy Address
+ * @param {string} extractModuleProxyCreations //extractModuleProxyCreations Address
  * @param {*} utils
  * @returns
  */
-const decode = async (logs, realityMastercopy, utils) => {
+const decode = async (logs, extractModuleProxyCreations, utils) => {
   const sig = "ModuleProxyCreation(address,address)"; //ModuleProxyCreation (index_topic_1 address proxy, index_topic_2 address masterCopy)
   const bytes = utils.toUtf8Bytes(sig);
   const keccak = utils.keccak256(bytes);
@@ -999,7 +999,7 @@ const decode = async (logs, realityMastercopy, utils) => {
         };
       })
       // in tx it can be more than one proxy creation. We need to find only the ones that is the reality module
-      .filter(({ mastercopy }) => mastercopy == realityMastercopy)
+      .filter(({ mastercopy }) => mastercopy == extractModuleProxyCreations)
       .map(({ proxy }) => proxy);
     return {
       proxyAddresses: newRealityModuleProxies,
@@ -1280,6 +1280,7 @@ exports.handler = async function (event) {
   );
   if (event && event.request && event.request.body) {
     // variables from autotask creation
+    const proxyFactoryAddress = "{{proxyFactoryAddress}}";
     const etherscanUrl = "{{etherscanUrl}}";
     const etherscanApiKey = "{{etherscanApiKey}}";
     const rpcUrl = "{{rpcUrl}}";
@@ -1288,47 +1289,57 @@ exports.handler = async function (event) {
     const creationBlock = parseInt(event.request.body.blockNumber, 16);
     const chainId = event.request.body.sentinel.chainId;
     const transaction = event.request.body.transaction;
-    const logs = transaction.logs;
-    const txHash = transaction.transactionHash;
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-    const currentBlock = await provider.getBlock();
-    const utils = ethers.utils;
-    console.log(
-      "\n\n/*********************** TRANSACTION **************************/"
+    const matchedAddresses = event.request.body.matchedAddresses;
+    const eventFromProxyFactory = matchedAddresses.filter(
+      (contractAddress) =>
+        ethers.utils.getAddress(contractAddress) ===
+        ethers.utils.getAddress(proxyFactoryAddress)
     );
-    const decoded = await decode(logs, mastercopy, utils);
-    if (decoded && decoded.proxyAddresses.length) {
-      for (const proxyAddress of decoded.proxyAddresses) {
-        const realityContract = new ethers.Contract(
-          proxyAddress,
-          REALITY_ETH_ABI,
-          provider
-        );
-        const template = await realityContract.template();
-        const templateId = template.toString();
-        const decodedTemplate = await decodeTemplate(
-          logs,
-          templateId,
-          utils,
-          etherscanUrl,
-          etherscanApiKey,
-          chainId,
-          creationBlock,
-          currentBlock.number
-        );
-        const ensName = getEnsName(decodedTemplate.templateQuestionText);
-        console.log("ensName", ensName);
-        await handleContractMethods(
-          realityContract,
-          provider,
-          txHash,
-          chainId,
-          ensName,
-          discordWebHookUrl
-        );
+    if (eventFromProxyFactory.length) {
+      const logs = transaction.logs;
+      const txHash = transaction.transactionHash;
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+      const currentBlock = await provider.getBlock();
+      const utils = ethers.utils;
+      console.log(
+        "\n\n/*********************** TRANSACTION **************************/"
+      );
+      const decoded = await decode(logs, mastercopy, utils);
+      if (decoded && decoded.proxyAddresses.length) {
+        for (const proxyAddress of decoded.proxyAddresses) {
+          const realityContract = new ethers.Contract(
+            proxyAddress,
+            REALITY_ETH_ABI,
+            provider
+          );
+          const template = await realityContract.template();
+          const templateId = template.toString();
+          const decodedTemplate = await decodeTemplate(
+            logs,
+            templateId,
+            utils,
+            etherscanUrl,
+            etherscanApiKey,
+            chainId,
+            creationBlock,
+            currentBlock.number
+          );
+          const ensName = getEnsName(decodedTemplate.templateQuestionText);
+          console.log("ensName", ensName);
+          await handleContractMethods(
+            realityContract,
+            provider,
+            txHash,
+            chainId,
+            ensName,
+            discordWebHookUrl
+          );
+        }
+      } else {
+        console.log("No proxy addresses found!");
       }
     } else {
-      console.log("No proxy addresses found!");
+      console.log("The logs are emitted from different ProxyFactory contract.");
     }
 
     console.log(
