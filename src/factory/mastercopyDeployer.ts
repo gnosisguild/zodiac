@@ -1,4 +1,4 @@
-import { BytesLike, ContractFactory } from "ethers";
+import { BytesLike, ContractFactory, utils } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getSingletonFactory } from "./singletonFactory";
 
@@ -7,49 +7,113 @@ import { getSingletonFactory } from "./singletonFactory";
  *
  * To get the same address on any chain.
  * @param hre hardhat runtime environment
- * @param mastercopyContractFactory
- * @param args
- * @returns The address of the deployed module mastercopy
+ * @param mastercopyContractFactory mastercopy to deploy
+ * @param args the arguments to pass to the mastercopy's constructor
+ * @returns The address of the deployed module mastercopy or undefined if it was already deployed
  */
 export const deployMastercopy = async (
   hre: HardhatRuntimeEnvironment,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
-) => {
+): Promise<string | undefined> => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+
   if (deploymentTx.data) {
-    await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
+    return await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
   }
+  throw new Error("No deployment data found");
+};
+
+/**
+ * Compute a module's mastercopy address. Where it is or will be deployed.
+ *
+ * @param hre hardhat runtime environment
+ * @param mastercopyContractFactory mastercopy to get address for
+ * @param args the arguments passed to the mastercopy's constructor
+ * @returns {
+ *  address: string; // the address where the module mastercopy will be deployed or was already deployed
+ *  isDeployed: boolean; // true if the module mastercopy was already deployed on this chain
+ * }
+ */
+export const computeTargetAddress = async (
+  hre: HardhatRuntimeEnvironment,
+  mastercopyContractFactory: ContractFactory,
+  args: Array<any>,
+  salt: string
+): Promise<{ address: string; isDeployed: boolean }> => {
+  const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+  const singletonFactory = await getSingletonFactory(hre);
+
+  if (!deploymentTx.data) {
+    throw new Error("No deployment data found");
+  }
+
+  const initCodeHash = hre.ethers.utils.solidityKeccak256(
+    ["bytes"],
+    [deploymentTx.data]
+  );
+  const computedAddress = hre.ethers.utils.getCreate2Address(
+    singletonFactory.address,
+    salt,
+    initCodeHash
+  );
+
+  const targetAddress = utils.getAddress(
+    (await singletonFactory.callStatic.deploy(
+      deploymentTx.data,
+      salt
+    )) as string
+  );
+
+  // Sanity check
+  if (
+    computedAddress !== targetAddress &&
+    targetAddress !== "0x0000000000000000000000000000000000000000"
+  ) {
+    throw new Error(
+      "The computed address does not match the target address and the target address is not 0x0."
+    );
+  }
+
+  return {
+    address: computedAddress,
+    isDeployed: targetAddress === "0x0000000000000000000000000000000000000000",
+  };
 };
 
 export const deployMastercopyWithInitData = async (
   hre: HardhatRuntimeEnvironment,
   initCode: BytesLike,
   salt: string
-) => {
+): Promise<string | undefined> => {
   const singletonFactory = await getSingletonFactory(hre);
 
-  const targetAddress = await singletonFactory.callStatic.deploy(
-    initCode,
-    salt
+  // throws if this for some reason is not a valid address
+  const targetAddress = utils.getAddress(
+    (await singletonFactory.callStatic.deploy(initCode, salt)) as string
   );
 
-  const initCodeHash = await hre.ethers.utils.solidityKeccak256(
+  const initCodeHash = hre.ethers.utils.solidityKeccak256(
     ["bytes"],
     [initCode]
   );
-  const computedTargetAddress = await hre.ethers.utils.getCreate2Address(
+  const computedTargetAddress = hre.ethers.utils.getCreate2Address(
     singletonFactory.address,
     salt,
     initCodeHash
   );
 
-  if (targetAddress == "0x0000000000000000000000000000000000000000") {
+  if (targetAddress === "0x0000000000000000000000000000000000000000") {
     console.log(
       `        ✔ Mastercopy already deployed to: ${computedTargetAddress}`
     );
     return;
+  }
+
+  // Sanity check
+  if (computedTargetAddress !== targetAddress) {
+    throw new Error("The computed address does not match the target address.");
   }
 
   let deployData;
