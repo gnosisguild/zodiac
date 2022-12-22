@@ -3,7 +3,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 const singletonFactoryAbi = [
   "function deploy(bytes memory _initCode, bytes32 _salt) public returns (address payable createdContract)",
 ];
-const singletonFactoryAddress = "0xce0042b868300000d44a59004da54a005ffdcf9f";
+const SingletonFactoryAddress = "0xce0042b868300000d44a59004da54a005ffdcf9f";
 
 /**
  * Get the singleton factory contract (ERC-2470).
@@ -20,7 +20,7 @@ export const getSingletonFactory = async (
 
   const singletonDeployer = "0xBb6e024b9cFFACB947A71991E386681B1Cd1477D";
   const singletonFactory = new hardhat.ethers.Contract(
-    singletonFactoryAddress,
+    SingletonFactoryAddress,
     singletonFactoryAbi,
     deployer
   );
