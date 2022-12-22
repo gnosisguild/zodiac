@@ -1,40 +1,44 @@
 import "hardhat-deploy";
 import "@nomiclabs/hardhat-ethers";
+import { constants as ethersConstants } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { getSingletonFactory } from "./singletonFactory";
 
-const factorySalt =
+const { AddressZero } = ethersConstants;
+
+const FactorySalt =
   "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";
-const AddressZero = "0x0000000000000000000000000000000000000000";
 
 /**
  * Deploy a module factory via the singleton factory.
  * It will therefore get the same address on any chain.
+ *
  * @param hre hardhat runtime environment
- * @returns The address of the deployed module factory
+ * @returns The address of the deployed module factory, or the zero address if it was already deployed
  */
-export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
+export const deployModuleFactory = async (
+  hre: HardhatRuntimeEnvironment
+): Promise<string> => {
   const singletonFactory = await getSingletonFactory(hre);
   console.log("    Singleton Factory:     ", singletonFactory.address);
   const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
-  // const singletonFactory = new hardhat.ethers.Contract(singletonFactoryAddress, singletonFactoryAbi)
 
   const targetAddress = await singletonFactory.callStatic.deploy(
     Factory.bytecode,
-    factorySalt
+    FactorySalt
   );
-  if (targetAddress == AddressZero) {
+  if (targetAddress === AddressZero) {
     console.log(
       "    ModuleProxyFactory already deployed to target address on this network."
     );
-    return;
-  } else {
-    console.log("    Target Factory Address:", targetAddress);
+    return AddressZero;
   }
+
+  console.log("    Target Factory Address:", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
     Factory.bytecode,
-    factorySalt,
+    FactorySalt,
     { gasLimit: 1000000 }
   );
 
@@ -51,7 +55,7 @@ export const deployModuleFactory = async (hre: HardhatRuntimeEnvironment) => {
   );
 
   if (
-    (await hre.ethers.provider.getCode(factory.address)) !=
+    (await hre.ethers.provider.getCode(factory.address)) !==
     factoryArtifact.deployedBytecode
   ) {
     throw new Error(
