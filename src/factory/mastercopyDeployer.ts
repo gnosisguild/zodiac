@@ -1,6 +1,14 @@
-import { BytesLike, ContractFactory, utils } from "ethers";
+import {
+  BytesLike,
+  ContractFactory,
+  constants as ethersConstants,
+} from "ethers";
+import { keccak256, getCreate2Address, getAddress } from "ethers/lib/utils";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
+import assert from "node:assert";
 import { getSingletonFactory } from "./singletonFactory";
+
+const { AddressZero } = ethersConstants;
 
 /**
  * Deploy a module's mastercopy via the singleton factory.
@@ -9,24 +17,24 @@ import { getSingletonFactory } from "./singletonFactory";
  * @param hre hardhat runtime environment
  * @param mastercopyContractFactory mastercopy to deploy
  * @param args the arguments to pass to the mastercopy's constructor
- * @returns The address of the deployed module mastercopy or undefined if it was already deployed
+ * @returns The address of the deployed module mastercopy or the zero address if it was already deployed
  */
 export const deployMastercopy = async (
   hre: HardhatRuntimeEnvironment,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
-): Promise<string | undefined> => {
+): Promise<string> => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
 
-  if (deploymentTx.data) {
+  if (Array.isArray(deploymentTx.data) && deploymentTx.data.length > 0) {
     return await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
   }
-  throw new Error("No deployment data found");
+  throw new Error("Unable to create the deployment data (no init code).");
 };
 
 /**
- * Compute a module's mastercopy address. Where it is or will be deployed.
+ * Compute a module's mastercopy address. Where it is or will be deployed. And checks if it is already deployed.
  *
  * @param hre hardhat runtime environment
  * @param mastercopyContractFactory mastercopy to get address for
@@ -45,21 +53,19 @@ export const computeTargetAddress = async (
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
   const singletonFactory = await getSingletonFactory(hre);
 
-  if (!deploymentTx.data) {
-    throw new Error("No deployment data found");
+  if (!Array.isArray(deploymentTx.data) || deploymentTx.data.length === 0) {
+    throw new Error("Unable to create the deployment data (no init code).");
   }
 
-  const initCodeHash = hre.ethers.utils.solidityKeccak256(
-    ["bytes"],
-    [deploymentTx.data]
-  );
-  const computedAddress = hre.ethers.utils.getCreate2Address(
+  const initCodeHash = keccak256(deploymentTx.data);
+
+  const computedAddress = getCreate2Address(
     singletonFactory.address,
     salt,
     initCodeHash
   );
 
-  const targetAddress = utils.getAddress(
+  const targetAddress = getAddress(
     (await singletonFactory.callStatic.deploy(
       deploymentTx.data,
       salt
@@ -67,18 +73,14 @@ export const computeTargetAddress = async (
   );
 
   // Sanity check
-  if (
-    computedAddress !== targetAddress &&
-    targetAddress !== "0x0000000000000000000000000000000000000000"
-  ) {
-    throw new Error(
-      "The computed address does not match the target address and the target address is not 0x0."
-    );
-  }
+  assert(
+    computedAddress === targetAddress || targetAddress === AddressZero,
+    "The computed address does not match the target address and the target address is not 0x0."
+  );
 
   return {
     address: computedAddress,
-    isDeployed: targetAddress === "0x0000000000000000000000000000000000000000",
+    isDeployed: targetAddress === AddressZero,
   };
 };
 
@@ -86,35 +88,35 @@ export const deployMastercopyWithInitData = async (
   hre: HardhatRuntimeEnvironment,
   initCode: BytesLike,
   salt: string
-): Promise<string | undefined> => {
+): Promise<string> => {
   const singletonFactory = await getSingletonFactory(hre);
 
   // throws if this for some reason is not a valid address
-  const targetAddress = utils.getAddress(
+  const targetAddress = getAddress(
     (await singletonFactory.callStatic.deploy(initCode, salt)) as string
   );
 
-  const initCodeHash = hre.ethers.utils.solidityKeccak256(
-    ["bytes"],
-    [initCode]
-  );
-  const computedTargetAddress = hre.ethers.utils.getCreate2Address(
+  const initCodeHash = keccak256(initCode);
+
+  const computedTargetAddress = getCreate2Address(
     singletonFactory.address,
     salt,
     initCodeHash
   );
 
-  if (targetAddress === "0x0000000000000000000000000000000000000000") {
+  if (targetAddress === AddressZero) {
     console.log(
       `        ✔ Mastercopy already deployed to: ${computedTargetAddress}`
     );
-    return;
+    return AddressZero;
   }
 
   // Sanity check
-  if (computedTargetAddress !== targetAddress) {
-    throw new Error("The computed address does not match the target address.");
-  }
+  assert.equal(
+    targetAddress,
+    computedTargetAddress,
+    "The computed address does not match the target address."
+  );
 
   let deployData;
   switch (hre.network.name) {
