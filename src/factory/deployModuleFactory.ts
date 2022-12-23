@@ -2,12 +2,14 @@ import "hardhat-deploy";
 import "@nomiclabs/hardhat-ethers";
 import { constants as ethersConstants } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { MasterCopyInitData } from "./contracts";
 import { getSingletonFactory } from "./singletonFactory";
+import { KnownContracts } from "./types";
 
 const { AddressZero } = ethersConstants;
 
-const FactorySalt =
-  "0xb0519c4c4b7945db302f69180b86f1a668153a476802c1c445fcb691ef23ef16";
+const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
+const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
 
 /**
  * Deploy a module factory via the singleton factory.
@@ -21,10 +23,23 @@ export const deployModuleFactory = async (
 ): Promise<string> => {
   const singletonFactory = await getSingletonFactory(hre);
   console.log("    Singleton Factory:     ", singletonFactory.address);
-  const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
+
+  try {
+    const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
+    if (Factory.bytecode !== FactoryInitCode) {
+      console.warn(
+        "WARNING: The ModuleProxyFactory init code from (src/factory/contracts.ts) " +
+          "MasterCopyInitData[KnownContracts.FACTORY].initCode does not match the init " +
+          "code of the contract code at contracts/factory/ModuleProxyFactory.sol. " +
+          "You are most likely the MasterCopyInitData[KnownContracts.FACTORY].initCode is outdated."
+      );
+    }
+  } catch (e) {
+    // This is expected when the zodiac package is imported as a package.
+  }
 
   const targetAddress = await singletonFactory.callStatic.deploy(
-    Factory.bytecode,
+    FactoryInitCode,
     FactorySalt
   );
   if (targetAddress === AddressZero) {
@@ -37,7 +52,7 @@ export const deployModuleFactory = async (
   console.log("    Target Factory Address:", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
-    Factory.bytecode,
+    FactoryInitCode,
     FactorySalt,
     { gasLimit: 1000000 }
   );

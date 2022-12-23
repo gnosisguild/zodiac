@@ -29,6 +29,9 @@ export const getSingletonFactory = async (
   if (
     (await hardhat.ethers.provider.getCode(singletonFactory.address)) === "0x"
   ) {
+    console.log(
+      "Singelton factory is not deployed on this chain. Deploying singleton factory..."
+    );
     // fund the singleton factory deployer account
     await deployer.sendTransaction({
       to: singletonDeployer,
@@ -49,6 +52,7 @@ export const getSingletonFactory = async (
         "Singleton factory could not be deployed to correct address, deployment haulted."
       );
     }
+    console.log("Singleton factory deployed to " + singletonFactory.address);
   }
   return singletonFactory;
 };
