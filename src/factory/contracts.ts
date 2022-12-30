@@ -141,7 +141,10 @@ export const ContractFactories = {
   [KnownContracts.CONNEXT]: factories.Connext__factory,
 };
 
-export const MasterCopyInitData: Record<KnownContracts, object> = {
+export const MasterCopyInitData: Record<
+  KnownContracts,
+  { initCode: string; salt: string }
+> = {
   [KnownContracts.META_GUARD]: {
     initCode: "",
     salt: "",
