@@ -29,7 +29,7 @@ export const deployModuleFactory = async (
     if (Factory.bytecode !== FactoryInitCode) {
       console.warn(
         "The compiled ModuleProxyFactory (from src/factory/contracts.ts) is outdated, it does " +
-          "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCod"
+          "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
       );
     }
   } catch (e) {
