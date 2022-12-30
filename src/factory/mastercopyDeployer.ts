@@ -27,7 +27,7 @@ export const deployMastercopy = async (
 ): Promise<string> => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
 
-  if (deploymentTx.data == null || deploymentTx.data.length === 0) {
+  if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
   }
   return await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
@@ -53,7 +53,7 @@ export const computeTargetAddress = async (
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
   const singletonFactory = await getSingletonFactory(hre);
 
-  if (deploymentTx.data == null || deploymentTx.data.length === 0) {
+  if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
   }
 
