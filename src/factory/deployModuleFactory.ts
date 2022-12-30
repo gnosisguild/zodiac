@@ -28,10 +28,8 @@ export const deployModuleFactory = async (
     const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
     if (Factory.bytecode !== FactoryInitCode) {
       console.warn(
-        "WARNING: The ModuleProxyFactory init code from (src/factory/contracts.ts) " +
-          "MasterCopyInitData[KnownContracts.FACTORY].initCode does not match the init " +
-          "code of the contract code at contracts/factory/ModuleProxyFactory.sol. " +
-          "You are most likely the MasterCopyInitData[KnownContracts.FACTORY].initCode is outdated."
+        "The compiled ModuleProxyFactory (from src/factory/contracts.ts) is outdated, it does " +
+          "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCod"
       );
     }
   } catch (e) {
