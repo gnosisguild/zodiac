@@ -5,8 +5,15 @@ The purpose of the Module Proxy Factory is to make the deployment of Zodiac Modu
 It's worth mentioning that it costs roughly 5k additional gas for each transaction when using a proxy.
 Thus, after a certain number of transactions (~700) it would likely be cheaper to deploy the module from the constructor rather than the proxy.
 
-There's also a JS API, allowing the developers to interact with the ProxyFactory Contract more easily.
-You can check the factory file to see more details, it consists of 5 methods, described individually in the following sections:
+There's also a JS API, allowing the developers to easily:
+
+- Deploy the Module Factory (and the Singleton Factory if it's not already deployed to the current chain). See `src/factory/deployModuleFactory.ts`.
+- Deploy Module Mastercopys via the Singleton Factory. See `src/factory/mastercopyDeployer.ts`.
+- Deploy Module minimal proxies (Clones) via the Module Proxy Factory. See `src/factory/moduleDeployer.ts`.
+
+The deployments can either be for your own custom modules or any of the already created Zodiac modules listed in `src/factory/contracts.ts`.
+
+Description of the module deployment functionality:
 
 ### 1. Deploy and set up a known module
 
@@ -16,11 +23,11 @@ This method is used to deploy contracts listed in `./constants.ts`.
 - Arguments:
   - `moduleName`: Name of the module to be deployed, note that it needs to exist as a key in the [CONTRACT_ADDRESSES](./constants.ts#L3-L12) object
   - `setupArgs`: An object with two attributes: `value` and `types`
-    - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
+    - In `values` it expects an array of the arguments of the `setUp` function of the module to deploy
     - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
-  - `salt`: For the Create2 op code
+  - `saltNonce`: Salt for the Create2 op code
 - Returns: An object with the transaction built in order to be executed by the Safe, and the expected address of the new module, this will allow developers to batch the transaction of deployment + enable module on safe. Example:
 
 ```json
@@ -43,7 +50,7 @@ This method is similar to `deployAndSetUpModule`, however, it deals with the dep
   - `mastercopyAddress`: The address of the module to be deployed
   - `abi`: The ABI of the module to be deployed
   - `setupArgs`: An object with two attributes: `value` and `types`
-    - In `value` it expects an array of the arguments of the `setUp` function of the module to deploy
+    - In `values` it expects an array of the arguments of the `setUp` function of the module to deploy
     - In `types` it expects an array of the types of every value
   - `provider`: Ethereum provider, expects an instance of `JsonRpcProvider` from `ethers`
   - `chainId`: Number of network to interact with
