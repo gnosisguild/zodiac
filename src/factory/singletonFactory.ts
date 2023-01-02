@@ -52,7 +52,9 @@ export const getSingletonFactory = async (
         "Singleton factory could not be deployed to correct address, deployment haulted."
       );
     }
-    console.log("Singleton factory deployed to " + singletonFactory.address);
+    console.log(
+      `  \x1B[32m✔ Singleton factory deployed to: ${singletonFactory.address} 🎉\x1B[0m`
+    );
   }
   return singletonFactory;
 };

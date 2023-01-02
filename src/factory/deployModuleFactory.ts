@@ -21,14 +21,18 @@ const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
 export const deployModuleFactory = async (
   hre: HardhatRuntimeEnvironment
 ): Promise<string> => {
+  console.log("Deploying module factory...");
   const singletonFactory = await getSingletonFactory(hre);
-  console.log("    Singleton Factory:     ", singletonFactory.address);
+  console.log(
+    "  Singleton factory used for deployment:",
+    singletonFactory.address
+  );
 
   try {
     const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
     if (Factory.bytecode !== FactoryInitCode) {
       console.warn(
-        "The compiled ModuleProxyFactory (from src/factory/contracts.ts) is outdated, it does " +
+        "  The compiled Module Factory (from src/factory/contracts.ts) is outdated, it does " +
           "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
       );
     }
@@ -42,12 +46,12 @@ export const deployModuleFactory = async (
   );
   if (targetAddress === AddressZero) {
     console.log(
-      "    ModuleProxyFactory already deployed to target address on this network."
+      "  ✔ Module factory already deployed to target address on this network."
     );
     return AddressZero;
   }
 
-  console.log("    Target Factory Address:", targetAddress);
+  console.log("  Target module factory address:        ", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
     FactoryInitCode,
@@ -56,14 +60,19 @@ export const deployModuleFactory = async (
   );
 
   const result = await transactionResponse.wait();
-  console.log("    Deploy transaction:    ", result.transactionHash);
+  console.log(
+    "  Deploy transaction hash:              ",
+    result.transactionHash
+  );
 
   if ((await hre.ethers.provider.getCode(targetAddress)).length < 3) {
     // will return "0x" when there is no code
-    throw new Error("    Deployment unsuccessful: No code at target address.");
+    throw new Error(
+      "  \x1B[31m✘ Deployment unsuccessful: No code at target address.\x1B[0m"
+    );
   } else {
     console.log(
-      "    Successfully deployed ModuleProxyFactory to target address! 🎉"
+      `  \x1B[32m✔ Successfully deployed module factory to: ${targetAddress}\x1B[0m 🎉`
     );
   }
   return targetAddress;
