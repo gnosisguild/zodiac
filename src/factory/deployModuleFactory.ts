@@ -58,22 +58,9 @@ export const deployModuleFactory = async (
   const result = await transactionResponse.wait();
   console.log("    Deploy transaction:    ", result.transactionHash);
 
-  const factory = await hre.ethers.getContractAt(
-    "ModuleProxyFactory",
-    targetAddress
-  );
-
-  const factoryArtifact = await hre.artifacts.readArtifact(
-    "ModuleProxyFactory"
-  );
-
-  if (
-    (await hre.ethers.provider.getCode(factory.address)) !==
-    factoryArtifact.deployedBytecode
-  ) {
-    throw new Error(
-      "    Deployment unsuccessful: deployed bytecode does not match."
-    );
+  if ((await hre.ethers.provider.getCode(targetAddress)).length < 3) {
+    // will return "0x" when there is no code
+    throw new Error("    Deployment unsuccessful: No code at target address.");
   } else {
     console.log(
       "    Successfully deployed ModuleProxyFactory to target address! 🎉"
