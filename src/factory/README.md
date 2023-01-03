@@ -1,4 +1,4 @@
-# Module Factory
+# Module Proxy Factory
 
 The purpose of the Module Proxy Factory is to make the deployment of Zodiac Modules easier. Applying the Minimal Proxy Pattern, this factory reduces the gas cost of deployment and simplifies the tracking of deployed modules. The Minimal Proxy Pattern has been used because the modules do not need to be upgradeable, since a safe can cheaply deploy a module if needed.
 
@@ -7,7 +7,7 @@ Thus, after a certain number of transactions (~700) it would likely be cheaper t
 
 There's also a JS API, allowing the developers to easily:
 
-- Deploy the Module Factory (and the Singleton Factory if it's not already deployed to the current chain). See `src/factory/deployModuleFactory.ts`.
+- Deploy the Module Proxy Factory (and the Singleton Factory if it's not already deployed to the current chain). See `src/factory/deployModuleFactory.ts`.
 - Deploy Module Mastercopys via the Singleton Factory. See `src/factory/mastercopyDeployer.ts`.
 - Deploy Module minimal proxies (Clones) via the Module Proxy Factory. See `src/factory/moduleDeployer.ts`.
 
@@ -74,7 +74,7 @@ This method is used to calculate the resulting address of a deployed module give
 
 - Interface: `calculateProxyAddress(moduleFactory, mastercopyAddress, initData, saltNonce)`
 - Arguments:
-  - `moduleFactory`: Module factory contract object of the Module Proxy Factory contract
+  - `moduleFactory`: The Module Proxy Factory contract object
   - `mastercopyAddress`: Address of the Master Copy of the Module
   - `initData`: Encoded function data that is used to set up the module
   - `saltNonce`: Some salt to use for the deployment
@@ -116,4 +116,4 @@ This method returns an object with the an instance of the factory contract and t
 We use a deterministic deployment to deploy the factory and mastercopies of each module, so that they can be deployed with the same address on supported networks. You can check which networks are supported in the
 [constants file](./constants.ts#L14-L22)
 
-The [Singleton Factory](https://eips.ethereum.org/EIPS/eip-2470) is used to deploy the Module Factory. If it is not already deployed at the correct address on your network, the [`singleton-deployment` script file](./singleton-deployment.ts) will attempt to deploy it before deploying the Module Proxy Factory. If the Singleton Factory cannot be deployed to the correct address, the script will fail.
+The [Singleton Factory](https://eips.ethereum.org/EIPS/eip-2470) is used to deploy the Module Proxy Factory. If it is not already deployed at the correct address on your network, the [`singleton-deployment` script file](./singleton-deployment.ts) will attempt to deploy it before deploying the Module Proxy Factory. If the Singleton Factory cannot be deployed to the correct address, the script will fail.

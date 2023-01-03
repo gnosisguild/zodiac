@@ -12,16 +12,16 @@ const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
 const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
 
 /**
- * Deploy a module factory via the singleton factory.
+ * Deploy the Module Proxy Factory via the singleton factory.
  * It will therefore get the same address on any chain.
  *
  * @param hre hardhat runtime environment
- * @returns The address of the deployed module factory, or the zero address if it was already deployed
+ * @returns The address of the deployed Module Proxy Factory, or the zero address if it was already deployed
  */
 export const deployModuleFactory = async (
   hre: HardhatRuntimeEnvironment
 ): Promise<string> => {
-  console.log("Deploying module factory...");
+  console.log("Deploying the Module Proxy Factory...");
   const singletonFactory = await getSingletonFactory(hre);
   console.log(
     "  Singleton factory used for deployment:",
@@ -32,7 +32,7 @@ export const deployModuleFactory = async (
     const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
     if (Factory.bytecode !== FactoryInitCode) {
       console.warn(
-        "  The compiled Module Factory (from src/factory/contracts.ts) is outdated, it does " +
+        "  The compiled Module Proxy Factory (from src/factory/contracts.ts) is outdated, it does " +
           "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
       );
     }
@@ -46,12 +46,12 @@ export const deployModuleFactory = async (
   );
   if (targetAddress === AddressZero) {
     console.log(
-      "  ✔ Module factory already deployed to target address on this network."
+      "  ✔ Module Proxy Factory already deployed to target address on this network."
     );
     return AddressZero;
   }
 
-  console.log("  Target module factory address:        ", targetAddress);
+  console.log("  Target Module Proxy Factory address:        ", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
     FactoryInitCode,
@@ -72,7 +72,7 @@ export const deployModuleFactory = async (
     );
   } else {
     console.log(
-      `  \x1B[32m✔ Successfully deployed module factory to: ${targetAddress}\x1B[0m 🎉`
+      `  \x1B[32m✔ Successfully deployed the Module Proxy Factory to: ${targetAddress}\x1B[0m 🎉`
     );
   }
   return targetAddress;
