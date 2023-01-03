@@ -12,23 +12,27 @@ const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
 const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
 
 /**
- * Deploy a module factory via the singleton factory.
+ * Deploy the Module Proxy Factory via the singleton factory.
  * It will therefore get the same address on any chain.
  *
  * @param hre hardhat runtime environment
- * @returns The address of the deployed module factory, or the zero address if it was already deployed
+ * @returns The address of the deployed Module Proxy Factory, or the zero address if it was already deployed
  */
 export const deployModuleFactory = async (
   hre: HardhatRuntimeEnvironment
 ): Promise<string> => {
+  console.log("Deploying the Module Proxy Factory...");
   const singletonFactory = await getSingletonFactory(hre);
-  console.log("    Singleton Factory:     ", singletonFactory.address);
+  console.log(
+    "  Singleton factory used for deployment:",
+    singletonFactory.address
+  );
 
   try {
     const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
     if (Factory.bytecode !== FactoryInitCode) {
       console.warn(
-        "The compiled ModuleProxyFactory (from src/factory/contracts.ts) is outdated, it does " +
+        "  The compiled Module Proxy Factory (from src/factory/contracts.ts) is outdated, it does " +
           "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
       );
     }
@@ -42,12 +46,12 @@ export const deployModuleFactory = async (
   );
   if (targetAddress === AddressZero) {
     console.log(
-      "    ModuleProxyFactory already deployed to target address on this network."
+      "  ✔ Module Proxy Factory already deployed to target address on this network."
     );
     return AddressZero;
   }
 
-  console.log("    Target Factory Address:", targetAddress);
+  console.log("  Target Module Proxy Factory address:        ", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
     FactoryInitCode,
@@ -56,27 +60,19 @@ export const deployModuleFactory = async (
   );
 
   const result = await transactionResponse.wait();
-  console.log("    Deploy transaction:    ", result.transactionHash);
-
-  const factory = await hre.ethers.getContractAt(
-    "ModuleProxyFactory",
-    targetAddress
+  console.log(
+    "  Deploy transaction hash:              ",
+    result.transactionHash
   );
 
-  const factoryArtifact = await hre.artifacts.readArtifact(
-    "ModuleProxyFactory"
-  );
-
-  if (
-    (await hre.ethers.provider.getCode(factory.address)) !==
-    factoryArtifact.deployedBytecode
-  ) {
+  if ((await hre.ethers.provider.getCode(targetAddress)).length < 3) {
+    // will return "0x" when there is no code
     throw new Error(
-      "    Deployment unsuccessful: deployed bytecode does not match."
+      "  \x1B[31m✘ Deployment unsuccessful: No code at target address.\x1B[0m"
     );
   } else {
     console.log(
-      "    Successfully deployed ModuleProxyFactory to target address! 🎉"
+      `  \x1B[32m✔ Successfully deployed the Module Proxy Factory to: ${targetAddress}\x1B[0m 🎉`
     );
   }
   return targetAddress;

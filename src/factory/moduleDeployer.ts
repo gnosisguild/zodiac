@@ -20,7 +20,7 @@ type TxAndExpectedAddress = {
 };
 
 /**
- * Get the transaction for deploying a module proxy through the module factory.
+ * Get the transaction for deploying a module proxy through the Module Proxy Factory.
  * This will also initialize the module proxy by calling the setup function.
  *
  * @param moduleName Name of the module to deploy (must be present in `KnownContracts`)
@@ -54,7 +54,7 @@ export const deployAndSetUpModule = (
 };
 
 /**
- * Get the transaction for deploying a module proxy through the module factory.
+ * Get the transaction for deploying a module proxy through the Module Proxy Factory.
  * This will also initialize the module proxy by calling the setup function.
  *
  * This method is for modules that do not have a mastercopy listed in the `KnownContracts`
