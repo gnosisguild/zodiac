@@ -34,7 +34,8 @@
     "prebuild:factory": "yarn generate:types",
     "prerelease": "yarn clean && yarn build && yarn clean:factory && yarn build:factory",
     "release": "yarn publish --access public",
-    "verify": "yarn hardhat verify --network"
+    "verify": "yarn hardhat verify --network",
+    "setup:monitoring": "ts-node monitoring/setup-script.ts"
   },
   "directories": {
     "test": "test"
@@ -58,6 +59,9 @@
     "@typescript-eslint/parser": "^5.40.0",
     "chai": "^4.3.6",
     "debug": "^4.3.4",
+    "defender-base-client": "^1.37.0",
+    "defender-sentinel-client": "^1.37.0",
+    "dotenv": "^16.0.3",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -85,6 +89,7 @@
     "@openzeppelin/contracts": "^4.3.2",
     "@openzeppelin/contracts-upgradeable": "^4.2.0",
     "argv": "^0.0.2",
+    "defender-autotask-client": "^1.37.0",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
     "hardhat-change-network": "^0.0.7",
