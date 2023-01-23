@@ -68,12 +68,12 @@ export const ContractAddresses: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x56C11dE61e249cbBf337027B53Ed3b1dFA8a4e6F",
+      "0x61Ddf82AD2f9598ba4A0Be3c2369bFEd71B73cbA",
   },
   [SupportedNetworks.Goerli]: {
     ...MasterCopyAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x1340229DCF6e0bed7D9c2356929987C2A720F836",
+      "0x8Baa1BCF4e3572ec49F7Ec8ab2F9571bdDbd39fc",
   },
   [SupportedNetworks.BinanceSmartChain]: { ...MasterCopyAddresses },
   [SupportedNetworks.GnosisChain]: { ...MasterCopyAddresses },
@@ -81,7 +81,7 @@ export const ContractAddresses: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x923b1AfF7D67507A5Bdf528bD3086456FEba10cB",
+      "0xeBa54EaaCe9B0b534099d3f52CB1fe9Ad714e98e",
   },
   [SupportedNetworks.HardhatNetwork]: { ...MasterCopyAddresses },
   [SupportedNetworks.Mumbai]: {
