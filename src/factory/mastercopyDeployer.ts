@@ -19,7 +19,7 @@ const { AddressZero } = ethersConstants;
  * @returns The address of the deployed module mastercopy or the zero address if it was already deployed
  */
 export const deployMastercopy = async (
-  provider: ethers.providers.JsonRpcProvider,
+  signer: ethers.providers.JsonRpcSigner,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
@@ -29,7 +29,7 @@ export const deployMastercopy = async (
   if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
   }
-  return await deployMastercopyWithInitData(provider, deploymentTx.data, salt);
+  return await deployMastercopyWithInitData(signer, deploymentTx.data, salt);
 };
 
 /**
@@ -44,13 +44,13 @@ export const deployMastercopy = async (
  * }
  */
 export const computeTargetAddress = async (
-  provider: ethers.providers.JsonRpcProvider,
+  signer: ethers.providers.JsonRpcSigner,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
 ): Promise<{ address: string; isDeployed: boolean }> => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
-  const singletonFactory = await getSingletonFactory(provider);
+  const singletonFactory = await getSingletonFactory(signer);
 
   if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
@@ -85,11 +85,11 @@ export const computeTargetAddress = async (
 };
 
 export const deployMastercopyWithInitData = async (
-  provider: ethers.providers.JsonRpcProvider,
+  signer: ethers.providers.JsonRpcSigner,
   initCode: BytesLike,
   salt: string
 ): Promise<string> => {
-  const singletonFactory = await getSingletonFactory(provider);
+  const singletonFactory = await getSingletonFactory(signer);
 
   // throws if this for some reason is not a valid address
   const targetAddress = getAddress(
@@ -115,7 +115,7 @@ export const deployMastercopyWithInitData = async (
   }
 
   let gasLimit;
-  switch (provider.network.name) {
+  switch (signer.provider.network.name) {
     case "optimism":
       gasLimit = 6000000;
       break;
@@ -136,7 +136,7 @@ export const deployMastercopyWithInitData = async (
   });
   await deployTx.wait();
 
-  if ((await provider.getCode(targetAddress)).length > 2) {
+  if ((await signer.provider.getCode(targetAddress)).length > 2) {
     console.log(
       `  \x1B[32m✔ Mastercopy deployed to:        ${targetAddress} 🎉\x1B[0m `
     );

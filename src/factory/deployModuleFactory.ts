@@ -16,10 +16,10 @@ const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
  * @returns The address of the deployed Module Proxy Factory, or the zero address if it was already deployed
  */
 export const deployModuleFactory = async (
-  provider: ethers.providers.JsonRpcProvider
+  signer: ethers.providers.JsonRpcSigner
 ): Promise<string> => {
   console.log("Deploying the Module Proxy Factory...");
-  const singletonFactory = await getSingletonFactory(provider);
+  const singletonFactory = await getSingletonFactory(signer);
   console.log(
     "  Singleton factory used for deployment:",
     singletonFactory.address
@@ -50,7 +50,7 @@ export const deployModuleFactory = async (
     result.transactionHash
   );
 
-  if ((await provider.getCode(targetAddress)).length < 3) {
+  if ((await signer.provider.getCode(targetAddress)).length < 3) {
     // will return "0x" when there is no code
     throw new Error(
       "  \x1B[31m✘ Deployment unsuccessful: No code at target address.\x1B[0m"

@@ -24,8 +24,8 @@ export const deploy = async (
 
     try {
       hre.changeNetwork(network);
-      const [wallet] = await hre.ethers.getSigners();
-      await hre.ethers.provider.getBalance(wallet.address);
+      const [deployer] = await hre.ethers.getSigners();
+      const signer = hre.ethers.provider.getSigner(deployer.address);
       for (let index = 0; index < contracts.length; index++) {
         const initData: InitData = MasterCopyInitData[contracts[index]];
         if (
@@ -36,7 +36,7 @@ export const deploy = async (
           console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
           try {
             await deployMastercopyWithInitData(
-              hre.ethers.provider,
+              signer,
               initData.initCode,
               initData.salt
             );

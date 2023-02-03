@@ -13,8 +13,8 @@ export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
         "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
     );
   }
-  // const [deployer] = await hre.ethers.getSigners();
-  deployModuleFactory(hre.ethers.provider); // I'm assuming this provider uses deployer as signer, if this is not the case we will have to figure out how to make a JsonRpcProvider with deployer as signer
+  const [deployer] = await hre.ethers.getSigners();
+  deployModuleFactory(hre.ethers.provider.getSigner(deployer.address));
 };
 
 task(
