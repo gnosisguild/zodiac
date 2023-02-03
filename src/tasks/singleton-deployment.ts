@@ -13,8 +13,9 @@ export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
         "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
     );
   }
+
   const [deployer] = await hre.ethers.getSigners();
-  deployModuleFactory(hre.ethers.provider.getSigner(deployer.address));
+  await deployModuleFactory(hre.ethers.provider.getSigner(deployer.address));
 };
 
 task(
