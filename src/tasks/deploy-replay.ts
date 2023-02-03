@@ -36,7 +36,7 @@ export const deploy = async (
           console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
           try {
             await deployMastercopyWithInitData(
-              hre,
+              hre.ethers.provider,
               initData.initCode,
               initData.salt
             );

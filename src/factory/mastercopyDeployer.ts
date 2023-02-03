@@ -2,10 +2,9 @@ import {
   BytesLike,
   ContractFactory,
   constants as ethersConstants,
+  ethers,
 } from "ethers";
 import { keccak256, getCreate2Address, getAddress } from "ethers/lib/utils";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import assert from "node:assert";
 import { getSingletonFactory } from "./singletonFactory";
 
 const { AddressZero } = ethersConstants;
@@ -20,7 +19,7 @@ const { AddressZero } = ethersConstants;
  * @returns The address of the deployed module mastercopy or the zero address if it was already deployed
  */
 export const deployMastercopy = async (
-  hre: HardhatRuntimeEnvironment,
+  provider: ethers.providers.JsonRpcProvider,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
@@ -30,7 +29,7 @@ export const deployMastercopy = async (
   if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
   }
-  return await deployMastercopyWithInitData(hre, deploymentTx.data, salt);
+  return await deployMastercopyWithInitData(provider, deploymentTx.data, salt);
 };
 
 /**
@@ -45,13 +44,13 @@ export const deployMastercopy = async (
  * }
  */
 export const computeTargetAddress = async (
-  hre: HardhatRuntimeEnvironment,
+  provider: ethers.providers.JsonRpcProvider,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
 ): Promise<{ address: string; isDeployed: boolean }> => {
   const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
-  const singletonFactory = await getSingletonFactory(hre);
+  const singletonFactory = await getSingletonFactory(provider);
 
   if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
@@ -73,10 +72,11 @@ export const computeTargetAddress = async (
   );
 
   // Sanity check
-  assert(
-    computedAddress === targetAddress || targetAddress === AddressZero,
-    "The computed address does not match the target address and the target address is not 0x0."
-  );
+  if (computedAddress !== targetAddress && targetAddress !== AddressZero) {
+    throw new Error(
+      "The computed address does not match the target address and the target address is not 0x0."
+    );
+  }
 
   return {
     address: computedAddress,
@@ -85,11 +85,11 @@ export const computeTargetAddress = async (
 };
 
 export const deployMastercopyWithInitData = async (
-  hre: HardhatRuntimeEnvironment,
+  provider: ethers.providers.JsonRpcProvider,
   initCode: BytesLike,
   salt: string
 ): Promise<string> => {
-  const singletonFactory = await getSingletonFactory(hre);
+  const singletonFactory = await getSingletonFactory(provider);
 
   // throws if this for some reason is not a valid address
   const targetAddress = getAddress(
@@ -110,44 +110,33 @@ export const deployMastercopyWithInitData = async (
   }
 
   // Sanity check
-  assert.equal(
-    targetAddress,
-    computedTargetAddress,
-    "The computed address does not match the target address."
-  );
-
-  let deployData;
-  switch (hre.network.name) {
-    case "optimism":
-      deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 6000000,
-      });
-      break;
-    case "arbitrum":
-      deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 200000000,
-      });
-      break;
-    case "avalanche":
-      deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 8000000,
-      });
-      break;
-    case "mumbai":
-      deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 8000000,
-      });
-      break;
-    default:
-      deployData = await singletonFactory.deploy(initCode, salt, {
-        gasLimit: 10000000,
-      });
-      break;
+  if (targetAddress !== computedTargetAddress) {
+    throw new Error("The computed address does not match the target address.");
   }
 
-  await deployData.wait();
+  let gasLimit;
+  switch (provider.network.name) {
+    case "optimism":
+      gasLimit = 6000000;
+      break;
+    case "arbitrum":
+      gasLimit = 200000000;
+      break;
+    case "avalanche":
+      gasLimit = 8000000;
+      break;
+    case "mumbai":
+      gasLimit = 8000000;
+      break;
+    default:
+      gasLimit = 10000000;
+  }
+  const deployTx = await singletonFactory.deploy(initCode, salt, {
+    gasLimit,
+  });
+  await deployTx.wait();
 
-  if ((await hre.ethers.provider.getCode(targetAddress)).length > 2) {
+  if ((await provider.getCode(targetAddress)).length > 2) {
     console.log(
       `  \x1B[32m✔ Mastercopy deployed to:        ${targetAddress} 🎉\x1B[0m `
     );
