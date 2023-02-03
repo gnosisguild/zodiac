@@ -10,7 +10,7 @@ import {
 } from "./contracts";
 import { KnownContracts } from "./types";
 
-type ABI = any[];
+type ABI = any[] | readonly any[];
 
 type TxAndExpectedAddress = {
   transaction: {
