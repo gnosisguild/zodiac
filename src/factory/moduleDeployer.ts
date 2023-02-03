@@ -1,5 +1,5 @@
+import { Provider } from "@ethersproject/providers";
 import { ethers, Contract, Signer, BigNumber } from "ethers";
-import { ABI } from "hardhat-deploy/dist/types";
 import { ModuleProxyFactory__factory } from "../../abi-typechain-types";
 
 import {
@@ -9,6 +9,8 @@ import {
   ContractFactories,
 } from "./contracts";
 import { KnownContracts } from "./types";
+
+type ABI = any[] | readonly any[];
 
 type TxAndExpectedAddress = {
   transaction: {
@@ -36,7 +38,7 @@ export const deployAndSetUpModule = (
     types: Array<string>;
     values: Array<any>;
   },
-  provider: ethers.providers.JsonRpcProvider,
+  provider: Provider,
   chainId: number,
   saltNonce: string
 ): TxAndExpectedAddress => {
@@ -73,7 +75,7 @@ export const deployAndSetUpCustomModule = (
     types: Array<string>;
     values: Array<any>;
   },
-  provider: ethers.providers.JsonRpcProvider,
+  provider: Provider,
   chainId: number,
   saltNonce: string
 ): TxAndExpectedAddress => {
@@ -163,7 +165,7 @@ export const calculateProxyAddress = (
 export const getModuleInstance = <T extends KnownContracts>(
   moduleName: T,
   moduleAddress: string,
-  provider: ethers.providers.JsonRpcProvider | Signer
+  provider: Provider | Signer
 ) => {
   const moduleIsNotSupported =
     !Object.keys(ContractFactories).includes(moduleName);
@@ -178,7 +180,7 @@ export const getModuleInstance = <T extends KnownContracts>(
 
 export const getModuleFactoryAndMasterCopy = <T extends KnownContracts>(
   moduleName: T,
-  provider: ethers.providers.JsonRpcProvider,
+  provider: Provider,
   chainId: SupportedNetworks
 ) => {
   const chainContracts = ContractAddresses[chainId as SupportedNetworks];

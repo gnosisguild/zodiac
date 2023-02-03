@@ -1,7 +1,4 @@
-import "hardhat-deploy";
-import "@nomiclabs/hardhat-ethers";
-import { constants as ethersConstants } from "ethers";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { constants as ethersConstants, ethers } from "ethers";
 import { MasterCopyInitData } from "./contracts";
 import { getSingletonFactory } from "./singletonFactory";
 import { KnownContracts } from "./types";
@@ -19,26 +16,14 @@ const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
  * @returns The address of the deployed Module Proxy Factory, or the zero address if it was already deployed
  */
 export const deployModuleFactory = async (
-  hre: HardhatRuntimeEnvironment
+  signer: ethers.providers.JsonRpcSigner
 ): Promise<string> => {
   console.log("Deploying the Module Proxy Factory...");
-  const singletonFactory = await getSingletonFactory(hre);
+  const singletonFactory = await getSingletonFactory(signer);
   console.log(
     "  Singleton factory used for deployment:",
     singletonFactory.address
   );
-
-  try {
-    const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
-    if (Factory.bytecode !== FactoryInitCode) {
-      console.warn(
-        "  The compiled Module Proxy Factory (from src/factory/contracts.ts) is outdated, it does " +
-          "not match the bytecode stored at MasterCopyInitData[KnownContracts.FACTORY].initCode"
-      );
-    }
-  } catch (e) {
-    // This is expected when the zodiac package is imported as a package.
-  }
 
   const targetAddress = await singletonFactory.callStatic.deploy(
     FactoryInitCode,
@@ -65,7 +50,7 @@ export const deployModuleFactory = async (
     result.transactionHash
   );
 
-  if ((await hre.ethers.provider.getCode(targetAddress)).length < 3) {
+  if ((await signer.provider.getCode(targetAddress)).length < 3) {
     // will return "0x" when there is no code
     throw new Error(
       "  \x1B[31m✘ Deployment unsuccessful: No code at target address.\x1B[0m"
