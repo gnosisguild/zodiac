@@ -25,7 +25,7 @@ abstract contract Modifier is Module, IAvatar {
     error AlreadyEnabledModule(address module);
 
     /// @dev `setModules()` was already called.
-    error SetupModulesAlreadyCalled(address);
+    error SetupModulesAlreadyCalled();
 
     /*
     --------------------------------------------------
@@ -146,7 +146,7 @@ abstract contract Modifier is Module, IAvatar {
     /// @notice Should be called as part of the `setUp` / initializing function and can only be called once.
     function setupModules() internal {
         if (modules[SENTINEL_MODULES] != address(0))
-            revert SetupModulesAlreadyCalled(address(this));
+            revert SetupModulesAlreadyCalled();
         modules[SENTINEL_MODULES] = SENTINEL_MODULES;
     }
 }
