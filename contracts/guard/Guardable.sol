@@ -24,8 +24,4 @@ contract Guardable is OwnableUpgradeable {
         guard = _guard;
         emit ChangedGuard(guard);
     }
-
-    function getGuard() external view returns (address _guard) {
-        return guard;
-    }
 }
