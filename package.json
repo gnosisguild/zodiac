@@ -86,8 +86,8 @@
   "dependencies": {
     "@gnosis.pm/mock-contract": "^4.0.0",
     "@gnosis.pm/safe-contracts": "1.3.0",
-    "@openzeppelin/contracts": "^4.3.2",
-    "@openzeppelin/contracts-upgradeable": "^4.2.0",
+    "@openzeppelin/contracts": "^4.8.1",
+    "@openzeppelin/contracts-upgradeable": "^4.8.1",
     "ethers": "^5.7.1"
   },
   "peerDependencies": {
