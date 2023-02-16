@@ -43,6 +43,13 @@ describe("Guardable", async () => {
         .withArgs(guard.address);
     });
   });
+
+  describe("getGuard", async () => {
+    it("returns guard address", async () => {
+      const { module } = await setupTests();
+      await expect(await module.getGuard()).to.be.equals(AddressZero);
+    });
+  });
 });
 
 describe("BaseGuard", async () => {
