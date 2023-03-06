@@ -35,6 +35,14 @@ describe("Modifier", async () => {
     };
   });
 
+  describe("setupModules", async () => {
+    it("reverts if called more than once", async () => {
+      const { modifier } = await setupTests();
+      await expect(modifier.attemptToSetupModules()).to.be.revertedWith(
+        "SetupModulesAlreadyCalled()"
+      );
+    });
+  });
   describe("enableModule", async () => {
     it("reverts if caller is not the owner", async () => {
       const { modifier } = await setupTests();
@@ -59,9 +67,6 @@ describe("Modifier", async () => {
 
     it("reverts if module is already enabled", async () => {
       const { modifier } = await setupTests();
-      await expect(modifier.enableModule(user1.address))
-        .to.emit(modifier, "EnabledModule")
-        .withArgs(user1.address);
       await expect(modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
@@ -173,9 +178,7 @@ describe("Modifier", async () => {
       const { modifier } = await setupTests();
       let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
       tx = tx.toString();
-      await expect(tx).to.be.equals(
-        [[], "0x0000000000000000000000000000000000000000"].toString()
-      );
+      await expect(tx).to.be.equals([[], SENTINEL_MODULES].toString());
     });
 
     it("returns one module if one module is enabled", async () => {
@@ -184,10 +187,7 @@ describe("Modifier", async () => {
       let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
       tx = tx.toString();
       await expect(tx).to.be.equals(
-        [
-          [user1.address],
-          "0x0000000000000000000000000000000000000000",
-        ].toString()
+        [[user1.address], SENTINEL_MODULES].toString()
       );
     });
 
@@ -203,11 +203,7 @@ describe("Modifier", async () => {
       let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
       tx = tx.toString();
       await expect(tx).to.be.equals(
-        [
-          user2.address,
-          user1.address,
-          "0x0000000000000000000000000000000000000000",
-        ].toString()
+        [user2.address, user1.address, SENTINEL_MODULES].toString()
       );
     });
   });
@@ -229,10 +225,6 @@ describe("Modifier", async () => {
 
     it("execute a transaction.", async () => {
       const { modifier, tx } = await setupTests();
-      await expect(await modifier.enableModule(user1.address))
-        .to.emit(modifier, "EnabledModule")
-        .withArgs(user1.address);
-      // delete once you figure out why you need to do this twice
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);
@@ -265,10 +257,6 @@ describe("Modifier", async () => {
 
     it("execute a transaction.", async () => {
       const { modifier, tx } = await setupTests();
-      await expect(await modifier.enableModule(user1.address))
-        .to.emit(modifier, "EnabledModule")
-        .withArgs(user1.address);
-      // delete once you figure out why you need to do this twice
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user1.address);

@@ -46,9 +46,9 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
-        /// Check if a transactioon guard is enabled.
-        if (guard != address(0)) {
-            IGuard(guard).checkTransaction(
+        address currentGuard = guard;
+        if (currentGuard != address(0)) {
+            IGuard(currentGuard).checkTransaction(
                 /// Transaction info used by module transactions.
                 to,
                 value,
@@ -63,15 +63,20 @@ abstract contract Module is FactoryFriendly, Guardable {
                 bytes("0x"),
                 msg.sender
             );
-        }
-        success = IAvatar(target).execTransactionFromModule(
-            to,
-            value,
-            data,
-            operation
-        );
-        if (guard != address(0)) {
-            IGuard(guard).checkAfterExecution(bytes32("0x"), success);
+            success = IAvatar(target).execTransactionFromModule(
+                to,
+                value,
+                data,
+                operation
+            );
+            IGuard(currentGuard).checkAfterExecution(bytes32("0x"), success);
+        } else {
+            success = IAvatar(target).execTransactionFromModule(
+                to,
+                value,
+                data,
+                operation
+            );
         }
         return success;
     }
@@ -88,9 +93,9 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success, bytes memory returnData) {
-        /// Check if a transactioon guard is enabled.
-        if (guard != address(0)) {
-            IGuard(guard).checkTransaction(
+        address currentGuard = guard;
+        if (currentGuard != address(0)) {
+            IGuard(currentGuard).checkTransaction(
                 /// Transaction info used by module transactions.
                 to,
                 value,
@@ -105,11 +110,22 @@ abstract contract Module is FactoryFriendly, Guardable {
                 bytes("0x"),
                 msg.sender
             );
-        }
-        (success, returnData) = IAvatar(target)
-            .execTransactionFromModuleReturnData(to, value, data, operation);
-        if (guard != address(0)) {
-            IGuard(guard).checkAfterExecution(bytes32("0x"), success);
+            (success, returnData) = IAvatar(target)
+                .execTransactionFromModuleReturnData(
+                    to,
+                    value,
+                    data,
+                    operation
+                );
+            IGuard(currentGuard).checkAfterExecution(bytes32("0x"), success);
+        } else {
+            (success, returnData) = IAvatar(target)
+                .execTransactionFromModuleReturnData(
+                    to,
+                    value,
+                    data,
+                    operation
+                );
         }
         return (success, returnData);
     }
