@@ -49,7 +49,7 @@ export const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
     "0xBD34D00dC0ae37C687F784A11FA6a0F2c5726Ba3",
   [KnownContracts.ROLES]: "0xD8DfC1d938D7D163C5231688341e9635E9011889",
-  [KnownContracts.TELLOR]: "",
+  [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
   [KnownContracts.OPTIMISTIC_GOVERNOR]: "",
   [KnownContracts.OZ_GOVERNOR]: "0xe28c39FAC73cce2B33C4C003049e2F3AE43f77d5",
   [KnownContracts.ERC20_VOTES]: "0x752c61de75ADA0F8a33e048d2F773f51172f033e",
@@ -66,27 +66,32 @@ export const ContractAddresses: Record<
 > = {
   [SupportedNetworks.Mainnet]: {
     ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0x7D5f5EaF541AC203Ee1424895b6997041C886FBE",
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x61Ddf82AD2f9598ba4A0Be3c2369bFEd71B73cbA",
   },
   [SupportedNetworks.Goerli]: {
     ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x8Baa1BCF4e3572ec49F7Ec8ab2F9571bdDbd39fc",
   },
-  [SupportedNetworks.BinanceSmartChain]: { ...MasterCopyAddresses },
-  [SupportedNetworks.GnosisChain]: { ...MasterCopyAddresses },
+  [SupportedNetworks.BinanceSmartChain]: { ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
+  },
+  [SupportedNetworks.GnosisChain]: { ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414", 
+  },
   [SupportedNetworks.Polygon]: {
     ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xEAB27A2Dc46431B96126f20bFC3197eD8247ed79",
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0xeBa54EaaCe9B0b534099d3f52CB1fe9Ad714e98e",
   },
   [SupportedNetworks.HardhatNetwork]: { ...MasterCopyAddresses },
   [SupportedNetworks.Mumbai]: {
     ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xBCc265bDbc5a26D9279250b6e9CbD5527EEf4FAD",
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
   },
   [SupportedNetworks.ArbitrumOne]: { ...MasterCopyAddresses },
   [SupportedNetworks.Optimism]: { ...MasterCopyAddresses },
