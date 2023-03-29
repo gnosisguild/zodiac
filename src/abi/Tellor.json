@@ -375,15 +375,15 @@
         "internalType": "bytes32",
         "name": "_queryId",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
       }
     ],
-    "name": "getCurrentValue",
+    "name": "getDataAfter",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "_ifRetrieve",
-        "type": "bool"
-      },
       {
         "internalType": "bytes",
         "name": "_value",
@@ -413,11 +413,6 @@
     ],
     "name": "getDataBefore",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "_ifRetrieve",
-        "type": "bool"
-      },
       {
         "internalType": "bytes",
         "name": "_value",
@@ -458,6 +453,35 @@
         "type": "uint256"
       }
     ],
+    "name": "getIndexForDataAfter",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_found",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_queryId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      }
+    ],
     "name": "getIndexForDataBefore",
     "outputs": [
       {
@@ -469,6 +493,45 @@
         "internalType": "uint256",
         "name": "_index",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_queryId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxAge",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMultipleValuesBefore",
+    "outputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "_values",
+        "type": "bytes[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_timestamps",
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -510,6 +573,30 @@
       }
     ],
     "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_queryId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "getReporterByTimestamp",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -581,6 +668,19 @@
     "outputs": [
       {
         "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "idMappingContract",
+    "outputs": [
+      {
+        "internalType": "contract IMappingContract",
         "name": "",
         "type": "address"
       }
@@ -731,6 +831,19 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_addy",
+        "type": "address"
+      }
+    ],
+    "name": "setIdMappingContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_target",
         "type": "address"
       }
@@ -790,6 +903,35 @@
     "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_id",
+        "type": "bytes32"
+      }
+    ],
+    "name": "valueFor",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "_value",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_timestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_statusCode",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
