@@ -68,34 +68,50 @@ export const ContractAddresses: Record<
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x61Ddf82AD2f9598ba4A0Be3c2369bFEd71B73cbA",
+      "0x28CeBFE94a03DbCA9d17143e9d2Bd1155DC26D5d",
   },
   [SupportedNetworks.Goerli]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x8Baa1BCF4e3572ec49F7Ec8ab2F9571bdDbd39fc",
+      "0x07a7Be7AA4AaD42696A17e974486cb64A4daC47b",
   },
-  [SupportedNetworks.BinanceSmartChain]: { ...MasterCopyAddresses,
+  [SupportedNetworks.BinanceSmartChain]: {
+    ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
   },
-  [SupportedNetworks.GnosisChain]: { ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414", 
+  [SupportedNetworks.GnosisChain]: {
+    ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x972396Ab668cd11dc1F6321A5ae30c6A8d3759F0",
   },
   [SupportedNetworks.Polygon]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0xeBa54EaaCe9B0b534099d3f52CB1fe9Ad714e98e",
+      "0x3Cc4b597E9c3f51288c6Cd0c087DC14c3FfdD966",
   },
   [SupportedNetworks.HardhatNetwork]: { ...MasterCopyAddresses },
   [SupportedNetworks.Mumbai]: {
     ...MasterCopyAddresses,
     [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
   },
-  [SupportedNetworks.ArbitrumOne]: { ...MasterCopyAddresses },
-  [SupportedNetworks.Optimism]: { ...MasterCopyAddresses },
-  [SupportedNetworks.Avalanche]: { ...MasterCopyAddresses },
+  [SupportedNetworks.ArbitrumOne]: {
+    ...MasterCopyAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x30679ca4ea452d3df8a6c255a806e08810321763",
+  },
+  [SupportedNetworks.Optimism]: {
+    ...MasterCopyAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
+  },
+  [SupportedNetworks.Avalanche]: {
+    ...MasterCopyAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]:
+      "0xEF8b46765ae805537053C59f826C3aD61924Db45",
+  },
 };
 
 export const ContractAbis: Record<KnownContracts, any> = {
