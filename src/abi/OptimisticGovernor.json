@@ -1,16 +1,55 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "_finder", "type": "address" },
-      { "internalType": "address", "name": "_owner", "type": "address" },
-      { "internalType": "address", "name": "_collateral", "type": "address" },
-      { "internalType": "uint256", "name": "_bondAmount", "type": "uint256" },
-      { "internalType": "string", "name": "_rules", "type": "string" },
-      { "internalType": "bytes32", "name": "_identifier", "type": "bytes32" },
-      { "internalType": "uint64", "name": "_liveness", "type": "uint64" }
+      {
+        "internalType": "address",
+        "name": "_finder",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_collateral",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bondAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_rules",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_identifier",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint64",
+        "name": "_liveness",
+        "type": "uint64"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "guard_",
+        "type": "address"
+      }
+    ],
+    "name": "NotIERC165Compliant",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -88,6 +127,19 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "newOptimisticOracleV3",
+        "type": "address"
+      }
+    ],
+    "name": "OptimisticOracleChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -112,18 +164,31 @@
       },
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": true,
         "internalType": "bytes32",
-        "name": "status",
+        "name": "assertionId",
         "type": "bytes32"
       }
     ],
     "name": "ProposalDeleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "proposalHash",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "assertionId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "ProposalExecuted",
     "type": "event"
   },
   {
@@ -142,7 +207,7 @@
         "type": "uint256"
       }
     ],
-    "name": "SetBond",
+    "name": "SetCollateralAndBond",
     "type": "event"
   },
   {
@@ -150,12 +215,12 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "contract IERC20",
-        "name": "collateral",
+        "internalType": "address",
+        "name": "escalationManager",
         "type": "address"
       }
     ],
-    "name": "SetCollateral",
+    "name": "SetEscalationManager",
     "type": "event"
   },
   {
@@ -188,7 +253,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "string",
         "name": "rules",
         "type": "string"
@@ -227,6 +292,12 @@
       },
       {
         "indexed": true,
+        "internalType": "bytes32",
+        "name": "assertionId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
         "internalType": "uint256",
         "name": "transactionIndex",
         "type": "uint256"
@@ -251,17 +322,35 @@
         "type": "uint256"
       },
       {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "assertionId",
+        "type": "bytes32"
+      },
+      {
         "components": [
           {
             "components": [
-              { "internalType": "address", "name": "to", "type": "address" },
+              {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+              },
               {
                 "internalType": "enum Enum.Operation",
                 "name": "operation",
                 "type": "uint8"
               },
-              { "internalType": "uint256", "name": "value", "type": "uint256" },
-              { "internalType": "bytes", "name": "data", "type": "bytes" }
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+              }
             ],
             "internalType": "struct OptimisticGovernor.Transaction[]",
             "name": "transactions",
@@ -292,6 +381,12 @@
       },
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "rules",
+        "type": "string"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "challengeWindowEnds",
         "type": "uint256"
@@ -302,64 +397,52 @@
   },
   {
     "inputs": [],
-    "name": "PROPOSAL_HASH_KEY",
-    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "PROPOSAL_VALID_RESPONSE",
-    "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "avatar",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bondAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "collateral",
+    "name": "EXPLANATION_KEY",
     "outputs": [
-      { "internalType": "contract IERC20", "name": "", "type": "address" }
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "PROPOSAL_HASH_KEY",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "RULES_KEY",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "bytes32", "name": "_proposalHash", "type": "bytes32" }
+      {
+        "internalType": "bytes32",
+        "name": "assertionId",
+        "type": "bytes32"
+      }
     ],
-    "name": "deleteDisputedProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes32", "name": "_proposalHash", "type": "bytes32" }
-    ],
-    "name": "deleteProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes32", "name": "_proposalHash", "type": "bytes32" }
-    ],
-    "name": "deleteRejectedProposal",
+    "name": "assertionDisputedCallback",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -367,24 +450,138 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "assertionIds",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "assertionId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bool",
+        "name": "assertedTruthfully",
+        "type": "bool"
+      }
+    ],
+    "name": "assertionResolvedCallback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "avatar",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bondAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "collateral",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "proposalHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "deleteProposalOnUpgrade",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "escalationManager",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "components": [
-          { "internalType": "address", "name": "to", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
           {
             "internalType": "enum Enum.Operation",
             "name": "operation",
             "type": "uint8"
           },
-          { "internalType": "uint256", "name": "value", "type": "uint256" },
-          { "internalType": "bytes", "name": "data", "type": "bytes" }
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
         ],
         "internalType": "struct OptimisticGovernor.Transaction[]",
-        "name": "_transactions",
+        "name": "transactions",
         "type": "tuple[]"
       }
     ],
     "name": "executeProposal",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -403,7 +600,13 @@
   {
     "inputs": [],
     "name": "getCurrentTime",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -411,7 +614,24 @@
     "inputs": [],
     "name": "getGuard",
     "outputs": [
-      { "internalType": "address", "name": "_guard", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_guard",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getProposalBond",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -419,30 +639,48 @@
   {
     "inputs": [],
     "name": "guard",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "identifier",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "liveness",
-    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "optimisticOracle",
+    "name": "optimisticOracleV3",
     "outputs": [
       {
-        "internalType": "contract OptimisticOracleV2Interface",
+        "internalType": "contract OptimisticOracleV3Interface",
         "name": "",
         "type": "address"
       }
@@ -453,14 +691,32 @@
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "name": "proposalHashes",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -468,20 +724,36 @@
     "inputs": [
       {
         "components": [
-          { "internalType": "address", "name": "to", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
           {
             "internalType": "enum Enum.Operation",
             "name": "operation",
             "type": "uint8"
           },
-          { "internalType": "uint256", "name": "value", "type": "uint256" },
-          { "internalType": "bytes", "name": "data", "type": "bytes" }
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
         ],
         "internalType": "struct OptimisticGovernor.Transaction[]",
-        "name": "_transactions",
+        "name": "transactions",
         "type": "tuple[]"
       },
-      { "internalType": "bytes", "name": "_explanation", "type": "bytes" }
+      {
+        "internalType": "bytes",
+        "name": "explanation",
+        "type": "bytes"
+      }
     ],
     "name": "proposeTransactions",
     "outputs": [],
@@ -498,13 +770,23 @@
   {
     "inputs": [],
     "name": "rules",
-    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_avatar", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_avatar",
+        "type": "address"
+      }
     ],
     "name": "setAvatar",
     "outputs": [],
@@ -518,7 +800,11 @@
         "name": "_collateral",
         "type": "address"
       },
-      { "internalType": "uint256", "name": "_bondAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_bondAmount",
+        "type": "uint256"
+      }
     ],
     "name": "setCollateralAndBond",
     "outputs": [],
@@ -527,7 +813,24 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_guard", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_escalationManager",
+        "type": "address"
+      }
+    ],
+    "name": "setEscalationManager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_guard",
+        "type": "address"
+      }
     ],
     "name": "setGuard",
     "outputs": [],
@@ -536,7 +839,11 @@
   },
   {
     "inputs": [
-      { "internalType": "bytes32", "name": "_identifier", "type": "bytes32" }
+      {
+        "internalType": "bytes32",
+        "name": "_identifier",
+        "type": "bytes32"
+      }
     ],
     "name": "setIdentifier",
     "outputs": [],
@@ -545,7 +852,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint64", "name": "_liveness", "type": "uint64" }
+      {
+        "internalType": "uint64",
+        "name": "_liveness",
+        "type": "uint64"
+      }
     ],
     "name": "setLiveness",
     "outputs": [],
@@ -554,7 +865,11 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_rules", "type": "string" }
+      {
+        "internalType": "string",
+        "name": "_rules",
+        "type": "string"
+      }
     ],
     "name": "setRules",
     "outputs": [],
@@ -563,7 +878,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_target", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_target",
+        "type": "address"
+      }
     ],
     "name": "setTarget",
     "outputs": [],
@@ -572,7 +891,11 @@
   },
   {
     "inputs": [
-      { "internalType": "bytes", "name": "initializeParams", "type": "bytes" }
+      {
+        "internalType": "bytes",
+        "name": "initializeParams",
+        "type": "bytes"
+      }
     ],
     "name": "setUp",
     "outputs": [],
@@ -589,13 +912,23 @@
   {
     "inputs": [],
     "name": "target",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwnership",
     "outputs": [],
