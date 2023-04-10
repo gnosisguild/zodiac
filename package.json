@@ -1,6 +1,6 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "3.2.0",
+  "version": "3.2.2",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
