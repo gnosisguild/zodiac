@@ -1,6 +1,5 @@
 build/
 artifacts/
-abi-typechain-types/
 typechain-types/
 node_modules/
 .DS_Store
@@ -8,8 +7,10 @@ env/
 .env
 .history
 coverage*
+sdk/types
 dist/
 deployments
 yarn-error.log
 .docusaurus
 .idea
+.yarn

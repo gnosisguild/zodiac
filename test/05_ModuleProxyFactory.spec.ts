@@ -3,7 +3,7 @@ import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
-import { calculateProxyAddress } from "../src/factory";
+import { calculateProxyAddress } from "../sdk/factory";
 
 import "@nomiclabs/hardhat-ethers";
 

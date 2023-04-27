@@ -1,4 +1,4 @@
-import { factories } from "../../abi-typechain-types";
+import { getCreate2Address, keccak256 } from "ethers/lib/utils";
 import BridgeAbi from "../abi/Bridge.json";
 import CirculatingSupplyErc20Abi from "../abi/CirculatingSupplyErc20.json";
 import CirculatingSupplyErc721Abi from "../abi/CirculatingSupplyErc721.json";
@@ -19,6 +19,8 @@ import RealityEthAbi from "../abi/RealityEth.json";
 import RolesAbi from "../abi/Roles.json";
 import ScopeGuardAbi from "../abi/ScopeGuard.json";
 import TellorAbi from "../abi/Tellor.json";
+import { factories } from "../types";
+import { SingletonFactoryAddress } from "./singletonFactory";
 import { KnownContracts } from "./types";
 
 export enum SupportedNetworks {
@@ -34,6 +36,7 @@ export enum SupportedNetworks {
   HardhatNetwork = 31337,
 }
 
+/** The canonical mastercopy addresses when deployed using the singleton factory.  */
 export const MasterCopyAddresses: Record<KnownContracts, string> = {
   [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691",
   [KnownContracts.REALITY_ETH]: "0x4e35DA39Fa5893a70A40Ce964F993d891E607cC0",
@@ -99,16 +102,19 @@ export const ContractAddresses: Record<
   },
   [SupportedNetworks.ArbitrumOne]: {
     ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x30679ca4ea452d3df8a6c255a806e08810321763",
   },
   [SupportedNetworks.Optimism]: {
     ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
   },
   [SupportedNetworks.Avalanche]: {
     ...MasterCopyAddresses,
+    [KnownContracts.TELLOR]: "",
     [KnownContracts.OPTIMISTIC_GOVERNOR]:
       "0xEF8b46765ae805537053C59f826C3aD61924Db45",
   },

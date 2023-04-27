@@ -4,7 +4,7 @@ import {
   KnownContracts,
   MasterCopyInitData,
   deployMastercopyWithInitData,
-} from "../factory";
+} from "../sdk/factory";
 
 interface InitData {
   initCode?: string;

@@ -2,7 +2,11 @@ import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
 
-import { ContractAddresses, ContractAbis } from "../contracts";
+import {
+  ContractAddresses,
+  ContractAbis,
+  SupportedNetworks,
+} from "../contracts";
 import {
   deployAndSetUpModule,
   deployAndSetUpCustomModule,
@@ -96,7 +100,7 @@ describe("Factory JS functions ", () => {
       ],
     };
 
-    const chainContracts = ContractAddresses[chainId];
+    const chainContracts = ContractAddresses[chainId as SupportedNetworks];
     const masterCopyAddress = chainContracts[KnownContracts.REALITY_ETH];
     const abi = ContractAbis[KnownContracts.REALITY_ETH];
 

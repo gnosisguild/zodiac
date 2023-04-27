@@ -1,18 +1,14 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist",
-        "declaration": true,
-        "esModuleInterop": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "target": "es2020",
-        "typeRoots": [
-            "node_modules/@types",
-            "typings"
-        ]
-    },
-    "include": ["hardhat.config.ts", "src/factory/*.ts"]
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2020",
+    "typeRoots": ["node_modules/@types", "typings"]
+  },
+  "include": ["hardhat.config.ts", "sdk", "tasks", "test"]
 }
