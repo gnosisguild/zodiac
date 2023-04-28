@@ -60,88 +60,160 @@ export enum SupportedNetworks {
 // };
 
 /** The canonical mastercopy addresses when deployed using the singleton factory.  */
-export const MasterCopyAddresses: Record<KnownContracts, string> = {
-  [KnownContracts.META_GUARD]: "0xe2847462a574bfd43014d1c7BB6De5769C294691",
-  [KnownContracts.REALITY_ETH]: "0x4e35DA39Fa5893a70A40Ce964F993d891E607cC0",
-  [KnownContracts.REALITY_ERC20]: "0x7276813b21623d89BA8984B225d5792943DD7dbF",
-  [KnownContracts.BRIDGE]: "0x03B5eBD2CB2e3339E93774A1Eb7c8634B8C393A9",
-  [KnownContracts.DELAY]: "0xD62129BF40CD1694b3d9D9847367783a1A4d5cB4",
-  [KnownContracts.FACTORY]: "0x000000000000aDdB49795b0f9bA5BC298cDda236",
-  [KnownContracts.EXIT_ERC20]: "0x3ed380a282aDfA3460da28560ebEB2F6D967C9f5",
-  [KnownContracts.EXIT_ERC721]: "0xE0eCE32Eb4BE4E9224dcec6a4FcB335c1fe05CDe",
-  [KnownContracts.SCOPE_GUARD]: "0xeF27fcd3965a866b22Fb2d7C689De9AB7e611f1F",
-  [KnownContracts.CIRCULATING_SUPPLY_ERC20]:
-    "0x5Ed57C291a184cc244F5c9B5E9F11a8DD08BBd12",
-  [KnownContracts.CIRCULATING_SUPPLY_ERC721]:
-    "0xBD34D00dC0ae37C687F784A11FA6a0F2c5726Ba3",
-  [KnownContracts.ROLES]: "0xD8DfC1d938D7D163C5231688341e9635E9011889",
-  [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-  [KnownContracts.OPTIMISTIC_GOVERNOR]: "",
-  [KnownContracts.OZ_GOVERNOR]: "0xe28c39FAC73cce2B33C4C003049e2F3AE43f77d5",
-  [KnownContracts.ERC20_VOTES]: "0x752c61de75ADA0F8a33e048d2F773f51172f033e",
-  [KnownContracts.ERC721_VOTES]: "0xeFf38b2eBB95ACBA09761246045743f40e762568",
-  [KnownContracts.MULTISEND_ENCODER]:
-    "0xb67EDe523171325345780fA3016b7F5221293df0",
-  [KnownContracts.PERMISSIONS]: "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
-  [KnownContracts.CONNEXT]: "0x7dE07b9De0bf0FABf31A188DE1527034b2aF36dB",
+const CanonicalAddresses: Record<
+  KnownContracts,
+  { [version: `${number}.${number}.${number}`]: string }
+> = {
+  [KnownContracts.META_GUARD]: {
+    "1.0.0": "0xe2847462a574bfd43014d1c7BB6De5769C294691",
+  },
+  [KnownContracts.REALITY_ETH]: {
+    "2.0.0": "0x4e35DA39Fa5893a70A40Ce964F993d891E607cC0",
+  },
+  [KnownContracts.REALITY_ERC20]: {
+    "2.0.0": "0x7276813b21623d89BA8984B225d5792943DD7dbF",
+  },
+  [KnownContracts.BRIDGE]: {
+    "1.0.0": "0x03B5eBD2CB2e3339E93774A1Eb7c8634B8C393A9",
+  },
+  [KnownContracts.DELAY]: {
+    "1.0.0": "0xD62129BF40CD1694b3d9D9847367783a1A4d5cB4",
+  },
+  [KnownContracts.FACTORY]: {
+    "1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85",
+    "1.1.0": "0x00000000000DC7F163742Eb4aBEf650037b1f588",
+    "1.2.0": "0x000000000000aDdB49795b0f9bA5BC298cDda236",
+  },
+  [KnownContracts.EXIT_ERC20]: {
+    "1.0.0": "0x35E35dcDc7Cd112B93C7c55987C86e5D6D419C69",
+    "1.1.0": "0x33bCa41bda8A3983afbAd8fc8936Ce2Fb29121da",
+    "1.2.0": "0x3ed380a282aDfA3460da28560ebEB2F6D967C9f5",
+  },
+  [KnownContracts.EXIT_ERC721]: {
+    "1.1.0": "0xD3579C14a4181EfC3DF35C3103D20823A8C8d718",
+    "1.2.0": "0xE0eCE32Eb4BE4E9224dcec6a4FcB335c1fe05CDe",
+  },
+  [KnownContracts.CIRCULATING_SUPPLY_ERC20]: {
+    "1.0.0": "0xd7a85e7D0813F8440602E243Acb67df3CCeb5a60",
+    "1.1.0": "0xb50fab2e2892E3323A5300870C042B428B564FE3",
+    "1.2.0": "0x5Ed57C291a184cc244F5c9B5E9F11a8DD08BBd12",
+  },
+  [KnownContracts.CIRCULATING_SUPPLY_ERC721]: {
+    "1.1.0": "0x71530ec830CBE363bab28F4EC52964a550C0AB1E",
+    "1.2.0": "0xBD34D00dC0ae37C687F784A11FA6a0F2c5726Ba3",
+  },
+  [KnownContracts.SCOPE_GUARD]: {
+    "1.0.0": "0xeF27fcd3965a866b22Fb2d7C689De9AB7e611f1F",
+  },
+  [KnownContracts.ROLES]: {
+    "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
+    "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
+  },
+  [KnownContracts.PERMISSIONS]: {
+    "1.0.0": "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
+  },
+  [KnownContracts.TELLOR]: {
+    "2.0.0": "0xcc4C0ED5958770B5036189394360C33DDECf8414",
+  },
+  [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+    "1.0.0": "",
+  },
+  [KnownContracts.OZ_GOVERNOR]: {
+    "1.0.0": "0xe28c39FAC73cce2B33C4C003049e2F3AE43f77d5",
+  },
+  [KnownContracts.ERC20_VOTES]: {
+    "1.0.0": "0x752c61de75ADA0F8a33e048d2F773f51172f033e",
+  },
+  [KnownContracts.ERC721_VOTES]: {
+    "1.0.0": "0xeFf38b2eBB95ACBA09761246045743f40e762568",
+  },
+  [KnownContracts.MULTISEND_ENCODER]: {
+    "1.0.0": "0xb67EDe523171325345780fA3016b7F5221293df0",
+  },
+  [KnownContracts.CONNEXT]: {
+    "1.0.0": "0x7dE07b9De0bf0FABf31A188DE1527034b2aF36dB",
+  },
 };
 
-export const ContractAddresses: Record<
+/**
+ * Canonical addresses of head versions of each contract.
+ * This export will be removed in a future version. Use `ContractAddresses` instead.
+ * @deprecated
+ **/
+export const MasterCopyAddresses = Object.fromEntries(
+  Object.entries(CanonicalAddresses).map(([key, value]) => [
+    key,
+    Object.values(value).pop() || "",
+  ])
+) as Record<KnownContracts, string>;
+
+/** Addresses of all deployed contracts in all versions */
+export const ContractVersions: Record<
   SupportedNetworks,
-  Record<KnownContracts, string>
+  Record<KnownContracts, { [version: `${number}.${number}.${number}`]: string }>
 > = {
   [SupportedNetworks.Mainnet]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x28CeBFE94a03DbCA9d17143e9d2Bd1155DC26D5d",
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x28CeBFE94a03DbCA9d17143e9d2Bd1155DC26D5d",
+    },
   },
   [SupportedNetworks.Goerli]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x07a7Be7AA4AaD42696A17e974486cb64A4daC47b",
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x07a7Be7AA4AaD42696A17e974486cb64A4daC47b",
+    },
   },
-  [SupportedNetworks.BinanceSmartChain]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-  },
+  [SupportedNetworks.BinanceSmartChain]: CanonicalAddresses,
   [SupportedNetworks.GnosisChain]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x972396Ab668cd11dc1F6321A5ae30c6A8d3759F0",
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x972396Ab668cd11dc1F6321A5ae30c6A8d3759F0",
+    },
   },
   [SupportedNetworks.Polygon]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x3Cc4b597E9c3f51288c6Cd0c087DC14c3FfdD966",
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x3Cc4b597E9c3f51288c6Cd0c087DC14c3FfdD966",
+    },
   },
-  [SupportedNetworks.HardhatNetwork]: { ...MasterCopyAddresses },
-  [SupportedNetworks.Mumbai]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "0xcc4C0ED5958770B5036189394360C33DDECf8414",
-  },
+  [SupportedNetworks.HardhatNetwork]: CanonicalAddresses,
+  [SupportedNetworks.Mumbai]: CanonicalAddresses,
   [SupportedNetworks.ArbitrumOne]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x30679ca4ea452d3df8a6c255a806e08810321763",
+    ...CanonicalAddresses,
+    [KnownContracts.TELLOR]: {},
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x30679ca4ea452d3df8a6c255a806e08810321763",
+    },
   },
   [SupportedNetworks.Optimism]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
+    ...CanonicalAddresses,
+    [KnownContracts.TELLOR]: {},
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
+    },
   },
   [SupportedNetworks.Avalanche]: {
-    ...MasterCopyAddresses,
-    [KnownContracts.TELLOR]: "",
-    [KnownContracts.OPTIMISTIC_GOVERNOR]:
-      "0xEF8b46765ae805537053C59f826C3aD61924Db45",
+    ...CanonicalAddresses,
+    [KnownContracts.TELLOR]: {},
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0xEF8b46765ae805537053C59f826C3aD61924Db45",
+    },
   },
 };
+
+/** Addresses of the head versions of all contracts */
+export const ContractAddresses = Object.fromEntries(
+  Object.entries(ContractVersions).map(([network, contracts]) => [
+    network,
+    Object.fromEntries(
+      Object.entries(contracts).map(([contract, versions]) => [
+        contract,
+        Object.values(versions).pop() || "",
+      ])
+    ),
+  ])
+) as Record<SupportedNetworks, Record<KnownContracts, string>>;
 
 export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.BRIDGE]: BridgeAbi,
