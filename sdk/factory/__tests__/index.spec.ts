@@ -6,7 +6,7 @@ import {
   ContractAddresses,
   ContractAbis,
   SupportedNetworks,
-} from "../contracts";
+} from "../../contracts";
 import {
   deployAndSetUpModule,
   deployAndSetUpCustomModule,

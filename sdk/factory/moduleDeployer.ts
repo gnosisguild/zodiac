@@ -7,7 +7,7 @@ import {
   ContractAbis,
   SupportedNetworks,
   ContractFactories,
-} from "./contracts";
+} from "../contracts";
 import { KnownContracts } from "./types";
 
 type ABI = any[] | readonly any[];
