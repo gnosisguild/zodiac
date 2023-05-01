@@ -18,7 +18,7 @@ export type {
   ScopeGuard,
   Tellor,
   Usul,
-} from "../../abi-typechain-types";
+} from "../types";
 
 export enum KnownContracts {
   META_GUARD = "metaGuard",

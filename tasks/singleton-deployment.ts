@@ -1,7 +1,7 @@
 import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { KnownContracts, MasterCopyInitData } from "../factory";
-import { deployModuleFactory } from "../factory/deployModuleFactory";
+import { KnownContracts, MasterCopyInitData } from "../sdk/factory";
+import { deployModuleFactory } from "../sdk/factory/deployModuleFactory";
 
 const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
 

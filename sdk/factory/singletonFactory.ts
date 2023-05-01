@@ -3,7 +3,8 @@ import { Contract, ethers } from "ethers";
 const singletonFactoryAbi = [
   "function deploy(bytes memory _initCode, bytes32 _salt) public returns (address payable createdContract)",
 ];
-const SingletonFactoryAddress = "0xce0042b868300000d44a59004da54a005ffdcf9f";
+export const SingletonFactoryAddress =
+  "0xce0042b868300000d44a59004da54a005ffdcf9f";
 
 /**
  * Get the singleton factory contract (ERC-2470).

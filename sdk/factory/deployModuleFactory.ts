@@ -1,5 +1,5 @@
 import { constants as ethersConstants, ethers } from "ethers";
-import { MasterCopyInitData } from "./contracts";
+import { MasterCopyInitData } from "../contracts";
 import { getSingletonFactory } from "./singletonFactory";
 import { KnownContracts } from "./types";
 
