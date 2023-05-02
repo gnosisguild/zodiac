@@ -5,8 +5,7 @@ import { KnownContracts } from "./types";
 
 const { AddressZero } = ethersConstants;
 
-const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
-const FactorySalt = MasterCopyInitData[KnownContracts.FACTORY].salt;
+const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY]!;
 
 /**
  * Deploy the Module Proxy Factory via the singleton factory.
@@ -26,8 +25,8 @@ export const deployModuleFactory = async (
   );
 
   const targetAddress = await singletonFactory.callStatic.deploy(
-    FactoryInitCode,
-    FactorySalt
+    FactoryInitData.initCode,
+    FactoryInitData.salt
   );
   if (targetAddress === AddressZero) {
     console.log(
@@ -39,8 +38,8 @@ export const deployModuleFactory = async (
   console.log("  Target Module Proxy Factory address:        ", targetAddress);
 
   const transactionResponse = await singletonFactory.deploy(
-    FactoryInitCode,
-    FactorySalt,
+    FactoryInitData.initCode,
+    FactoryInitData.salt,
     { gasLimit: 1000000 }
   );
 
