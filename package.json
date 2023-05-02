@@ -30,7 +30,7 @@
     "format:ts": "prettier ./sdk/**/*.ts ./test/**/*.ts ./*.ts -w",
     "generate:types": "rm -rf src/types && typechain --target ethers-v5 --out-dir sdk/types './sdk/abi/*.json'",
     "prepare": "yarn generate:types && yarn build",
-    "prerelease": "yarn clean && yarn build && yarn clean:sdk && yarn build:sdk",
+    "prerelease": "yarn clean && yarn build && yarn build:sdk",
     "release": "yarn publish --access public",
     "verify": "yarn hardhat verify --network"
   },
