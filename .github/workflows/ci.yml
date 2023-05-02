@@ -15,6 +15,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn
       - run: yarn build
+      - run: yarn build:sdk
       - run: yarn coverage
       - name: Coveralls
         uses: coverallsapp/github-action@master
