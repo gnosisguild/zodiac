@@ -88,8 +88,5 @@
     "@openzeppelin/contracts": "^4.8.1",
     "@openzeppelin/contracts-upgradeable": "^4.8.1",
     "ethers": "^5.7.1"
-  },
-  "peerDependencies": {
-    "ethers": "^5.7.1"
   }
 }
