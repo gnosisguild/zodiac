@@ -18,7 +18,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn
       - run: yarn build
-      - run: yarn build:factory
+      - run: yarn build:sdk
       - run: yarn coverage
 
   publish-npm:
@@ -32,7 +32,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn
       - run: yarn build
-      - run: yarn build:factory
+      - run: yarn build:sdk
       - run: yarn release
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
@@ -49,7 +49,7 @@ jobs:
           scope: '@gnosis.pm'
       - run: yarn
       - run: yarn build
-      - run: yarn build:factory
+      - run: yarn build:sdk
       - run: echo registry=https://npm.pkg.github.com/gnosis.pm >> .npmrc
       - run: npm publish
         env:
