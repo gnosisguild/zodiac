@@ -1,9 +1,9 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2020",
     "outDir": "dist/esm",
-    "module": "esnext"
+    "module": "es2020"
   },
   "include": ["sdk/**/*.ts"]
 }

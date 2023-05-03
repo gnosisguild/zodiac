@@ -4,9 +4,14 @@
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "typings": "./dist/cjs/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
   "files": [
     "package.json",
     "LICENSE",
