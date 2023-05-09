@@ -2,9 +2,10 @@ import { AddressZero } from "@ethersproject/constants";
 import { expect } from "chai";
 import hre, { deployments, waffle } from "hardhat";
 import "@nomiclabs/hardhat-ethers";
+import { AddressOne } from "@gnosis.pm/safe-contracts";
 
 describe("Modifier", async () => {
-  const [user1, user2] = waffle.provider.getWallets();
+  const [user1, user2, user3] = waffle.provider.getWallets();
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
 
   const setupTests = deployments.createFixture(async ({ deployments }) => {
@@ -176,19 +177,26 @@ describe("Modifier", async () => {
   describe("getModulesPaginated", async () => {
     it("returns empty array if no modules are enabled.", async () => {
       const { modifier } = await setupTests();
-      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
-      tx = tx.toString();
-      await expect(tx).to.be.equals([[], SENTINEL_MODULES].toString());
+
+      const result = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
+
+      expect(result).to.be.deep.equal([[], SENTINEL_MODULES]);
+    });
+
+    it("returns empty array if no modules are enabled.", async () => {
+      const { modifier } = await setupTests();
+
+      const result = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
+
+      expect(result).to.be.deep.equal([[], SENTINEL_MODULES]);
     });
 
     it("returns one module if one module is enabled", async () => {
       const { modifier } = await setupTests();
       await modifier.enableModule(user1.address);
-      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
-      tx = tx.toString();
-      await expect(tx).to.be.equals(
-        [[user1.address], SENTINEL_MODULES].toString()
-      );
+      const result = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
+
+      expect(result).to.be.deep.equal([[user1.address], SENTINEL_MODULES]);
     });
 
     it("returns two modules if two modules are enabled", async () => {
@@ -200,11 +208,51 @@ describe("Modifier", async () => {
       await expect(modifier.enableModule(user2.address))
         .to.emit(modifier, "EnabledModule")
         .withArgs(user2.address);
-      let tx = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
-      tx = tx.toString();
-      await expect(tx).to.be.equals(
-        [user2.address, user1.address, SENTINEL_MODULES].toString()
-      );
+      const result = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
+
+      expect(result).to.be.deep.equal([
+        [user2.address, user1.address],
+        SENTINEL_MODULES,
+      ]);
+    });
+
+    it("returns all modules over multiple pages", async () => {
+      const { modifier } = await setupTests();
+
+      await expect(modifier.enableModule(user1.address));
+      await expect(modifier.enableModule(user2.address));
+      await expect(modifier.enableModule(user3.address));
+
+      await expect(await modifier.isModuleEnabled(user1.address)).to.be.true;
+      await expect(await modifier.isModuleEnabled(user2.address)).to.be.true;
+      await expect(await modifier.isModuleEnabled(user3.address)).to.be.true;
+
+      // page size 2
+      await expect(
+        await modifier.getModulesPaginated(AddressOne, 2)
+      ).to.be.deep.equal([[user3.address, user2.address], user2.address]);
+
+      await expect(
+        await modifier.getModulesPaginated(user2.address, 2)
+      ).to.be.deep.equal([[user1.address], AddressOne]);
+
+      // page size 1
+      await expect(
+        await modifier.getModulesPaginated(AddressOne, 1)
+      ).to.be.deep.equal([[user3.address], user3.address]);
+      await expect(
+        await modifier.getModulesPaginated(user3.address, 1)
+      ).to.be.deep.equal([[user2.address], user2.address]);
+      await expect(
+        await modifier.getModulesPaginated(user2.address, 1)
+      ).to.be.deep.equal([[user1.address], AddressOne]);
+    });
+
+    it("returns an empty array and end pointer for a safe with no modules", async () => {
+      const { modifier } = await setupTests();
+      expect(
+        await modifier.getModulesPaginated(AddressOne, 10)
+      ).to.be.deep.equal([[], AddressOne]);
     });
   });
 
