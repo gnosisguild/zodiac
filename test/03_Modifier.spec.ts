@@ -175,6 +175,27 @@ describe("Modifier", async () => {
   });
 
   describe("getModulesPaginated", async () => {
+    it("requires page size to be greater than 0", async () => {
+      const { modifier } = await setupTests();
+      await expect(
+        modifier.getModulesPaginated(AddressOne, 0)
+      ).to.be.revertedWith("InvalidPageSize()");
+    });
+
+    it("requires start to be a module or start pointer", async () => {
+      const { modifier } = await setupTests();
+
+      await expect(modifier.getModulesPaginated(AddressZero, 1)).to.be.reverted;
+      await modifier.enableModule(user1.address);
+
+      expect(
+        await modifier.getModulesPaginated(user1.address, 1)
+      ).to.be.deep.equal([[], AddressOne]);
+
+      await expect(
+        modifier.getModulesPaginated(user2.address, 1)
+      ).to.be.revertedWith(`InvalidModule`);
+    });
     it("returns empty array if no modules are enabled.", async () => {
       const { modifier } = await setupTests();
 
