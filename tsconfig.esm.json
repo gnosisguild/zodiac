@@ -1,9 +1,9 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2016",
     "outDir": "dist/esm",
-    "module": "es2020"
+    "module": "es6"
   },
   "include": ["sdk/**/*.ts"]
 }
