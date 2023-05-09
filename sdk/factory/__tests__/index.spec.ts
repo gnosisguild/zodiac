@@ -1,6 +1,7 @@
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { Contract } from "ethers";
-import { ethers } from "hardhat";
+import hre from "hardhat";
 
 import {
   ContractAddresses,
@@ -19,21 +20,21 @@ import { KnownContracts } from "../types";
 const AddressOne = "0x0000000000000000000000000000000000000001";
 
 describe("Factory JS functions ", () => {
-  //let newModuleAddress: string;
-  let chainId: number;
-  let mockContract: Contract;
-
   const saltNonce = "0x7255";
-  const provider = ethers.provider;
 
-  before(async () => {
-    const Mock = await ethers.getContractFactory("MockContract");
-    mockContract = await Mock.deploy();
-    chainId = await (await provider.getNetwork()).chainId;
-  });
+  async function setup() {
+    const Mock = await hre.ethers.getContractFactory("MockContract");
+    const mock = await Mock.deploy();
+    const chainId = (await hre.ethers.provider.getNetwork()).chainId;
+
+    return { mock, chainId };
+  }
 
   it("should execute transaction and retrieve expected address ", async () => {
-    const [signer] = await ethers.getSigners();
+    const { mock, chainId } = await loadFixture(setup);
+
+    const [signer] = await hre.ethers.getSigners();
+
     const args = {
       values: [
         AddressOne,
@@ -60,7 +61,7 @@ describe("Factory JS functions ", () => {
       await deployAndSetUpModule(
         KnownContracts.REALITY_ETH,
         args,
-        provider,
+        hre.ethers.provider,
         chainId,
         saltNonce
       );
@@ -71,11 +72,11 @@ describe("Factory JS functions ", () => {
     expect(receipt.transactionHash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
-    //newModuleAddress = expectedModuleAddress;
   });
 
   it("should execute transaction and retrieve expected address when providing the address and ABI directly", async () => {
-    const [signer] = await ethers.getSigners();
+    const { chainId } = await loadFixture(setup);
+    const [signer] = await hre.ethers.getSigners();
     const args = {
       values: [
         AddressOne,
@@ -108,7 +109,7 @@ describe("Factory JS functions ", () => {
         masterCopyAddress,
         abi,
         args,
-        provider,
+        hre.ethers.provider,
         chainId,
         saltNonce
       );
@@ -119,16 +120,17 @@ describe("Factory JS functions ", () => {
     expect(receipt.transactionHash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
-    //newModuleAddress = expectedModuleAddress;
   });
 
   it("should retrieve module instance", async () => {
+    const { mock } = await loadFixture(setup);
+
     const module = await getModuleInstance(
       KnownContracts.REALITY_ETH,
-      mockContract.address,
-      provider
+      mock.address,
+      hre.ethers.provider
     );
-    await mockContract.givenMethodReturnBool(
+    await mock.givenMethodReturnBool(
       module.interface.getSighash("owner"),
       true
     );
@@ -139,10 +141,12 @@ describe("Factory JS functions ", () => {
   });
 
   it("should retrieve factory and module instance", async () => {
+    const { chainId } = await loadFixture(setup);
+
     const { moduleFactory, moduleMastercopy } =
       await getModuleFactoryAndMasterCopy(
         KnownContracts.REALITY_ETH,
-        provider,
+        hre.ethers.provider,
         chainId
       );
     expect(moduleFactory).to.be.instanceOf(Contract);
