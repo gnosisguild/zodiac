@@ -208,14 +208,6 @@ describe("Modifier", async () => {
       expect(result).to.be.deep.equal([[], SENTINEL_MODULES]);
     });
 
-    it("returns empty array if no modules are enabled.", async () => {
-      const { modifier } = await loadFixture(setupTests);
-
-      const result = await modifier.getModulesPaginated(SENTINEL_MODULES, 3);
-
-      expect(result).to.be.deep.equal([[], SENTINEL_MODULES]);
-    });
-
     it("returns one module if one module is enabled", async () => {
       const { modifier } = await loadFixture(setupTests);
       const [user1] = await hre.ethers.getSigners();
