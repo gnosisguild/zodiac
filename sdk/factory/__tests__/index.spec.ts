@@ -14,7 +14,6 @@ import {
   getModuleFactoryAndMasterCopy,
 } from "../moduleDeployer";
 
-import "@nomiclabs/hardhat-ethers";
 import { KnownContracts } from "../types";
 
 const AddressOne = "0x0000000000000000000000000000000000000001";

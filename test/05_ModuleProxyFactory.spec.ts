@@ -5,8 +5,6 @@ import { Contract } from "ethers";
 import { ethers } from "hardhat";
 import { calculateProxyAddress } from "../sdk/factory";
 
-import "@nomiclabs/hardhat-ethers";
-
 describe("ModuleProxyFactory", async () => {
   let moduleFactory: Contract;
   let moduleMasterCopy: Contract;
@@ -59,16 +57,14 @@ describe("ModuleProxyFactory", async () => {
     });
 
     it("should fail to deploy module because address is zero ", async () => {
-      await expect(
-        moduleFactory.deployModule(AddressZero, initData, saltNonce)
-      ).to.be.revertedWith(
-        "reverted with custom error 'ZeroAddress(\"0x0000000000000000000000000000000000000000\")'"
-      );
+      await expect(moduleFactory.deployModule(AddressZero, initData, saltNonce))
+        .to.be.revertedWithCustomError(moduleFactory, "ZeroAddress")
+        .withArgs(AddressZero);
     });
     it("should fail to deploy module because target has no code deployed ", async () => {
-      await expect(
-        moduleFactory.deployModule(AddressOne, initData, saltNonce)
-      ).to.be.revertedWith(`TargetHasNoCode("${AddressOne}")`);
+      await expect(moduleFactory.deployModule(AddressOne, initData, saltNonce))
+        .to.be.revertedWithCustomError(moduleFactory, "TargetHasNoCode")
+        .withArgs(AddressOne);
     });
 
     it("should fail to deploy because address its already taken ", async () => {
@@ -84,9 +80,9 @@ describe("ModuleProxyFactory", async () => {
           initData,
           saltNonce
         )
-      ).to.be.revertedWith(
-        "reverted with custom error 'TakenAddress(\"0x0000000000000000000000000000000000000000\")'"
-      );
+      )
+        .to.be.revertedWithCustomError(moduleFactory, "TakenAddress")
+        .withArgs(AddressZero);
     });
   });
 
@@ -131,9 +127,7 @@ describe("ModuleProxyFactory", async () => {
           "0xaabc",
           saltNonce
         )
-      ).to.be.revertedWith(
-        "reverted with custom error 'FailedInitialization()'"
-      );
+      ).to.be.revertedWithCustomError(moduleFactory, "FailedInitialization");
     });
   });
 });
