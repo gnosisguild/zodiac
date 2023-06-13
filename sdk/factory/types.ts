@@ -45,7 +45,7 @@ export enum KnownContracts {
 
 // type META_GUARD_VERSION = "v1.0.0";
 // type OPTIMISTIC_GOVERNOR_VERSION = "v1.0.0";
-// type TELLOR_VERSION = "v2.0.0";
+// type TELLOR_VERSION = "v2.1.0";
 // type REALITY_ETH_VERSION = "v1.0.0";
 // type BRIDGE_VERSION = "v1.0.0";
 // type DELAY_VERSION = "v1.0.0";

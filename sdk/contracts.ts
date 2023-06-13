@@ -113,7 +113,7 @@ const CanonicalAddresses: Record<
     "1.0.0": "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
   },
   [KnownContracts.TELLOR]: {
-    "2.0.0": "0xcc4C0ED5958770B5036189394360C33DDECf8414",
+    "2.1.0": "0xa89EC2C1e218CfBb0F82829E95352CeAbDEe9A69",
   },
   [KnownContracts.OPTIMISTIC_GOVERNOR]: {
     "1.0.0": "",
@@ -157,11 +157,17 @@ export const ContractVersions: Record<
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x28CeBFE94a03DbCA9d17143e9d2Bd1155DC26D5d",
     },
+    [KnownContracts.TELLOR]: {
+      "2.1.0": "0xaB80413Ab8C4aF91Af5F349352a0c92CF3A30D18",
+    },
   },
   [SupportedNetworks.Goerli]: {
     ...CanonicalAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x07a7Be7AA4AaD42696A17e974486cb64A4daC47b",
+    },
+    [KnownContracts.TELLOR]: {
+      "2.1.0": "0x4FCba614bf5df50b2575a5825adbc4739aE6FDF5",
     },
   },
   [SupportedNetworks.BinanceSmartChain]: CanonicalAddresses,
@@ -181,14 +187,12 @@ export const ContractVersions: Record<
   [SupportedNetworks.Mumbai]: CanonicalAddresses,
   [SupportedNetworks.ArbitrumOne]: {
     ...CanonicalAddresses,
-    [KnownContracts.TELLOR]: {},
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x30679ca4ea452d3df8a6c255a806e08810321763",
     },
   },
   [SupportedNetworks.Optimism]: {
     ...CanonicalAddresses,
-    [KnownContracts.TELLOR]: {},
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
     },

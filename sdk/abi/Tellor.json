@@ -3,6 +3,11 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_avatar",
         "type": "address"
       },
@@ -562,6 +567,11 @@
         "internalType": "string",
         "name": "_proposalId",
         "type": "string"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "_txHashes",
+        "type": "bytes32[]"
       }
     ],
     "name": "getQueryId",
@@ -572,7 +582,7 @@
         "type": "bytes32"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -710,6 +720,37 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_proposalId",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "_txHashes",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "markProposalAsInvalid",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_proposalHash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "markProposalAsInvalidByHash",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
