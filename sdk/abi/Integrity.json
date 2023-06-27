@@ -1,0 +1,113 @@
+[
+  {
+    "inputs": [],
+    "name": "NotBFS",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsuitableChildCount",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsuitableChildTypeTree",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsuitableCompValue",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsuitableParameterType",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsuitableParent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsuitableRootNode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "UnsupportedOperator",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "parent",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum ParameterType",
+            "name": "paramType",
+            "type": "ParameterType"
+          },
+          {
+            "internalType": "enum Operator",
+            "name": "operator",
+            "type": "Operator"
+          },
+          {
+            "internalType": "bytes",
+            "name": "compValue",
+            "type": "bytes"
+          }
+        ],
+        "internalType": "struct ConditionFlat[]",
+        "name": "conditions",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "enforce",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]
