@@ -41,6 +41,8 @@ export enum KnownContracts {
   MULTISEND_ENCODER = "multisendEncoder",
   PERMISSIONS = "permissions",
   CONNEXT = "connext",
+  PACKER = "packer",
+  INTEGRITY = "integrity",
 }
 
 // type META_GUARD_VERSION = "v1.0.0";
