@@ -56,6 +56,7 @@ export enum SupportedNetworks {
   Avalanche = 43114,
   BinanceSmartChain = 56,
   HardhatNetwork = 31337,
+  LineaGoerli = 59140,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -214,6 +215,11 @@ export const ContractVersions: Record<
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0xEF8b46765ae805537053C59f826C3aD61924Db45",
     },
+  },
+  [SupportedNetworks.LineaGoerli]: {
+    ...CanonicalAddresses,
+    [KnownContracts.TELLOR]: {},
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {},
   },
 };
 
