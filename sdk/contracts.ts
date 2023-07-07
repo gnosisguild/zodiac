@@ -216,11 +216,7 @@ export const ContractVersions: Record<
       "1.2.0": "0xEF8b46765ae805537053C59f826C3aD61924Db45",
     },
   },
-  [SupportedNetworks.LineaGoerli]: {
-    ...CanonicalAddresses,
-    [KnownContracts.TELLOR]: {},
-    [KnownContracts.OPTIMISTIC_GOVERNOR]: {},
-  },
+  [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */
