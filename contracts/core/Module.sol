@@ -46,39 +46,7 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success) {
-        address currentGuard = guard;
-        if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkTransaction(
-                /// Transaction info used by module transactions.
-                to,
-                value,
-                data,
-                operation,
-                /// Zero out the redundant transaction information only used for Safe multisig transctions.
-                0,
-                0,
-                0,
-                address(0),
-                payable(0),
-                "",
-                msg.sender
-            );
-            success = IAvatar(target).execTransactionFromModule(
-                to,
-                value,
-                data,
-                operation
-            );
-            IGuard(currentGuard).checkAfterExecution(bytes32(""), success);
-        } else {
-            success = IAvatar(target).execTransactionFromModule(
-                to,
-                value,
-                data,
-                operation
-            );
-        }
-        return success;
+        (success, ) = _exec(to, value, data, operation);
     }
 
     /// @dev Passes a transaction to be executed by the target and returns data.
@@ -93,6 +61,15 @@ abstract contract Module is FactoryFriendly, Guardable {
         bytes memory data,
         Enum.Operation operation
     ) internal returns (bool success, bytes memory returnData) {
+        (success, returnData) = _exec(to, value, data, operation);
+    }
+
+    function _exec(
+        address to,
+        uint256 value,
+        bytes memory data,
+        Enum.Operation operation
+    ) private returns (bool success, bytes memory returnData) {
         address currentGuard = guard;
         if (currentGuard != address(0)) {
             IGuard(currentGuard).checkTransaction(
@@ -117,7 +94,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                     data,
                     operation
                 );
-            IGuard(currentGuard).checkAfterExecution(bytes32(""), success);
+            IGuard(currentGuard).checkAfterExecution("", success);
         } else {
             (success, returnData) = IAvatar(target)
                 .execTransactionFromModuleReturnData(
@@ -127,6 +104,5 @@ abstract contract Module is FactoryFriendly, Guardable {
                     operation
                 );
         }
-        return (success, returnData);
     }
 }
