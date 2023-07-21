@@ -101,6 +101,10 @@ export default {
       ...sharedNetworkConfig,
       url: "https://bsc-dataseed.binance.org",
     },
+    lineaGoerli: {
+      ...sharedNetworkConfig,
+      url: `https://linea-goerli.infura.io/v3/${INFURA_KEY}`,
+    },
   },
   namedAccounts: {
     deployer: 0,

@@ -7,11 +7,13 @@ import Erc20VotesAbi from "./abi/Erc20Votes.json";
 import Erc721VotesAbi from "./abi/Erc721Votes.json";
 import ExitErc20Abi from "./abi/ExitErc20.json";
 import ExitErc721Abi from "./abi/ExitErc721.json";
+import IntegrityAbi from "./abi/Integrity.json";
 import MetaGuardAbi from "./abi/MetaGuard.json";
 import ModuleProxyFactoryAbi from "./abi/ModuleProxyFactory.json";
 import MultisendEncoderAbi from "./abi/MultisendEncoder.json";
 import OptimisticGovernorAbi from "./abi/OptimisticGovernor.json";
 import OzGovernorAbi from "./abi/OzGovernor.json";
+import PackerAbi from "./abi/Packer.json";
 import PermissionsAbi from "./abi/Permissions.json";
 import RealityErc20Abi from "./abi/RealityErc20.json";
 import RealityEthAbi from "./abi/RealityEth.json";
@@ -30,9 +32,11 @@ import * as Erc20VotesInitData from "./initData/Erc20Votes";
 import * as Erc721VotesInitData from "./initData/Erc721Votes";
 import * as ExitErc20InitData from "./initData/ExitErc20";
 import * as ExitErc721InitData from "./initData/ExitErc721";
+import * as IntegrityInitData from "./initData/Integrity";
 import * as ModuleProxyFactoryInitData from "./initData/ModuleProxyFactory";
 import * as MultisendEncoderInitData from "./initData/MultisendEncoder";
 import * as OzGovernorInitData from "./initData/OzGovernor";
+import * as PackerInitData from "./initData/Packer";
 import * as PermissionsInitData from "./initData/Permissions";
 import * as RealityErc20InitData from "./initData/RealityErc20";
 import * as RealityEthInitData from "./initData/RealityEth";
@@ -52,6 +56,7 @@ export enum SupportedNetworks {
   Avalanche = 43114,
   BinanceSmartChain = 56,
   HardhatNetwork = 31337,
+  LineaGoerli = 59140,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -108,12 +113,13 @@ const CanonicalAddresses: Record<
   [KnownContracts.ROLES]: {
     "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
     "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
+    "2.0.0": "0xb8bB41FA7E5e64452DBCA1C8A0e7058D43abAf4f",
   },
   [KnownContracts.PERMISSIONS]: {
     "1.0.0": "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
   },
   [KnownContracts.TELLOR]: {
-    "2.0.0": "0xcc4C0ED5958770B5036189394360C33DDECf8414",
+    "2.1.0": "0xa89EC2C1e218CfBb0F82829E95352CeAbDEe9A69",
   },
   [KnownContracts.OPTIMISTIC_GOVERNOR]: {
     "1.0.0": "",
@@ -132,6 +138,12 @@ const CanonicalAddresses: Record<
   },
   [KnownContracts.CONNEXT]: {
     "1.0.0": "0x7dE07b9De0bf0FABf31A188DE1527034b2aF36dB",
+  },
+  [KnownContracts.PACKER]: {
+    "2.0.0": "0x60E89c71882e88f16772490d2f05819d9521EAb1",
+  },
+  [KnownContracts.INTEGRITY]: {
+    "2.0.0": "0x52c342e002C5F7CF14Ef89b5e04Cf6D53c7F8e72",
   },
 };
 
@@ -157,11 +169,17 @@ export const ContractVersions: Record<
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x28CeBFE94a03DbCA9d17143e9d2Bd1155DC26D5d",
     },
+    [KnownContracts.TELLOR]: {
+      "2.1.0": "0xaB80413Ab8C4aF91Af5F349352a0c92CF3A30D18",
+    },
   },
   [SupportedNetworks.Goerli]: {
     ...CanonicalAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x07a7Be7AA4AaD42696A17e974486cb64A4daC47b",
+    },
+    [KnownContracts.TELLOR]: {
+      "2.1.0": "0x4FCba614bf5df50b2575a5825adbc4739aE6FDF5",
     },
   },
   [SupportedNetworks.BinanceSmartChain]: CanonicalAddresses,
@@ -181,14 +199,12 @@ export const ContractVersions: Record<
   [SupportedNetworks.Mumbai]: CanonicalAddresses,
   [SupportedNetworks.ArbitrumOne]: {
     ...CanonicalAddresses,
-    [KnownContracts.TELLOR]: {},
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x30679ca4ea452d3df8a6c255a806e08810321763",
     },
   },
   [SupportedNetworks.Optimism]: {
     ...CanonicalAddresses,
-    [KnownContracts.TELLOR]: {},
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x357fe84E438B3150d2F68AB9167bdb8f881f3b9A",
     },
@@ -200,6 +216,7 @@ export const ContractVersions: Record<
       "1.2.0": "0xEF8b46765ae805537053C59f826C3aD61924Db45",
     },
   },
+  [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */
@@ -236,6 +253,8 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderAbi,
   [KnownContracts.PERMISSIONS]: PermissionsAbi,
   [KnownContracts.CONNEXT]: ConnextAbi,
+  [KnownContracts.PACKER]: PackerAbi,
+  [KnownContracts.INTEGRITY]: IntegrityAbi,
 };
 
 export const ContractFactories = {
@@ -261,6 +280,8 @@ export const ContractFactories = {
   [KnownContracts.MULTISEND_ENCODER]: factories.MultisendEncoder__factory,
   [KnownContracts.PERMISSIONS]: factories.Permissions__factory,
   [KnownContracts.CONNEXT]: factories.Connext__factory,
+  [KnownContracts.PACKER]: factories.Packer__factory,
+  [KnownContracts.INTEGRITY]: factories.Integrity__factory,
 };
 
 export const MasterCopyInitData: Record<
@@ -287,4 +308,6 @@ export const MasterCopyInitData: Record<
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderInitData,
   [KnownContracts.PERMISSIONS]: PermissionsInitData,
   [KnownContracts.CONNEXT]: ConnextInitData,
+  [KnownContracts.PACKER]: PackerInitData,
+  [KnownContracts.INTEGRITY]: IntegrityInitData,
 };
