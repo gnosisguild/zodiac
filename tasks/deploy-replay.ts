@@ -1,3 +1,4 @@
+import assert from "assert";
 import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import {
@@ -27,12 +28,10 @@ export const deploy = async (
       const [deployer] = await hre.ethers.getSigners();
       const signer = hre.ethers.provider.getSigner(deployer.address);
       for (let index = 0; index < contracts.length; index++) {
-        const initData: InitData = MasterCopyInitData[contracts[index]];
-        if (
-          MasterCopyInitData[contracts[index]] &&
-          initData.initCode &&
-          initData.salt
-        ) {
+        const initData: InitData | undefined =
+          MasterCopyInitData[contracts[index]];
+
+        if (initData && initData.initCode && initData.salt) {
           console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
           try {
             await deployMastercopyWithInitData(
