@@ -3,7 +3,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { KnownContracts, MasterCopyInitData } from "../sdk/factory";
 import { deployModuleFactory } from "../sdk/factory/deployModuleFactory";
 
-const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY].initCode;
+const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY]?.initCode;
 
 export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
   const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
