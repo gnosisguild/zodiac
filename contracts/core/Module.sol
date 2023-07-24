@@ -60,7 +60,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                 0,
                 address(0),
                 payable(0),
-                bytes("0x"),
+                "",
                 msg.sender
             );
             success = IAvatar(target).execTransactionFromModule(
@@ -69,7 +69,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                 data,
                 operation
             );
-            IGuard(currentGuard).checkAfterExecution(bytes32("0x"), success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(""), success);
         } else {
             success = IAvatar(target).execTransactionFromModule(
                 to,
@@ -107,7 +107,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                 0,
                 address(0),
                 payable(0),
-                bytes("0x"),
+                "",
                 msg.sender
             );
             (success, returnData) = IAvatar(target)
@@ -117,7 +117,7 @@ abstract contract Module is FactoryFriendly, Guardable {
                     data,
                     operation
                 );
-            IGuard(currentGuard).checkAfterExecution(bytes32("0x"), success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(""), success);
         } else {
             (success, returnData) = IAvatar(target)
                 .execTransactionFromModuleReturnData(
