@@ -1,13 +1,13 @@
 import { Provider } from "@ethersproject/providers";
 import { ethers, Contract, Signer, BigNumber } from "ethers";
-import { ModuleProxyFactory__factory } from "../types";
-
 import {
   ContractAddresses,
   ContractAbis,
   SupportedNetworks,
   ContractFactories,
 } from "../contracts";
+import { ModuleProxyFactory__factory } from "../types";
+
 import { KnownContracts } from "./types";
 
 type ABI = any[] | readonly any[];
@@ -175,7 +175,7 @@ export const getModuleInstance = <T extends KnownContracts>(
   return ContractFactories[moduleName].connect(
     moduleAddress,
     provider
-  ) as ReturnType<typeof ContractFactories[T]["connect"]>;
+  ) as ReturnType<(typeof ContractFactories)[T]["connect"]>;
 };
 
 export const getModuleFactoryAndMasterCopy = <T extends KnownContracts>(

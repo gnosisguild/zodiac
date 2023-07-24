@@ -5,5 +5,5 @@
     "outDir": "dist/cjs",
     "module": "commonjs"
   },
-  "include": ["sdk/**/*.ts"]
+  "files": ["./hardhat.config.ts"]
 }

@@ -1,13 +1,11 @@
 import { AddressZero } from "@ethersproject/constants";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
+
 import { expect } from "chai";
-import hre, { deployments, waffle } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
+import hre from "hardhat";
 
 describe("IAvatar", async () => {
-  const [user1] = waffle.provider.getWallets();
-
-  const setupTests = deployments.createFixture(async ({ deployments }) => {
-    await deployments.fixture();
+  async function setupTests() {
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
@@ -28,11 +26,12 @@ describe("IAvatar", async () => {
       iAvatar,
       tx,
     };
-  });
+  }
 
   describe("enableModule", async () => {
     it("allow to enable a module", async () => {
-      const { iAvatar } = await setupTests();
+      const [user1] = await hre.ethers.getSigners();
+      const { iAvatar } = await loadFixture(setupTests);
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
@@ -46,7 +45,10 @@ describe("IAvatar", async () => {
 
   describe("disableModule", async () => {
     it("allow to disable a module", async () => {
-      const { iAvatar } = await setupTests();
+      const { iAvatar } = await loadFixture(setupTests);
+
+      const [user1] = await hre.ethers.getSigners();
+
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
@@ -78,6 +80,9 @@ describe("IAvatar", async () => {
 
     it("allow to execute module transaction", async () => {
       const { iAvatar, tx } = await setupTests();
+
+      const [user1] = await hre.ethers.getSigners();
+
       await iAvatar.enableModule(user1.address);
       await expect(
         iAvatar.execTransactionFromModule(
@@ -93,6 +98,7 @@ describe("IAvatar", async () => {
   describe("execTransactionFromModuleReturnData", async () => {
     it("revert if module is not enabled", async () => {
       const { iAvatar, tx } = await setupTests();
+
       await expect(
         iAvatar.execTransactionFromModuleReturnData(
           tx.to,
@@ -105,6 +111,9 @@ describe("IAvatar", async () => {
 
     it("allow to execute module transaction and return data", async () => {
       const { iAvatar, tx } = await setupTests();
+
+      const [user1] = await hre.ethers.getSigners();
+
       await iAvatar.enableModule(user1.address);
       await expect(
         iAvatar.execTransactionFromModuleReturnData(
@@ -119,14 +128,20 @@ describe("IAvatar", async () => {
 
   describe("isModuleEnabled", async () => {
     it("returns false if module has not been enabled", async () => {
-      const { iAvatar } = await setupTests();
+      const { iAvatar } = await loadFixture(setupTests);
+
+      const [user1] = await hre.ethers.getSigners();
+
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
     });
 
     it("returns true if module has been enabled", async () => {
-      const { iAvatar } = await setupTests();
+      const { iAvatar } = await loadFixture(setupTests);
+
+      const [user1] = await hre.ethers.getSigners();
+
       await expect(await iAvatar.isModuleEnabled(user1.address)).to.be.equals(
         false
       );
@@ -140,7 +155,10 @@ describe("IAvatar", async () => {
 
   describe("getModulesPaginated", async () => {
     it("returns array of enabled modules", async () => {
-      const { iAvatar } = await setupTests();
+      const { iAvatar } = await loadFixture(setupTests);
+
+      const [user1] = await hre.ethers.getSigners();
+
       await iAvatar.enableModule(user1.address);
       const [array, next] = await iAvatar.getModulesPaginated(user1.address, 1);
       await expect(array.toString()).to.be.equals([user1.address].toString());

@@ -1,13 +1,10 @@
 import { AddressZero } from "@ethersproject/constants";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import hre, { deployments, waffle } from "hardhat";
-import "@nomiclabs/hardhat-ethers";
+import hre from "hardhat";
 
 describe("Guardable", async () => {
-  const wallets = waffle.provider.getWallets();
-
-  const setupTests = deployments.createFixture(async ({ deployments }) => {
-    await deployments.fixture();
+  async function setupTests() {
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
@@ -21,23 +18,24 @@ describe("Guardable", async () => {
       guard,
       module,
     };
-  });
+  }
 
   describe("setGuard", async () => {
     it("reverts if reverts if caller is not the owner", async () => {
-      const { module } = await setupTests();
+      const { module } = await loadFixture(setupTests);
+      const [, user1] = await hre.ethers.getSigners();
       await expect(
-        module.connect(wallets[1]).setGuard(wallets[1].address)
+        module.connect(user1).setGuard(user1.address)
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
 
     it("reverts if guard does not implement ERC165", async () => {
-      const { module } = await setupTests();
+      const { module } = await loadFixture(setupTests);
       await expect(module.setGuard(module.address)).to.be.reverted;
     });
 
     it("sets module and emits event", async () => {
-      const { module, guard } = await setupTests();
+      const { module, guard } = await loadFixture(setupTests);
       await expect(module.setGuard(guard.address))
         .to.emit(module, "ChangedGuard")
         .withArgs(guard.address);
@@ -46,19 +44,17 @@ describe("Guardable", async () => {
 
   describe("getGuard", async () => {
     it("returns guard address", async () => {
-      const { module } = await setupTests();
+      const { module } = await loadFixture(setupTests);
       await expect(await module.getGuard()).to.be.equals(AddressZero);
     });
   });
 });
 
 describe("BaseGuard", async () => {
-  const [user1] = waffle.provider.getWallets();
   const txHash =
     "0x0000000000000000000000000000000000000000000000000000000000000001";
 
-  const setupTests = deployments.createFixture(async ({ deployments }) => {
-    await deployments.fixture();
+  async function setupTests() {
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
     const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
@@ -85,11 +81,12 @@ describe("BaseGuard", async () => {
       module,
       tx,
     };
-  });
+  }
 
   describe("checkTransaction", async () => {
     it("reverts if test fails", async () => {
-      const { guard, tx } = await setupTests();
+      const { guard, tx } = await loadFixture(setupTests);
+      const [user1] = await hre.ethers.getSigners();
       await expect(
         guard.checkTransaction(
           tx.to,
@@ -107,7 +104,8 @@ describe("BaseGuard", async () => {
       ).to.be.revertedWith("Cannot send 1337");
     });
     it("checks transaction", async () => {
-      const { guard, tx } = await setupTests();
+      const { guard, tx } = await loadFixture(setupTests);
+      const [user1] = await hre.ethers.getSigners();
       await expect(
         guard.checkTransaction(
           tx.to,
@@ -130,13 +128,13 @@ describe("BaseGuard", async () => {
 
   describe("checkAfterExecution", async () => {
     it("reverts if test fails", async () => {
-      const { guard } = await setupTests();
+      const { guard } = await loadFixture(setupTests);
       await expect(guard.checkAfterExecution(txHash, true)).to.be.revertedWith(
         "Module cannot remove its own guard."
       );
     });
     it("checks state after execution", async () => {
-      const { module, guard } = await setupTests();
+      const { module, guard } = await loadFixture(setupTests);
       await expect(module.setGuard(guard.address))
         .to.emit(module, "ChangedGuard")
         .withArgs(guard.address);

@@ -1,9 +1,5 @@
-import "@typechain/hardhat";
-import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-etherscan";
-import "@nomiclabs/hardhat-waffle";
-import "solidity-coverage";
-import "hardhat-deploy";
+import "@nomicfoundation/hardhat-toolbox";
+
 import dotenv from "dotenv";
 import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
@@ -104,6 +100,10 @@ export default {
     bsc: {
       ...sharedNetworkConfig,
       url: "https://bsc-dataseed.binance.org",
+    },
+    lineaGoerli: {
+      ...sharedNetworkConfig,
+      url: `https://linea-goerli.infura.io/v3/${INFURA_KEY}`,
     },
   },
   namedAccounts: {
