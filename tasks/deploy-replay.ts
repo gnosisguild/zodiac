@@ -16,10 +16,6 @@ export const deploy = async (
   hre: HardhatRuntimeEnvironment
 ) => {
   const contracts = Object.values(KnownContracts);
-
-  // const networkList = networks ? networks : Object.keys(hre.config.networks);
-
-  // for (const network of networkList) {
   console.log(`\n\x1B[4m\x1B[1m${hre.network.name}\x1B[0m`);
 
   const [deployer] = await hre.ethers.getSigners();
