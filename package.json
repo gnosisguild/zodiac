@@ -25,7 +25,7 @@
     "build:sdk": "rm -rf dist && yarn generate:types && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "clean": "rm -rf dist build typechain-types",
     "deploy:factory": "hardhat singleton-deployment --network",
-    "deploy": "hardhat deploy-replay",
+    "deploy": "hardhat deploy-replay --network",
     "test:sdk": "hardhat test ./sdk/factory/__tests__/index.spec.ts",
     "test": "hardhat test && yarn test:sdk",
     "coverage": "hardhat coverage",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.7",
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@nomiclabs/hardhat-ethers": "2.2.3",
     "@nomiclabs/hardhat-etherscan": "3.1.7",
     "@typechain/ethers-v5": "^11.1.0",

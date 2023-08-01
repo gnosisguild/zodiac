@@ -1,7 +1,7 @@
 import { constants as ethersConstants, ethers } from "ethers";
-import { MasterCopyInitData } from "../contracts";
 import { getSingletonFactory } from "./singletonFactory";
 import { KnownContracts } from "./types";
+import { MasterCopyInitData } from "../contracts";
 
 const { AddressZero } = ethersConstants;
 
@@ -30,7 +30,7 @@ export const deployModuleFactory = async (
   );
   if (targetAddress === AddressZero) {
     console.log(
-      "  ✔ Module Proxy Factory already deployed to target address on this network."
+      `  ✔ Module Proxy Factory already deployed to target address on ${signer.provider.network.name}.`
     );
     return AddressZero;
   }
