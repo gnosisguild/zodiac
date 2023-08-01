@@ -57,6 +57,7 @@ export enum SupportedNetworks {
   BinanceSmartChain = 56,
   HardhatNetwork = 31337,
   LineaGoerli = 59140,
+  Sepolia = 11155111,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -217,6 +218,7 @@ export const ContractVersions: Record<
     },
   },
   [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
+  [SupportedNetworks.Sepolia]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */

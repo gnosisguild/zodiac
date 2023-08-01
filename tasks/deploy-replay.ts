@@ -23,38 +23,38 @@ export const deploy = async (
   for (const network of networkList) {
     console.log(`\n\x1B[4m\x1B[1m${network.toUpperCase()}\x1B[0m`);
 
-    try {
-      hre.changeNetwork(network);
-      const [deployer] = await hre.ethers.getSigners();
-      const signer = hre.ethers.provider.getSigner(deployer.address);
-      for (let index = 0; index < contracts.length; index++) {
-        const initData: InitData | undefined =
-          MasterCopyInitData[contracts[index]];
+    // try {
+    hre.changeNetwork(network);
+    const [deployer] = await hre.ethers.getSigners();
+    const signer = hre.ethers.provider.getSigner(deployer.address);
+    for (let index = 0; index < contracts.length; index++) {
+      const initData: InitData | undefined =
+        MasterCopyInitData[contracts[index]];
 
-        if (initData && initData.initCode && initData.salt) {
-          console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
-          try {
-            await deployMastercopyWithInitData(
-              signer,
-              initData.initCode,
-              initData.salt
-            );
-          } catch (error: any) {
-            console.log(
-              `        \x1B[31m✘ Deployment failed:\x1B[0m              ${
-                error?.reason || error
-              }`
-            );
-          }
+      if (initData && initData.initCode && initData.salt) {
+        console.log(`    \x1B[4m${contracts[index]}\x1B[0m`);
+        try {
+          await deployMastercopyWithInitData(
+            signer,
+            initData.initCode,
+            initData.salt
+          );
+        } catch (error: any) {
+          console.log(
+            `        \x1B[31m✘ Deployment failed:\x1B[0m              ${
+              error?.reason || error
+            }`
+          );
         }
       }
-    } catch (error: any) {
-      console.log(
-        `    \x1B[31m✘ Network skipped because:\x1B[0m            ${
-          error?.reason || error
-        }`
-      );
     }
+    // } catch (error: any) {
+    //   console.log(
+    //     `    \x1B[31m✘ Network skipped because:\x1B[0m            ${
+    //       error?.reason || error
+    //     }`
+    //   );
+    // }
   }
 };
 
