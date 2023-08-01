@@ -5,7 +5,7 @@ import { deployModuleFactory } from "../sdk/factory/deployModuleFactory";
 
 const FactoryInitCode = MasterCopyInitData[KnownContracts.FACTORY]?.initCode;
 
-export const deploy = async (_: null, hre: HardhatRuntimeEnvironment) => {
+export const deploy = async (_: unknown, hre: HardhatRuntimeEnvironment) => {
   const Factory = await hre.ethers.getContractFactory("ModuleProxyFactory");
   if (Factory.bytecode !== FactoryInitCode) {
     console.warn(

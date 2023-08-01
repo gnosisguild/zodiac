@@ -11,10 +11,7 @@ interface InitData {
   salt?: string;
 }
 
-export const deploy = async (
-  _: unknown, // { networks }: { networks: string[] },
-  hre: HardhatRuntimeEnvironment
-) => {
+export const deploy = async (_: unknown, hre: HardhatRuntimeEnvironment) => {
   const contracts = Object.values(KnownContracts);
   console.log(`\n\x1B[4m\x1B[1m${hre.network.name}\x1B[0m`);
 
