@@ -5,5 +5,6 @@
     "outDir": "dist/esm",
     "module": "es6"
   },
-  "files": ["./hardhat.config.ts"]
+  "include": ["sdk/**/*.ts"],
+  "exclude": ["sdk/**/__tests__/**/*"]
 }
