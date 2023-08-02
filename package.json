@@ -1,6 +1,6 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "3.3.6",
+  "version": "3.3.7",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
@@ -24,7 +24,8 @@
     "build": "hardhat compile",
     "build:sdk": "rm -rf dist && yarn generate:types && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "clean": "rm -rf dist build typechain-types",
-    "deploy": "hardhat singleton-deployment --network",
+    "deploy:factory": "hardhat singleton-deployment --network",
+    "deploy": "hardhat deploy-replay --network",
     "test:sdk": "hardhat test ./sdk/factory/__tests__/index.spec.ts",
     "test": "hardhat test && yarn test:sdk",
     "coverage": "hardhat coverage",

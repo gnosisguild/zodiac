@@ -35,7 +35,7 @@ if (PK) {
 }
 
 if (
-  ["mainnet", "goerli", "ropsten"].includes(network) &&
+  ["mainnet", "goerli", "sepolia", "ropsten"].includes(network) &&
   INFURA_KEY === undefined
 ) {
   throw new Error(
@@ -76,6 +76,10 @@ export default {
     goerli: {
       ...sharedNetworkConfig,
       url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    },
+    sepolia: {
+      ...sharedNetworkConfig,
+      url: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
     },
     arbitrum: {
       ...sharedNetworkConfig,
