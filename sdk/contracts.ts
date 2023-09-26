@@ -83,7 +83,7 @@ const CanonicalAddresses: Record<
     "1.0.0": "0x03B5eBD2CB2e3339E93774A1Eb7c8634B8C393A9",
   },
   [KnownContracts.DELAY]: {
-    "1.0.0": "0xD62129BF40CD1694b3d9D9847367783a1A4d5cB4",
+    "1.0.0": "0xd54895B1121A2eE3f37b502F507631FA1331BED6",
   },
   [KnownContracts.FACTORY]: {
     "1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85",
