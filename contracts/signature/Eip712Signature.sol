@@ -21,7 +21,7 @@ abstract contract EIP712Signature {
                 bytes32 s
             ) = _splitSignature(msg.data);
 
-            bytes32 txHash = _transactionHash(msg.value, dataTrimmed, nonce);
+            bytes32 txHash = _transactionHash(dataTrimmed, nonce);
 
             signer = ecrecover(txHash, v, r, s);
         }
@@ -42,7 +42,6 @@ abstract contract EIP712Signature {
     }
 
     function _transactionHash(
-        uint256 value,
         bytes calldata data,
         uint256 _nonce
     ) private view returns (bytes32) {
@@ -58,7 +57,6 @@ abstract contract EIP712Signature {
                     keccak256(
                         abi.encode(
                             TRANSACTION_TYPEHASH,
-                            value,
                             keccak256(data),
                             _nonce
                         )
@@ -74,8 +72,8 @@ abstract contract EIP712Signature {
         0x47e79534a245952e8b16893a336b85a3d9ea9fa8c573f3d803afb92a79469218;
 
     // keccak256(
-    //     "Transaction(uint256 value,bytes data,uint256 nonce)"
+    //     "Transaction(bytes data,uint256 nonce)"
     // );
     bytes32 private constant TRANSACTION_TYPEHASH =
-        0x04c518a746e9715fde6a6d3ebdf678ea51c6d591b95e35d73b7e312afa44dd71;
+        0x095b95bd4097eddc78a04047eaaf54c1bf5007ccce3f4f54118d21b4c01d9845;
 }
