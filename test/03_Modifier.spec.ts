@@ -2,7 +2,10 @@ import { AddressZero } from "@ethersproject/constants";
 import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
+import { PopulatedTransaction } from "ethers";
 import hre from "hardhat";
+import typedDataForTransaction from "./typesDataForTransaction";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
@@ -291,7 +294,6 @@ describe("Modifier", async () => {
         .to.be.revertedWithCustomError(modifier, "NotAuthorized")
         .withArgs("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
     });
-
     it("execute a transaction.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
       const [user1] = await hre.ethers.getSigners();
@@ -307,6 +309,48 @@ describe("Modifier", async () => {
           tx.operation
         )
       ).to.emit(modifier, "executed");
+    });
+    it("execute a transaction with signature.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, user2, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signatureOk = await sign(modifier.address, transaction, user1);
+      const signatureBad = await sign(modifier.address, transaction, user2);
+
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      await expect(user1.sendTransaction(transaction)).to.emit(
+        modifier,
+        "executed"
+      );
+
+      await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
+        modifier,
+        "executed"
+      );
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
     });
   });
 
@@ -341,5 +385,60 @@ describe("Modifier", async () => {
         )
       ).to.emit(modifier, "executedAndReturnedData");
     });
+
+    it("execute a transaction with signature.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, user2, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signatureOk = await sign(modifier.address, transaction, user1);
+      const signatureBad = await sign(modifier.address, transaction, user2);
+
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      await expect(user1.sendTransaction(transaction)).to.emit(
+        modifier,
+        "executedAndReturnedData"
+      );
+
+      await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
+        modifier,
+        "executedAndReturnedData"
+      );
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+    });
   });
 });
+
+async function sign(
+  contract: string,
+  transaction: PopulatedTransaction,
+  signer: SignerWithAddress
+) {
+  const { domain, types, message } = typedDataForTransaction(
+    { contract, chainId: 31337, nonce: 0 },
+    { value: transaction.value || 0, data: transaction.data || "0x" }
+  );
+  return signer._signTypedData(domain, types, message);
+}

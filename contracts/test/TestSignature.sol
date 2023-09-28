@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0;
 
-import "../signature/Eip712Signature.sol";
+import "../signature/EIP712Signature.sol";
 
-contract TestSignature is Eip712Signature {
+contract TestSignature is EIP712Signature {
     event Hello(address signer);
 
     event Goodbye(address signer);
