@@ -4,7 +4,7 @@ pragma solidity >=0.8.0 <0.9.0;
 abstract contract EIP712Signature {
     uint256 private nonce;
 
-    function eip712Nonce() public returns (uint256 signed) {
+    function eip712Nonce() public view returns (uint256 signed) {
         return nonce;
     }
 

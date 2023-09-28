@@ -65,6 +65,11 @@ describe("EIP712Signature", async () => {
       .to.emit(testSignature, "Goodbye")
       .withArgs(signer.address);
   });
+
+  it("it publicly exposes the eip712 nonce", async () => {
+    const { testSignature } = await loadFixture(setup);
+    expect(await testSignature.eip712Nonce()).to.equal(0);
+  });
 });
 
 async function sign(
