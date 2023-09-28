@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0 <0.9.0;
 
-abstract contract Eip712Signature {
+abstract contract EIP712Signature {
     uint256 private nonce;
 
-    function eip712Nonce() internal returns (uint256 signed) {
+    function eip712Nonce() public returns (uint256 signed) {
         return nonce;
     }
 
-    function eip712Increment() internal {
+    function eip712NextNonce() internal {
         nonce = nonce + 1;
     }
 
