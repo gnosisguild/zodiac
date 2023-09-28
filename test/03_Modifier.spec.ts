@@ -314,6 +314,37 @@ describe("Modifier", async () => {
     });
     it("execute a transaction with signature.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signature = await sign(modifier.address, transaction, user1);
+
+      const transactionWithSig = {
+        ...transaction,
+        data: `${transaction.data}${signature.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transaction)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+
+      await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
+        modifier,
+        "executed"
+      );
+    });
+    it("reverts if signature not valid.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
       const [user1, user2, relayer] = await hre.ethers.getSigners();
       await expect(await modifier.enableModule(user1.address))
         .to.emit(modifier, "EnabledModule")
@@ -330,29 +361,24 @@ describe("Modifier", async () => {
       const signatureOk = await sign(modifier.address, transaction, user1);
       const signatureBad = await sign(modifier.address, transaction, user2);
 
-      const transactionWithOkSig = {
-        ...transaction,
-        data: `${transaction.data}${signatureOk.slice(2)}`,
-      };
-
       const transactionWithBadSig = {
         ...transaction,
         data: `${transaction.data}${signatureBad.slice(2)}`,
       };
 
-      await expect(user1.sendTransaction(transaction)).to.emit(
-        modifier,
-        "executed"
-      );
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
 
       await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
         modifier,
         "executed"
       );
-
-      await expect(
-        relayer.sendTransaction(transactionWithBadSig)
-      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
     });
     it("execute a transaction via sender nonce stays same.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
@@ -427,7 +453,6 @@ describe("Modifier", async () => {
         .to.be.revertedWithCustomError(modifier, "NotAuthorized")
         .withArgs("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
     });
-
     it("execute a transaction.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
       const [user1] = await hre.ethers.getSigners();
@@ -444,8 +469,38 @@ describe("Modifier", async () => {
         )
       ).to.emit(modifier, "executedAndReturnedData");
     });
-
     it("execute a transaction with signature.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signature = await sign(modifier.address, transaction, user1);
+
+      const transactionWithSig = {
+        ...transaction,
+        data: `${transaction.data}${signature.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transaction)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+
+      await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
+        modifier,
+        "executedAndReturnedData"
+      );
+    });
+    it("reverts if signature not valid.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
       const [user1, user2, relayer] = await hre.ethers.getSigners();
       await expect(await modifier.enableModule(user1.address))
@@ -460,32 +515,27 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signatureOk = await sign(modifier.address, transaction, user1);
       const signatureBad = await sign(modifier.address, transaction, user2);
-
-      const transactionWithOkSig = {
-        ...transaction,
-        data: `${transaction.data}${signatureOk.slice(2)}`,
-      };
+      const signatureOk = await sign(modifier.address, transaction, user1);
 
       const transactionWithBadSig = {
         ...transaction,
         data: `${transaction.data}${signatureBad.slice(2)}`,
       };
 
-      await expect(user1.sendTransaction(transaction)).to.emit(
-        modifier,
-        "executedAndReturnedData"
-      );
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
 
       await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
         modifier,
         "executedAndReturnedData"
       );
-
-      await expect(
-        relayer.sendTransaction(transactionWithBadSig)
-      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
     });
   });
 });
