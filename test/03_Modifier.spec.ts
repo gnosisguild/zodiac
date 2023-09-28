@@ -7,6 +7,7 @@ import hre from "hardhat";
 import typedDataForTransaction from "./typesDataForTransaction";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { TestModifier__factory } from "../typechain-types";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
@@ -496,7 +497,7 @@ async function sign(
 ) {
   const { domain, types, message } = typedDataForTransaction(
     { contract, chainId: 31337, nonce: 0 },
-    { value: transaction.value || 0, data: transaction.data || "0x" }
+    transaction.data || "0x"
   );
   return signer._signTypedData(domain, types, message);
 }
