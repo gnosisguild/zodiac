@@ -83,7 +83,7 @@ abstract contract Modifier is Module, IAvatar, EIP712Signature {
         }
 
         if (wasSigned) {
-            eip712NextNonce();
+            eip712BumpNonce();
         }
 
         _;
