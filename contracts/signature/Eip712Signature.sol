@@ -8,7 +8,7 @@ abstract contract EIP712Signature {
         return nonce;
     }
 
-    function eip712NextNonce() internal {
+    function eip712BumpNonce() internal {
         nonce = nonce + 1;
     }
 
@@ -19,41 +19,29 @@ abstract contract EIP712Signature {
                 uint8 v,
                 bytes32 r,
                 bytes32 s
-            ) = signatureSplit(msg.data);
+            ) = _splitSignature(msg.data);
 
-            bytes32 txHash = transactionHash(msg.value, dataTrimmed, nonce);
+            bytes32 txHash = _transactionHash(msg.value, dataTrimmed, nonce);
 
             signer = ecrecover(txHash, v, r, s);
         }
     }
 
-    function signatureSplit(
+    function _splitSignature(
         bytes calldata data
     )
-        internal
+        private
         pure
         returns (bytes calldata dataTrimmed, uint8 v, bytes32 r, bytes32 s)
     {
         uint256 length = data.length;
-        dataTrimmed = data[0:data.length - 65];
+        dataTrimmed = data[0:length - 65];
         r = bytes32(data[length - 65:]);
         s = bytes32(data[length - 33:]);
         v = uint8(bytes1(data[length - 1:]));
     }
 
-    // keccak256(
-    //     "EIP712Domain(uint256 chainId,address verifyingContract)"
-    // );
-    bytes32 private constant DOMAIN_SEPARATOR_TYPEHASH =
-        0x47e79534a245952e8b16893a336b85a3d9ea9fa8c573f3d803afb92a79469218;
-
-    // keccak256(
-    //     "Transaction(uint256 value,bytes data,uint256 nonce)"
-    // );
-    bytes32 private constant TRANSACTION_TYPEHASH =
-        0x04c518a746e9715fde6a6d3ebdf678ea51c6d591b95e35d73b7e312afa44dd71;
-
-    function transactionHash(
+    function _transactionHash(
         uint256 value,
         bytes calldata data,
         uint256 _nonce
@@ -83,4 +71,16 @@ abstract contract EIP712Signature {
                 )
             );
     }
+
+    // keccak256(
+    //     "EIP712Domain(uint256 chainId,address verifyingContract)"
+    // );
+    bytes32 private constant DOMAIN_SEPARATOR_TYPEHASH =
+        0x47e79534a245952e8b16893a336b85a3d9ea9fa8c573f3d803afb92a79469218;
+
+    // keccak256(
+    //     "Transaction(uint256 value,bytes data,uint256 nonce)"
+    // );
+    bytes32 private constant TRANSACTION_TYPEHASH =
+        0x04c518a746e9715fde6a6d3ebdf678ea51c6d591b95e35d73b7e312afa44dd71;
 }
