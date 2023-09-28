@@ -1,17 +1,28 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0 <0.9.0;
 
+/// @title EIP712Signature - A contract that extracts and inspects EIP-712 signatures appended to calldata.
+
 abstract contract EIP712Signature {
     uint256 private nonce;
 
-    function eip712Nonce() public view returns (uint256 signed) {
+    /**
+     * @dev Returns the current nonce value.
+     */
+    function eip712Nonce() public view returns (uint256) {
         return nonce;
     }
 
+    /**
+     * @dev Increments nonce.
+     */
     function eip712BumpNonce() internal {
         nonce = nonce + 1;
     }
 
+    /**
+     * @dev When signature present, returns the signer address.
+     */
     function eip712SignedBy() internal returns (address signer) {
         if (msg.data.length >= 4 + 65) {
             (
@@ -27,6 +38,10 @@ abstract contract EIP712Signature {
         }
     }
 
+    /**
+     * @dev Extracts signature from calldata, and divides it into `uint8 v, bytes32 r, bytes32 s`.
+     * @param data current transaction calldata.
+     */
     function _splitSignature(
         bytes calldata data
     )
@@ -41,6 +56,12 @@ abstract contract EIP712Signature {
         v = uint8(bytes1(data[length - 1:]));
     }
 
+    /**
+     * @dev Hashes the EIP-712 data structure that will be signed by owner.
+     * @param data The data for the transaction.
+     * @param _nonce The nonce value.
+     * @return the bytes32 hash to be signed by owners.
+     */
     function _transactionHash(
         bytes calldata data,
         uint256 _nonce
