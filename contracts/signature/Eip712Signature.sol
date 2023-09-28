@@ -76,11 +76,7 @@ abstract contract EIP712Signature {
                     bytes1(0x01),
                     domainSeparator,
                     keccak256(
-                        abi.encode(
-                            TRANSACTION_TYPEHASH,
-                            keccak256(data),
-                            _nonce
-                        )
+                        abi.encode(MODULE_TX_TYPEHASH, keccak256(data), _nonce)
                     )
                 )
             );
@@ -95,6 +91,6 @@ abstract contract EIP712Signature {
     // keccak256(
     //     "ModuleTx(bytes data,uint256 nonce)"
     // );
-    bytes32 private constant TRANSACTION_TYPEHASH =
+    bytes32 private constant MODULE_TX_TYPEHASH =
         0xd6c6b5df57eef4e79cab990a377d29dc4c5bbb016a6293120d53f49c54144227;
 }
