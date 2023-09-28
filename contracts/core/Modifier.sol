@@ -74,15 +74,10 @@ abstract contract Modifier is Module, IAvatar, EIP712Signature {
     */
 
     modifier moduleOnly() {
-        bool wasSent = modules[msg.sender] != address(0);
-        bool wasSigned = !wasSent && modules[eip712SignedBy()] != address(0);
-        bool isAuthorized = wasSent || wasSigned;
-
-        if (!isAuthorized) {
-            revert NotAuthorized(msg.sender);
-        }
-
-        if (wasSigned) {
+        if (modules[msg.sender] == address(0)) {
+            if (modules[eip712SignedBy()] == address(0)) {
+                revert NotAuthorized(msg.sender);
+            }
             eip712BumpNonce();
         }
 
