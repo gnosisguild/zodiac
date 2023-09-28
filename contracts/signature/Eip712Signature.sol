@@ -21,10 +21,10 @@ abstract contract EIP712Signature {
     }
 
     /**
-     * @dev When signature present, returns the signer address.
+     * @dev When signature present in calldata, returns the address of the signer.
      */
     function eip712SignedBy() internal returns (address signer) {
-        if (msg.data.length >= 4 + 65) {
+        if (msg.data.length >= 4 + 32 + 32 + 1) {
             (
                 bytes calldata dataTrimmed,
                 uint8 v,
@@ -32,7 +32,7 @@ abstract contract EIP712Signature {
                 bytes32 s
             ) = _splitSignature(msg.data);
 
-            bytes32 txHash = _transactionHash(dataTrimmed, nonce);
+            bytes32 txHash = _moduleTxHash(dataTrimmed, nonce);
 
             signer = ecrecover(txHash, v, r, s);
         }
@@ -62,24 +62,20 @@ abstract contract EIP712Signature {
      * @param _nonce The nonce value.
      * @return the bytes32 hash to be signed by owners.
      */
-    function _transactionHash(
+    function _moduleTxHash(
         bytes calldata data,
         uint256 _nonce
     ) private view returns (bytes32) {
         bytes32 domainSeparator = keccak256(
             abi.encode(DOMAIN_SEPARATOR_TYPEHASH, block.chainid, this)
         );
-        return
-            keccak256(
-                abi.encodePacked(
-                    bytes1(0x19),
-                    bytes1(0x01),
-                    domainSeparator,
-                    keccak256(
-                        abi.encode(MODULE_TX_TYPEHASH, keccak256(data), _nonce)
-                    )
-                )
-            );
+        bytes memory moduleTxData = abi.encodePacked(
+            bytes1(0x19),
+            bytes1(0x01),
+            domainSeparator,
+            keccak256(abi.encode(MODULE_TX_TYPEHASH, keccak256(data), _nonce))
+        );
+        return keccak256(moduleTxData);
     }
 
     // keccak256(
