@@ -6,6 +6,7 @@ import { PopulatedTransaction } from "ethers";
 import hre from "hardhat";
 import typedDataForTransaction from "./typesDataForTransaction";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { TestModifier__factory } from "../typechain-types";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
@@ -351,6 +352,63 @@ describe("Modifier", async () => {
       await expect(
         relayer.sendTransaction(transactionWithBadSig)
       ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+    });
+    it("execute a transaction via sender nonce stays same.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      await expect(
+        modifier.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        )
+      ).to.emit(modifier, "executed");
+
+      expect(
+        await TestModifier__factory.connect(
+          modifier.address,
+          hre.ethers.provider
+        ).eip712Nonce()
+      ).to.equal(0);
+    });
+    it("execute a transaction with signature nonce is incremented.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, user2, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signature = await sign(modifier.address, transaction, user1);
+
+      const transactionWithSig = {
+        ...transaction,
+        data: `${transaction.data}${signature.slice(2)}`,
+      };
+
+      await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
+        modifier,
+        "executed"
+      );
+
+      expect(
+        await TestModifier__factory.connect(
+          modifier.address,
+          hre.ethers.provider
+        ).eip712Nonce()
+      ).to.equal(1);
     });
   });
 
