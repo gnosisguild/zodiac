@@ -46,13 +46,8 @@ abstract contract EIP712Signature {
         bytes calldata data,
         uint256 _nonce
     ) private view returns (bytes32) {
-        uint256 chainId;
-        assembly {
-            chainId := chainid()
-        }
-
         bytes32 domainSeparator = keccak256(
-            abi.encode(DOMAIN_SEPARATOR_TYPEHASH, chainId, this)
+            abi.encode(DOMAIN_SEPARATOR_TYPEHASH, block.chainid, this)
         );
         return
             keccak256(
