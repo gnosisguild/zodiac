@@ -14,7 +14,7 @@ export default function typedDataForTransaction(
 ) {
   const domain = { verifyingContract: contract, chainId };
   const types = {
-    Transaction: [
+    ModuleTx: [
       { type: "bytes", name: "data" },
       { type: "uint256", name: "nonce" },
     ],

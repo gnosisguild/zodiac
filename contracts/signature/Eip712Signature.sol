@@ -72,8 +72,8 @@ abstract contract EIP712Signature {
         0x47e79534a245952e8b16893a336b85a3d9ea9fa8c573f3d803afb92a79469218;
 
     // keccak256(
-    //     "Transaction(bytes data,uint256 nonce)"
+    //     "ModuleTx(bytes data,uint256 nonce)"
     // );
     bytes32 private constant TRANSACTION_TYPEHASH =
-        0x095b95bd4097eddc78a04047eaaf54c1bf5007ccce3f4f54118d21b4c01d9845;
+        0xd6c6b5df57eef4e79cab990a377d29dc4c5bbb016a6293120d53f49c54144227;
 }
