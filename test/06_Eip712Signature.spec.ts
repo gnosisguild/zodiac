@@ -79,7 +79,7 @@ async function sign(
 ) {
   const { domain, types, message } = typedDataForTransaction(
     { contract, chainId: 31337, nonce: 0 },
-    { value: transaction.value || 0, data: transaction.data || "0x" }
+    transaction.data || "0x"
   );
   return await signer._signTypedData(domain, types, message);
 }
