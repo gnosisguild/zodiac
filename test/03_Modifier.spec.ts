@@ -399,7 +399,7 @@ describe("Modifier", async () => {
         await TestModifier__factory.connect(
           modifier.address,
           hre.ethers.provider
-        ).eip712Nonce()
+        ).moduleTxNonce()
       ).to.equal(0);
     });
     it("execute a transaction with signature nonce is incremented.", async () => {
@@ -433,7 +433,7 @@ describe("Modifier", async () => {
         await TestModifier__factory.connect(
           modifier.address,
           hre.ethers.provider
-        ).eip712Nonce()
+        ).moduleTxNonce()
       ).to.equal(1);
     });
   });
