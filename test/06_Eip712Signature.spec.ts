@@ -68,7 +68,7 @@ describe("EIP712Signature", async () => {
 
   it("it publicly exposes the eip712 nonce", async () => {
     const { testSignature } = await loadFixture(setup);
-    expect(await testSignature.eip712Nonce()).to.equal(0);
+    expect(await testSignature.moduleTxNonce()).to.equal(0);
   });
 });
 

@@ -1,29 +1,29 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0 <0.9.0;
 
-/// @title EIP712Signature - A contract that extracts and inspects EIP-712 signatures appended to calldata.
-
-abstract contract EIP712Signature {
+/// @title SignatureChecker - A contract that extracts and inspects signatures appended to calldata.
+/// @notice currently supporting eip-712 and eip-1271 signatures
+abstract contract SignatureChecker {
     uint256 private nonce;
 
     /**
      * @dev Returns the current nonce value.
      */
-    function eip712Nonce() public view returns (uint256) {
+    function moduleTxNonce() public view returns (uint256) {
         return nonce;
     }
 
     /**
      * @dev Increments nonce.
      */
-    function eip712BumpNonce() internal {
+    function moduleTxNonceBump() internal {
         nonce = nonce + 1;
     }
 
     /**
      * @dev When signature present in calldata, returns the address of the signer.
      */
-    function eip712SignedBy() internal returns (address signer) {
+    function moduleTxSignedBy() internal view returns (address signer) {
         if (msg.data.length >= 4 + 32 + 32 + 1) {
             (
                 bytes calldata dataTrimmed,
