@@ -5,9 +5,9 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "./Module.sol";
 import "../interfaces/IAvatar.sol";
-import "../signature/EIP712Signature.sol";
+import "../signature/SignatureChecker.sol";
 
-abstract contract Modifier is Module, IAvatar, EIP712Signature {
+abstract contract Modifier is Module, IAvatar, SignatureChecker {
     address internal constant SENTINEL_MODULES = address(0x1);
     /// Mapping of modules.
     mapping(address => address) internal modules;
@@ -75,10 +75,10 @@ abstract contract Modifier is Module, IAvatar, EIP712Signature {
 
     modifier moduleOnly() {
         if (modules[msg.sender] == address(0)) {
-            if (modules[eip712SignedBy()] == address(0)) {
+            if (modules[moduleTxSignedBy()] == address(0)) {
                 revert NotAuthorized(msg.sender);
             }
-            eip712BumpNonce();
+            moduleTxNonceBump();
         }
 
         _;
