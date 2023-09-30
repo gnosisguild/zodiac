@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0 <0.9.0;
 
+import "./IERC1271.sol";
+
 /// @title SignatureChecker - A contract that extracts and inspects signatures appended to calldata.
 /// @notice currently supporting eip-712 and eip-1271 signatures
 abstract contract SignatureChecker {
@@ -24,17 +26,29 @@ abstract contract SignatureChecker {
      * @dev When signature present in calldata, returns the address of the signer.
      */
     function moduleTxSignedBy() internal view returns (address signer) {
-        if (msg.data.length >= 4 + 32 + 32 + 1) {
+        bytes calldata data = msg.data;
+        if (data.length >= 4 + 65) {
             (
-                bytes calldata dataTrimmed,
-                uint8 v,
                 bytes32 r,
-                bytes32 s
-            ) = _splitSignature(msg.data);
+                bytes32 s,
+                uint8 v,
+                bool isContractSignature,
+                uint256 start,
+                uint256 end
+            ) = _splitSignature(data);
 
-            bytes32 txHash = _moduleTxHash(dataTrimmed, nonce);
+            bytes32 hash = _moduleTxHash(data[:start], nonce);
 
-            signer = ecrecover(txHash, v, r, s);
+            if (isContractSignature) {
+                // When handling contract signatures the address
+                // of the contract is encoded into r
+                signer = address(uint160(uint256(r)));
+                if (!isValidContractSignature(signer, hash, data[start:end])) {
+                    signer = address(0);
+                }
+            } else {
+                signer = ecrecover(hash, v, r, s);
+            }
         }
     }
 
@@ -47,13 +61,22 @@ abstract contract SignatureChecker {
     )
         private
         pure
-        returns (bytes calldata dataTrimmed, uint8 v, bytes32 r, bytes32 s)
+        returns (
+            bytes32 r,
+            bytes32 s,
+            uint8 v,
+            bool isEIP1271,
+            uint256 start,
+            uint256 end
+        )
     {
         uint256 length = data.length;
-        dataTrimmed = data[0:length - 65];
         r = bytes32(data[length - 65:]);
         s = bytes32(data[length - 33:]);
         v = uint8(bytes1(data[length - 1:]));
+        isEIP1271 = v == 0 && (uint256(s) < (length - 65));
+        start = isEIP1271 ? uint256(s) : length - 65;
+        end = isEIP1271 ? length - 65 : length;
     }
 
     /**
@@ -78,6 +101,30 @@ abstract contract SignatureChecker {
         return keccak256(moduleTxData);
     }
 
+    function isValidContractSignature(
+        address signer,
+        bytes32 hash,
+        bytes calldata signature
+    ) internal view returns (bool result) {
+        uint256 size;
+        assembly {
+            size := extcodesize(signer)
+        }
+        if (size == 0) {
+            return false;
+        }
+
+        (bool success, bytes memory returnData) = signer.staticcall(
+            abi.encodeWithSelector(
+                IERC1271.isValidSignature.selector,
+                hash,
+                signature
+            )
+        );
+
+        return success == true && bytes4(returnData) == EIP1271_MAGIC_VALUE;
+    }
+
     // keccak256(
     //     "EIP712Domain(uint256 chainId,address verifyingContract)"
     // );
@@ -89,4 +136,7 @@ abstract contract SignatureChecker {
     // );
     bytes32 private constant MODULE_TX_TYPEHASH =
         0xd6c6b5df57eef4e79cab990a377d29dc4c5bbb016a6293120d53f49c54144227;
+
+    // bytes4(keccak256("isValidSignature(bytes32,bytes)")
+    bytes4 private constant EIP1271_MAGIC_VALUE = 0x1626ba7e;
 }
