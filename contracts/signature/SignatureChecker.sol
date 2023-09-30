@@ -32,18 +32,19 @@ abstract contract SignatureChecker {
                 bytes32 r,
                 bytes32 s,
                 uint8 v,
-                bool isContractSignature,
-                uint256 start,
-                uint256 end
+                bool isEIP1271,
+                uint256 start
             ) = _splitSignature(data);
 
             bytes32 hash = _moduleTxHash(data[:start], nonce);
 
-            if (isContractSignature) {
+            if (isEIP1271) {
                 // When handling contract signatures the address
                 // of the contract is encoded into r
                 signer = address(uint160(uint256(r)));
-                if (!isValidContractSignature(signer, hash, data[start:end])) {
+                uint256 end = data.length - 65;
+
+                if (!_isValidContractSignature(signer, hash, data[start:end])) {
                     signer = address(0);
                 }
             } else {
@@ -61,14 +62,7 @@ abstract contract SignatureChecker {
     )
         private
         pure
-        returns (
-            bytes32 r,
-            bytes32 s,
-            uint8 v,
-            bool isEIP1271,
-            uint256 start,
-            uint256 end
-        )
+        returns (bytes32 r, bytes32 s, uint8 v, bool isEIP1271, uint256 start)
     {
         uint256 length = data.length;
         r = bytes32(data[length - 65:]);
@@ -76,7 +70,6 @@ abstract contract SignatureChecker {
         v = uint8(bytes1(data[length - 1:]));
         isEIP1271 = v == 0 && (uint256(s) < (length - 65));
         start = isEIP1271 ? uint256(s) : length - 65;
-        end = isEIP1271 ? length - 65 : length;
     }
 
     /**
@@ -101,7 +94,7 @@ abstract contract SignatureChecker {
         return keccak256(moduleTxData);
     }
 
-    function isValidContractSignature(
+    function _isValidContractSignature(
         address signer,
         bytes32 hash,
         bytes calldata signature
