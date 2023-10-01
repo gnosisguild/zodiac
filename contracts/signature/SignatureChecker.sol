@@ -3,7 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import "./IERC1271.sol";
 
-/// @title SignatureChecker - A contract that validates signatures appended to calldata.
+/// @title SignatureChecker - A contract that validates signatures appended to transaction calldata.
 /// @dev currently supports eip-712 and eip-1271
 abstract contract SignatureChecker {
     uint256 private nonce;
@@ -19,24 +19,24 @@ abstract contract SignatureChecker {
     }
 
     /**
-     * @notice Searches for a valid signature, and returns address of signer.
-     * @dev When signature not found or not valid, Zero address is returned
+     * @notice Searches for a signature, validates it, and returns the signer's address.
+     * @dev When signature not found or invalid, zero address is returned
      * @return the address of the signer.
      */
     function moduleTxSignedBy() internal view returns (address) {
         bytes calldata data = msg.data;
 
         /*
-         * The idea is to extend `onlyModule` and provide signature checking
-         * to modules, without code changes.
+         * The idea is to extend `onlyModule` and provide signature checking,
+         * without code changes to inheriting contracts.
          *
-         * Since it's a generic mechanism we don't have a definitive way to
-         * know if the trailling bytes are a signature. We just slice those
+         * Since it's a generic mechanism, there is no way to conclusively
+         * identify the trailing bytes as a signature. We simply slice those
          * out and recover signer.
          *
-         * Hence, we require the calldata to be at least as long as a function
-         * selector plus a signature - 4 + 65. Anything less than that is
-         * guaranteed to not contain a signature
+         * As a result, we impose a minimum calldata length equal to a function
+         * selector plus a signature (i.e., 4 + 65 bytes). Any calldata shorter
+         * than that is guaranteed to not contain a signature.
          */
         if (data.length < 4 + 65) {
             return address(0);
@@ -68,7 +68,7 @@ abstract contract SignatureChecker {
     }
 
     /**
-     * @notice Hashes the EIP-712 data structure.
+     * @notice Hashes the transaction EIP-712 data structure.
      * @dev The produced hash is intended to be signed.
      * @param data The current transaction's calldata.
      * @param _nonce The nonce value.
@@ -96,7 +96,7 @@ abstract contract SignatureChecker {
      * @return v The ECDSA v value
      * @return r The ECDSA r value
      * @return s The ECDSA s value
-     * @return isEIP1271Signature Indicates whether it is a contract signature
+     * @return isEIP1271Signature Indicates whether the split signature is a contract signature
      * @return start offset in calldata where signature starts
      */
     function _splitSignature(
@@ -121,7 +121,8 @@ abstract contract SignatureChecker {
          *
          * We detect contract signatures by the following two conditions:
          *  1- `v` is zero
-         *  2- `s` points within the buffer, is after selector and before sig
+         *  2- `s` points within the buffer and is after selector and before
+         *      signature
          *
          * The data pointed by s should be non zero, as EIP-1271 describes a
          * a non-zero length signer specific signature
@@ -138,8 +139,8 @@ abstract contract SignatureChecker {
     }
 
     /**
-     * @dev Calls the signer contract, and validates signature.
-     * @param signer The address of the signer.
+     * @dev Calls the signer contract, and validates the contract signature.
+     * @param signer The address of the signer contract.
      * @param txHash The hash of the message that was signed.
      * @param signature The signature to validate.
      * @return result indicates whether the signature is valid.
