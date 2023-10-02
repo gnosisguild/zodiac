@@ -25,7 +25,7 @@ abstract contract Modifier is Module, MiniAvatar, IAvatar {
         uint256 value,
         bytes calldata data,
         Enum.Operation operation
-    ) public virtual override onlyOwner returns (bool success) {}
+    ) public virtual override moduleOnly returns (bool success) {}
 
     /// @dev Passes a transaction to the modifier, expects return data.
     /// @notice Can only be called by enabled modules.
@@ -42,7 +42,7 @@ abstract contract Modifier is Module, MiniAvatar, IAvatar {
         public
         virtual
         override
-        onlyOwner
+        moduleOnly
         returns (bool success, bytes memory returnData)
     {}
 }
