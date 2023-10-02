@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../guard/BaseGuard.sol";
-import "../factory/FactoryFriendly.sol";
-import "@gnosis.pm/safe-contracts/contracts/GnosisSafe.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "../core/Module.sol";
+import "../core/ModuleGuardable.sol";
 
 contract TestGuard is FactoryFriendly, BaseGuard {
     event PreChecked(bool checked);
@@ -46,7 +40,7 @@ contract TestGuard is FactoryFriendly, BaseGuard {
 
     function checkAfterExecution(bytes32, bool) public override {
         require(
-            Module(module).guard() == address(this),
+            ModuleGuardable(module).guard() == address(this),
             "Module cannot remove its own guard."
         );
         emit PostChecked(true);

@@ -6,17 +6,22 @@ import { PopulatedTransaction } from "ethers";
 import hre from "hardhat";
 import typedDataForTransaction from "./typesDataForTransaction";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { TestModifier__factory } from "../typechain-types";
+import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
 
   async function setupTests() {
+    const [signer] = await hre.ethers.getSigners();
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
-    const avatar = await Avatar.deploy();
-    const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
+    const avatar = await Avatar.connect(signer).deploy();
+    const iAvatar = TestAvatar__factory.connect(avatar.address, signer);
     const Modifier = await hre.ethers.getContractFactory("TestModifier");
-    const modifier = await Modifier.deploy(iAvatar.address, iAvatar.address);
+    const modifier = await Modifier.connect(signer).deploy(
+      iAvatar.address,
+      iAvatar.address
+    );
+
     await iAvatar.enableModule(modifier.address);
     const tx = {
       to: avatar.address,
@@ -32,7 +37,7 @@ describe("Modifier", async () => {
     };
     return {
       iAvatar,
-      modifier,
+      modifier: TestModifier__factory.connect(modifier.address, signer),
       tx,
     };
   }
@@ -244,9 +249,9 @@ describe("Modifier", async () => {
       const { modifier } = await loadFixture(setupTests);
       const [user1, user2, user3] = await hre.ethers.getSigners();
 
-      await expect(modifier.enableModule(user1.address));
-      await expect(modifier.enableModule(user2.address));
-      await expect(modifier.enableModule(user3.address));
+      await modifier.enableModule(user1.address);
+      await modifier.enableModule(user2.address);
+      await modifier.enableModule(user3.address);
 
       await expect(await modifier.isModuleEnabled(user1.address)).to.be.true;
       await expect(await modifier.isModuleEnabled(user2.address)).to.be.true;
