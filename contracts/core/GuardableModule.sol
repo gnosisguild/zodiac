@@ -6,7 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../guard/Guardable.sol";
 import "./Module.sol";
 
-abstract contract ModuleGuardable is Module, Guardable {
+abstract contract GuardableModule is Module, Guardable {
     /// @dev Passes a transaction to be executed by the avatar.
     /// @notice Can only be called by this contract.
     /// @param to Destination address of module transaction.

@@ -6,7 +6,11 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../interfaces/IAvatar.sol";
 import "../signature/SignatureChecker.sol";
 
-abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable, IAvatar {
+abstract contract BaseModifier is
+    SignatureChecker,
+    OwnableUpgradeable,
+    IAvatar
+{
     address internal constant SENTINEL_MODULES = address(0x1);
     /// Mapping of modules.
     mapping(address => address) internal modules;

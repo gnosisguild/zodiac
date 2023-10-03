@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../core/ModuleGuardable.sol";
+import "../core/GuardableModule.sol";
 
 contract TestGuard is FactoryFriendly, BaseGuard {
     event PreChecked(bool checked);
@@ -40,7 +40,7 @@ contract TestGuard is FactoryFriendly, BaseGuard {
 
     function checkAfterExecution(bytes32, bool) public override {
         require(
-            ModuleGuardable(module).guard() == address(this),
+            GuardableModule(module).guard() == address(this),
             "Module cannot remove its own guard."
         );
         emit PostChecked(true);
