@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 pragma solidity >=0.7.0 <0.9.0;
 
 import "../guard/Guardable.sol";
 import "./Module.sol";
 
+/// @title GuardableModule  - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 abstract contract GuardableModule is Module, Guardable {
     /// @dev Passes a transaction to be executed by the avatar.
     /// @notice Can only be called by this contract.
