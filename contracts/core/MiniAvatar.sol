@@ -2,14 +2,11 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+
+import "../interfaces/IAvatar.sol";
 import "../signature/SignatureChecker.sol";
 
-abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
-    event EnabledModule(address module);
-    event DisabledModule(address module);
-    event ExecutionFromModuleSuccess(address indexed module);
-    event ExecutionFromModuleFailure(address indexed module);
-
+abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable, IAvatar {
     address internal constant SENTINEL_MODULES = address(0x1);
     /// Mapping of modules.
     mapping(address => address) internal modules;
@@ -33,6 +30,44 @@ abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
     /// @dev `setModules()` was already called.
     error SetupModulesAlreadyCalled();
 
+    /// @dev Passes a transaction to the modifier.
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
+    function execTransactionFromModule(
+        address to,
+        uint256 value,
+        bytes calldata data,
+        Enum.Operation operation
+    ) public virtual override moduleOnly returns (bool success) {}
+
+    /*
+    --------------------------------------------------
+    You must override at least one of following two virtual functions,
+    execTransactionFromModule() and execTransactionFromModuleReturnData().
+    */
+
+    /// @dev Passes a transaction to the modifier, expects return data.
+    /// @notice Can only be called by enabled modules.
+    /// @param to Destination address of module transaction.
+    /// @param value Ether value of module transaction.
+    /// @param data Data payload of module transaction.
+    /// @param operation Operation type of module transaction.
+    function execTransactionFromModuleReturnData(
+        address to,
+        uint256 value,
+        bytes calldata data,
+        Enum.Operation operation
+    )
+        public
+        virtual
+        override
+        moduleOnly
+        returns (bool success, bytes memory returnData)
+    {}
+
     /*
     --------------------------------------------------
     */
@@ -55,7 +90,7 @@ abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
     function disableModule(
         address prevModule,
         address module
-    ) public onlyOwner {
+    ) public override onlyOwner {
         if (module == address(0) || module == SENTINEL_MODULES)
             revert InvalidModule(module);
         if (modules[prevModule] != module) revert AlreadyDisabledModule(module);
@@ -67,7 +102,7 @@ abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
     /// @dev Enables a module that can add transactions to the queue
     /// @param module Address of the module to be enabled
     /// @notice This can only be called by the owner
-    function enableModule(address module) public onlyOwner {
+    function enableModule(address module) public override onlyOwner {
         if (module == address(0) || module == SENTINEL_MODULES)
             revert InvalidModule(module);
         if (modules[module] != address(0)) revert AlreadyEnabledModule(module);
@@ -78,7 +113,9 @@ abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
 
     /// @dev Returns if an module is enabled
     /// @return True if the module is enabled
-    function isModuleEnabled(address _module) public view returns (bool) {
+    function isModuleEnabled(
+        address _module
+    ) public view override returns (bool) {
         return SENTINEL_MODULES != _module && modules[_module] != address(0);
     }
 
@@ -92,7 +129,7 @@ abstract contract MiniAvatar is SignatureChecker, OwnableUpgradeable {
     function getModulesPaginated(
         address start,
         uint256 pageSize
-    ) external view returns (address[] memory array, address next) {
+    ) external view override returns (address[] memory array, address next) {
         if (start != SENTINEL_MODULES && !isModuleEnabled(start)) {
             revert InvalidModule(start);
         }
