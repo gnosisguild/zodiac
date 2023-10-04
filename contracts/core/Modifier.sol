@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "./Module.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+
 import "../interfaces/IAvatar.sol";
 import "../signature/SignatureChecker.sol";
+import "./Module.sol";
 
-abstract contract Modifier is Module, IAvatar, SignatureChecker {
+/// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
+abstract contract Modifier is Module, SignatureChecker, IAvatar {
     address internal constant SENTINEL_MODULES = address(0x1);
     /// Mapping of modules.
     mapping(address => address) internal modules;
