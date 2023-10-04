@@ -3,15 +3,16 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 
 import { expect } from "chai";
 import hre from "hardhat";
+import { TestAvatar__factory } from "../typechain-types";
 
 describe("IAvatar", async () => {
   async function setupTests() {
+    const [signer] = await hre.ethers.getSigners();
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
-    const avatar = await Avatar.deploy();
-    const iAvatar = await hre.ethers.getContractAt("IAvatar", avatar.address);
+    const avatar = await Avatar.connect(signer).deploy();
+    const iAvatar = TestAvatar__factory.connect(avatar.address, signer);
     const tx = {
       to: avatar.address,
-
       value: 0,
       data: "0x",
       operation: 0,

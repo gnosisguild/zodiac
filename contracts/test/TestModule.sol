@@ -3,9 +3,9 @@
 /// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../core/Module.sol";
+import "../core/GuardableModule.sol";
 
-contract TestModule is Module {
+contract TestModule is GuardableModule {
     constructor(address _avatar, address _target) {
         bytes memory initParams = abi.encode(_avatar, _target);
         setUp(initParams);
