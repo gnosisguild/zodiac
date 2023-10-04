@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../interfaces/IAvatar.sol";
 import "../factory/FactoryFriendly.sol";
-import "../guard/Guardable.sol";
+import "../interfaces/IAvatar.sol";
 
-abstract contract Module is FactoryFriendly, Guardable {
+/// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
+abstract contract Module is FactoryFriendly {
     /// @dev Address that will ultimately execute function calls.
     address public avatar;
     /// @dev Address that this module will pass transactions to.
@@ -45,8 +43,14 @@ abstract contract Module is FactoryFriendly, Guardable {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal returns (bool success) {
-        (success, ) = _exec(to, value, data, operation);
+    ) internal virtual returns (bool success) {
+        return
+            IAvatar(target).execTransactionFromModule(
+                to,
+                value,
+                data,
+                operation
+            );
     }
 
     /// @dev Passes a transaction to be executed by the target and returns data.
@@ -60,49 +64,13 @@ abstract contract Module is FactoryFriendly, Guardable {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal returns (bool success, bytes memory returnData) {
-        (success, returnData) = _exec(to, value, data, operation);
-    }
-
-    function _exec(
-        address to,
-        uint256 value,
-        bytes memory data,
-        Enum.Operation operation
-    ) private returns (bool success, bytes memory returnData) {
-        address currentGuard = guard;
-        if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkTransaction(
-                /// Transaction info used by module transactions.
+    ) internal virtual returns (bool success, bytes memory returnData) {
+        return
+            IAvatar(target).execTransactionFromModuleReturnData(
                 to,
                 value,
                 data,
-                operation,
-                /// Zero out the redundant transaction information only used for Safe multisig transctions.
-                0,
-                0,
-                0,
-                address(0),
-                payable(0),
-                "",
-                msg.sender
+                operation
             );
-            (success, returnData) = IAvatar(target)
-                .execTransactionFromModuleReturnData(
-                    to,
-                    value,
-                    data,
-                    operation
-                );
-            IGuard(currentGuard).checkAfterExecution("", success);
-        } else {
-            (success, returnData) = IAvatar(target)
-                .execTransactionFromModuleReturnData(
-                    to,
-                    value,
-                    data,
-                    operation
-                );
-        }
     }
 }
