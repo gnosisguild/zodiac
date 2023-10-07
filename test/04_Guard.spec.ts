@@ -24,9 +24,9 @@ describe("Guardable", async () => {
     it("reverts if reverts if caller is not the owner", async () => {
       const { module } = await loadFixture(setupTests);
       const [, user1] = await hre.ethers.getSigners();
-      await expect(
-        module.connect(user1).setGuard(user1.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      await expect(module.connect(user1).setGuard(user1.address))
+        .to.be.revertedWithCustomError(module, "OwnableUnauthorizedAccount")
+        .withArgs(user1.address);
     });
 
     it("reverts if guard does not implement ERC165", async () => {
