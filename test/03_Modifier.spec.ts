@@ -56,9 +56,9 @@ describe("Modifier", async () => {
 
       const [, user2] = await hre.ethers.getSigners();
 
-      await expect(
-        modifier.connect(user2).enableModule(user2.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      await expect(modifier.connect(user2).enableModule(user2.address))
+        .to.be.revertedWithCustomError(modifier, "OwnableUnauthorizedAccount")
+        .withArgs(user2.address);
     });
 
     it("reverts if module is zero address", async () => {
@@ -103,7 +103,9 @@ describe("Modifier", async () => {
       const [, user2] = await hre.ethers.getSigners();
       await expect(
         modifier.connect(user2).disableModule(SENTINEL_MODULES, user2.address)
-      ).to.be.revertedWith("Ownable: caller is not the owner");
+      )
+        .to.be.revertedWithCustomError(modifier, "OwnableUnauthorizedAccount")
+        .withArgs(user2.address);
     });
 
     it("reverts if module is zero address", async () => {

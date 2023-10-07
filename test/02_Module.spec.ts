@@ -37,12 +37,12 @@ describe("Module", async () => {
     it("reverts if caller is not the owner", async () => {
       const { iAvatar, module } = await loadFixture(setupTests);
 
-      const [, wallet1] = await hre.ethers.getSigners();
+      const [owner, wallet1] = await hre.ethers.getSigners();
 
       await module.transferOwnership(wallet1.address);
-      await expect(module.setAvatar(iAvatar.address)).to.be.revertedWith(
-        "Ownable: caller is not the owner"
-      );
+      await expect(module.setAvatar(iAvatar.address))
+        .to.be.revertedWithCustomError(module, "OwnableUnauthorizedAccount")
+        .withArgs(owner.address);
     });
 
     it("allows owner to set avatar", async () => {
@@ -64,11 +64,11 @@ describe("Module", async () => {
   describe("setTarget", async () => {
     it("reverts if caller is not the owner", async () => {
       const { iAvatar, module } = await loadFixture(setupTests);
-      const [, wallet1] = await hre.ethers.getSigners();
+      const [owner, wallet1] = await hre.ethers.getSigners();
       await module.transferOwnership(wallet1.address);
-      await expect(module.setTarget(iAvatar.address)).to.be.revertedWith(
-        "Ownable: caller is not the owner"
-      );
+      await expect(module.setTarget(iAvatar.address))
+        .to.be.revertedWithCustomError(module, "OwnableUnauthorizedAccount")
+        .withArgs(owner.address);
     });
 
     it("allows owner to set avatar", async () => {
