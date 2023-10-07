@@ -74,7 +74,7 @@ contract TestModifier is Modifier {
 
     function setUp(bytes memory initializeParams) public override initializer {
         setupModules();
-        __Ownable_init();
+        __Ownable_init(msg.sender);
         (address _avatar, address _target) = abi.decode(
             initializeParams,
             (address, address)
