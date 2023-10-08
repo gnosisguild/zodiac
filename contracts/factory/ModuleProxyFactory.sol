@@ -19,10 +19,10 @@ contract ModuleProxyFactory {
     /// @notice Initialization failed.
     error FailedInitialization();
 
-    function createProxy(address target, bytes32 salt)
-        internal
-        returns (address result)
-    {
+    function createProxy(
+        address target,
+        bytes32 salt
+    ) internal returns (address result) {
         if (address(target) == address(0)) revert ZeroAddress(target);
         if (address(target).code.length == 0) revert TargetHasNoCode(target);
         bytes memory deployment = abi.encodePacked(
