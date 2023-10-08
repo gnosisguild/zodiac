@@ -6,12 +6,9 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "../interfaces/IGuard.sol";
 
 abstract contract BaseGuard is IERC165 {
-    function supportsInterface(bytes4 interfaceId)
-        external
-        pure
-        override
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceId
+    ) external pure override returns (bool) {
         return
             interfaceId == type(IGuard).interfaceId || // 0xe6d7a83a
             interfaceId == type(IERC165).interfaceId; // 0x01ffc9a7
