@@ -51,11 +51,10 @@ contract TestAvatar {
         else (success, returnData) = to.call{value: value}(data);
     }
 
-    function getModulesPaginated(address, uint256 pageSize)
-        external
-        view
-        returns (address[] memory array, address next)
-    {
+    function getModulesPaginated(
+        address,
+        uint256 pageSize
+    ) external view returns (address[] memory array, address next) {
         // Init array with max page size
         array = new address[](pageSize);
 
