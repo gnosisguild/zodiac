@@ -43,7 +43,7 @@ abstract contract GuardableModule is Module, Guardable {
             operation
         );
         if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkAfterExecution("", success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
     }
 
@@ -58,7 +58,12 @@ abstract contract GuardableModule is Module, Guardable {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal override returns (bool success, bytes memory returnData) {
+    )
+        internal
+        virtual
+        override
+        returns (bool success, bytes memory returnData)
+    {
         address currentGuard = guard;
         if (currentGuard != address(0)) {
             IGuard(currentGuard).checkTransaction(
@@ -82,7 +87,7 @@ abstract contract GuardableModule is Module, Guardable {
             .execTransactionFromModuleReturnData(to, value, data, operation);
 
         if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkAfterExecution("", success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
     }
 }

@@ -16,7 +16,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal override returns (bool success) {
+    ) internal virtual override returns (bool success) {
         address currentGuard = guard;
         if (currentGuard != address(0)) {
             IGuard(currentGuard).checkTransaction(
@@ -42,7 +42,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
             operation
         );
         if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkAfterExecution("", success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
     }
 
@@ -57,7 +57,12 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) internal override returns (bool success, bytes memory returnData) {
+    )
+        internal
+        virtual
+        override
+        returns (bool success, bytes memory returnData)
+    {
         address currentGuard = guard;
         if (currentGuard != address(0)) {
             IGuard(currentGuard).checkTransaction(
@@ -81,7 +86,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
             .execTransactionFromModuleReturnData(to, value, data, operation);
 
         if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkAfterExecution("", success);
+            IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
     }
 }
