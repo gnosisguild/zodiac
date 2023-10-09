@@ -30,12 +30,6 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
     /// @dev `setModules()` was already called.
     error SetupModulesAlreadyCalled();
 
-    /*
-    --------------------------------------------------
-    You must override at least one of following two virtual functions,
-    execTransactionFromModule() and execTransactionFromModuleReturnData().
-    */
-
     /// @dev Passes a transaction to the modifier.
     /// @notice Can only be called by enabled modules.
     /// @param to Destination address of module transaction.
@@ -47,7 +41,7 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
         uint256 value,
         bytes calldata data,
         Enum.Operation operation
-    ) public virtual override moduleOnly returns (bool success) {}
+    ) public virtual returns (bool success);
 
     /// @dev Passes a transaction to the modifier, expects return data.
     /// @notice Can only be called by enabled modules.
@@ -60,17 +54,7 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
         uint256 value,
         bytes calldata data,
         Enum.Operation operation
-    )
-        public
-        virtual
-        override
-        moduleOnly
-        returns (bool success, bytes memory returnData)
-    {}
-
-    /*
-    --------------------------------------------------
-    */
+    ) public virtual returns (bool success, bytes memory returnData);
 
     modifier moduleOnly() {
         if (modules[msg.sender] == address(0)) {
