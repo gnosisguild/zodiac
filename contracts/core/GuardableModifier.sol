@@ -32,7 +32,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
                 address(0),
                 payable(0),
                 "",
-                msg.sender
+                authorizer()
             );
         }
         success = IAvatar(target).execTransactionFromModule(
@@ -78,7 +78,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
                 address(0),
                 payable(0),
                 "",
-                msg.sender
+                authorizer()
             );
         }
 

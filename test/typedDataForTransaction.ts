@@ -4,11 +4,11 @@ export default function typedDataForTransaction(
   {
     contract,
     chainId,
-    nonce,
+    salt,
   }: {
     contract: string;
     chainId: BigNumberish;
-    nonce: BigNumberish;
+    salt: string;
   },
   data: string
 ) {
@@ -16,12 +16,12 @@ export default function typedDataForTransaction(
   const types = {
     ModuleTx: [
       { type: "bytes", name: "data" },
-      { type: "uint256", name: "nonce" },
+      { type: "bytes32", name: "salt" },
     ],
   };
   const message = {
     data,
-    nonce,
+    salt,
   };
 
   return { domain, types, message };

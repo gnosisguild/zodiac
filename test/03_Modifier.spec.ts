@@ -4,7 +4,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { PopulatedTransaction } from "ethers";
 import hre from "hardhat";
-import typedDataForTransaction from "./typesDataForTransaction";
+import typedDataForTransaction from "./typedDataForTransaction";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
 

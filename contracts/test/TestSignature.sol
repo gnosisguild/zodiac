@@ -38,10 +38,12 @@ contract TestSignature is SignatureChecker {
     event Goodbye(address signer);
 
     function hello() public {
-        emit Hello(moduleTxSignedBy());
+        (, address signer) = moduleTxSignedBy();
+        emit Hello(signer);
     }
 
     function goodbye(uint256, bytes memory) public {
-        emit Goodbye(moduleTxSignedBy());
+        (, address signer) = moduleTxSignedBy();
+        emit Goodbye(signer);
     }
 }
