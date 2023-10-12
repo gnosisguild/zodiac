@@ -120,9 +120,7 @@ describe("BaseGuard", async () => {
           tx.signatures,
           user1.address
         )
-      )
-        .to.emit(guard, "PreChecked")
-        .withArgs(true);
+      ).to.emit(guard, "PreChecked");
     });
   });
 

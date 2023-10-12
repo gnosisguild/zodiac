@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../core/GuardableModule.sol";
 
 contract TestGuard is FactoryFriendly, BaseGuard {
-    event PreChecked(bool checked);
+    event PreChecked(address sender);
     event PostChecked(bool checked);
 
     address public module;
@@ -29,13 +29,13 @@ contract TestGuard is FactoryFriendly, BaseGuard {
         address,
         address payable,
         bytes memory,
-        address
+        address sender
     ) public override {
         require(to != address(0), "Cannot send to zero address");
         require(value != 1337, "Cannot send 1337");
         require(bytes3(data) != bytes3(0xbaddad), "Cannot call 0xbaddad");
         require(operation != Enum.Operation(1), "No delegate calls");
-        emit PreChecked(true);
+        emit PreChecked(sender);
     }
 
     function checkAfterExecution(bytes32, bool) public override {

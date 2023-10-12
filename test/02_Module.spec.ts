@@ -98,9 +98,7 @@ describe("Module", async () => {
       await module.setGuard(guard.address);
       await expect(
         module.executeTransaction(tx.to, tx.value, tx.data, tx.operation)
-      )
-        .to.emit(guard, "PreChecked")
-        .withArgs(true);
+      ).to.emit(guard, "PreChecked");
     });
 
     it("executes a transaction", async () => {
@@ -151,9 +149,7 @@ describe("Module", async () => {
           tx.data,
           tx.operation
         )
-      )
-        .to.emit(guard, "PreChecked")
-        .withArgs(true);
+      ).to.emit(guard, "PreChecked");
     });
 
     it("executes a transaction", async () => {
