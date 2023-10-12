@@ -7,24 +7,28 @@ import {
   TestGuard__factory,
   TestGuardableModifier__factory,
 } from "../typechain-types";
+import typedDataForTransaction from "./typesDataForTransaction";
+import { PopulatedTransaction } from "ethers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 describe("GuardableModifier", async () => {
   async function setupTests() {
-    const [signer, someone, executor] = await hre.ethers.getSigners();
+    const [deployer, executor, signer, someone, relayer] =
+      await hre.ethers.getSigners();
 
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = TestAvatar__factory.connect(
       (await Avatar.deploy()).address,
-      signer
+      deployer
     );
 
     const Modifier = await hre.ethers.getContractFactory(
       "TestGuardableModifier"
     );
     const modifier = TestGuardableModifier__factory.connect(
-      (await Modifier.connect(signer).deploy(avatar.address, avatar.address))
+      (await Modifier.connect(deployer).deploy(avatar.address, avatar.address))
         .address,
-      signer
+      deployer
     );
     const Guard = await hre.ethers.getContractFactory("TestGuard");
     const guard = TestGuard__factory.connect(
@@ -36,9 +40,11 @@ describe("GuardableModifier", async () => {
     await modifier.enableModule(executor.address);
 
     return {
-      avatar,
-      someone,
       executor,
+      signer,
+      someone,
+      relayer,
+      avatar,
       guard,
       modifier,
     };
@@ -67,7 +73,40 @@ describe("GuardableModifier", async () => {
           .execTransactionFromModule(avatar.address, 0, "0x", 0)
       )
         .to.emit(guard, "PreChecked")
-        .withArgs(true);
+        .withArgs(executor.address);
+    });
+
+    it("pre-check gets called with signer when transaction is relayed", async () => {
+      const { signer, modifier, relayer, avatar, guard } = await loadFixture(
+        setupTests
+      );
+
+      await modifier.enableModule(signer.address);
+      await modifier.setGuard(guard.address);
+
+      const inner = await avatar.populateTransaction.enableModule(
+        "0xff00000000000000000000000000000000ff3456"
+      );
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModule(
+          avatar.address,
+          0,
+          inner.data as string,
+          0
+        );
+
+      const signature = await sign(modifier.address, transaction, signer);
+      const transactionWithSig = {
+        ...transaction,
+        to: modifier.address,
+        data: `${transaction.data}${signature.slice(2)}`,
+        value: 0,
+      };
+
+      await expect(await relayer.sendTransaction(transactionWithSig))
+        .to.emit(guard, "PreChecked")
+        .withArgs(signer.address);
     });
 
     it("pre-checks and reverts transaction if guard is set", async () => {
@@ -134,7 +173,40 @@ describe("GuardableModifier", async () => {
           .execTransactionFromModuleReturnData(avatar.address, 0, "0x", 0)
       )
         .to.emit(guard, "PreChecked")
-        .withArgs(true);
+        .withArgs(executor.address);
+    });
+
+    it("pre-check gets called with signer when transaction is relayed", async () => {
+      const { signer, modifier, relayer, avatar, guard } = await loadFixture(
+        setupTests
+      );
+
+      await modifier.enableModule(signer.address);
+      await modifier.setGuard(guard.address);
+
+      const inner = await avatar.populateTransaction.enableModule(
+        "0xff00000000000000000000000000000000ff3456"
+      );
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModuleReturnData(
+          avatar.address,
+          0,
+          inner.data as string,
+          0
+        );
+
+      const signature = await sign(modifier.address, transaction, signer);
+      const transactionWithSig = {
+        ...transaction,
+        to: modifier.address,
+        data: `${transaction.data}${signature.slice(2)}`,
+        value: 0,
+      };
+
+      await expect(await relayer.sendTransaction(transactionWithSig))
+        .to.emit(guard, "PreChecked")
+        .withArgs(signer.address);
     });
 
     it("pre-checks and reverts transaction if guard is set", async () => {
@@ -178,3 +250,15 @@ describe("GuardableModifier", async () => {
     });
   });
 });
+
+async function sign(
+  contract: string,
+  transaction: PopulatedTransaction,
+  signer: SignerWithAddress
+) {
+  const { domain, types, message } = typedDataForTransaction(
+    { contract, chainId: 31337, nonce: 0 },
+    transaction.data || "0x"
+  );
+  return await signer._signTypedData(domain, types, message);
+}
