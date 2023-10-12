@@ -78,14 +78,17 @@ abstract contract Modifier is
         if (modules[msg.sender] == address(0)) {
             (bytes32 hash, address signer) = moduleTxSignedBy();
 
+            // is the signer a module?
             if (modules[signer] == address(0)) {
                 revert NotAuthorized(msg.sender);
             }
 
+            // is the provided signature fresh?
             if (executed[signer][hash]) {
                 revert HashAlreadyExecuted(hash);
             }
 
+            // was the presented signature invalidated?
             if (invalidated[signer][hash]) {
                 revert HashInvalidated(hash);
             }
