@@ -1,12 +1,15 @@
+import hre from "hardhat";
+import { expect } from "chai";
+import { PopulatedTransaction } from "ethers";
+
 import { AddressZero } from "@ethersproject/constants";
 import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { expect } from "chai";
-import { PopulatedTransaction } from "ethers";
-import hre from "hardhat";
-import typedDataForTransaction from "./typedDataForTransaction";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+
+import typedDataForTransaction from "./typedDataForTransaction";
 import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
@@ -316,7 +319,7 @@ describe("Modifier", async () => {
           tx.data,
           tx.operation
         )
-      ).to.emit(modifier, "executed");
+      ).to.emit(modifier, "Executed");
     });
     it("execute a transaction with signature.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
@@ -333,7 +336,12 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signature = await sign(modifier.address, transaction, user1);
+      const signature = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
 
       const transactionWithSig = {
         ...transaction,
@@ -346,7 +354,7 @@ describe("Modifier", async () => {
 
       await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
         modifier,
-        "executed"
+        "Executed"
       );
     });
     it("reverts if signature not valid.", async () => {
@@ -364,8 +372,18 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signatureOk = await sign(modifier.address, transaction, user1);
-      const signatureBad = await sign(modifier.address, transaction, user2);
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
+      const signatureBad = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user2
+      );
 
       const transactionWithBadSig = {
         ...transaction,
@@ -383,33 +401,10 @@ describe("Modifier", async () => {
 
       await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
         modifier,
-        "executed"
+        "Executed"
       );
     });
-    it("execute a transaction via sender nonce stays same.", async () => {
-      const { modifier, tx } = await loadFixture(setupTests);
-      const [user1] = await hre.ethers.getSigners();
-      await expect(await modifier.enableModule(user1.address))
-        .to.emit(modifier, "EnabledModule")
-        .withArgs(user1.address);
-
-      await expect(
-        modifier.execTransactionFromModule(
-          tx.to,
-          tx.value,
-          tx.data,
-          tx.operation
-        )
-      ).to.emit(modifier, "executed");
-
-      expect(
-        await TestModifier__factory.connect(
-          modifier.address,
-          hre.ethers.provider
-        ).moduleTxNonce()
-      ).to.equal(0);
-    });
-    it("execute a transaction with signature nonce is incremented.", async () => {
+    it("reverts if signature previously used for execution.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
       const [user1, user2, relayer] = await hre.ethers.getSigners();
       await expect(await modifier.enableModule(user1.address))
@@ -424,24 +419,80 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signature = await sign(modifier.address, transaction, user1);
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
+      const signatureBad = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user2
+      );
+
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+
+      await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
+        modifier,
+        "Executed"
+      );
+
+      await expect(
+        relayer.sendTransaction(transactionWithOkSig)
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyExecuted");
+    });
+    it("reverts if signature invalidated.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, relayer] = await hre.ethers.getSigners();
+
+      await modifier.enableModule(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModule(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const salt = keccak256(toUtf8Bytes("salt"));
+
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        salt,
+        user1
+      );
 
       const transactionWithSig = {
         ...transaction,
-        data: `${transaction.data}${signature.slice(2)}`,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
       };
 
-      await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
-        modifier,
-        "executed"
+      const hash = await modifier.moduleTxHash(
+        transaction.data as string,
+        salt
       );
 
-      expect(
-        await TestModifier__factory.connect(
-          modifier.address,
-          hre.ethers.provider
-        ).moduleTxNonce()
-      ).to.equal(1);
+      await modifier.invalidate(hash);
+
+      await expect(
+        relayer.sendTransaction(transactionWithSig)
+      ).to.be.revertedWithCustomError(modifier, "HashInvalidated");
     });
   });
 
@@ -473,7 +524,7 @@ describe("Modifier", async () => {
           tx.data,
           tx.operation
         )
-      ).to.emit(modifier, "executedAndReturnedData");
+      ).to.emit(modifier, "ExecutedAndReturnedData");
     });
     it("execute a transaction with signature.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
@@ -490,7 +541,12 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signature = await sign(modifier.address, transaction, user1);
+      const signature = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
 
       const transactionWithSig = {
         ...transaction,
@@ -503,7 +559,7 @@ describe("Modifier", async () => {
 
       await expect(relayer.sendTransaction(transactionWithSig)).to.emit(
         modifier,
-        "executedAndReturnedData"
+        "ExecutedAndReturnedData"
       );
     });
     it("reverts if signature not valid.", async () => {
@@ -521,8 +577,18 @@ describe("Modifier", async () => {
           tx.operation
         );
 
-      const signatureBad = await sign(modifier.address, transaction, user2);
-      const signatureOk = await sign(modifier.address, transaction, user1);
+      const signatureBad = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user2
+      );
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
 
       const transactionWithBadSig = {
         ...transaction,
@@ -540,8 +606,98 @@ describe("Modifier", async () => {
 
       await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
         modifier,
-        "executedAndReturnedData"
+        "ExecutedAndReturnedData"
       );
+    });
+    it("reverts if signature previously used for execution.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, user2, relayer] = await hre.ethers.getSigners();
+      await expect(await modifier.enableModule(user1.address))
+        .to.emit(modifier, "EnabledModule")
+        .withArgs(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user1
+      );
+      const signatureBad = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        user2
+      );
+
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      const transactionWithOkSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      await expect(
+        relayer.sendTransaction(transactionWithBadSig)
+      ).to.be.revertedWithCustomError(modifier, "NotAuthorized");
+
+      await expect(relayer.sendTransaction(transactionWithOkSig)).to.emit(
+        modifier,
+        "ExecutedAndReturnedData"
+      );
+
+      await expect(
+        relayer.sendTransaction(transactionWithOkSig)
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyExecuted");
+    });
+    it("reverts if signature invalidated.", async () => {
+      const { modifier, tx } = await loadFixture(setupTests);
+      const [user1, relayer] = await hre.ethers.getSigners();
+
+      await modifier.enableModule(user1.address);
+
+      const { from, ...transaction } =
+        await modifier.populateTransaction.execTransactionFromModuleReturnData(
+          tx.to,
+          tx.value,
+          tx.data,
+          tx.operation
+        );
+
+      const salt = keccak256(toUtf8Bytes("salt"));
+
+      const signatureOk = await sign(
+        modifier.address,
+        transaction,
+        salt,
+        user1
+      );
+
+      const transactionWithSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureOk.slice(2)}`,
+      };
+
+      const hash = await modifier.moduleTxHash(
+        transaction.data as string,
+        salt
+      );
+
+      await modifier.invalidate(hash);
+
+      await expect(
+        relayer.sendTransaction(transactionWithSig)
+      ).to.be.revertedWithCustomError(modifier, "HashInvalidated");
     });
   });
 });
@@ -549,11 +705,15 @@ describe("Modifier", async () => {
 async function sign(
   contract: string,
   transaction: PopulatedTransaction,
+  salt: string,
   signer: SignerWithAddress
 ) {
   const { domain, types, message } = typedDataForTransaction(
-    { contract, chainId: 31337, nonce: 0 },
+    { contract, chainId: 31337, salt },
     transaction.data || "0x"
   );
-  return signer._signTypedData(domain, types, message);
+
+  const signature = await signer._signTypedData(domain, types, message);
+
+  return `${salt}${signature.slice(2)}`;
 }

@@ -10,6 +10,7 @@ import {
 import typedDataForTransaction from "./typedDataForTransaction";
 import { PopulatedTransaction } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 
 describe("GuardableModifier", async () => {
   async function setupTests() {
@@ -96,7 +97,12 @@ describe("GuardableModifier", async () => {
           0
         );
 
-      const signature = await sign(modifier.address, transaction, signer);
+      const signature = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        signer
+      );
       const transactionWithSig = {
         ...transaction,
         to: modifier.address,
@@ -196,7 +202,12 @@ describe("GuardableModifier", async () => {
           0
         );
 
-      const signature = await sign(modifier.address, transaction, signer);
+      const signature = await sign(
+        modifier.address,
+        transaction,
+        keccak256(toUtf8Bytes("salt")),
+        signer
+      );
       const transactionWithSig = {
         ...transaction,
         to: modifier.address,
@@ -254,11 +265,15 @@ describe("GuardableModifier", async () => {
 async function sign(
   contract: string,
   transaction: PopulatedTransaction,
+  salt: string,
   signer: SignerWithAddress
 ) {
   const { domain, types, message } = typedDataForTransaction(
-    { contract, chainId: 31337, nonce: 0 },
+    { contract, chainId: 31337, salt },
     transaction.data || "0x"
   );
-  return await signer._signTypedData(domain, types, message);
+
+  const signature = await signer._signTypedData(domain, types, message);
+
+  return `${salt}${signature.slice(2)}`;
 }
