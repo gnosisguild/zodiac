@@ -6,24 +6,12 @@ import "./IERC1271.sol";
 /// @title SignatureChecker - A contract that retrieves and validates signatures appended to transaction calldata.
 /// @dev currently supports eip-712 and eip-1271 signatures
 abstract contract SignatureChecker {
-    uint256 private nonce;
-
-    /// @notice Returns the current nonce.
-    function moduleTxNonce() public view returns (uint256) {
-        return nonce;
-    }
-
-    /// @notice Increments nonce.
-    function moduleTxNonceBump() internal {
-        nonce = nonce + 1;
-    }
-
     /**
      * @notice Searches for a signature, validates it, and returns the signer's address.
      * @dev When signature not found or invalid, zero address is returned
      * @return The address of the signer.
      */
-    function moduleTxSignedBy() internal view returns (address) {
+    function moduleTxSignedBy() internal view returns (bytes32, address) {
         bytes calldata data = msg.data;
 
         /*
@@ -35,11 +23,11 @@ abstract contract SignatureChecker {
          * and recover signer.
          *
          * As a result, we impose a minimum calldata length equal to a function
-         * selector plus a signature (i.e., 4 + 65 bytes), any shorter and
-         * calldata it guaranteed to not contain a signature.
+         * selector plus salt, plus a signature (i.e., 4 + 32 + 65 bytes), any
+         * shorter and calldata it guaranteed to not contain a signature.
          */
-        if (data.length < 4 + 65) {
-            return address(0);
+        if (data.length < 4 + 32 + 65) {
+            return (bytes32(0), address(0));
         }
 
         (
@@ -50,7 +38,10 @@ abstract contract SignatureChecker {
             uint256 start
         ) = _splitSignature(data);
 
-        bytes32 hash = moduleTxHash(data[:start], nonce);
+        bytes32 hash = moduleTxHash(
+            data[:start], // slice the appended signature out
+            bytes32(data[data.length - 65 - 32:]) // get the salt
+        );
 
         if (isContractSignature) {
             address signer = address(uint160(uint256(r)));
@@ -60,10 +51,10 @@ abstract contract SignatureChecker {
                     hash,
                     data[start:data.length - 65]
                 )
-                    ? signer
-                    : address(0);
+                    ? (hash, signer)
+                    : (bytes32(0), address(0));
         } else {
-            return ecrecover(hash, v, r, s);
+            return (hash, ecrecover(hash, v, r, s));
         }
     }
 
@@ -71,12 +62,12 @@ abstract contract SignatureChecker {
      * @notice Hashes the transaction EIP-712 data structure.
      * @dev The produced hash is intended to be signed.
      * @param data The current transaction's calldata.
-     * @param _nonce The nonce value.
+     * @param salt The salt value.
      * @return The 32-byte hash that is to be signed.
      */
     function moduleTxHash(
         bytes calldata data,
-        uint256 _nonce
+        bytes32 salt
     ) public view returns (bytes32) {
         bytes32 domainSeparator = keccak256(
             abi.encode(DOMAIN_SEPARATOR_TYPEHASH, block.chainid, this)
@@ -85,7 +76,7 @@ abstract contract SignatureChecker {
             bytes1(0x19),
             bytes1(0x01),
             domainSeparator,
-            keccak256(abi.encode(MODULE_TX_TYPEHASH, keccak256(data), _nonce))
+            keccak256(abi.encode(MODULE_TX_TYPEHASH, keccak256(data), salt))
         );
         return keccak256(moduleTxData);
     }
@@ -122,7 +113,7 @@ abstract contract SignatureChecker {
          * We detect contract signatures by checking:
          *  1- `v` is zero
          *  2- `s` points within the buffer, is after selector, is before
-         *      signature and delimits a non-zero length buffer
+         *      salt and delimits a non-zero length buffer
          */
         uint256 length = data.length;
         v = uint8(bytes1(data[length - 1:]));
@@ -131,8 +122,8 @@ abstract contract SignatureChecker {
         isEIP1271Signature =
             v == 0 &&
             uint256(s) > 3 &&
-            uint256(s) < (length - 65);
-        start = isEIP1271Signature ? uint256(s) : length - 65;
+            uint256(s) < (length - 65 - 32);
+        start = isEIP1271Signature ? uint256(s) : length - 65 - 32;
     }
 
     /**
@@ -173,10 +164,10 @@ abstract contract SignatureChecker {
         0x47e79534a245952e8b16893a336b85a3d9ea9fa8c573f3d803afb92a79469218;
 
     // keccak256(
-    //     "ModuleTx(bytes data,uint256 nonce)"
+    //     "ModuleTx(bytes data,bytes32 salt)"
     // );
     bytes32 private constant MODULE_TX_TYPEHASH =
-        0xd6c6b5df57eef4e79cab990a377d29dc4c5bbb016a6293120d53f49c54144227;
+        0x2939aeeda3ca260200c9f7b436b19e13207547ccc65cfedc857751c5ea6d91d4;
 
     // bytes4(keccak256(
     //     "isValidSignature(bytes32,bytes)"
