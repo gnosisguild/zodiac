@@ -69,29 +69,26 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
     */
 
     modifier moduleOnly() {
-        (bool isAuthorized, address module) = isModuleTxAuthorized();
-        if (!isAuthorized) {
-            revert NotAuthorized(msg.sender);
-        }
+        address module = authorizer();
 
-        if (module != msg.sender) {
-            moduleTxNonceBump();
+        if (module == address(0)) {
+            revert NotAuthorized(msg.sender);
         }
 
         _;
     }
 
-    function isModuleTxAuthorized() internal returns (bool, address) {
+    function authorizer() internal returns (address) {
         if (modules[msg.sender] != address(0)) {
-            return (true, msg.sender);
+            return msg.sender;
         }
 
-        address signer = moduleTxSignedBy();
+        (, address signer) = moduleTxSignedBy();
         if (modules[signer] != address(0)) {
-            return (true, signer);
+            return signer;
         }
 
-        return (false, address(0));
+        return address(0);
     }
 
     /// @dev Disables a module on the modifier.

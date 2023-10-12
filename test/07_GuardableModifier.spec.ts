@@ -7,7 +7,7 @@ import {
   TestGuard__factory,
   TestGuardableModifier__factory,
 } from "../typechain-types";
-import typedDataForTransaction from "./typesDataForTransaction";
+import typedDataForTransaction from "./typedDataForTransaction";
 import { PopulatedTransaction } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
