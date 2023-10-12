@@ -21,12 +21,6 @@ abstract contract Modifier is
     /// @param sender The address of the sender.
     error NotAuthorized(address sender);
 
-    /// @param hash already executed.
-    error HashAlreadyExecuted(bytes32 hash);
-
-    /// @param hash already executed.
-    error HashInvalidated(bytes32 hash);
-
     /// `module` is invalid.
     error InvalidModule(address module);
 

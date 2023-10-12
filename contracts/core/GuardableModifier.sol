@@ -90,7 +90,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
         }
     }
 
-    function sentOrSignedBy() private returns (address) {
+    function sentOrSignedBy() private view returns (address) {
         if (modules[msg.sender] != address(0)) {
             return msg.sender;
         }
