@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "../core/GuardableModifier.sol";
 
 contract TestGuardableModifier is GuardableModifier {
-    event executed(
+    event Executed(
         address to,
         uint256 value,
         bytes data,
@@ -12,7 +12,7 @@ contract TestGuardableModifier is GuardableModifier {
         bool success
     );
 
-    event executedAndReturnedData(
+    event ExecutedAndReturnedData(
         address to,
         uint256 value,
         bytes data,
@@ -39,7 +39,7 @@ contract TestGuardableModifier is GuardableModifier {
         Enum.Operation operation
     ) public override moduleOnly returns (bool success) {
         success = exec(to, value, data, operation);
-        emit executed(to, value, data, operation, success);
+        emit Executed(to, value, data, operation, success);
     }
 
     /// @dev Passes a transaction to the modifier, expects return data.
@@ -60,7 +60,7 @@ contract TestGuardableModifier is GuardableModifier {
         returns (bool success, bytes memory returnData)
     {
         (success, returnData) = execAndReturnData(to, value, data, operation);
-        emit executedAndReturnedData(
+        emit ExecutedAndReturnedData(
             to,
             value,
             data,

@@ -32,7 +32,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
                 address(0),
                 payable(0),
                 "",
-                authorizer()
+                _authorizer()
             );
         }
         success = IAvatar(target).execTransactionFromModule(
@@ -78,7 +78,7 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
                 address(0),
                 payable(0),
                 "",
-                authorizer()
+                _authorizer()
             );
         }
 
@@ -88,5 +88,14 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
         if (currentGuard != address(0)) {
             IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
+    }
+
+    function _authorizer() private returns (address) {
+        if (modules[msg.sender] != address(0)) {
+            return msg.sender;
+        }
+
+        (, address signer) = moduleTxSignedBy();
+        return signer;
     }
 }
