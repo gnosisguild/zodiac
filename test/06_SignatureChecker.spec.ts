@@ -13,7 +13,7 @@ import {
   toUtf8Bytes,
 } from "ethers/lib/utils";
 
-describe.only("SignatureChecker", async () => {
+describe("SignatureChecker", async () => {
   async function setup() {
     const [signer, relayer] = await hre.ethers.getSigners();
     const TestSignature = await hre.ethers.getContractFactory("TestSignature");

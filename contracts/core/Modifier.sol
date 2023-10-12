@@ -2,11 +2,17 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "../interfaces/IAvatar.sol";
+import "../signature/ExecutionTracker.sol";
 import "../signature/SignatureChecker.sol";
 import "./Module.sol";
 
 /// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
-abstract contract Modifier is Module, SignatureChecker, IAvatar {
+abstract contract Modifier is
+    Module,
+    ExecutionTracker,
+    SignatureChecker,
+    IAvatar
+{
     address internal constant SENTINEL_MODULES = address(0x1);
     /// Mapping of modules.
     mapping(address => address) internal modules;
@@ -14,6 +20,12 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
     /// `sender` is not an authorized module.
     /// @param sender The address of the sender.
     error NotAuthorized(address sender);
+
+    /// @param hash already executed.
+    error HashAlreadyExecuted(bytes32 hash);
+
+    /// @param hash already executed.
+    error HashInvalidated(bytes32 hash);
 
     /// `module` is invalid.
     error InvalidModule(address module);
@@ -69,26 +81,25 @@ abstract contract Modifier is Module, SignatureChecker, IAvatar {
     */
 
     modifier moduleOnly() {
-        address module = authorizer();
+        if (modules[msg.sender] == address(0)) {
+            (bytes32 hash, address signer) = moduleTxSignedBy();
 
-        if (module == address(0)) {
-            revert NotAuthorized(msg.sender);
+            if (modules[signer] == address(0)) {
+                revert NotAuthorized(msg.sender);
+            }
+
+            if (executed[signer][hash]) {
+                revert HashAlreadyExecuted(hash);
+            }
+
+            if (invalidated[signer][hash]) {
+                revert HashInvalidated(hash);
+            }
+
+            executed[signer][hash] = true;
         }
 
         _;
-    }
-
-    function authorizer() internal returns (address) {
-        if (modules[msg.sender] != address(0)) {
-            return msg.sender;
-        }
-
-        (, address signer) = moduleTxSignedBy();
-        if (modules[signer] != address(0)) {
-            return signer;
-        }
-
-        return address(0);
     }
 
     /// @dev Disables a module on the modifier.
