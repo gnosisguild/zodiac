@@ -51,3 +51,25 @@ contract TestGuard is FactoryFriendly, BaseGuard {
         module = _module;
     }
 }
+
+contract TestNonCompliantGuard is IERC165 {
+    function supportsInterface(bytes4) external pure returns (bool) {
+        return false;
+    }
+
+    function checkTransaction(
+        address,
+        uint256,
+        bytes memory,
+        Enum.Operation,
+        uint256,
+        uint256,
+        uint256,
+        address,
+        address,
+        bytes memory,
+        address
+    ) public {}
+
+    function checkAfterExecution(bytes32, bool) public {}
+}
