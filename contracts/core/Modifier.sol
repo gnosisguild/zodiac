@@ -99,6 +99,19 @@ abstract contract Modifier is
         _;
     }
 
+    function sentOrSignedBy() internal view returns (address) {
+        if (modules[msg.sender] != address(0)) {
+            return msg.sender;
+        }
+
+        (, address signer) = moduleTxSignedBy();
+        if (modules[signer] != address(0)) {
+            return signer;
+        }
+
+        return address(0);
+    }
+
     /// @dev Disables a module on the modifier.
     /// @notice This can only be called by the owner.
     /// @param prevModule Module that pointed to the module to be removed in the linked list.

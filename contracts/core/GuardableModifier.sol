@@ -89,13 +89,4 @@ abstract contract GuardableModifier is Module, Guardable, Modifier {
             IGuard(currentGuard).checkAfterExecution(bytes32(0), success);
         }
     }
-
-    function sentOrSignedBy() private view returns (address) {
-        if (modules[msg.sender] != address(0)) {
-            return msg.sender;
-        }
-
-        (, address signer) = moduleTxSignedBy();
-        return signer;
-    }
 }
