@@ -84,16 +84,12 @@ abstract contract Modifier is
             }
 
             // is the provided signature fresh?
-            if (executed[signer][hash]) {
-                revert HashAlreadyExecuted(hash);
+            if (consumed[signer][hash]) {
+                revert HashAlreadyConsumed(hash);
             }
 
-            // was the presented signature invalidated?
-            if (invalidated[signer][hash]) {
-                revert HashInvalidated(hash);
-            }
-
-            executed[signer][hash] = true;
+            consumed[signer][hash] = true;
+            emit HashExecuted(hash);
         }
 
         _;
