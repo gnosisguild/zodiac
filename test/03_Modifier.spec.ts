@@ -453,7 +453,7 @@ describe("Modifier", async () => {
 
       await expect(
         relayer.sendTransaction(transactionWithOkSig)
-      ).to.be.revertedWithCustomError(modifier, "HashAlreadyExecuted");
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyConsumed");
     });
     it("reverts if signature invalidated.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
@@ -492,7 +492,7 @@ describe("Modifier", async () => {
 
       await expect(
         relayer.sendTransaction(transactionWithSig)
-      ).to.be.revertedWithCustomError(modifier, "HashInvalidated");
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyConsumed");
     });
   });
 
@@ -658,7 +658,7 @@ describe("Modifier", async () => {
 
       await expect(
         relayer.sendTransaction(transactionWithOkSig)
-      ).to.be.revertedWithCustomError(modifier, "HashAlreadyExecuted");
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyConsumed");
     });
     it("reverts if signature invalidated.", async () => {
       const { modifier, tx } = await loadFixture(setupTests);
@@ -697,7 +697,7 @@ describe("Modifier", async () => {
 
       await expect(
         relayer.sendTransaction(transactionWithSig)
-      ).to.be.revertedWithCustomError(modifier, "HashInvalidated");
+      ).to.be.revertedWithCustomError(modifier, "HashAlreadyConsumed");
     });
   });
 });
