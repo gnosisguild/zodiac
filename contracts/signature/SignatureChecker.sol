@@ -52,7 +52,7 @@ abstract contract SignatureChecker {
                     data[start:data.length - 65]
                 )
                     ? (hash, signer)
-                    : (bytes32(0), address(0));
+                    : (hash, address(0));
         } else {
             return (hash, ecrecover(hash, v, r, s));
         }
