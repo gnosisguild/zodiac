@@ -217,6 +217,54 @@ describe("SignatureChecker", async () => {
         .to.emit(testSignature, "Hello")
         .withArgs(signer);
     });
+    it("signer returns isValid maybe", async () => {
+      const { testSignature, relayer } = await loadFixture(setup);
+
+      const ContractSigner = await hre.ethers.getContractFactory(
+        "ContractSignerMaybe"
+      );
+      const contractSigner = await ContractSigner.deploy();
+
+      const transaction = await testSignature.populateTransaction.goodbye(
+        0,
+        "0xbadfed"
+      );
+
+      const signatureGood = makeContractSignature(
+        transaction,
+        "0x001122334455",
+        keccak256(toUtf8Bytes("some irrelevant salt")),
+        contractSigner.address
+      );
+
+      const signatureBad = makeContractSignature(
+        transaction,
+        "0x00112233445566",
+        keccak256(toUtf8Bytes("some irrelevant salt")),
+        contractSigner.address
+      );
+
+      const transactionWithGoodSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureGood.slice(2)}`,
+      };
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      await expect(await relayer.sendTransaction(transaction))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(AddressZero);
+
+      await expect(await relayer.sendTransaction(transactionWithGoodSig))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(contractSigner.address);
+
+      await expect(await relayer.sendTransaction(transactionWithBadSig))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(AddressZero);
+    });
     it("signer returns isValid yes", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
