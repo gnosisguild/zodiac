@@ -40,7 +40,7 @@ abstract contract SignatureChecker {
 
         bytes32 hash = moduleTxHash(
             data[:start], // slice the appended signature out
-            bytes32(data[data.length - 65 - 32:]) // get the salt
+            bytes32(data[data.length - (32 + 65):]) // get the salt
         );
 
         if (isContractSignature) {
@@ -49,7 +49,7 @@ abstract contract SignatureChecker {
                 _isValidContractSignature(
                     signer,
                     hash,
-                    data[start:data.length - 65]
+                    data[start:data.length - (32 + 65)]
                 )
                     ? (hash, signer)
                     : (hash, address(0));
@@ -122,8 +122,8 @@ abstract contract SignatureChecker {
         isEIP1271Signature =
             v == 0 &&
             uint256(s) > 3 &&
-            uint256(s) < (length - 65 - 32);
-        start = isEIP1271Signature ? uint256(s) : length - 65 - 32;
+            uint256(s) < (length - (32 + 65));
+        start = isEIP1271Signature ? uint256(s) : length - (32 + 65);
     }
 
     /**
