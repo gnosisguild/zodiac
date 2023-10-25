@@ -30,30 +30,37 @@ abstract contract SignatureChecker {
             return (bytes32(0), address(0));
         }
 
-        (
-            uint8 v,
-            bytes32 r,
-            bytes32 s,
-            bool isContractSignature,
-            uint256 start
-        ) = _splitSignature(data);
+        (uint8 v, bytes32 r, bytes32 s) = _splitSignature(data);
 
-        bytes32 hash = moduleTxHash(
-            data[:start], // slice the appended signature out
-            bytes32(data[data.length - (32 + 65):]) // get the salt
-        );
+        uint256 end = data.length - (32 + 65);
+        bytes32 salt = bytes32(data[end:]);
 
-        if (isContractSignature) {
+        /*
+         * When handling contract signatures:
+         *  v - is zero
+         *  r - contains the signer
+         *  s - contains the offset within calldata where the signer specific
+         *      signature is located
+         *
+         * We detect contract signatures by checking:
+         *  1- `v` is zero
+         *  2- `s` points within the buffer, is after selector, is before
+         *      salt and delimits a non-zero length buffer
+         */
+        if (v == 0) {
+            uint256 start = uint256(s);
+            if (start < 4 || start > end) {
+                return (bytes32(0), address(0));
+            }
             address signer = address(uint160(uint256(r)));
+
+            bytes32 hash = moduleTxHash(data[:start], salt);
             return
-                _isValidContractSignature(
-                    signer,
-                    hash,
-                    data[start:data.length - (32 + 65)]
-                )
+                _isValidContractSignature(signer, hash, data[start:end])
                     ? (hash, signer)
                     : (hash, address(0));
         } else {
+            bytes32 hash = moduleTxHash(data[:end], salt);
             return (hash, ecrecover(hash, v, r, s));
         }
     }
@@ -87,43 +94,14 @@ abstract contract SignatureChecker {
      * @return v The ECDSA v value
      * @return r The ECDSA r value
      * @return s The ECDSA s value
-     * @return isEIP1271Signature Indicates whether the split signature is a contract signature
-     * @return start offset in calldata where signature starts
      */
     function _splitSignature(
         bytes calldata data
-    )
-        private
-        pure
-        returns (
-            uint8 v,
-            bytes32 r,
-            bytes32 s,
-            bool isEIP1271Signature,
-            uint256 start
-        )
-    {
-        /*
-         * When handling contract signatures:
-         *  v - is zero
-         *  r - contains the signer
-         *  s - contains the offset within calldata where the signer specific
-         *      signature is located
-         *
-         * We detect contract signatures by checking:
-         *  1- `v` is zero
-         *  2- `s` points within the buffer, is after selector, is before
-         *      salt and delimits a non-zero length buffer
-         */
+    ) private pure returns (uint8 v, bytes32 r, bytes32 s) {
         uint256 length = data.length;
         v = uint8(bytes1(data[length - 1:]));
         r = bytes32(data[length - 65:]);
         s = bytes32(data[length - 33:]);
-        isEIP1271Signature =
-            v == 0 &&
-            uint256(s) > 3 &&
-            uint256(s) < (length - (32 + 65));
-        start = isEIP1271Signature ? uint256(s) : length - (32 + 65);
     }
 
     /**
