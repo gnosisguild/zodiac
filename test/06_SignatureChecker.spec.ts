@@ -322,6 +322,55 @@ describe("SignatureChecker", async () => {
         .to.emit(testSignature, "Hello")
         .withArgs(AddressZero);
     });
+
+    it("signer returns isValid for empty specific signature only", async () => {
+      const { testSignature, relayer } = await loadFixture(setup);
+
+      const ContractSigner = await hre.ethers.getContractFactory(
+        "ContractSignerOnlyEmpty"
+      );
+      const contractSigner = await ContractSigner.deploy();
+
+      const transaction = await testSignature.populateTransaction.goodbye(
+        0,
+        "0xbadfed"
+      );
+
+      const signatureGood = makeContractSignature(
+        transaction,
+        "0x",
+        keccak256(toUtf8Bytes("some irrelevant salt")),
+        contractSigner.address
+      );
+
+      const signatureBad = makeContractSignature(
+        transaction,
+        "0xffff",
+        keccak256(toUtf8Bytes("some irrelevant salt")),
+        contractSigner.address
+      );
+
+      const transactionWithGoodSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureGood.slice(2)}`,
+      };
+      const transactionWithBadSig = {
+        ...transaction,
+        data: `${transaction.data}${signatureBad.slice(2)}`,
+      };
+
+      await expect(await relayer.sendTransaction(transaction))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(AddressZero);
+
+      await expect(await relayer.sendTransaction(transactionWithGoodSig))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(contractSigner.address);
+
+      await expect(await relayer.sendTransaction(transactionWithBadSig))
+        .to.emit(testSignature, "Goodbye")
+        .withArgs(AddressZero);
+    });
     it("signer bad return size", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
@@ -427,7 +476,7 @@ function makeContractSignature(
   r: string,
   s?: string
 ) {
-  const dataBytesLength = (transaction.data?.length as number) / 2 - 1;
+  const dataBytesLength = ((transaction.data?.length as number) - 2) / 2;
 
   r = defaultAbiCoder.encode(["address"], [r]);
   s = s || defaultAbiCoder.encode(["uint256"], [dataBytesLength]);
