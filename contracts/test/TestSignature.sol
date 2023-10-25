@@ -33,6 +33,16 @@ contract ContractSignerMaybe is IERC1271 {
     }
 }
 
+contract ContractSignerOnlyEmpty is IERC1271 {
+    function isValidSignature(
+        bytes32,
+        bytes memory contractSpecificSignature
+    ) external pure override returns (bytes4) {
+        bool isValid = contractSpecificSignature.length == 0;
+        return isValid ? bytes4(0x1626ba7e) : bytes4(0x33333333);
+    }
+}
+
 contract ContractSignerFaulty {}
 
 contract ContractSignerReturnSize {
