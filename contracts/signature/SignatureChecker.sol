@@ -98,10 +98,9 @@ abstract contract SignatureChecker {
     function _splitSignature(
         bytes calldata data
     ) private pure returns (uint8 v, bytes32 r, bytes32 s) {
-        uint256 length = data.length;
-        v = uint8(bytes1(data[length - 1:]));
-        r = bytes32(data[length - 65:]);
-        s = bytes32(data[length - 33:]);
+        v = uint8(bytes1(data[data.length - 1:]));
+        r = bytes32(data[data.length - 65:]);
+        s = bytes32(data[data.length - 33:]);
     }
 
     /**
