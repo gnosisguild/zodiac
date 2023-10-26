@@ -58,7 +58,7 @@ abstract contract SignatureChecker {
             return
                 _isValidContractSignature(signer, hash, data[start:end])
                     ? (hash, signer)
-                    : (hash, address(0));
+                    : (bytes32(0), address(0));
         } else {
             bytes32 hash = moduleTxHash(data[:end], salt);
             return (hash, ecrecover(hash, v, r, s));
