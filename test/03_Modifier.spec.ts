@@ -1,15 +1,15 @@
-import hre from "hardhat";
-import { expect } from "chai";
-import { PopulatedTransaction } from "ethers";
-
 import { AddressZero } from "@ethersproject/constants";
 import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { expect } from "chai";
+import { PopulatedTransaction } from "ethers";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import hre from "hardhat";
+
+import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
 
 import typedDataForTransaction from "./typedDataForTransaction";
-import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
-import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 
 describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";

@@ -5,6 +5,7 @@ import {
   ethers,
 } from "ethers";
 import { keccak256, getCreate2Address, getAddress } from "ethers/lib/utils";
+
 import { getSingletonFactory } from "./singletonFactory";
 
 const { AddressZero } = ethersConstants;

@@ -1,6 +1,6 @@
 import { Provider } from "@ethersproject/providers";
 import { ethers, Contract, Signer, BigNumber } from "ethers";
-import { KnownContracts } from "./types";
+
 import {
   ContractAddresses,
   ContractAbis,
@@ -8,6 +8,8 @@ import {
   ContractFactories,
 } from "../contracts";
 import { ModuleProxyFactory__factory } from "../types";
+
+import { KnownContracts } from "./types";
 
 type ABI = any[] | readonly any[];
 

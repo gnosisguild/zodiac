@@ -1,8 +1,9 @@
 import "@nomicfoundation/hardhat-toolbox";
 
 import dotenv from "dotenv";
-import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
+
+import type { HttpNetworkUserConfig } from "hardhat/types";
 import "hardhat-change-network";
 
 const { network } = yargs

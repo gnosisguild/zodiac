@@ -1,16 +1,17 @@
-import hre from "hardhat";
-import { expect } from "chai";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { expect } from "chai";
+import { PopulatedTransaction } from "ethers";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import hre from "hardhat";
 
 import {
   TestAvatar__factory,
   TestGuard__factory,
   TestGuardableModifier__factory,
 } from "../typechain-types";
+
 import typedDataForTransaction from "./typedDataForTransaction";
-import { PopulatedTransaction } from "ethers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
 
 describe("GuardableModifier", async () => {
   async function setupTests() {

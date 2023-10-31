@@ -1,8 +1,8 @@
+import { AddressZero } from "@ethersproject/constants";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import hre from "hardhat";
 
-import { AddressZero } from "@ethersproject/constants";
-import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { TestGuard__factory, TestModule__factory } from "../typechain-types";
 
 async function setupTests() {

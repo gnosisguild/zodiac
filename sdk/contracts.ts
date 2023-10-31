@@ -18,9 +18,7 @@ import RealityEthAbi from "./abi/RealityEth.json";
 import RolesAbi from "./abi/Roles.json";
 import ScopeGuardAbi from "./abi/ScopeGuard.json";
 import TellorAbi from "./abi/Tellor.json";
-
 import { KnownContracts } from "./factory/types";
-
 import * as BridgeInitData from "./initData/Bridge";
 import * as CirculatingSupplyErc20InitData from "./initData/CirculatingSupplyErc20";
 import * as CirculatingSupplyErc721InitData from "./initData/CirculatingSupplyErc721";
@@ -38,7 +36,6 @@ import * as RealityErc20InitData from "./initData/RealityErc20";
 import * as RealityEthInitData from "./initData/RealityEth";
 import * as RolesInitData from "./initData/Roles";
 import * as ScopeGuardInitData from "./initData/ScopeGuard";
-
 import { factories } from "./types";
 
 export enum SupportedNetworks {
