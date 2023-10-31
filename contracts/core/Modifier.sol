@@ -96,7 +96,7 @@ abstract contract Modifier is
     _;
   }
 
-  function sentOrSignedBy() internal view returns (address) {
+  function sentOrSignedByModule() internal view returns (address) {
     if (modules[msg.sender] != address(0)) {
       return msg.sender;
     }
