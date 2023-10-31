@@ -78,6 +78,10 @@ contract TestModifier is Modifier {
     target = _target;
   }
 
+  function exposeSentOrSignedByModule() external view returns (address) {
+    return sentOrSignedByModule();
+  }
+
   function attemptToSetupModules() public {
     setupModules();
   }
