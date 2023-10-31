@@ -1,8 +1,8 @@
 import { AddressZero } from "@ethersproject/constants";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-
 import { expect } from "chai";
 import hre from "hardhat";
+
 import { TestAvatar__factory } from "../typechain-types";
 
 describe("IAvatar", async () => {

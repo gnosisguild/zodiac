@@ -1,11 +1,17 @@
+import assert from "assert";
+
 import { constants as ethersConstants, ethers } from "ethers";
+
+import { MasterCopyInitData } from "../contracts";
+
 import { getSingletonFactory } from "./singletonFactory";
 import { KnownContracts } from "./types";
-import { MasterCopyInitData } from "../contracts";
 
 const { AddressZero } = ethersConstants;
 
-const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY]!;
+const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY];
+
+assert(FactoryInitData);
 
 /**
  * Deploy the Module Proxy Factory via the singleton factory.

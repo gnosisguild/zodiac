@@ -14,7 +14,6 @@ import {
   getModuleInstance,
   getModuleFactoryAndMasterCopy,
 } from "../moduleDeployer";
-
 import { KnownContracts } from "../types";
 
 const AddressOne = "0x0000000000000000000000000000000000000001";
@@ -31,7 +30,7 @@ describe("Factory JS functions ", () => {
   }
 
   it("should execute transaction and retrieve expected address ", async () => {
-    const { mock, chainId } = await loadFixture(setup);
+    const { chainId } = await loadFixture(setup);
 
     const [signer] = await hre.ethers.getSigners();
 

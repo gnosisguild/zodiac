@@ -3,6 +3,7 @@ import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
+
 import { calculateProxyAddress } from "../sdk/factory";
 
 describe("ModuleProxyFactory", async () => {

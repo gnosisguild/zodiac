@@ -1,17 +1,18 @@
-import hre from "hardhat";
-import { TestSignature__factory } from "../typechain-types";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { PopulatedTransaction } from "ethers";
-import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-
-import typedDataForTransaction from "./typedDataForTransaction";
+import { expect } from "chai";
+import { PopulatedTransaction } from "ethers";
 import {
   defaultAbiCoder,
   keccak256,
   solidityPack,
   toUtf8Bytes,
 } from "ethers/lib/utils";
+import hre from "hardhat";
+
+import { TestSignature__factory } from "../typechain-types";
+
+import typedDataForTransaction from "./typedDataForTransaction";
 
 describe("SignatureChecker", async () => {
   async function setup() {
