@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../interfaces/IAvatar.sol";
-import "../signature/ExecutionTracker.sol";
-import "../signature/SignatureChecker.sol";
-import "./Module.sol";
+import {Enum} from "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
+import {ExecutionTracker} from "../signature/ExecutionTracker.sol";
+import {IAvatar} from "../interfaces/IAvatar.sol";
+import {Module} from "./Module.sol";
+import {SignatureChecker} from "../signature/SignatureChecker.sol";
 
 /// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 abstract contract Modifier is

@@ -1,16 +1,17 @@
 {
-    "extends": "solhint:recommended",
-    "rules": {
-        "compiler-version": "off",
-        "func-visibility": [
-            "warn",
-            {
-                "ignoreConstructors": true
-            }
-        ],
-        "not-rely-on-time": "off",
-        "reason-string": "off",
-        "no-empty-blocks": "off",
-        "avoid-low-level-calls": "off"
-    }
+  "extends": "solhint:recommended",
+  "rules": {
+    "compiler-version": "off",
+    "func-visibility": [
+      "warn",
+      {
+        "ignoreConstructors": true
+      }
+    ],
+    "not-rely-on-time": "off",
+    "reason-string": "off",
+    "no-empty-blocks": "off",
+    "avoid-low-level-calls": "off",
+    "no-inline-assembly": "off"
+  }
 }

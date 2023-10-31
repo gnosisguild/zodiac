@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../guard/Guardable.sol";
-import "./Module.sol";
+import {Enum} from "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
+import {IGuard} from "../interfaces/IGuard.sol";
+import {Guardable} from "../guard/Guardable.sol";
+import {Module} from "./Module.sol";
+import {IAvatar} from "../interfaces/IAvatar.sol";
 
 /// @title GuardableModule  - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 abstract contract GuardableModule is Module, Guardable {

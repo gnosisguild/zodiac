@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../guard/Guardable.sol";
-import "./Modifier.sol";
+import {Enum} from "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
+
+import {Guardable} from "../guard/Guardable.sol";
+import {IAvatar} from "../interfaces/IAvatar.sol";
+import {IGuard} from "../interfaces/IGuard.sol";
+import {Modifier} from "./Modifier.sol";
+import {Module} from "./Module.sol";
 
 abstract contract GuardableModifier is Module, Guardable, Modifier {
   /// @dev Passes a transaction to be executed by the avatar.
