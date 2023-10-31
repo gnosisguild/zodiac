@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "./BaseGuard.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+
+import {BaseGuard} from "../guard/BaseGuard.sol";
+import {IGuard} from "../interfaces/IGuard.sol";
 
 /// @title Guardable - A contract that manages fallback calls made to this contract
 contract Guardable is OwnableUpgradeable {

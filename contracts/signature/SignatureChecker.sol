@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.8.0 <0.9.0;
 
-import "./IERC1271.sol";
+import {IERC1271} from "./IERC1271.sol";
 
 /// @title SignatureChecker - A contract that retrieves and validates signatures appended to transaction calldata.
 /// @dev currently supports eip-712 and eip-1271 signatures
@@ -116,6 +116,7 @@ abstract contract SignatureChecker {
     bytes calldata signature
   ) internal view returns (bool result) {
     uint256 size;
+    // eslint-disable-line no-inline-assembly
     assembly {
       size := extcodesize(signer)
     }

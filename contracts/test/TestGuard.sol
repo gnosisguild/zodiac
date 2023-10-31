@@ -1,7 +1,14 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../core/GuardableModule.sol";
+import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+
+import {BaseGuard} from "../guard/BaseGuard.sol";
+import {Enum} from "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
+import {FactoryFriendly} from "../factory/FactoryFriendly.sol";
+import {GuardableModule} from "../core/GuardableModule.sol";
+
+/* solhint-disable */
 
 contract TestGuard is FactoryFriendly, BaseGuard {
   event PreChecked(address sender);
