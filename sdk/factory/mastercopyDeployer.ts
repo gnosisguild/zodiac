@@ -105,7 +105,9 @@ export const deployMastercopyWithInitData = async (
   );
 
   if (targetAddress === AddressZero) {
-    console.log(`  ✔ Mastercopy already deployed to: ${computedTargetAddress}`);
+    console.log(
+      `  ✔ Mastercopy already deployed to: ${computedTargetAddress}`
+    );
     return AddressZero;
   }
 

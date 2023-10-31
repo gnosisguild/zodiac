@@ -16,9 +16,8 @@ describe("ModuleProxyFactory", async () => {
   beforeEach(async () => {
     const Avatar = await ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
-    const ModuleProxyFactory = await ethers.getContractFactory(
-      "ModuleProxyFactory"
-    );
+    const ModuleProxyFactory =
+      await ethers.getContractFactory("ModuleProxyFactory");
     moduleFactory = await ModuleProxyFactory.deploy();
 
     const MasterCopyModule = await ethers.getContractFactory("TestModule");
