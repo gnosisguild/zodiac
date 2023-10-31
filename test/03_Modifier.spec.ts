@@ -4,7 +4,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { PopulatedTransaction } from "ethers";
-import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import hre from "hardhat";
 
 import { TestAvatar__factory, TestModifier__factory } from "../typechain-types";
@@ -15,7 +15,7 @@ describe("Modifier", async () => {
   const SENTINEL_MODULES = "0x0000000000000000000000000000000000000001";
 
   async function setupTests() {
-    const [signer] = await hre.ethers.getSigners();
+    const [signer, alice, bob, charlie] = await hre.ethers.getSigners();
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.connect(signer).deploy();
     const iAvatar = TestAvatar__factory.connect(avatar.address, signer);
@@ -42,6 +42,9 @@ describe("Modifier", async () => {
       iAvatar,
       modifier: TestModifier__factory.connect(modifier.address, signer),
       tx,
+      alice,
+      bob,
+      charlie,
     };
   }
 
@@ -700,6 +703,81 @@ describe("Modifier", async () => {
       ).to.be.revertedWithCustomError(modifier, "HashAlreadyConsumed");
     });
   });
+
+  describe("sentOrSignedByModule", async () => {
+    it("returns msg.sender if msg.sender is module", async () => {
+      const { modifier, alice, bob } = await loadFixture(setupTests);
+
+      await modifier.enableModule(alice.address);
+      expect(
+        await modifier.connect(alice).exposeSentOrSignedByModule()
+      ).to.equal(alice.address);
+
+      expect(await modifier.connect(bob).exposeSentOrSignedByModule()).to.equal(
+        AddressZero
+      );
+    });
+
+    it("returns msg.sender if msg.sender is module, even if valid sig appended", async () => {
+      const { modifier, alice, bob, charlie } = await loadFixture(setupTests);
+
+      await modifier.enableModule(alice.address);
+      await modifier.enableModule(bob.address);
+
+      const transaction = await signTransaction(
+        modifier.address,
+        await modifier.populateTransaction.exposeSentOrSignedByModule(),
+        keccak256(toUtf8Bytes("something salty")),
+        bob
+      );
+
+      // if alice sends it, msg.sender is taken into account, because alice module
+      expect(await alice.call(transaction)).to.equal(
+        defaultAbiCoder.encode(["address"], [alice.address])
+      );
+
+      // if charlie sends it, signature is taken into account because bob module
+      expect(await charlie.call(transaction)).to.equal(
+        defaultAbiCoder.encode(["address"], [bob.address])
+      );
+    });
+
+    it("returns signer if signer is module", async () => {
+      const { modifier, alice, charlie } = await loadFixture(setupTests);
+
+      await modifier.enableModule(alice.address);
+
+      const transaction = await signTransaction(
+        modifier.address,
+        await modifier.populateTransaction.exposeSentOrSignedByModule(),
+        keccak256(toUtf8Bytes("something salty")),
+        alice
+      );
+
+      // if alice sends it, msg.sender is taken into account, because alice module
+      expect(await charlie.call(transaction)).to.equal(
+        defaultAbiCoder.encode(["address"], [alice.address])
+      );
+    });
+
+    it("returns zero if signer is not module and message sender not a module", async () => {
+      const { modifier, alice, charlie } = await loadFixture(setupTests);
+
+      // no modules enabled
+
+      const transaction = await signTransaction(
+        modifier.address,
+        await modifier.populateTransaction.exposeSentOrSignedByModule(),
+        keccak256(toUtf8Bytes("something salty")),
+        alice
+      );
+
+      // if alice sends it, msg.sender is taken into account, because alice module
+      expect(await charlie.call(transaction)).to.equal(
+        defaultAbiCoder.encode(["address"], [AddressZero])
+      );
+    });
+  });
 });
 
 async function sign(
@@ -716,4 +794,23 @@ async function sign(
   const signature = await signer._signTypedData(domain, types, message);
 
   return `${salt}${signature.slice(2)}`;
+}
+
+async function signTransaction(
+  contract: string,
+  { from, ...transaction }: PopulatedTransaction,
+  salt: string,
+  signer: SignerWithAddress
+) {
+  const { domain, types, message } = typedDataForTransaction(
+    { contract, chainId: 31337, salt },
+    transaction.data || "0x"
+  );
+
+  const signature = await signer._signTypedData(domain, types, message);
+
+  return {
+    ...transaction,
+    data: `${transaction.data as string}${salt.slice(2)}${signature.slice(2)}`,
+  };
 }
