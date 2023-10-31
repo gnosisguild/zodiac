@@ -63,9 +63,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-checks transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(
@@ -78,9 +77,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-check gets called with signer when transaction is relayed", async () => {
-      const { signer, modifier, relayer, avatar, guard } = await loadFixture(
-        setupTests
-      );
+      const { signer, modifier, relayer, avatar, guard } =
+        await loadFixture(setupTests);
 
       await modifier.enableModule(signer.address);
       await modifier.setGuard(guard.address);
@@ -116,9 +114,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-checks and reverts transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(
@@ -129,9 +126,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("skips post-check if no guard is enabled", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
 
       await expect(
         modifier
@@ -141,9 +137,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("post-checks transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(
@@ -168,9 +163,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-checks transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(
@@ -183,9 +177,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-check gets called with signer when transaction is relayed", async () => {
-      const { signer, modifier, relayer, avatar, guard } = await loadFixture(
-        setupTests
-      );
+      const { signer, modifier, relayer, avatar, guard } =
+        await loadFixture(setupTests);
 
       await modifier.enableModule(signer.address);
       await modifier.setGuard(guard.address);
@@ -221,9 +214,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("pre-checks and reverts transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(
@@ -234,9 +226,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("skips post-check if no guard is enabled", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
 
       await expect(
         modifier
@@ -246,9 +237,8 @@ describe("GuardableModifier", async () => {
     });
 
     it("post-checks transaction if guard is set", async () => {
-      const { avatar, executor, modifier, guard } = await loadFixture(
-        setupTests
-      );
+      const { avatar, executor, modifier, guard } =
+        await loadFixture(setupTests);
       await modifier.setGuard(guard.address);
 
       await expect(

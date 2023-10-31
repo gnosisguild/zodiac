@@ -86,9 +86,8 @@ describe("SignatureChecker", async () => {
     it("s pointing out of bounds fails", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
-      const ContractSigner = await hre.ethers.getContractFactory(
-        "ContractSignerYes"
-      );
+      const ContractSigner =
+        await hre.ethers.getContractFactory("ContractSignerYes");
       const signer = (await ContractSigner.deploy()).address;
 
       const transaction = await testSignature.populateTransaction.hello();
@@ -132,9 +131,8 @@ describe("SignatureChecker", async () => {
     it("s pointing to selector fails", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
-      const ContractSigner = await hre.ethers.getContractFactory(
-        "ContractSignerYes"
-      );
+      const ContractSigner =
+        await hre.ethers.getContractFactory("ContractSignerYes");
       const signer = (await ContractSigner.deploy()).address;
 
       const transaction = await testSignature.populateTransaction.hello();
@@ -176,9 +174,8 @@ describe("SignatureChecker", async () => {
     it("s pointing to signature fails", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
-      const ContractSigner = await hre.ethers.getContractFactory(
-        "ContractSignerYes"
-      );
+      const ContractSigner =
+        await hre.ethers.getContractFactory("ContractSignerYes");
       const signer = (await ContractSigner.deploy()).address;
 
       const transaction = await testSignature.populateTransaction.hello();
@@ -268,9 +265,8 @@ describe("SignatureChecker", async () => {
     it("signer returns isValid yes", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
 
-      const ContractSigner = await hre.ethers.getContractFactory(
-        "ContractSignerYes"
-      );
+      const ContractSigner =
+        await hre.ethers.getContractFactory("ContractSignerYes");
       const contractSigner = await ContractSigner.deploy();
 
       const transaction = await testSignature.populateTransaction.goodbye(
