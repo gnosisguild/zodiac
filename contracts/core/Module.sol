@@ -34,7 +34,7 @@ abstract contract Module is FactoryFriendly {
     emit TargetSet(previousTarget, _target);
   }
 
-  /// @dev Passes a transaction to be executed by the avatar.
+  /// @dev Passes a transaction to be executed by the target.
   /// @notice Can only be called by this contract.
   /// @param to Destination address of module transaction.
   /// @param value Ether value of module transaction.
