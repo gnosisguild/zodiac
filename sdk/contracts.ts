@@ -15,7 +15,8 @@ import OzGovernorAbi from "./abi/OzGovernor.json";
 import PermissionsAbi from "./abi/Permissions.json";
 import RealityErc20Abi from "./abi/RealityErc20.json";
 import RealityEthAbi from "./abi/RealityEth.json";
-import RolesAbi from "./abi/Roles.json";
+import RolesV1Abi from "./abi/RolesV1.json";
+import RolesV2Abi from "./abi/RolesV2.json";
 import ScopeGuardAbi from "./abi/ScopeGuard.json";
 import TellorAbi from "./abi/Tellor.json";
 import { KnownContracts } from "./factory/types";
@@ -34,7 +35,8 @@ import * as OzGovernorInitData from "./initData/OzGovernor";
 import * as PermissionsInitData from "./initData/Permissions";
 import * as RealityErc20InitData from "./initData/RealityErc20";
 import * as RealityEthInitData from "./initData/RealityEth";
-import * as RolesInitData from "./initData/Roles";
+import * as RolesV1InitData from "./initData/RolesV1";
+import * as RolesV2InitData from "./initData/RolesV2";
 import * as ScopeGuardInitData from "./initData/ScopeGuard";
 import { factories } from "./types";
 
@@ -109,8 +111,15 @@ const CanonicalAddresses: Record<
     "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
     "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
   },
+  [KnownContracts.ROLES_V1]: {
+    "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
+    "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
+  },
   [KnownContracts.PERMISSIONS]: {
     "1.0.0": "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
+  },
+  [KnownContracts.ROLES_V2]: {
+    "2.1.0": "0x9646fDAD06d3e24444381f44362a3B0eB343D337",
   },
   [KnownContracts.TELLOR]: {
     "2.1.0": "0xa89EC2C1e218CfBb0F82829E95352CeAbDEe9A69",
@@ -236,7 +245,9 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.OZ_GOVERNOR]: OzGovernorAbi,
   [KnownContracts.REALITY_ERC20]: RealityErc20Abi,
   [KnownContracts.REALITY_ETH]: RealityEthAbi,
-  [KnownContracts.ROLES]: RolesAbi,
+  [KnownContracts.ROLES]: RolesV1Abi,
+  [KnownContracts.ROLES_V1]: RolesV1Abi,
+  [KnownContracts.ROLES_V2]: RolesV2Abi,
   [KnownContracts.SCOPE_GUARD]: ScopeGuardAbi,
   [KnownContracts.TELLOR]: TellorAbi,
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderAbi,
@@ -261,7 +272,9 @@ export const ContractFactories = {
   [KnownContracts.OZ_GOVERNOR]: factories.OzGovernor__factory,
   [KnownContracts.REALITY_ERC20]: factories.RealityErc20__factory,
   [KnownContracts.REALITY_ETH]: factories.RealityEth__factory,
-  [KnownContracts.ROLES]: factories.Roles__factory,
+  [KnownContracts.ROLES]: factories.RolesV1__factory,
+  [KnownContracts.ROLES_V1]: factories.RolesV1__factory,
+  [KnownContracts.ROLES_V2]: factories.RolesV2__factory,
   [KnownContracts.SCOPE_GUARD]: factories.ScopeGuard__factory,
   [KnownContracts.TELLOR]: factories.Tellor__factory,
   [KnownContracts.MULTISEND_ENCODER]: factories.MultisendEncoder__factory,
@@ -287,7 +300,9 @@ export const MasterCopyInitData: Record<
   [KnownContracts.OZ_GOVERNOR]: OzGovernorInitData,
   [KnownContracts.REALITY_ERC20]: RealityErc20InitData,
   [KnownContracts.REALITY_ETH]: RealityEthInitData,
-  [KnownContracts.ROLES]: RolesInitData,
+  [KnownContracts.ROLES]: RolesV1InitData,
+  [KnownContracts.ROLES_V1]: RolesV1InitData,
+  [KnownContracts.ROLES_V2]: RolesV2InitData,
   [KnownContracts.SCOPE_GUARD]: ScopeGuardInitData,
   [KnownContracts.TELLOR]: undefined,
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderInitData,
