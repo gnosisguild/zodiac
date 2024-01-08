@@ -106,6 +106,7 @@ NOTE: Copy the image url and use the hosted version to ensure it's always up-to-
 
 ![White on Black Banner](https://raw.githubusercontent.com/gnosis/zodiac/654afcfdc453027ff1d8fa8117bd6648a8d2034c/branding/zodiac-banner-black-white.svg)
 ![Black on White Banner](https://raw.githubusercontent.com/gnosis/zodiac/654afcfdc453027ff1d8fa8117bd6648a8d2034c/branding/zodiac-banner-white-black.svg)
+
 ![Light Gradient Banner](https://raw.githubusercontent.com/gnosis/zodiac/654afcfdc453027ff1d8fa8117bd6648a8d2034c/branding/zodiac-banner-gradient-light.svg)
 ![Dark Gradient Banner](https://raw.githubusercontent.com/gnosis/zodiac/654afcfdc453027ff1d8fa8117bd6648a8d2034c/branding/zodiac-banner-gradient-dark.svg)
 
