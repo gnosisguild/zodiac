@@ -87,17 +87,6 @@ If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://
 The [Zodiac documentation](https://gnosis.github.io/zodiac/) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
 
 ### Zodiac Banners and Badges
-Show your support for Zodiac by including our "Built By Zodiac" badges or banners on your site or in your repository. Check out the previews below and download the ones that you like best.
-
-**Banners Preview** (click to download zip)
-[[!Banners Preview](/branding/zodiac-banners-preview.png)](/branding/Zodiac-Badges-Banners.zip)
-
-**Badges Preview** (click to download zip)
-[[!Badges Preview](/branding/zodiac-badges-preview.png)](/branding/Zodiac-Badges-Icon-Only.zip)
-
-[Download All Badges/Banners](/branding/Zodiac-Badges-All.zip)
-
-### Zodiac Banners and Badges
 Show your support for Zodiac by including our "Built By Zodiac" badges or banners on your site or in your repository. Check out the previews below and download the ones that you like best. Please wrap the image with a link to [Zodiac](https://gnosis.github.io/zodiac/).
 
 NOTE: Copy the image url and use the hosted version to ensure it's always up-to-date.
