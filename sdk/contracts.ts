@@ -17,7 +17,6 @@ import RealityErc20Abi from "./abi/RealityErc20.json";
 import RealityEthAbi from "./abi/RealityEth.json";
 import RolesV1Abi from "./abi/RolesV1.json";
 import RolesV2Abi from "./abi/RolesV2.json";
-import RolesV2IntegrityAbi from "./abi/RolesV2Integrity.json";
 import ScopeGuardAbi from "./abi/ScopeGuard.json";
 import TellorAbi from "./abi/Tellor.json";
 import { KnownContracts } from "./factory/types";
@@ -248,11 +247,7 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.REALITY_ETH]: RealityEthAbi,
   [KnownContracts.ROLES]: RolesV1Abi,
   [KnownContracts.ROLES_V1]: RolesV1Abi,
-  [KnownContracts.ROLES_V2]: [
-    ...RolesV2Abi,
-    // we add the custom errors from the Integrity lib so integrity check errors can be decoded
-    RolesV2IntegrityAbi.filter((fragment) => fragment.type === "error"),
-  ],
+  [KnownContracts.ROLES_V2]: RolesV2Abi, // we've manually added custom errors from Integrity.sol to the ABI in RolesV2.json
   [KnownContracts.SCOPE_GUARD]: ScopeGuardAbi,
   [KnownContracts.TELLOR]: TellorAbi,
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderAbi,
