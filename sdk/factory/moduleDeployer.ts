@@ -142,7 +142,7 @@ const getDeployAndSetupTx = async (
   const transaction = {
     data: deployData,
     to: await moduleFactory.getAddress(),
-    value: 0n,
+    value: BigInt(0),
   };
   return {
     transaction,
