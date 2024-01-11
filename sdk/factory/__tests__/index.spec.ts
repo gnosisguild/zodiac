@@ -61,14 +61,15 @@ describe("Factory JS functions ", () => {
         KnownContracts.REALITY_ETH,
         args,
         hre.ethers.provider,
-        chainId,
+        Number(chainId),
         saltNonce
       );
 
     const transaction = await signer.sendTransaction(deployTx);
 
     const receipt = await transaction.wait();
-    expect(receipt.transactionHash).to.be.a("string");
+
+    expect(receipt.hash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
   });
@@ -99,7 +100,8 @@ describe("Factory JS functions ", () => {
       ],
     };
 
-    const chainContracts = ContractAddresses[chainId as SupportedNetworks];
+    const chainContracts =
+      ContractAddresses[Number(chainId) as SupportedNetworks];
     const masterCopyAddress = chainContracts[KnownContracts.REALITY_ETH];
     const abi = ContractAbis[KnownContracts.REALITY_ETH];
 
@@ -109,14 +111,14 @@ describe("Factory JS functions ", () => {
         abi,
         args,
         hre.ethers.provider,
-        chainId,
+        Number(chainId),
         saltNonce
       );
 
     const transaction = await signer.sendTransaction(deployTx);
 
     const receipt = await transaction.wait();
-    expect(receipt.transactionHash).to.be.a("string");
+    expect(receipt.hash).to.be.a("string");
     expect(receipt.status).to.be.eq(1);
     expect(expectedModuleAddress).to.a("string");
   });
@@ -126,11 +128,11 @@ describe("Factory JS functions ", () => {
 
     const module = await getModuleInstance(
       KnownContracts.REALITY_ETH,
-      mock.address,
+      await mock.getAddress(),
       hre.ethers.provider
     );
     await mock.givenMethodReturnBool(
-      module.interface.getSighash("owner"),
+      module.interface.getFunction("owner").selector,
       true
     );
 
@@ -146,7 +148,7 @@ describe("Factory JS functions ", () => {
       await getModuleFactoryAndMasterCopy(
         KnownContracts.REALITY_ETH,
         hre.ethers.provider,
-        chainId
+        Number(chainId)
       );
     expect(moduleFactory).to.be.instanceOf(Contract);
     expect(moduleMastercopy).to.be.instanceOf(Contract);

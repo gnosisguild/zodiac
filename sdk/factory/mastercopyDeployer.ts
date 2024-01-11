@@ -1,14 +1,16 @@
 import {
   BytesLike,
   ContractFactory,
-  constants as ethersConstants,
-  ethers,
+  ZeroAddress,
+  JsonRpcSigner,
+  keccak256,
+  getAddress,
+  getCreate2Address,
 } from "ethers";
-import { keccak256, getCreate2Address, getAddress } from "ethers/lib/utils";
 
 import { getSingletonFactory } from "./singletonFactory";
 
-const { AddressZero } = ethersConstants;
+const AddressZero = ZeroAddress;
 
 /**
  * Deploy a module's mastercopy via the singleton factory.
@@ -20,12 +22,14 @@ const { AddressZero } = ethersConstants;
  * @returns The address of the deployed module mastercopy or the zero address if it was already deployed
  */
 export const deployMastercopy = async (
-  signer: ethers.providers.JsonRpcSigner,
+  signer: JsonRpcSigner,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
 ): Promise<string> => {
-  const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+  const deploymentTx = await mastercopyContractFactory.getDeployTransaction(
+    ...args
+  );
 
   if (!deploymentTx.data) {
     throw new Error("Unable to create the deployment data (no init code).");
@@ -45,12 +49,14 @@ export const deployMastercopy = async (
  * }
  */
 export const computeTargetAddress = async (
-  signer: ethers.providers.JsonRpcSigner,
+  signer: JsonRpcSigner,
   mastercopyContractFactory: ContractFactory,
   args: Array<any>,
   salt: string
 ): Promise<{ address: string; isDeployed: boolean }> => {
-  const deploymentTx = mastercopyContractFactory.getDeployTransaction(...args);
+  const deploymentTx = await mastercopyContractFactory.getDeployTransaction(
+    ...args
+  );
   const singletonFactory = await getSingletonFactory(signer);
 
   if (!deploymentTx.data) {
@@ -60,13 +66,13 @@ export const computeTargetAddress = async (
   const initCodeHash = keccak256(deploymentTx.data);
 
   const computedAddress = getCreate2Address(
-    singletonFactory.address,
+    await singletonFactory.getAddress(),
     salt,
     initCodeHash
   );
 
   const targetAddress = getAddress(
-    (await singletonFactory.callStatic.deploy(
+    (await singletonFactory.deploy.staticCall(
       deploymentTx.data,
       salt
     )) as string
@@ -86,7 +92,7 @@ export const computeTargetAddress = async (
 };
 
 export const deployMastercopyWithInitData = async (
-  signer: ethers.providers.JsonRpcSigner,
+  signer: JsonRpcSigner,
   initCode: BytesLike,
   salt: string
 ): Promise<string> => {
@@ -94,13 +100,13 @@ export const deployMastercopyWithInitData = async (
 
   // throws if this for some reason is not a valid address
   const targetAddress = getAddress(
-    (await singletonFactory.callStatic.deploy(initCode, salt)) as string
+    (await singletonFactory.deploy.staticCall(initCode, salt)) as string
   );
 
   const initCodeHash = keccak256(initCode);
 
   const computedTargetAddress = getCreate2Address(
-    singletonFactory.address,
+    await singletonFactory.address(),
     salt,
     initCodeHash
   );
@@ -118,7 +124,7 @@ export const deployMastercopyWithInitData = async (
   }
 
   let gasLimit;
-  switch (signer.provider.network.name) {
+  switch ((await signer.provider.getNetwork()).name) {
     case "optimism":
       gasLimit = 6000000;
       break;
