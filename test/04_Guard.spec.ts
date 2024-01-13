@@ -11,15 +11,19 @@ async function setupTests() {
   const avatar = await Avatar.deploy();
   const Module = await hre.ethers.getContractFactory("TestModule");
   const module = TestModule__factory.connect(
-    (await Module.connect(owner).deploy(avatar.address, avatar.address))
-      .address,
+    await (
+      await Module.connect(owner).deploy(
+        await avatar.getAddress(),
+        await avatar.getAddress()
+      )
+    ).getAddress(),
     owner
   );
-  await avatar.enableModule(module.address);
+  await avatar.enableModule(await module.getAddress());
 
   const Guard = await hre.ethers.getContractFactory("TestGuard");
   const guard = TestGuard__factory.connect(
-    (await Guard.deploy(module.address)).address,
+    await (await Guard.deploy(await module.getAddress())).getAddress(),
     relayer
   );
 
@@ -27,12 +31,12 @@ async function setupTests() {
     "TestNonCompliantGuard"
   );
   const guardNonCompliant = TestGuard__factory.connect(
-    (await GuardNonCompliant.deploy()).address,
+    await (await GuardNonCompliant.deploy()).getAddress(),
     hre.ethers.provider
   );
 
   const tx = {
-    to: avatar.address,
+    to: await avatar.getAddress(),
     value: 0,
     data: "0x",
     operation: 0,
@@ -58,35 +62,35 @@ describe("Guardable", async () => {
   describe("setGuard", async () => {
     it("reverts if reverts if caller is not the owner", async () => {
       const { other, guard, module } = await loadFixture(setupTests);
-      await expect(module.connect(other).setGuard(guard.address))
+      await expect(module.connect(other).setGuard(await guard.getAddress()))
         .to.be.revertedWithCustomError(module, "OwnableUnauthorizedAccount")
         .withArgs(other.address);
     });
 
     it("reverts if guard does not implement ERC165", async () => {
       const { module } = await loadFixture(setupTests);
-      await expect(module.setGuard(module.address)).to.be.reverted;
+      await expect(module.setGuard(await module.getAddress())).to.be.reverted;
     });
 
     it("reverts if guard implements ERC165 and returns false", async () => {
       const { module, guardNonCompliant } = await loadFixture(setupTests);
-      await expect(module.setGuard(guardNonCompliant.address))
+      await expect(module.setGuard(await guardNonCompliant.getAddress()))
         .to.be.revertedWithCustomError(module, "NotIERC165Compliant")
-        .withArgs(guardNonCompliant.address);
+        .withArgs(await guardNonCompliant.getAddress());
     });
 
     it("sets module and emits event", async () => {
       const { module, guard } = await loadFixture(setupTests);
-      await expect(module.setGuard(guard.address))
+      await expect(module.setGuard(await guard.getAddress()))
         .to.emit(module, "ChangedGuard")
-        .withArgs(guard.address);
+        .withArgs(await guard.getAddress());
     });
 
     it("sets guard back to zero", async () => {
       const { module, guard } = await loadFixture(setupTests);
-      await expect(module.setGuard(guard.address))
+      await expect(module.setGuard(await guard.getAddress()))
         .to.emit(module, "ChangedGuard")
-        .withArgs(guard.address);
+        .withArgs(await guard.getAddress());
 
       await expect(module.setGuard(AddressZero))
         .to.emit(module, "ChangedGuard")
@@ -160,9 +164,9 @@ describe("BaseGuard", async () => {
     });
     it("checks state after execution", async () => {
       const { module, guard } = await loadFixture(setupTests);
-      await expect(module.setGuard(guard.address))
+      await expect(module.setGuard(await guard.getAddress()))
         .to.emit(module, "ChangedGuard")
-        .withArgs(guard.address);
+        .withArgs(await guard.getAddress());
       await expect(guard.checkAfterExecution(txHash, true))
         .to.emit(guard, "PostChecked")
         .withArgs(true);

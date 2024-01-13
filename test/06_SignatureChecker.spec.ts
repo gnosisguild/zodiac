@@ -1,13 +1,13 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
-import { PopulatedTransaction } from "ethers";
 import {
-  defaultAbiCoder,
+  TransactionLike,
+  AbiCoder,
   keccak256,
-  solidityPack,
+  solidityPacked,
   toUtf8Bytes,
-} from "ethers/lib/utils";
+  Signer,
+} from "ethers";
 import hre from "hardhat";
 
 import { TestSignature__factory } from "../typechain-types";
@@ -22,7 +22,7 @@ describe("SignatureChecker", async () => {
 
     return {
       testSignature: TestSignature__factory.connect(
-        testSignature.address,
+        await testSignature.getAddress(),
         relayer
       ),
       signer,
@@ -35,9 +35,9 @@ describe("SignatureChecker", async () => {
   it("correctly detects an appended signature, for an entrypoint no arguments", async () => {
     const { testSignature, signer, relayer } = await loadFixture(setup);
 
-    const transaction = await testSignature.populateTransaction.hello();
+    const transaction = await testSignature.hello.populateTransaction();
     const signature = await sign(
-      testSignature.address,
+      await testSignature.getAddress(),
       transaction,
       keccak256(toUtf8Bytes("Hello this is a salt")),
       signer
@@ -59,12 +59,12 @@ describe("SignatureChecker", async () => {
   it("correctly detects an appended signature, entrypoint with arguments", async () => {
     const { testSignature, signer, relayer } = await loadFixture(setup);
 
-    const transaction = await testSignature.populateTransaction.goodbye(
+    const transaction = await testSignature.goodbye.populateTransaction(
       0,
       "0xbadfed"
     );
     const signature = await sign(
-      testSignature.address,
+      await testSignature.getAddress(),
       transaction,
       keccak256(toUtf8Bytes("salt")),
       signer
@@ -89,9 +89,9 @@ describe("SignatureChecker", async () => {
 
       const ContractSigner =
         await hre.ethers.getContractFactory("ContractSignerYes");
-      const signer = (await ContractSigner.deploy()).address;
+      const signer = await (await ContractSigner.deploy()).getAddress();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       // 4 bytes of selector plus 3 bytes of custom signature
       // an s of 4, 5 or 6 should be okay. 7 and higher should fail
@@ -100,7 +100,7 @@ describe("SignatureChecker", async () => {
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [1000])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [1000])
       );
 
       await expect(
@@ -117,7 +117,7 @@ describe("SignatureChecker", async () => {
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [6])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [6])
       );
 
       await expect(
@@ -134,16 +134,16 @@ describe("SignatureChecker", async () => {
 
       const ContractSigner =
         await hre.ethers.getContractFactory("ContractSignerYes");
-      const signer = (await ContractSigner.deploy()).address;
+      const signer = await (await ContractSigner.deploy()).getAddress();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       let signature = makeContractSignature(
         transaction,
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [3])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [3])
       );
 
       await expect(
@@ -160,7 +160,7 @@ describe("SignatureChecker", async () => {
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [4])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [4])
       );
 
       await expect(
@@ -177,16 +177,16 @@ describe("SignatureChecker", async () => {
 
       const ContractSigner =
         await hre.ethers.getContractFactory("ContractSignerYes");
-      const signer = (await ContractSigner.deploy()).address;
+      const signer = await (await ContractSigner.deploy()).getAddress();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       let signature = makeContractSignature(
         transaction,
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [60])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [60])
       );
 
       await expect(
@@ -203,7 +203,7 @@ describe("SignatureChecker", async () => {
         "0xdddddd",
         keccak256(toUtf8Bytes("salt")),
         signer,
-        defaultAbiCoder.encode(["uint256"], [6])
+        AbiCoder.defaultAbiCoder().encode(["uint256"], [6])
       );
 
       await expect(
@@ -223,7 +223,7 @@ describe("SignatureChecker", async () => {
       );
       const contractSigner = await ContractSigner.deploy();
 
-      const transaction = await testSignature.populateTransaction.goodbye(
+      const transaction = await testSignature.goodbye.populateTransaction(
         0,
         "0xbadfed"
       );
@@ -232,14 +232,14 @@ describe("SignatureChecker", async () => {
         transaction,
         "0x001122334455",
         keccak256(toUtf8Bytes("some irrelevant salt")),
-        contractSigner.address
+        await contractSigner.getAddress()
       );
 
       const signatureBad = makeContractSignature(
         transaction,
         "0x00112233445566",
         keccak256(toUtf8Bytes("some irrelevant salt")),
-        contractSigner.address
+        await contractSigner.getAddress()
       );
 
       const transactionWithGoodSig = {
@@ -257,7 +257,7 @@ describe("SignatureChecker", async () => {
 
       await expect(await relayer.sendTransaction(transactionWithGoodSig))
         .to.emit(testSignature, "Goodbye")
-        .withArgs(contractSigner.address);
+        .withArgs(await contractSigner.getAddress());
 
       await expect(await relayer.sendTransaction(transactionWithBadSig))
         .to.emit(testSignature, "Goodbye")
@@ -270,7 +270,7 @@ describe("SignatureChecker", async () => {
         await hre.ethers.getContractFactory("ContractSignerYes");
       const contractSigner = await ContractSigner.deploy();
 
-      const transaction = await testSignature.populateTransaction.goodbye(
+      const transaction = await testSignature.goodbye.populateTransaction(
         0,
         "0xbadfed"
       );
@@ -279,7 +279,7 @@ describe("SignatureChecker", async () => {
         transaction,
         "0xaabbccddeeff",
         keccak256(toUtf8Bytes("salt")),
-        contractSigner.address
+        await contractSigner.getAddress()
       );
 
       const transactionWithSig = {
@@ -293,7 +293,7 @@ describe("SignatureChecker", async () => {
 
       await expect(await relayer.sendTransaction(transactionWithSig))
         .to.emit(testSignature, "Goodbye")
-        .withArgs(contractSigner.address);
+        .withArgs(await contractSigner.getAddress());
     });
     it("signer returns isValid no", async () => {
       const { testSignature, relayer } = await loadFixture(setup);
@@ -301,13 +301,13 @@ describe("SignatureChecker", async () => {
       const Signer = await hre.ethers.getContractFactory("ContractSignerNo");
       const signer = await Signer.deploy();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       const signature = makeContractSignature(
         transaction,
         "0xaabbccddeeff",
         keccak256(toUtf8Bytes("salt")),
-        signer.address
+        await signer.getAddress()
       );
 
       const transactionWithSig = {
@@ -328,7 +328,7 @@ describe("SignatureChecker", async () => {
       );
       const contractSigner = await ContractSigner.deploy();
 
-      const transaction = await testSignature.populateTransaction.goodbye(
+      const transaction = await testSignature.goodbye.populateTransaction(
         0,
         "0xbadfed"
       );
@@ -337,14 +337,14 @@ describe("SignatureChecker", async () => {
         transaction,
         "0x",
         keccak256(toUtf8Bytes("some irrelevant salt")),
-        contractSigner.address
+        await contractSigner.getAddress()
       );
 
       const signatureBad = makeContractSignature(
         transaction,
         "0xffff",
         keccak256(toUtf8Bytes("some irrelevant salt")),
-        contractSigner.address
+        await contractSigner.getAddress()
       );
 
       const transactionWithGoodSig = {
@@ -362,7 +362,7 @@ describe("SignatureChecker", async () => {
 
       await expect(await relayer.sendTransaction(transactionWithGoodSig))
         .to.emit(testSignature, "Goodbye")
-        .withArgs(contractSigner.address);
+        .withArgs(await contractSigner.getAddress());
 
       await expect(await relayer.sendTransaction(transactionWithBadSig))
         .to.emit(testSignature, "Goodbye")
@@ -376,13 +376,13 @@ describe("SignatureChecker", async () => {
       );
       const signer = await Signer.deploy();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       const signature = makeContractSignature(
         transaction,
         "0xaabbccddeeff",
         keccak256(toUtf8Bytes("salt")),
-        signer.address
+        await signer.getAddress()
       );
 
       const transactionWithSig = {
@@ -402,13 +402,13 @@ describe("SignatureChecker", async () => {
       );
       const signer = await Signer.deploy();
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       const signature = makeContractSignature(
         transaction,
         "0xaabbccddeeff",
         keccak256(toUtf8Bytes("salt")),
-        signer.address
+        await signer.getAddress()
       );
 
       const transactionWithSig = {
@@ -429,7 +429,7 @@ describe("SignatureChecker", async () => {
         "0x"
       );
 
-      const transaction = await testSignature.populateTransaction.hello();
+      const transaction = await testSignature.hello.populateTransaction();
 
       const signature = makeContractSignature(
         transaction,
@@ -452,22 +452,22 @@ describe("SignatureChecker", async () => {
 
 async function sign(
   contract: string,
-  transaction: PopulatedTransaction,
+  transaction: TransactionLike,
   salt: string,
-  signer: SignerWithAddress
+  signer: Signer
 ) {
   const { domain, types, message } = typedDataForTransaction(
     { contract, chainId: 31337, salt },
     transaction.data || "0x"
   );
 
-  const signature = await signer._signTypedData(domain, types, message);
+  const signature = await signer.signTypedData(domain, types, message);
 
   return `${salt}${signature.slice(2)}`;
 }
 
 function makeContractSignature(
-  transaction: PopulatedTransaction,
+  transaction: TransactionLike,
   signerSpecificSignature: string,
   salt: string,
   r: string,
@@ -475,9 +475,9 @@ function makeContractSignature(
 ) {
   const dataBytesLength = ((transaction.data?.length as number) - 2) / 2;
 
-  r = defaultAbiCoder.encode(["address"], [r]);
-  s = s || defaultAbiCoder.encode(["uint256"], [dataBytesLength]);
-  const v = solidityPack(["uint8"], [0]);
+  r = AbiCoder.defaultAbiCoder().encode(["address"], [r]);
+  s = s || AbiCoder.defaultAbiCoder().encode(["uint256"], [dataBytesLength]);
+  const v = solidityPacked(["uint8"], [0]);
 
   return `${signerSpecificSignature}${salt.slice(2)}${r.slice(2)}${s.slice(
     2

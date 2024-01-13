@@ -10,9 +10,12 @@ describe("IAvatar", async () => {
     const [signer] = await hre.ethers.getSigners();
     const Avatar = await hre.ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.connect(signer).deploy();
-    const iAvatar = TestAvatar__factory.connect(avatar.address, signer);
+    const iAvatar = TestAvatar__factory.connect(
+      await avatar.getAddress(),
+      signer
+    );
     const tx = {
-      to: avatar.address,
+      to: await avatar.getAddress(),
       value: 0,
       data: "0x",
       operation: 0,
