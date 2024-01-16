@@ -1,6 +1,6 @@
 {
   "name": "@gnosis.pm/zodiac",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Zodiac is a composable design philosophy and collection of standards for building DAO ecosystem tooling.",
   "author": "Auryn Macmillan <auryn.macmillan@gnosis.io>",
   "license": "LGPL-3.0+",
@@ -35,12 +35,11 @@
     "format": "yarn format:sol && yarn format:ts",
     "format:sol": "prettier --write --plugin=prettier-plugin-solidity ./contracts/**/*.sol",
     "format:ts": "prettier --write ./sdk/**/*.ts ./test/**/*.ts ./*.ts",
-    "generate:types": "rm -rf src/types && typechain --target ethers-v6 --out-dir sdk/types './sdk/abi/*.json'",
+    "generate:types": "patch-package && rm -rf src/types && typechain --target ethers-v6 --out-dir sdk/types './sdk/abi/*.json'",
     "prepare": "yarn generate:types && yarn build",
     "prerelease": "yarn clean && yarn build && yarn build:sdk",
     "release": "yarn publish --access public",
-    "verify": "yarn hardhat verify --network",
-    "postinstall": "patch-package"
+    "verify": "yarn hardhat verify --network"
   },
   "directories": {
     "test": "test"
@@ -77,7 +76,6 @@
     "hardhat-deploy": "^0.11.28",
     "hardhat-gas-reporter": "^1.0.9",
     "husky": "^8.0.1",
-    "patch-package": "^8.0.0",
     "prettier": "^3.0.3",
     "prettier-plugin-solidity": "^1.1.3",
     "rimraf": "^5.0.1",
@@ -87,7 +85,8 @@
     "ts-node": "^10.9.1",
     "typechain": "^8.3.2",
     "typescript": "^5.2.2",
-    "yargs": "^17.6.0"
+    "yargs": "^17.6.0",
+    "patch-package": "^8.0.0"
   },
   "dependencies": {
     "@gnosis.pm/mock-contract": "^4.0.0",
