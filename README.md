@@ -8,9 +8,9 @@ A composable design philosophy for DAOs, [Zodiac](https://gnosisguild.mirror.xyz
 
 ![Zodiac Icons](https://images.mirror-media.xyz/nft/c8c9031b-06b1-4344-baf2-c1d2d24cfc4f.png)
 
-The Zodiac collection of tools can be accessed through the Zodiac App available on [Gnosis Safe](https://gnosis-safe.io/), as well as through the repositories below. If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq).
+The Zodiac collection of tools can be accessed through the Zodiac App available on [Safe](https://safe.global/), as well as through the repositories below. If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gnosisguild.org).
 
-This repository links to technical tutorials on how to configure each using the CLI.
+This repository links to technical tutorials on how to configure each using the CLI. (For operator tutorials, visit [zodiac.wiki](https://zodiac.wiki/index.php?title=Category:Documentation).)
 
 Zodiac enables:
 
@@ -20,7 +20,7 @@ Zodiac enables:
 
 The Zodiac open standard consists of Avatars, Modules, Modifiers, and Guards architecture:
 
-**1. Avatars** are programmable Ethereum accounts, like the [Gnosis Safe](https://gnosis-safe.io). Avatars are the address that holds balances, owns systems, executes transaction, is referenced externally, and ultimately represents your DAO. Avatars must expose an interface like `IAvatar.sol`.
+**1. Avatars** are programmable Ethereum accounts, like [Safe](https://safe.global/). Avatars are the address that holds balances, owns systems, executes transaction, is referenced externally, and ultimately represents your DAO. Avatars must expose an interface like `IAvatar.sol`.
 
 **2. Modules** are contracts enabled by an Avatar that implement some decision making logic. They should import `Module.sol`.
 
@@ -55,16 +55,16 @@ contract MyModule is Module {
 
 #### Avatars
 
-- **[Gnosis Safe](https://gnosis-safe.io)**: The most trusted platform for managing digital assets on Ethereum. Zodiac embraces Gnosis Safe as a powerful, extensible and programmable account standard. Gnosis Safe is the reference implementation of the [IAvatar.sol](contracts/interfaces/IAvatar.sol) interface specified in this library. However, all Zodiac tools are framework agnostic, and they can be plugged into any programmable account that implements the IAvatar interface.
+- **[Safe](https://safe.global)**: The most trusted platform for managing digital assets on Ethereum. Zodiac embraces Safe as a powerful, extensible and programmable account standard. Safe is the reference implementation of the [IAvatar.sol](contracts/interfaces/IAvatar.sol) interface specified in this library. However, all Zodiac tools are framework agnostic, and they can be plugged into any programmable account that implements the IAvatar interface.
 
 #### Modules
 
-- **[Bridge](https://github.com/gnosis/zodiac-module-bridge)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows an address on one chain to control an avatar on another chain using an Arbitrary Message Bridge (AMB). This enables a DAO on one chain to control assets and interact with systems like a Gnosis Safe on a different chain.
+- **[Bridge](https://github.com/gnosis/zodiac-module-bridge)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows an address on one chain to control an avatar on another chain using an Arbitrary Message Bridge (AMB). This enables a DAO on one chain to control assets and interact with systems like a Safe on a different chain.
 - **[Exit](https://github.com/gnosis/zodiac-module-exit)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows users to redeem a designated token for a relative share of an avatar's assets, similar to MolochDAO's infamous rageQuit() function.
-- **[Governor](https://github.com/gnosis/zodiac-module-oz-governor/)** (Developed by [Gnosis Guild](https://twitter.com/gnosisguild)): An opinionated implementation of [OpenZeppelin's Governor contracts](https://docs.openzeppelin.com/contracts/4.x/api/governance) designed to be used in a Zodiac-style setup, allowing a Avatar (like a Gnosis Safe) to controlled by on-chain governance similar to [Compound's Governor Alpha and Bravo](https://compound.finance/docs/governance).
-- **[Optimistic Governor](https://docs.outcome.finance/optimistic-governance/what-is-the-optimistic-governor)** (developed by [Outcome Finance](https://www.outcome.finance/): This module allows on-chain executions based on Snapshot proposal results. The module utilizes UMA's optimistic oracle to govern a Gnosis Safe based on a set of rules defined off-chain.
-- **[Reality](https://github.com/gnosis/zodiac-module-reality)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows on-chain execution based on the outcome of events reported by Reality.eth. While built initially to execute Gnosis Safe transactions according to Snapshot proposals, this module is framework agnostic. It can enable proposal execution from just about anywhere. For example, it can bring Discord polls on-chain.
-- **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol)** (developed by [DAOHaus](https://daohaus.club)): This module allows Moloch DAOs to manage the assets in a Gnosis Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Gnosis Safe to later delegate governance to a Moloch DAO.
+- **[Governor](https://github.com/gnosis/zodiac-module-oz-governor/)** (Developed by [Gnosis Guild](https://twitter.com/gnosisguild)): An opinionated implementation of [OpenZeppelin's Governor contracts](https://docs.openzeppelin.com/contracts/4.x/api/governance) designed to be used in a Zodiac-style setup, allowing a Avatar (like a Safe) to controlled by on-chain governance similar to [Compound's Governor Alpha and Bravo](https://compound.finance/docs/governance).
+- **[Optimistic Governor](https://docs.outcome.finance/optimistic-governance/what-is-the-optimistic-governor)** (developed by [Outcome Finance](https://www.outcome.finance/): This module allows on-chain executions based on Snapshot proposal results. The module utilizes UMA's optimistic oracle to govern a Safe based on a set of rules defined off-chain.
+- **[Reality](https://github.com/gnosis/zodiac-module-reality)** (developed by [Gnosis Guild](https://twitter.com/gnosisguild)): This module allows on-chain execution based on the outcome of events reported by Reality.eth. While built initially to execute Safe transactions according to Snapshot proposals, this module is framework agnostic. It can enable proposal execution from just about anywhere. For example, it can bring Discord polls on-chain.
+- **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol)** (developed by [DAOHaus](https://daohaus.club)): This module allows Moloch DAOs to manage the assets in a Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Safe to later delegate governance to a Moloch DAO.
 - **[Tellor](https://github.com/tellor-io/snapshot-zodiac-module)** (developed by [Tellor](https://tellor.io)): This module allows on-chain executions based on Snapshot proposal results, it uses the Tellor oracle to retrieve the data in a secure and decentralized manner.
 - **[Usul](https://github.com/SekerDAO/Usul)** (developed by [SekerDAO](https://github.com/SekerDAO)): This module allows avatars to operate with trustless tokenized DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts. This enables DAOs to choose from various on-chain voting methods that best suit their needs.
 
@@ -82,12 +82,12 @@ contract MyModule is Module {
 
 Have you built something cool that belongs in this collection of Zodiac tools and want to add it to the list? Follow our [contribution guidelines](/CONTRIBUTING.md) to open a PR!
 
-If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gg/wwmBWTgyEq). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
+If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gnosisguild.org/). Follow [@GnosisGuild](https://twitter.com/gnosisguild) on Twitter for updates.
 
-The [Zodiac documentation](https://gnosis.github.io/zodiac/) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
+The [Zodiac documentation](https://github.com/gnosisguild/zodiac) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
 
 ### Zodiac Banners and Badges
-Show your support for Zodiac by adding a badge or banner to your website or repository. Check out the preview images below, and select your preferred design for download. Please wrap the image with a hyperlink to [Zodiac](https://gnosis.github.io/zodiac/).
+Show your support for Zodiac by adding a badge or banner to your website or repository. Check out the preview images below, and select your preferred design for download. Please wrap the image with a hyperlink to [Zodiac](https://github.com/gnosisguild/zodiac).
 
 NOTE: To guarantee the most current design, copy the image URL and use the hosted version for embedding on your platform.
 
@@ -111,8 +111,8 @@ Your support through these badges and banners is greatly appreciated!
 
 **Markdown** (for README's)
 
-[![White on black banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-black-white.svg)](https://gnosis.github.io/zodiac/)
-[![Black on White Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-white-black.svg)](https://gnosis.github.io/zodiac/)
+[![White on black banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-black-white.svg)](https://github.com/gnosisguild/zodiac)
+[![Black on White Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-white-black.svg)](https://github.com/gnosisguild/zodiac)
 
 ### Audits
 
