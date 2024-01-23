@@ -86,6 +86,34 @@ If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://
 
 The [Zodiac documentation](https://gnosis.github.io/zodiac/) offers tutorials on how to use the Zodiac App, and detailed developer resources on how to build your own Zodiac module, modifier, or guard will be available soon.
 
+### Zodiac Banners and Badges
+Show your support for Zodiac by adding a badge or banner to your website or repository. Check out the preview images below, and select your preferred design for download. Please wrap the image with a hyperlink to [Zodiac](https://gnosis.github.io/zodiac/).
+
+NOTE: To guarantee the most current design, copy the image URL and use the hosted version for embedding on your platform.
+
+Your support through these badges and banners is greatly appreciated!
+
+**Banners**
+
+![White on Black Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-black-white.svg)
+![Black on White Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-white-black.svg)
+
+![Light Gradient Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-gradient-light.svg)
+![Dark Gradient Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-gradient-dark.svg)
+
+
+**Badges**
+
+![White on Black Badge](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-black-white.svg)
+![Black on White Badge](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-white-black.svg)
+![Light Gradient Badge](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-gradient-light.svg)
+![Dark Gradient Badge](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-gradient-dark.svg)
+
+**Markdown** (for README's)
+
+[![White on black banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-badge-black-white.svg)](https://gnosis.github.io/zodiac/)
+[![Black on White Banner](https://raw.githubusercontent.com/gnosis/zodiac/master/branding/zodiac-banner-white-black.svg)](https://gnosis.github.io/zodiac/)
+
 ### Audits
 
 Zodiac has been audited by the [G0 group](https://github.com/g0-group).
