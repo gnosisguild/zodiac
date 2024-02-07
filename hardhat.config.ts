@@ -1,8 +1,9 @@
 import "@nomicfoundation/hardhat-toolbox";
 
 import dotenv from "dotenv";
-import type { HttpNetworkUserConfig } from "hardhat/types";
 import yargs from "yargs";
+
+import type { HttpNetworkUserConfig } from "hardhat/types";
 import "hardhat-change-network";
 
 const { network } = yargs
@@ -53,7 +54,7 @@ export default {
   solidity: {
     compilers: [
       {
-        version: "0.8.6",
+        version: "0.8.20",
         settings: {
           optimizer: {
             enabled: true,

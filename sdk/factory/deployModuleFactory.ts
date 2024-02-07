@@ -1,11 +1,17 @@
-import { constants as ethersConstants, ethers } from "ethers";
-import { getSingletonFactory } from "./singletonFactory";
-import { KnownContracts } from "./types";
+import assert from "assert";
+
+import { ZeroAddress, JsonRpcSigner } from "ethers";
+
 import { MasterCopyInitData } from "../contracts";
 
-const { AddressZero } = ethersConstants;
+import { getSingletonFactory } from "./singletonFactory";
+import { KnownContracts } from "./types";
 
-const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY]!;
+const AddressZero = ZeroAddress;
+
+const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY];
+
+assert(FactoryInitData);
 
 /**
  * Deploy the Module Proxy Factory via the singleton factory.
@@ -15,7 +21,7 @@ const FactoryInitData = MasterCopyInitData[KnownContracts.FACTORY]!;
  * @returns The address of the deployed Module Proxy Factory, or the zero address if it was already deployed
  */
 export const deployModuleFactory = async (
-  signer: ethers.providers.JsonRpcSigner
+  signer: JsonRpcSigner
 ): Promise<string> => {
   console.log("Deploying the Module Proxy Factory...");
   const singletonFactory = await getSingletonFactory(signer);
@@ -24,13 +30,15 @@ export const deployModuleFactory = async (
     singletonFactory.address
   );
 
-  const targetAddress = await singletonFactory.callStatic.deploy(
+  const targetAddress = await singletonFactory.deploy.staticCall(
     FactoryInitData.initCode,
     FactoryInitData.salt
   );
   if (targetAddress === AddressZero) {
     console.log(
-      `  ✔ Module Proxy Factory already deployed to target address on ${signer.provider.network.name}.`
+      `  ✔ Module Proxy Factory already deployed to target address on ${
+        (await signer.provider.getNetwork()).name
+      }.`
     );
     return AddressZero;
   }

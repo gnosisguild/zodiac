@@ -7,22 +7,19 @@ import Erc20VotesAbi from "./abi/Erc20Votes.json";
 import Erc721VotesAbi from "./abi/Erc721Votes.json";
 import ExitErc20Abi from "./abi/ExitErc20.json";
 import ExitErc721Abi from "./abi/ExitErc721.json";
-import IntegrityAbi from "./abi/Integrity.json";
 import MetaGuardAbi from "./abi/MetaGuard.json";
 import ModuleProxyFactoryAbi from "./abi/ModuleProxyFactory.json";
 import MultisendEncoderAbi from "./abi/MultisendEncoder.json";
 import OptimisticGovernorAbi from "./abi/OptimisticGovernor.json";
 import OzGovernorAbi from "./abi/OzGovernor.json";
-import PackerAbi from "./abi/Packer.json";
 import PermissionsAbi from "./abi/Permissions.json";
 import RealityErc20Abi from "./abi/RealityErc20.json";
 import RealityEthAbi from "./abi/RealityEth.json";
-import RolesAbi from "./abi/Roles.json";
+import RolesV1Abi from "./abi/RolesV1.json";
+import RolesV2Abi from "./abi/RolesV2.json";
 import ScopeGuardAbi from "./abi/ScopeGuard.json";
 import TellorAbi from "./abi/Tellor.json";
-
 import { KnownContracts } from "./factory/types";
-
 import * as BridgeInitData from "./initData/Bridge";
 import * as CirculatingSupplyErc20InitData from "./initData/CirculatingSupplyErc20";
 import * as CirculatingSupplyErc721InitData from "./initData/CirculatingSupplyErc721";
@@ -32,17 +29,15 @@ import * as Erc20VotesInitData from "./initData/Erc20Votes";
 import * as Erc721VotesInitData from "./initData/Erc721Votes";
 import * as ExitErc20InitData from "./initData/ExitErc20";
 import * as ExitErc721InitData from "./initData/ExitErc721";
-import * as IntegrityInitData from "./initData/Integrity";
 import * as ModuleProxyFactoryInitData from "./initData/ModuleProxyFactory";
 import * as MultisendEncoderInitData from "./initData/MultisendEncoder";
 import * as OzGovernorInitData from "./initData/OzGovernor";
-import * as PackerInitData from "./initData/Packer";
 import * as PermissionsInitData from "./initData/Permissions";
 import * as RealityErc20InitData from "./initData/RealityErc20";
 import * as RealityEthInitData from "./initData/RealityEth";
-import * as RolesInitData from "./initData/Roles";
+import * as RolesV1InitData from "./initData/RolesV1";
+import * as RolesV2InitData from "./initData/RolesV2";
 import * as ScopeGuardInitData from "./initData/ScopeGuard";
-
 import { factories } from "./types";
 
 export enum SupportedNetworks {
@@ -84,6 +79,7 @@ const CanonicalAddresses: Record<
   },
   [KnownContracts.DELAY]: {
     "1.0.0": "0xD62129BF40CD1694b3d9D9847367783a1A4d5cB4",
+    "1.0.1": "0xd54895B1121A2eE3f37b502F507631FA1331BED6",
   },
   [KnownContracts.FACTORY]: {
     "1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85",
@@ -114,10 +110,16 @@ const CanonicalAddresses: Record<
   [KnownContracts.ROLES]: {
     "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
     "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
-    "2.0.0": "0xb8bB41FA7E5e64452DBCA1C8A0e7058D43abAf4f",
+  },
+  [KnownContracts.ROLES_V1]: {
+    "1.0.0": "0x85388a8cd772b19a468F982Dc264C238856939C9",
+    "1.1.0": "0xD8DfC1d938D7D163C5231688341e9635E9011889",
   },
   [KnownContracts.PERMISSIONS]: {
     "1.0.0": "0x33D1C5A5B6a7f3885c7467e829aaa21698937597",
+  },
+  [KnownContracts.ROLES_V2]: {
+    "2.1.0": "0x9646fDAD06d3e24444381f44362a3B0eB343D337",
   },
   [KnownContracts.TELLOR]: {
     "2.1.0": "0xa89EC2C1e218CfBb0F82829E95352CeAbDEe9A69",
@@ -139,12 +141,6 @@ const CanonicalAddresses: Record<
   },
   [KnownContracts.CONNEXT]: {
     "1.0.0": "0x7dE07b9De0bf0FABf31A188DE1527034b2aF36dB",
-  },
-  [KnownContracts.PACKER]: {
-    "2.0.0": "0x60E89c71882e88f16772490d2f05819d9521EAb1",
-  },
-  [KnownContracts.INTEGRITY]: {
-    "2.0.0": "0x52c342e002C5F7CF14Ef89b5e04Cf6D53c7F8e72",
   },
 };
 
@@ -249,14 +245,14 @@ export const ContractAbis: Record<KnownContracts, any> = {
   [KnownContracts.OZ_GOVERNOR]: OzGovernorAbi,
   [KnownContracts.REALITY_ERC20]: RealityErc20Abi,
   [KnownContracts.REALITY_ETH]: RealityEthAbi,
-  [KnownContracts.ROLES]: RolesAbi,
+  [KnownContracts.ROLES]: RolesV1Abi,
+  [KnownContracts.ROLES_V1]: RolesV1Abi,
+  [KnownContracts.ROLES_V2]: RolesV2Abi, // we've manually added custom errors from Integrity.sol to the ABI in RolesV2.json
   [KnownContracts.SCOPE_GUARD]: ScopeGuardAbi,
   [KnownContracts.TELLOR]: TellorAbi,
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderAbi,
   [KnownContracts.PERMISSIONS]: PermissionsAbi,
   [KnownContracts.CONNEXT]: ConnextAbi,
-  [KnownContracts.PACKER]: PackerAbi,
-  [KnownContracts.INTEGRITY]: IntegrityAbi,
 };
 
 export const ContractFactories = {
@@ -276,14 +272,14 @@ export const ContractFactories = {
   [KnownContracts.OZ_GOVERNOR]: factories.OzGovernor__factory,
   [KnownContracts.REALITY_ERC20]: factories.RealityErc20__factory,
   [KnownContracts.REALITY_ETH]: factories.RealityEth__factory,
-  [KnownContracts.ROLES]: factories.Roles__factory,
+  [KnownContracts.ROLES]: factories.RolesV1__factory,
+  [KnownContracts.ROLES_V1]: factories.RolesV1__factory,
+  [KnownContracts.ROLES_V2]: factories.RolesV2__factory,
   [KnownContracts.SCOPE_GUARD]: factories.ScopeGuard__factory,
   [KnownContracts.TELLOR]: factories.Tellor__factory,
   [KnownContracts.MULTISEND_ENCODER]: factories.MultisendEncoder__factory,
   [KnownContracts.PERMISSIONS]: factories.Permissions__factory,
   [KnownContracts.CONNEXT]: factories.Connext__factory,
-  [KnownContracts.PACKER]: factories.Packer__factory,
-  [KnownContracts.INTEGRITY]: factories.Integrity__factory,
 };
 
 export const MasterCopyInitData: Record<
@@ -304,12 +300,12 @@ export const MasterCopyInitData: Record<
   [KnownContracts.OZ_GOVERNOR]: OzGovernorInitData,
   [KnownContracts.REALITY_ERC20]: RealityErc20InitData,
   [KnownContracts.REALITY_ETH]: RealityEthInitData,
-  [KnownContracts.ROLES]: RolesInitData,
+  [KnownContracts.ROLES]: RolesV1InitData,
+  [KnownContracts.ROLES_V1]: RolesV1InitData,
+  [KnownContracts.ROLES_V2]: RolesV2InitData,
   [KnownContracts.SCOPE_GUARD]: ScopeGuardInitData,
   [KnownContracts.TELLOR]: undefined,
   [KnownContracts.MULTISEND_ENCODER]: MultisendEncoderInitData,
   [KnownContracts.PERMISSIONS]: PermissionsInitData,
   [KnownContracts.CONNEXT]: ConnextInitData,
-  [KnownContracts.PACKER]: PackerInitData,
-  [KnownContracts.INTEGRITY]: IntegrityInitData,
 };

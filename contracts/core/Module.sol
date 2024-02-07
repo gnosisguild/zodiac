@@ -1,108 +1,73 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../interfaces/IAvatar.sol";
-import "../factory/FactoryFriendly.sol";
-import "../guard/Guardable.sol";
+import {Enum} from "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 
-abstract contract Module is FactoryFriendly, Guardable {
-    /// @dev Address that will ultimately execute function calls.
-    address public avatar;
-    /// @dev Address that this module will pass transactions to.
-    address public target;
+import {FactoryFriendly} from "../factory/FactoryFriendly.sol";
+import {IAvatar} from "../interfaces/IAvatar.sol";
 
-    /// @dev Emitted each time the avatar is set.
-    event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
-    /// @dev Emitted each time the Target is set.
-    event TargetSet(address indexed previousTarget, address indexed newTarget);
+/// @title Module Interface - A contract that can pass messages to a Module Manager contract if enabled by that contract.
+abstract contract Module is FactoryFriendly {
+  /// @dev Address that will ultimately execute function calls.
+  address public avatar;
+  /// @dev Address that this module will pass transactions to.
+  address public target;
 
-    /// @dev Sets the avatar to a new avatar (`newAvatar`).
-    /// @notice Can only be called by the current owner.
-    function setAvatar(address _avatar) public onlyOwner {
-        address previousAvatar = avatar;
-        avatar = _avatar;
-        emit AvatarSet(previousAvatar, _avatar);
-    }
+  /// @dev Emitted each time the avatar is set.
+  event AvatarSet(address indexed previousAvatar, address indexed newAvatar);
+  /// @dev Emitted each time the Target is set.
+  event TargetSet(address indexed previousTarget, address indexed newTarget);
 
-    /// @dev Sets the target to a new target (`newTarget`).
-    /// @notice Can only be called by the current owner.
-    function setTarget(address _target) public onlyOwner {
-        address previousTarget = target;
-        target = _target;
-        emit TargetSet(previousTarget, _target);
-    }
+  /// @dev Sets the avatar to a new avatar (`newAvatar`).
+  /// @notice Can only be called by the current owner.
+  function setAvatar(address _avatar) public onlyOwner {
+    address previousAvatar = avatar;
+    avatar = _avatar;
+    emit AvatarSet(previousAvatar, _avatar);
+  }
 
-    /// @dev Passes a transaction to be executed by the avatar.
-    /// @notice Can only be called by this contract.
-    /// @param to Destination address of module transaction.
-    /// @param value Ether value of module transaction.
-    /// @param data Data payload of module transaction.
-    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
-    function exec(
-        address to,
-        uint256 value,
-        bytes memory data,
-        Enum.Operation operation
-    ) internal returns (bool success) {
-        (success, ) = _exec(to, value, data, operation);
-    }
+  /// @dev Sets the target to a new target (`newTarget`).
+  /// @notice Can only be called by the current owner.
+  function setTarget(address _target) public onlyOwner {
+    address previousTarget = target;
+    target = _target;
+    emit TargetSet(previousTarget, _target);
+  }
 
-    /// @dev Passes a transaction to be executed by the target and returns data.
-    /// @notice Can only be called by this contract.
-    /// @param to Destination address of module transaction.
-    /// @param value Ether value of module transaction.
-    /// @param data Data payload of module transaction.
-    /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
-    function execAndReturnData(
-        address to,
-        uint256 value,
-        bytes memory data,
-        Enum.Operation operation
-    ) internal returns (bool success, bytes memory returnData) {
-        (success, returnData) = _exec(to, value, data, operation);
-    }
+  /// @dev Passes a transaction to be executed by the avatar.
+  /// @notice Can only be called by this contract.
+  /// @param to Destination address of module transaction.
+  /// @param value Ether value of module transaction.
+  /// @param data Data payload of module transaction.
+  /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
+  function exec(
+    address to,
+    uint256 value,
+    bytes memory data,
+    Enum.Operation operation
+  ) internal virtual returns (bool success) {
+    return
+      IAvatar(target).execTransactionFromModule(to, value, data, operation);
+  }
 
-    function _exec(
-        address to,
-        uint256 value,
-        bytes memory data,
-        Enum.Operation operation
-    ) private returns (bool success, bytes memory returnData) {
-        address currentGuard = guard;
-        if (currentGuard != address(0)) {
-            IGuard(currentGuard).checkTransaction(
-                /// Transaction info used by module transactions.
-                to,
-                value,
-                data,
-                operation,
-                /// Zero out the redundant transaction information only used for Safe multisig transctions.
-                0,
-                0,
-                0,
-                address(0),
-                payable(0),
-                "",
-                msg.sender
-            );
-            (success, returnData) = IAvatar(target)
-                .execTransactionFromModuleReturnData(
-                    to,
-                    value,
-                    data,
-                    operation
-                );
-            IGuard(currentGuard).checkAfterExecution("", success);
-        } else {
-            (success, returnData) = IAvatar(target)
-                .execTransactionFromModuleReturnData(
-                    to,
-                    value,
-                    data,
-                    operation
-                );
-        }
-    }
+  /// @dev Passes a transaction to be executed by the target and returns data.
+  /// @notice Can only be called by this contract.
+  /// @param to Destination address of module transaction.
+  /// @param value Ether value of module transaction.
+  /// @param data Data payload of module transaction.
+  /// @param operation Operation type of module transaction: 0 == call, 1 == delegate call.
+  function execAndReturnData(
+    address to,
+    uint256 value,
+    bytes memory data,
+    Enum.Operation operation
+  ) internal virtual returns (bool success, bytes memory returnData) {
+    return
+      IAvatar(target).execTransactionFromModuleReturnData(
+        to,
+        value,
+        data,
+        operation
+      );
+  }
 }

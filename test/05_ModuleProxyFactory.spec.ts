@@ -1,9 +1,11 @@
-import { AddressZero } from "@ethersproject/constants";
 import { AddressOne } from "@gnosis.pm/safe-contracts";
 import { expect } from "chai";
-import { Contract } from "ethers";
+import { AbiCoder, Contract, ZeroAddress } from "ethers";
 import { ethers } from "hardhat";
+
 import { calculateProxyAddress } from "../sdk/factory";
+
+const AddressZero = ZeroAddress;
 
 describe("ModuleProxyFactory", async () => {
   let moduleFactory: Contract;
@@ -16,43 +18,42 @@ describe("ModuleProxyFactory", async () => {
   beforeEach(async () => {
     const Avatar = await ethers.getContractFactory("TestAvatar");
     const avatar = await Avatar.deploy();
-    const ModuleProxyFactory = await ethers.getContractFactory(
-      "ModuleProxyFactory"
-    );
+    const ModuleProxyFactory =
+      await ethers.getContractFactory("ModuleProxyFactory");
     moduleFactory = await ModuleProxyFactory.deploy();
 
     const MasterCopyModule = await ethers.getContractFactory("TestModule");
     moduleMasterCopy = await MasterCopyModule.deploy(
-      avatar.address,
-      avatar.address
+      await avatar.getAddress(),
+      await avatar.getAddress()
     );
-    const encodedInitParams = new ethers.utils.AbiCoder().encode(
+    const encodedInitParams = AbiCoder.defaultAbiCoder().encode(
       ["address", "address"],
-      [avatar.address, avatar.address]
+      [await avatar.getAddress(), await avatar.getAddress()]
     );
     initData = moduleMasterCopy.interface.encodeFunctionData("setUp", [
       encodedInitParams,
     ]);
-    avatarAddress = avatar.address;
+    avatarAddress = await avatar.getAddress();
   });
 
   describe("createProxy", () => {
     it("should deploy the expected address ", async () => {
       const expectedAddress = await calculateProxyAddress(
         moduleFactory,
-        moduleMasterCopy.address,
+        await moduleMasterCopy.getAddress(),
         initData,
         saltNonce
       );
 
       const deploymentTx = await moduleFactory.deployModule(
-        moduleMasterCopy.address,
+        await moduleMasterCopy.getAddress(),
         initData,
         saltNonce
       );
 
       const transaction = await deploymentTx.wait();
-      const [moduleAddress] = transaction.events[2].args;
+      const [moduleAddress] = transaction.logs[2].args;
       expect(moduleAddress).to.be.equal(expectedAddress);
     });
 
@@ -69,14 +70,14 @@ describe("ModuleProxyFactory", async () => {
 
     it("should fail to deploy because address its already taken ", async () => {
       await moduleFactory.deployModule(
-        moduleMasterCopy.address,
+        await moduleMasterCopy.getAddress(),
         initData,
         saltNonce
       );
 
       await expect(
         moduleFactory.deployModule(
-          moduleMasterCopy.address,
+          await moduleMasterCopy.getAddress(),
           initData,
           saltNonce
         )
@@ -89,12 +90,12 @@ describe("ModuleProxyFactory", async () => {
   describe("deployModule ", () => {
     it("should deploy module", async () => {
       const deploymentTx = await moduleFactory.deployModule(
-        moduleMasterCopy.address,
+        await moduleMasterCopy.getAddress(),
         initData,
         saltNonce
       );
       const transaction = await deploymentTx.wait();
-      const [moduleAddress] = transaction.events[2].args;
+      const [moduleAddress] = transaction.logs[2].args;
 
       const newModule = await ethers.getContractAt("TestModule", moduleAddress);
 
@@ -105,25 +106,25 @@ describe("ModuleProxyFactory", async () => {
     it("should emit event on module deployment", async () => {
       const moduleAddress = await calculateProxyAddress(
         moduleFactory,
-        moduleMasterCopy.address,
+        await moduleMasterCopy.getAddress(),
         initData,
         saltNonce
       );
       await expect(
         moduleFactory.deployModule(
-          moduleMasterCopy.address,
+          await moduleMasterCopy.getAddress(),
           initData,
           saltNonce
         )
       )
         .to.emit(moduleFactory, "ModuleProxyCreation")
-        .withArgs(moduleAddress, moduleMasterCopy.address);
+        .withArgs(moduleAddress, await moduleMasterCopy.getAddress());
     });
 
     it("should fail to deploy because parameters are not valid ", async () => {
       await expect(
         moduleFactory.deployModule(
-          moduleMasterCopy.address,
+          await moduleMasterCopy.getAddress(),
           "0xaabc",
           saltNonce
         )

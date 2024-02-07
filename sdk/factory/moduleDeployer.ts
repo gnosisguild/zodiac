@@ -1,5 +1,13 @@
-import { Provider } from "@ethersproject/providers";
-import { ethers, Contract, Signer, BigNumber } from "ethers";
+import {
+  Contract,
+  Signer,
+  Provider,
+  getCreate2Address,
+  AbiCoder,
+  solidityPackedKeccak256,
+  keccak256,
+} from "ethers";
+
 import {
   ContractAddresses,
   ContractAbis,
@@ -16,7 +24,7 @@ type TxAndExpectedAddress = {
   transaction: {
     data: string;
     to: string;
-    value: ethers.BigNumber;
+    value: bigint;
   };
   expectedModuleAddress: string;
 };
@@ -32,7 +40,7 @@ type TxAndExpectedAddress = {
  * @param saltNonce
  * @returns the transaction and the expected address of the module proxy
  */
-export const deployAndSetUpModule = (
+export const deployAndSetUpModule = async (
   moduleName: KnownContracts,
   setupArgs: {
     types: Array<string>;
@@ -41,15 +49,19 @@ export const deployAndSetUpModule = (
   provider: Provider,
   chainId: number,
   saltNonce: string
-): TxAndExpectedAddress => {
+): Promise<{
+  transaction: { data: string; to: string; value: bigint };
+  expectedModuleAddress: string;
+}> => {
   const { moduleFactory, moduleMastercopy } = getModuleFactoryAndMasterCopy(
     moduleName,
     provider,
     chainId
   );
+
   return getDeployAndSetupTx(
-    moduleFactory,
-    moduleMastercopy,
+    moduleFactory as unknown as Contract,
+    moduleMastercopy as unknown as Contract,
     setupArgs,
     saltNonce
   );
@@ -68,7 +80,7 @@ export const deployAndSetUpModule = (
  * @param saltNonce
  * @returns the transaction and the expected address of the module proxy
  */
-export const deployAndSetUpCustomModule = (
+export const deployAndSetUpCustomModule = async (
   mastercopyAddress: string,
   abi: ABI,
   setupArgs: {
@@ -78,7 +90,7 @@ export const deployAndSetUpCustomModule = (
   provider: Provider,
   chainId: number,
   saltNonce: string
-): TxAndExpectedAddress => {
+): Promise<TxAndExpectedAddress> => {
   const chainContracts = ContractAddresses[chainId as SupportedNetworks];
   const moduleFactoryAddress = chainContracts.factory;
   const moduleFactory = new Contract(
@@ -87,48 +99,50 @@ export const deployAndSetUpCustomModule = (
     provider
   );
   const moduleMastercopy = new Contract(mastercopyAddress, abi, provider);
-
-  return getDeployAndSetupTx(
+  const deployAndSetupTx = await getDeployAndSetupTx(
     moduleFactory,
     moduleMastercopy,
     setupArgs,
     saltNonce
   );
+
+  return deployAndSetupTx;
 };
 
-const getDeployAndSetupTx = (
-  moduleFactory: ethers.Contract,
-  moduleMastercopy: ethers.Contract,
+const getDeployAndSetupTx = async (
+  moduleFactory: Contract,
+  moduleMastercopy: Contract,
   setupArgs: {
     types: Array<string>;
     values: Array<any>;
   },
   saltNonce: string
 ) => {
-  const encodedInitParams = ethers.utils.defaultAbiCoder.encode(
+  const encodedInitParams = AbiCoder.defaultAbiCoder().encode(
     setupArgs.types,
     setupArgs.values
   );
+
   const moduleSetupData = moduleMastercopy.interface.encodeFunctionData(
     "setUp",
     [encodedInitParams]
   );
 
-  const expectedModuleAddress = calculateProxyAddress(
+  const expectedModuleAddress = await calculateProxyAddress(
     moduleFactory,
-    moduleMastercopy.address,
+    await moduleMastercopy.getAddress(),
     moduleSetupData,
     saltNonce
   );
 
   const deployData = moduleFactory.interface.encodeFunctionData(
     "deployModule",
-    [moduleMastercopy.address, moduleSetupData, saltNonce]
+    [await moduleMastercopy.getAddress(), moduleSetupData, saltNonce]
   );
   const transaction = {
     data: deployData,
-    to: moduleFactory.address,
-    value: BigNumber.from(0),
+    to: await moduleFactory.getAddress(),
+    value: BigInt(0),
   };
   return {
     transaction,
@@ -136,12 +150,12 @@ const getDeployAndSetupTx = (
   };
 };
 
-export const calculateProxyAddress = (
+export const calculateProxyAddress = async (
   moduleFactory: Contract,
   mastercopyAddress: string,
   initData: string,
   saltNonce: string
-): string => {
+): Promise<string> => {
   const mastercopyAddressFormatted = mastercopyAddress
     .toLowerCase()
     .replace(/^0x/, "");
@@ -150,15 +164,15 @@ export const calculateProxyAddress = (
     mastercopyAddressFormatted +
     "5af43d82803e903d91602b57fd5bf3";
 
-  const salt = ethers.utils.solidityKeccak256(
+  const salt = solidityPackedKeccak256(
     ["bytes32", "uint256"],
-    [ethers.utils.solidityKeccak256(["bytes"], [initData]), saltNonce]
+    [solidityPackedKeccak256(["bytes"], [initData]), saltNonce]
   );
 
-  return ethers.utils.getCreate2Address(
-    moduleFactory.address,
+  return getCreate2Address(
+    await moduleFactory.getAddress(),
     salt,
-    ethers.utils.keccak256(byteCode)
+    keccak256(byteCode)
   );
 };
 

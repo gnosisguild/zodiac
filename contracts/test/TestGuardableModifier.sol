@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: LGPL-3.0-only
-
-/// @title Modifier Interface - A contract that sits between a Module and an Avatar and enforce some additional logic.
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../core/Modifier.sol";
+import "../core/GuardableModifier.sol";
 
-contract TestModifier is Modifier {
+contract TestGuardableModifier is GuardableModifier {
   event Executed(
     address to,
     uint256 value,
@@ -68,18 +66,14 @@ contract TestModifier is Modifier {
   }
 
   function setUp(bytes memory initializeParams) public override initializer {
+    setupModules();
+    __Ownable_init(msg.sender);
     (address _avatar, address _target) = abi.decode(
       initializeParams,
       (address, address)
     );
-    setupModules();
-    _transferOwnership(msg.sender);
     avatar = _avatar;
     target = _target;
-  }
-
-  function exposeSentOrSignedByModule() external view returns (address) {
-    return sentOrSignedByModule();
   }
 
   function attemptToSetupModules() public {

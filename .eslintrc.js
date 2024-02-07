@@ -33,13 +33,27 @@ module.exports = {
     "import/order": [
       "error",
       {
-        groups: [["builtin", "external"]],
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+        ],
         alphabetize: {
           order: "asc",
         },
+        "newlines-between": "always",
       },
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { ignoreRestSiblings: true },
+    ],
   },
 };

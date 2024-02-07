@@ -21,72 +21,8 @@
     "type": "constructor"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "module",
-        "type": "address"
-      }
-    ],
-    "name": "AlreadyDisabledModule",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "module",
-        "type": "address"
-      }
-    ],
-    "name": "AlreadyEnabledModule",
-    "type": "error"
-  },
-  {
     "inputs": [],
     "name": "ArraysDifferentLength",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "CalldataOutOfBounds",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "enum PermissionChecker.Status",
-        "name": "status",
-        "type": "uint8"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "info",
-        "type": "bytes32"
-      }
-    ],
-    "name": "ConditionViolation",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "FunctionSignatureTooShort",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "module",
-        "type": "address"
-      }
-    ],
-    "name": "InvalidModule",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "MalformedMultiEntrypoint",
     "type": "error"
   },
   {
@@ -100,92 +36,9 @@
     "type": "error"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "NotAuthorized",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "guard_",
-        "type": "address"
-      }
-    ],
-    "name": "NotIERC165Compliant",
-    "type": "error"
-  },
-  {
     "inputs": [],
-    "name": "SetupModulesAlreadyCalled",
+    "name": "SetUpModulesAlreadyCalled",
     "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UnsuitableMaxBalanceForAllowance",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      },
-      {
-        "indexed": false,
-        "internalType": "enum ExecutionOptions",
-        "name": "options",
-        "type": "uint8"
-      }
-    ],
-    "name": "AllowFunction",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "enum ExecutionOptions",
-        "name": "options",
-        "type": "uint8"
-      }
-    ],
-    "name": "AllowTarget",
-    "type": "event"
   },
   {
     "anonymous": false,
@@ -198,9 +51,9 @@
       },
       {
         "indexed": false,
-        "internalType": "bytes32[]",
-        "name": "roleKeys",
-        "type": "bytes32[]"
+        "internalType": "uint16[]",
+        "name": "roles",
+        "type": "uint16[]"
       },
       {
         "indexed": false,
@@ -249,31 +102,6 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "bytes32",
-        "name": "allowanceKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "consumed",
-        "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "newBalance",
-        "type": "uint128"
-      }
-    ],
-    "name": "ConsumeAllowance",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "module",
         "type": "address"
@@ -301,45 +129,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "module",
-        "type": "address"
-      }
-    ],
-    "name": "ExecutionFromModuleFailure",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "module",
-        "type": "address"
-      }
-    ],
-    "name": "ExecutionFromModuleSuccess",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint8",
-        "name": "version",
-        "type": "uint8"
-      }
-    ],
-    "name": "Initialized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -351,50 +140,6 @@
       }
     ],
     "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      }
-    ],
-    "name": "RevokeFunction",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      }
-    ],
-    "name": "RevokeTarget",
     "type": "event"
   },
   {
@@ -433,136 +178,15 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint8",
-            "name": "parent",
-            "type": "uint8"
-          },
-          {
-            "internalType": "enum ParameterType",
-            "name": "paramType",
-            "type": "uint8"
-          },
-          {
-            "internalType": "enum Operator",
-            "name": "operator",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes",
-            "name": "compValue",
-            "type": "bytes"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct ConditionFlat[]",
-        "name": "conditions",
-        "type": "tuple[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "enum ExecutionOptions",
-        "name": "options",
-        "type": "uint8"
-      }
-    ],
-    "name": "ScopeFunction",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      }
-    ],
-    "name": "ScopeTarget",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "allowanceKey",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "balance",
-        "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "maxBalance",
-        "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint128",
-        "name": "refillAmount",
-        "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "refillInterval",
-        "type": "uint64"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint64",
-        "name": "refillTimestamp",
-        "type": "uint64"
-      }
-    ],
-    "name": "SetAllowance",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "module",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "bytes32",
-        "name": "defaultRoleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "defaultRole",
+        "type": "uint16"
       }
     ],
     "name": "SetDefaultRole",
@@ -574,23 +198,11 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract ITransactionUnwrapper",
-        "name": "adapter",
+        "name": "multisendAddress",
         "type": "address"
       }
     ],
-    "name": "SetUnwrapAdapter",
+    "name": "SetMultisendAddress",
     "type": "event"
   },
   {
@@ -615,37 +227,9 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      },
-      {
-        "internalType": "enum ExecutionOptions",
-        "name": "options",
-        "type": "uint8"
-      }
-    ],
-    "name": "allowFunction",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "address",
@@ -666,53 +250,14 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "allowances",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "refillAmount",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "maxBalance",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint64",
-        "name": "refillInterval",
-        "type": "uint64"
-      },
-      {
-        "internalType": "uint128",
-        "name": "balance",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint64",
-        "name": "refillTimestamp",
-        "type": "uint64"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "module",
         "type": "address"
       },
       {
-        "internalType": "bytes32[]",
-        "name": "roleKeys",
-        "type": "bytes32[]"
+        "internalType": "uint16[]",
+        "name": "_roles",
+        "type": "uint16[]"
       },
       {
         "internalType": "bool[]",
@@ -749,9 +294,9 @@
     "name": "defaultRoles",
     "outputs": [
       {
-        "internalType": "bytes32",
+        "internalType": "uint16",
         "name": "",
-        "type": "bytes32"
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -849,12 +394,12 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "success",
+        "name": "",
         "type": "bool"
       },
       {
         "internalType": "bytes",
-        "name": "returnData",
+        "name": "",
         "type": "bytes"
       }
     ],
@@ -884,9 +429,9 @@
         "type": "uint8"
       },
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "bool",
@@ -928,9 +473,9 @@
         "type": "uint8"
       },
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "bool",
@@ -1030,6 +575,19 @@
   },
   {
     "inputs": [],
+    "name": "multisend",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -1051,32 +609,9 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "targetAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      }
-    ],
-    "name": "revokeFunction",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "address",
@@ -1092,9 +627,9 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "address",
@@ -1103,35 +638,56 @@
       },
       {
         "internalType": "bytes4",
-        "name": "selector",
+        "name": "functionSig",
         "type": "bytes4"
       },
       {
-        "components": [
-          {
-            "internalType": "uint8",
-            "name": "parent",
-            "type": "uint8"
-          },
-          {
-            "internalType": "enum ParameterType",
-            "name": "paramType",
-            "type": "uint8"
-          },
-          {
-            "internalType": "enum Operator",
-            "name": "operator",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes",
-            "name": "compValue",
-            "type": "bytes"
-          }
-        ],
-        "internalType": "struct ConditionFlat[]",
-        "name": "conditions",
-        "type": "tuple[]"
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      }
+    ],
+    "name": "scopeAllowFunction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "bool[]",
+        "name": "isParamScoped",
+        "type": "bool[]"
+      },
+      {
+        "internalType": "enum ParameterType[]",
+        "name": "paramType",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "enum Comparison[]",
+        "name": "paramComp",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "compValue",
+        "type": "bytes[]"
       },
       {
         "internalType": "enum ExecutionOptions",
@@ -1147,9 +703,141 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "enum ExecutionOptions",
+        "name": "options",
+        "type": "uint8"
+      }
+    ],
+    "name": "scopeFunctionExecutionOptions",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paramIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum ParameterType",
+        "name": "paramType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "enum Comparison",
+        "name": "paramComp",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bytes",
+        "name": "compValue",
+        "type": "bytes"
+      }
+    ],
+    "name": "scopeParameter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paramIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum ParameterType",
+        "name": "paramType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "compValues",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "scopeParameterAsOneOf",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "targetAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      }
+    ],
+    "name": "scopeRevokeFunction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       },
       {
         "internalType": "address",
@@ -1158,44 +846,6 @@
       }
     ],
     "name": "scopeTarget",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint128",
-        "name": "balance",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "maxBalance",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "refillAmount",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint64",
-        "name": "refillInterval",
-        "type": "uint64"
-      },
-      {
-        "internalType": "uint64",
-        "name": "refillTimestamp",
-        "type": "uint64"
-      }
-    ],
-    "name": "setAllowance",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1221,9 +871,9 @@
         "type": "address"
       },
       {
-        "internalType": "bytes32",
-        "name": "roleKey",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
       }
     ],
     "name": "setDefaultRole",
@@ -1248,11 +898,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_target",
+        "name": "_multisend",
         "type": "address"
       }
     ],
-    "name": "setTarget",
+    "name": "setMultisend",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1261,21 +911,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes4",
-        "name": "selector",
-        "type": "bytes4"
-      },
-      {
-        "internalType": "contract ITransactionUnwrapper",
-        "name": "adapter",
+        "name": "_target",
         "type": "address"
       }
     ],
-    "name": "setTransactionUnwrapper",
+    "name": "setTarget",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1322,20 +962,29 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "unwrappers",
-    "outputs": [
+        "internalType": "uint16",
+        "name": "role",
+        "type": "uint16"
+      },
       {
-        "internalType": "contract ITransactionUnwrapper",
-        "name": "",
+        "internalType": "address",
+        "name": "targetAddress",
         "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "functionSig",
+        "type": "bytes4"
+      },
+      {
+        "internalType": "uint8",
+        "name": "paramIndex",
+        "type": "uint8"
       }
     ],
-    "stateMutability": "view",
+    "name": "unscopeParameter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
