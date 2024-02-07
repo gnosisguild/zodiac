@@ -53,8 +53,8 @@ export enum SupportedNetworks {
   HardhatNetwork = 31337,
   LineaGoerli = 59140,
   Sepolia = 11155111,
-  CoreTestnet = 1115,
-  Core = 1116,
+  CoreTestnet = 1115, // limited to UMA oSnap support (OPTIMISTIC_GOVERNOR)
+  Core = 1116, // // limited to UMA oSnap support (OPTIMISTIC_GOVERNOR)
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
