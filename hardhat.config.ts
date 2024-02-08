@@ -110,6 +110,14 @@ export default {
       ...sharedNetworkConfig,
       url: `https://linea-goerli.infura.io/v3/${INFURA_KEY}`,
     },
+    core: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.coredao.org",
+    },
+    coreTestnet: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.test.btcs.network",
+    },
   },
   namedAccounts: {
     deployer: 0,
@@ -119,5 +127,23 @@ export default {
   },
   etherscan: {
     apiKey: ETHERSCAN_API_KEY,
+    customChains: [
+      {
+        network: "coreTestnet",
+        chainId: 1115,
+        urls: {
+          apiURL: "https://api.test.btcs.network/api",
+          browserURL: "https://scan.test.btcs.network/",
+        },
+      },
+      {
+        network: "core",
+        chainId: 1116,
+        urls: {
+          apiURL: "https://openapi.coredao.org/api",
+          browserURL: "https://scan.coredao.org/",
+        },
+      },
+    ],
   },
 };
