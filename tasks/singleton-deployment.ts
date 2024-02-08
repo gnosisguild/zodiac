@@ -16,7 +16,7 @@ export const deploy = async (_: unknown, hre: HardhatRuntimeEnvironment) => {
   }
 
   const [deployer] = await hre.ethers.getSigners();
-  await deployModuleFactory(hre.ethers.provider.getSigner(deployer.address));
+  await deployModuleFactory(await hre.ethers.provider.getSigner(deployer.address));
 };
 
 task(
