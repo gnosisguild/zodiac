@@ -106,7 +106,7 @@ export const deployMastercopyWithInitData = async (
   const initCodeHash = keccak256(initCode);
 
   const computedTargetAddress = getCreate2Address(
-    await singletonFactory.address(),
+    await singletonFactory.getAddress(),
     salt,
     initCodeHash
   );

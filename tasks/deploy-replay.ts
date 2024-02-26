@@ -17,7 +17,7 @@ export const deploy = async (_: unknown, hre: HardhatRuntimeEnvironment) => {
   console.log(`\n\x1B[4m\x1B[1m${hre.network.name}\x1B[0m`);
 
   const [deployer] = await hre.ethers.getSigners();
-  const signer = hre.ethers.provider.getSigner(deployer.address);
+  const signer = await hre.ethers.provider.getSigner(deployer.address);
   for (let index = 0; index < contracts.length; index++) {
     const initData: InitData | undefined = MasterCopyInitData[contracts[index]];
 

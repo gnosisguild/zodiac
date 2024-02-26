@@ -33,10 +33,12 @@ export const getSingletonFactory = async (
       "Singleton factory is not deployed on this chain. Deploying singleton factory..."
     );
     // fund the singleton factory deployer account
-    await signer.sendTransaction({
-      to: singletonDeployer,
-      value: parseEther("0.0247"),
-    });
+    await (
+      await signer.sendTransaction({
+        to: singletonDeployer,
+        value: parseEther("0.0247"),
+      })
+    ).wait();
 
     // deploy the singleton factory
     await (

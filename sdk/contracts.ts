@@ -53,6 +53,8 @@ export enum SupportedNetworks {
   HardhatNetwork = 31337,
   LineaGoerli = 59140,
   Sepolia = 11155111,
+  CoreTestnet = 1115,
+  Core = 1116,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -215,6 +217,18 @@ export const ContractVersions: Record<
   },
   [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
   [SupportedNetworks.Sepolia]: CanonicalAddresses,
+  [SupportedNetworks.CoreTestnet]: {
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0xD43463Fadd73373bE260b67F5825274F4403dAF0",
+    },
+  },
+  [SupportedNetworks.Core]: {
+    ...CanonicalAddresses,
+    [KnownContracts.OPTIMISTIC_GOVERNOR]: {
+      "1.2.0": "0x596Fd6A5A185c67aBD1c845b39f593fBA9C233aa",
+    },
+  },
 };
 
 /** Addresses of the head versions of all contracts */
