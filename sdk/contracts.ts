@@ -216,7 +216,12 @@ export const ContractVersions: Record<
     },
   },
   [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
-  [SupportedNetworks.Sepolia]: CanonicalAddresses,
+  [SupportedNetworks.Sepolia]: {
+    ...CanonicalAddresses,
+    [KnownContracts.TELLOR]: {
+      "2.1.0": "0x5F05cd402BF4017970fe390D43B20C3dC3832CD9",
+    },
+  },
   [SupportedNetworks.CoreTestnet]: {
     ...CanonicalAddresses,
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
