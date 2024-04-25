@@ -118,6 +118,10 @@ export default {
       ...sharedNetworkConfig,
       url: "https://rpc.test.btcs.network",
     },
+    base: {
+      ...sharedNetworkConfig,
+      url: "https://mainnet.base.org",
+    }
   },
   namedAccounts: {
     deployer: 0,
@@ -142,6 +146,14 @@ export default {
         urls: {
           apiURL: "https://openapi.coredao.org/api",
           browserURL: "https://scan.coredao.org/",
+        },
+      },
+      {
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org/",
         },
       },
     ],
