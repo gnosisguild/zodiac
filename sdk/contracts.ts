@@ -55,7 +55,7 @@ export enum SupportedNetworks {
   Sepolia = 11155111,
   CoreTestnet = 1115,
   Core = 1116,
-  Base = 8453
+  Base = 8453,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -221,6 +221,7 @@ export const ContractVersions: Record<
     ...CanonicalAddresses,
     [KnownContracts.TELLOR]: {
       "2.1.0": "0x5F05cd402BF4017970fe390D43B20C3dC3832CD9",
+    },
     [KnownContracts.OPTIMISTIC_GOVERNOR]: {
       "1.2.0": "0x40153DdFAd90C49dbE3F5c9F96f2a5B25ec67461",
     },
