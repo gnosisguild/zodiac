@@ -110,6 +110,11 @@ export default {
       ...sharedNetworkConfig,
       url: `https://linea-goerli.infura.io/v3/${INFURA_KEY}`,
     },
+    linea: {
+      ...sharedNetworkConfig,
+      // url: `https://linea.infura.io/v3/${INFURA_KEY}`,
+      url: "https://rpc.linea.build",
+    },
     core: {
       ...sharedNetworkConfig,
       url: "https://rpc.coredao.org",
@@ -121,7 +126,7 @@ export default {
     base: {
       ...sharedNetworkConfig,
       url: "https://mainnet.base.org",
-    }
+    },
   },
   namedAccounts: {
     deployer: 0,
@@ -154,6 +159,14 @@ export default {
         urls: {
           apiURL: "https://api.basescan.org/api",
           browserURL: "https://basescan.org/",
+        },
+      },
+      {
+        network: "linea",
+        chainId: 59144,
+        urls: {
+          apiURL: "https://api.lineascan.build/api",
+          browserURL: "https://lineascan.build/",
         },
       },
     ],
