@@ -112,8 +112,7 @@ export default {
     },
     linea: {
       ...sharedNetworkConfig,
-      // url: `https://linea.infura.io/v3/${INFURA_KEY}`,
-      url: "https://rpc.linea.build",
+      url: `https://linea.infura.io/v3/${INFURA_KEY}`,
     },
     core: {
       ...sharedNetworkConfig,
