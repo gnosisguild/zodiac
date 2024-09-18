@@ -51,6 +51,7 @@ export enum SupportedNetworks {
   Avalanche = 43114,
   BinanceSmartChain = 56,
   HardhatNetwork = 31337,
+  Linea = 59144,
   LineaGoerli = 59140,
   Sepolia = 11155111,
   CoreTestnet = 1115,
@@ -216,6 +217,7 @@ export const ContractVersions: Record<
       "1.2.0": "0xEF8b46765ae805537053C59f826C3aD61924Db45",
     },
   },
+  [SupportedNetworks.Linea]: CanonicalAddresses,
   [SupportedNetworks.LineaGoerli]: CanonicalAddresses,
   [SupportedNetworks.Sepolia]: {
     ...CanonicalAddresses,
