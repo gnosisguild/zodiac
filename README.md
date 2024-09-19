@@ -33,7 +33,7 @@ The Zodiac open standard consists of Avatars, Modules, Modifiers, and Guards arc
 ### Installation
 
 ```bash
-yarn add @gnosis.pm/zodiac
+yarn add @gnosis-guild/zodiac
 ```
 
 ### Usage
@@ -43,11 +43,12 @@ Once installed, you can use the contracts in the library by importing them to yo
 ```solidity
 pragma solidity ^0.8.6;
 
-import "@gnosis.pm/zodiac/contracts/core/Module.sol";
+import "@gnosis-guild/zodiac/contracts/core/Module.sol";
 
 contract MyModule is Module {
   /// insert your code here
 }
+
 ```
 
 ### Zodiac compliant tools
