@@ -46,11 +46,11 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@gnosis.pm'
+          scope: "@gnosis-guild"
       - run: yarn
       - run: yarn build
       - run: yarn build:sdk
-      - run: echo registry=https://npm.pkg.github.com/gnosis.pm >> .npmrc
+      - run: echo registry=https://npm.pkg.github.com/gnosis-guild >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUBLISH_GITHUB_TOKEN}}
