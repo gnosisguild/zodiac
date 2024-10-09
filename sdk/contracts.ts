@@ -47,6 +47,7 @@ export enum SupportedNetworks {
   ArbitrumOne = 42161,
   Optimism = 10,
   Polygon = 137,
+  ZkEvm = 1101,
   Mumbai = 80001, // not supported yet
   Avalanche = 43114,
   BinanceSmartChain = 56,
@@ -196,6 +197,7 @@ export const ContractVersions: Record<
       "1.2.0": "0x3Cc4b597E9c3f51288c6Cd0c087DC14c3FfdD966",
     },
   },
+  [SupportedNetworks.ZkEvm]: CanonicalAddresses,
   [SupportedNetworks.HardhatNetwork]: CanonicalAddresses,
   [SupportedNetworks.Mumbai]: CanonicalAddresses,
   [SupportedNetworks.ArbitrumOne]: {
