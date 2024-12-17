@@ -10,7 +10,7 @@ A composable design philosophy for DAOs, [Zodiac](https://gnosisguild.mirror.xyz
 
 The Zodiac collection of tools can be accessed through the Zodiac App available on [Safe](https://safe.global/), as well as through the repositories below. If you have any questions about Zodiac, join the [Gnosis Guild Discord](https://discord.gnosisguild.org).
 
-This repository links to technical tutorials on how to configure each using the CLI. (For operator tutorials, visit [zodiac.wiki](https://zodiac.wiki/index.php?title=Category:Documentation).)
+This repository links to technical tutorials on how to configure each using the CLI. (For operator tutorials, visit [zodiac.wiki](https://zodiac.wiki/documentation).)
 
 Zodiac enables:
 
