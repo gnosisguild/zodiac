@@ -1,6 +1,8 @@
 name: Version release
 
-on: [push]
+on:
+  release:
+    types: [created]
 
 jobs:
   publish-npm:
