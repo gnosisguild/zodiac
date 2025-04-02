@@ -126,6 +126,30 @@ export default {
       ...sharedNetworkConfig,
       url: "https://mainnet.base.org",
     },
+    baseSepolia: {
+      ...sharedNetworkConfig,
+      url: "https://sepolia.base.org",
+    },
+    berachain: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.berachain.com",
+    },
+    sonic: {
+      ...sharedNetworkConfig,
+      url: "'https://rpc.soniclabs.com'",
+    },
+    celo: {
+      ...sharedNetworkConfig,
+      url: "https://forno.celo.org",
+    },
+    zkEvm: {
+      ...sharedNetworkConfig,
+      url: "https://zkevm-rpc.com",
+    },
+    mantle: {
+      ...sharedNetworkConfig,
+      url: "https://rpc.mantle.xyz",
+    },
   },
   namedAccounts: {
     deployer: 0,

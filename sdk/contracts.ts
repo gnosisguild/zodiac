@@ -47,6 +47,7 @@ export enum SupportedNetworks {
   ArbitrumOne = 42161,
   Optimism = 10,
   Polygon = 137,
+  ZkEvm = 1101,
   Mumbai = 80001, // not supported yet
   Avalanche = 43114,
   BinanceSmartChain = 56,
@@ -57,6 +58,11 @@ export enum SupportedNetworks {
   CoreTestnet = 1115,
   Core = 1116,
   Base = 8453,
+  BaseSepolia = 84532,
+  // Mantle = 5000,
+  Berachain = 80094,
+  Sonic = 146,
+  Celo = 42220,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -196,6 +202,7 @@ export const ContractVersions: Record<
       "1.2.0": "0x3Cc4b597E9c3f51288c6Cd0c087DC14c3FfdD966",
     },
   },
+  [SupportedNetworks.ZkEvm]: CanonicalAddresses,
   [SupportedNetworks.HardhatNetwork]: CanonicalAddresses,
   [SupportedNetworks.Mumbai]: CanonicalAddresses,
   [SupportedNetworks.ArbitrumOne]: {
@@ -246,6 +253,10 @@ export const ContractVersions: Record<
       "1.2.0": "0x80bCA2E1c272239AdFDCdc87779BC8Af6E12e633",
     },
   },
+  [SupportedNetworks.BaseSepolia]: CanonicalAddresses,
+  [SupportedNetworks.Berachain]: CanonicalAddresses,
+  [SupportedNetworks.Sonic]: CanonicalAddresses,
+  [SupportedNetworks.Celo]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */
