@@ -1,8 +1,6 @@
 name: Version release
 
-on:
-  release:
-    types: [created]
+on: [push]
 
 jobs:
   build:
@@ -28,29 +26,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn build
-      - run: yarn build:sdk
-      - run: yarn release
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
+          node-version: 22
+          registry-url: https://registry.npmjs.org
           scope: "@gnosis-guild"
       - run: yarn
       - run: yarn build
       - run: yarn build:sdk
-      - run: echo registry=https://npm.pkg.github.com/gnosis-guild >> .npmrc
-      - run: npm publish
+      - run: npm publish --access public --non-interactive
         env:
-          NODE_AUTH_TOKEN: ${{secrets.PUBLISH_GITHUB_TOKEN}}
+          NPM_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
