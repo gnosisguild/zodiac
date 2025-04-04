@@ -90,6 +90,7 @@ const CanonicalAddresses: Record<
   [KnownContracts.DELAY]: {
     "1.0.0": "0xD62129BF40CD1694b3d9D9847367783a1A4d5cB4",
     "1.0.1": "0xd54895B1121A2eE3f37b502F507631FA1331BED6",
+    "1.1.0"" "0x01F8cabB808D7dE0dF4202D4B60C8310d2f1339b",
   },
   [KnownContracts.FACTORY]: {
     "1.0.0": "0x00000000062c52e29e8029dc2413172f6d619d85",
