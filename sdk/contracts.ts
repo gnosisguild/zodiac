@@ -59,10 +59,25 @@ export enum SupportedNetworks {
   Core = 1116,
   Base = 8453,
   BaseSepolia = 84532,
-  // Mantle = 5000,
+  Mantle = 5000,
   Berachain = 80094,
   Sonic = 146,
   Celo = 42220,
+  Bob = 60808,
+  HyperEvm = 999,
+
+  WorldChain = 480,
+  Flare = 14,
+  Ink = 57073,
+  Hemi = 43111,
+  Katana = 747474,
+  Lens = 232,
+  Peaq = 3338,
+  Unichain = 130,
+  ZkSync = 324,
+  Scroll = 534352,
+  Aurora = 1313161554,
+  GnosisChiado = 10200,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -258,6 +273,21 @@ export const ContractVersions: Record<
   [SupportedNetworks.Berachain]: CanonicalAddresses,
   [SupportedNetworks.Sonic]: CanonicalAddresses,
   [SupportedNetworks.Celo]: CanonicalAddresses,
+  [SupportedNetworks.Mantle]: CanonicalAddresses,
+  [SupportedNetworks.Bob]: CanonicalAddresses,
+  [SupportedNetworks.HyperEvm]: CanonicalAddresses,
+  [SupportedNetworks.Flare]: CanonicalAddresses,
+  [SupportedNetworks.Ink]: CanonicalAddresses,
+  [SupportedNetworks.WorldChain]: CanonicalAddresses,
+  [SupportedNetworks.Hemi]: CanonicalAddresses,
+  [SupportedNetworks.Katana]: CanonicalAddresses,
+  [SupportedNetworks.Lens]: CanonicalAddresses,
+  [SupportedNetworks.Peaq]: CanonicalAddresses,
+  [SupportedNetworks.Unichain]: CanonicalAddresses,
+  [SupportedNetworks.ZkSync]: CanonicalAddresses,
+  [SupportedNetworks.Scroll]: CanonicalAddresses,
+  [SupportedNetworks.Aurora]: CanonicalAddresses,
+  [SupportedNetworks.GnosisChiado]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */
