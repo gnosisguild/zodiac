@@ -46,7 +46,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@gnosis.pm'
+          scope: "@gnosis.pm"
       - run: yarn
       - run: yarn build
       - run: yarn build:sdk

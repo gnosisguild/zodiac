@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: 'enhancement'
-assignees: 'auryn-macmillan'
-
+title: ""
+labels: "enhancement"
+assignees: "auryn-macmillan"
 ---
 
 **Is your feature request related to a problem? Please describe.**

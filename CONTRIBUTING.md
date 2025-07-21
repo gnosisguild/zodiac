@@ -45,6 +45,7 @@ PRs are always welcome and can be a quick way to get your fix or improvement sla
 For changes that address core functionality or would require breaking changes (e.g. a major release), it's best to open an Issue to discuss your proposal first. This is not required but can save time creating and reviewing changes.
 
 Before being merged into `main`/`master`, PRs that touch any solidity files MUST include:
+
 1. 100% test coverage.
 2. Singleton deployment to all supported networks (if the resulting bytecode changes).
 3. An audit from a reputable auditor (if any security relevant solidity code changes).

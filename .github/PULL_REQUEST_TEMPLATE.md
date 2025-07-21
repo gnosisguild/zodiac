@@ -6,15 +6,15 @@ Please choose one of the below templates for your PR, feel free to delete any re
 
 ### Feature Request
 
-*Link to any corresponding issue(s) describing the feature request(s).*
+_Link to any corresponding issue(s) describing the feature request(s)._
 
 ### Implementation
 
-*A concise description of the implementation(s).*
+_A concise description of the implementation(s)._
 
 ### Additional Context
 
-*Add any other context about the implementation(s) here.*
+_Add any other context about the implementation(s) here._
 
 ---
 
@@ -22,15 +22,15 @@ Please choose one of the below templates for your PR, feel free to delete any re
 
 ### Bug Report
 
-*Link to any corresponding issue(s) describing the bug(s).*
+_Link to any corresponding issue(s) describing the bug(s)._
 
 ### Implementation
 
-*A concise description of the implemented solution(s) to the reported bug(s).*
+_A concise description of the implemented solution(s) to the reported bug(s)._
 
 ### Additional Context
 
-*Add any other context about the implementation here.*
+_Add any other context about the implementation here._
 
 ---
 
@@ -38,19 +38,19 @@ Please choose one of the below templates for your PR, feel free to delete any re
 
 ### Title
 
-*What is your module called?*
+_What is your module called?_
 
 ### Description
 
-*A brief description of what your module does.*
+_A brief description of what your module does._
 
 ### Audit
 
-*Link to an audit of your module's code, performed be a reputable auditor.*
+_Link to an audit of your module's code, performed be a reputable auditor._
 
 ### Checklist
 
-*Prior to being merged, this PR must meet the following requirements.*
+_Prior to being merged, this PR must meet the following requirements._
 
 This PR:
 
