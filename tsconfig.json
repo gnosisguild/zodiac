@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2020",
+    "target": "esnext",
     "typeRoots": ["node_modules/@types", "typings"]
   },
   "include": ["hardhat.config.ts", "sdk", "tasks", "test"]
