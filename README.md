@@ -1,6 +1,6 @@
 # Zodiac: The expansion pack for DAOs
 
-[![Build Status](https://github.com/gnosisguild/zodiac/workflows/zodiac/badge.svg?branch=master)](https://github.com/gnosisguild/zodiac/actions?branch=master)
+[![Build Status](https://github.com/gnosisguild/zodiac/actions/workflows/ci.yml/badge.svg)](https://github.com/gnosisguild/zodiac/actions?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/zodiac/badge.svg?branch=master)](https://coveralls.io/github/gnosisguild/zodiac?branch=master)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/gnosisguild/CODE_OF_CONDUCT)
 
