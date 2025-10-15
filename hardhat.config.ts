@@ -150,6 +150,10 @@ export default {
       ...sharedNetworkConfig,
       url: "https://rpc.mantle.xyz",
     },
+    plasmaTestnet: {
+      ...sharedNetworkConfig,
+      url: "https://testnet-rpc.plasma.to",
+    }
   },
   namedAccounts: {
     deployer: 0,
@@ -183,6 +187,14 @@ export default {
           apiURL: "https://api.basescan.org/api",
           browserURL: "https://basescan.org/",
         },
+      },
+      {
+        network: "plasmaTestnet",
+        chainId: 9746,
+        urls: {
+          apiURL: "https://testnet.plasmascan.to/api",
+          browserURL: "https://testnet.plasmascan.to/"
+        }
       },
       {
         network: "linea",

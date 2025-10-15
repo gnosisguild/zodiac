@@ -78,6 +78,7 @@ export enum SupportedNetworks {
   Scroll = 534352,
   Aurora = 1313161554,
   GnosisChiado = 10200,
+  PlasmaTestnet = 9746,
 }
 
 // const canonicalMasterCopyAddress = (contract: KnownContracts) => {
@@ -288,6 +289,7 @@ export const ContractVersions: Record<
   [SupportedNetworks.Scroll]: CanonicalAddresses,
   [SupportedNetworks.Aurora]: CanonicalAddresses,
   [SupportedNetworks.GnosisChiado]: CanonicalAddresses,
+  [SupportedNetworks.PlasmaTestnet]: CanonicalAddresses,
 };
 
 /** Addresses of the head versions of all contracts */
