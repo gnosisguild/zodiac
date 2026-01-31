@@ -67,6 +67,7 @@ contract MyModule is Module {
 - **[Safe Minion](https://github.com/HausDAO/MinionSummonerV2/blob/main/contracts/SafeMinion.sol)** (developed by [DAOHaus](https://daohaus.club)): This module allows Moloch DAOs to manage the assets in a Safe based on the outcome of v2 Moloch DAO proposals. Safe Minion enables Moloch DAOs to manage collections of NFTs, manage LP positions with AMMs, and initiate any other arbitrary interactions. It enables DAOs that start as a Safe to later delegate governance to a Moloch DAO.
 - **[Tellor](https://github.com/tellor-io/snapshot-zodiac-module)** (developed by [Tellor](https://tellor.io)): This module allows on-chain executions based on Snapshot proposal results, it uses the Tellor oracle to retrieve the data in a secure and decentralized manner.
 - **[Usul](https://github.com/SekerDAO/Usul)** (developed by [SekerDAO](https://github.com/SekerDAO)): This module allows avatars to operate with trustless tokenized DeGov, similar to Compound or Gitcoin, with a time-boxed proposal core that can register swappable voting contracts. This enables DAOs to choose from various on-chain voting methods that best suit their needs.
+- **[Snapshot X](https://github.com/snapshot-labs/sx-evm/blob/main/src/execution-strategies/AvatarExecutionStrategy.sol)** (developed by [Snapshot Labs](https://x.com/SnapshotLabs)): This module allows Snapshot X governance proposals to execute transactions on a Safe once they pass and meet the quorum threshold.
 
 #### Modifiers
 
