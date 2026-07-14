@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, rmSync, writeFileSync } from "fs";
 import path from "path";
 import { cwd } from "process";
 
@@ -18,7 +18,7 @@ export function defaultMastercopiesDir(): string {
 }
 
 /**
- * Write one asset's three files, creating directories as needed.
+ * Write one asset's files, creating directories as needed.
  * Returns the asset directory.
  */
 export function writeAsset({
@@ -45,11 +45,19 @@ export function writeAsset({
     JSON.stringify(asset.sourceCode, null, 2),
     "utf8"
   );
-  writeFileSync(
-    path.join(dir, "bytecode.json"),
-    JSON.stringify(asset.bytecode, null, 2),
-    "utf8"
-  );
+  const bytecodePath = path.join(dir, "bytecode.json");
+
+  // Partial assets (no recoverable deployment) carry no bytecode.json. Remove
+  // an older copy in case this directory is being overwritten in place.
+  if (asset.bytecode) {
+    writeFileSync(
+      bytecodePath,
+      JSON.stringify(asset.bytecode, null, 2),
+      "utf8"
+    );
+  } else {
+    rmSync(bytecodePath, { force: true });
+  }
 
   return dir;
 }

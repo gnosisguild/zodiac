@@ -142,10 +142,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.28.1.tgz#10064ee44f4347b90c9a02b446bbf80a91632b12"
   integrity sha512-bm4Mowrv+GXMlpWX++EcXw/iLyd1o3+bJkC2DkWXYVvgZCqD/bSj9ctZeAMC3cIxgjRVR2Dufaiu4YPxr5gW1A==
 
-"@gnosis-guild/zodiac-core@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@gnosis-guild/zodiac-core/-/zodiac-core-4.1.0.tgz#73636ded240b075d17815da531554539032e00f7"
-  integrity sha512-xs0dAZTM9pUmbWQSyRCS7BdkyGIsn7BeeTsy+b6QyQjJcnuDnnrRBFyWp8sHoccmVbawGZSie1Cg+l4X2luA2g==
+"@gnosis-guild/zodiac-core@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@gnosis-guild/zodiac-core/-/zodiac-core-4.3.0.tgz#07ca04e4bf960cb7f50322c431c44d6fe3768e4e"
+  integrity sha512-ZDhJopoC6v/4RL5/WNHK9l/fy4jEdltoVWftIAshDurI4B8PdsDxwvOmeDDuU7oX8xmxhaUcQUVpVmB0SWycpw==
   dependencies:
     ethers "6.16.0"
 

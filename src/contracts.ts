@@ -22,8 +22,6 @@ export enum KnownContracts {
   SCOPE_GUARD = "scopeGuard",
   FACTORY = "factory",
   ROLES = "roles",
-  ROLES_V1 = "roles",
-  ROLES_V2 = "roles",
   OZ_GOVERNOR = "ozGovernor",
   ERC20_VOTES = "erc20Votes",
   ERC721_VOTES = "erc721Votes",

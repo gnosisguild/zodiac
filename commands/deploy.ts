@@ -60,8 +60,9 @@ const knownContractNames = Object.values(KnownContracts);
 const useFrame = isTruthy(process.env.DEPLOY_VIA_FRAME);
 
 function isTruthy(value: string | undefined): boolean {
-  return value !== undefined && ["1", "true", "yes", "on"].includes(
-    value.toLowerCase()
+  return (
+    value !== undefined &&
+    ["1", "true", "yes", "on"].includes(value.toLowerCase())
   );
 }
 
@@ -296,7 +297,10 @@ async function deployTarget({
   let signer: Signer;
   let disposeSigner: (() => void) | undefined;
   try {
-    ({ signer, dispose: disposeSigner } = await createSigner(network, provider));
+    ({ signer, dispose: disposeSigner } = await createSigner(
+      network,
+      provider
+    ));
   } catch (error) {
     provider.destroy();
     return failedDeployment({

@@ -9,7 +9,7 @@ import {
   getTransaction,
 } from "./explorer.js";
 import { recoverDeployment } from "./singleton.js";
-import { Asset } from "./types.js";
+import { Asset, BytecodeFile } from "./types.js";
 
 /**
  * Enumerate the libraries a contract links, from its standard-JSON compiler
@@ -30,6 +30,17 @@ function enumerateLibraries(
   return out;
 }
 
+export interface ExtractResult {
+  /** Every asset produced, keyed by lower-cased address. */
+  assets: Map<string, Asset>;
+  /**
+   * What couldn't be resolved (deployment metadata, a linked library, …).
+   * Empty when the extraction is complete. When non-empty, some assets are
+   * partial: ABI + source only, no `bytecode`.
+   */
+  errors: string[];
+}
+
 /**
  * Extract an asset (and, recursively, every library it links) from a block
  * explorer.
@@ -37,7 +48,13 @@ function enumerateLibraries(
  * Recursion is depth-first and deduplicated by address, so a library shared by
  * several contracts is fetched once.
  *
- * @returns every asset produced, keyed by lower-cased address.
+ * An asset is recorded as soon as its ABI and source are in hand. Failures in
+ * later steps — deployment-metadata recovery, linked libraries — degrade the
+ * result to a partial asset (reported via `errors`) instead of discarding
+ * everything. Only an unverified root contract throws.
+ *
+ * @returns every asset produced, keyed by lower-cased address, plus the
+ * errors that left any of them partial.
  */
 export async function extract({
   network,
@@ -47,16 +64,18 @@ export async function extract({
   network: string | number;
   address: string;
   apiKey?: string;
-}): Promise<Map<string, Asset>> {
+}): Promise<ExtractResult> {
   const net = resolveNetwork(network);
   const visited = new Map<string, Asset>();
+  const errors: string[] = [];
   await extractOne({
     address,
     networkName: net.name,
     apiKey,
     visited,
+    errors,
   });
-  return visited;
+  return { assets: visited, errors };
 }
 
 async function extractOne({
@@ -65,12 +84,14 @@ async function extractOne({
   networkName,
   apiKey,
   visited,
+  errors,
 }: {
   address: string;
   nameHint?: string;
   networkName: string;
   apiKey?: string;
   visited: Map<string, Asset>;
+  errors: string[];
 }): Promise<Asset> {
   const key = getAddress(address).toLowerCase();
   const existing = visited.get(key);
@@ -79,6 +100,71 @@ async function extractOne({
   const source = await getSourceCode({ address, network: networkName, apiKey });
   const name = nameHint || source.contractName;
 
+  // Record the asset as soon as ABI and source are in hand — before recursing,
+  // so shared libraries dedupe correctly, and before deployment recovery, so a
+  // failure there yields a partial asset rather than losing the ABI.
+  const asset: Asset = {
+    name,
+    abi: source.abi,
+    sourceCode: {
+      contractName: source.contractName,
+      sourceName: source.sourceName,
+      compilerVersion: source.compilerVersion,
+      constructorArguments: source.constructorArguments,
+      input: source.compilerInput,
+    },
+  };
+  visited.set(key, asset);
+
+  try {
+    asset.bytecode = await recoverBytecodeFile({
+      address,
+      key,
+      name,
+      networkName,
+      apiKey,
+    });
+  } catch (error) {
+    errors.push((error as Error)?.message || String(error));
+  }
+
+  // Recurse into linked libraries.
+  for (const lib of enumerateLibraries(source.compilerInput)) {
+    try {
+      await extractOne({
+        address: lib.address,
+        nameHint: lib.libraryName,
+        networkName,
+        apiKey,
+        visited,
+        errors,
+      });
+    } catch (error) {
+      errors.push(
+        `${lib.libraryName} @ ${lib.address}: ${
+          (error as Error)?.message || String(error)
+        }`
+      );
+    }
+  }
+
+  return asset;
+}
+
+/** Recover the reproducible factory-deployment metadata for an address. */
+async function recoverBytecodeFile({
+  address,
+  key,
+  name,
+  networkName,
+  apiKey,
+}: {
+  address: string;
+  key: string;
+  name: string;
+  networkName: string;
+  apiKey?: string;
+}): Promise<BytecodeFile> {
   const creation = await getContractCreation({
     address,
     network: networkName,
@@ -121,37 +207,11 @@ async function extractOne({
   // Deployed (runtime) bytecode actually stored at the address.
   const bytecode = await getCode({ address, network: networkName, apiKey });
 
-  // Record this asset before recursing so shared libraries dedupe correctly.
-  const asset: Asset = {
-    name,
-    abi: source.abi,
-    sourceCode: {
-      contractName: source.contractName,
-      sourceName: source.sourceName,
-      compilerVersion: source.compilerVersion,
-      constructorArguments: source.constructorArguments,
-      input: source.compilerInput,
-    },
-    bytecode: {
-      address: predicted,
-      factory,
-      salt,
-      creationBytecode,
-      bytecode,
-    },
+  return {
+    address: predicted,
+    factory,
+    salt,
+    creationBytecode,
+    bytecode,
   };
-  visited.set(key, asset);
-
-  // Recurse into linked libraries.
-  for (const lib of enumerateLibraries(source.compilerInput)) {
-    await extractOne({
-      address: lib.address,
-      nameHint: lib.libraryName,
-      networkName,
-      apiKey,
-      visited,
-    });
-  }
-
-  return asset;
 }

@@ -3,7 +3,7 @@ import path from "path";
 
 import { CanonicalAddresses, KnownContracts } from "../src/contracts.js";
 import { defaultMastercopiesDir, writeAsset } from "../src/mastercopies.js";
-import { extract } from "../src/extract.js";
+import { extract, ExtractResult } from "../src/extract.js";
 import { writeAbis } from "./write-abis.js";
 
 /** Networks tried, in order, when none is specified. */
@@ -79,7 +79,7 @@ export async function extractKnown({
     }
   }
 
-  writeAbis({ mastercopiesDir });
+  await writeAbis({ mastercopiesDir });
   console.log("  ✔ ABI exports updated");
 }
 
@@ -119,7 +119,12 @@ function resolveVersions(
   return [version];
 }
 
-/** Extract one target, trying each network until one succeeds. */
+/**
+ * Extract one target, trying each network until one yields a complete result.
+ * If every network only yields a partial result (verified source but no
+ * recoverable factory deployment), the most complete partial is written so at
+ * least the ABI and source make it into the registry.
+ */
 async function extractTarget({
   contractName,
   version,
@@ -137,33 +142,73 @@ async function extractTarget({
   mastercopiesDir: string;
   strict: boolean;
 }): Promise<void> {
-  let foundNonFactoryDeployment = false;
+  let partial: ExtractResult | undefined;
 
   for (const network of networks) {
+    let result: ExtractResult;
     try {
-      const assets = await extract({ network, address, apiKey });
-      for (const asset of assets.values()) {
+      result = await extract({ network, address, apiKey });
+    } catch {
+      // No verified source on this network.
+      continue;
+    }
+
+    if (result.errors.length === 0) {
+      for (const asset of result.assets.values()) {
         writeAsset({ module: contractName, version, asset, mastercopiesDir });
       }
-      console.log(`  ✔ ${contractName}@${version}: ${assets.size} asset(s)`);
+      console.log(
+        `  ✔ ${contractName}@${version}: ${result.assets.size} asset(s)`
+      );
       return;
-    } catch (error) {
-      if (
-        (error as Error)?.message?.includes(
-          "was not deployed via a known singleton factory"
-        )
-      ) {
-        foundNonFactoryDeployment = true;
-      }
-      continue;
+    }
+
+    // Keep the most complete partial result, but continue trying — another
+    // network may hold more of the recoverable factory deployments.
+    if (!partial || isMoreComplete(result, partial, address)) {
+      partial = result;
     }
   }
 
-  const message = foundNonFactoryDeployment
-    ? `${contractName}@${version}: not deployed via a known singleton factory`
-    : `${contractName}@${version}: could not find any verified source`;
+  if (partial) {
+    for (const asset of partial.assets.values()) {
+      writeAsset({ module: contractName, version, asset, mastercopiesDir });
+    }
+    console.warn(
+      `  ⚠ ${contractName}@${version}: partial — ${partial.errors.join("; ")}`
+    );
+    return;
+  }
+
+  const message = `${contractName}@${version}: could not find any verified source`;
   if (strict) throw new Error(message);
   console.warn(`  ✘ ${message}`);
+}
+
+/**
+ * Prefer recovery of the root deployment, then the result with more recovered
+ * assets. Use total assets and error count as deterministic tie-breakers.
+ */
+function isMoreComplete(
+  candidate: ExtractResult,
+  current: ExtractResult,
+  rootAddress: string
+): boolean {
+  const rootKey = rootAddress.toLowerCase();
+  const score = (result: ExtractResult): [number, number, number, number] => [
+    result.assets.get(rootKey)?.bytecode ? 1 : 0,
+    [...result.assets.values()].filter((asset) => asset.bytecode).length,
+    result.assets.size,
+    -result.errors.length,
+  ];
+
+  const candidateScore = score(candidate);
+  const currentScore = score(current);
+  return candidateScore.some(
+    (value, index) =>
+      value > currentScore[index] &&
+      candidateScore.slice(0, index).every((v, i) => v === currentScore[i])
+  );
 }
 
 /**

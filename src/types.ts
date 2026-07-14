@@ -36,11 +36,16 @@ export interface BytecodeFile {
   bytecode: string;
 }
 
-/** A single extracted asset: one folder, three files. */
+/** A single extracted asset: one folder, up to three files. */
 export interface Asset {
   /** Folder name: the main contract name or a linked-library name. */
   name: string;
   abi: any;
   sourceCode: SourceCodeFile;
-  bytecode: BytecodeFile;
+  /**
+   * Absent on a partial extraction: the ABI and source were verified but the
+   * deployment couldn't be recovered from a known singleton factory. Such
+   * assets ship `abi.json` and `sourcecode.json` only.
+   */
+  bytecode?: BytecodeFile;
 }

@@ -7,6 +7,7 @@ import {
   writeFileSync,
 } from "fs";
 import path from "path";
+import { format, resolveConfig } from "prettier";
 
 import { CanonicalAddresses, KnownContracts } from "../src/contracts.js";
 import { defaultMastercopiesDir } from "../src/mastercopies.js";
@@ -23,13 +24,13 @@ const sortedDirs = (dir: string) =>
         .map((e) => e.name)
         .sort();
 
-export function writeAbis({
+export async function writeAbis({
   mastercopiesDir = defaultMastercopiesDir(),
   abisDir = DEFAULT_ABIS_DIR,
 }: {
   mastercopiesDir?: string;
   abisDir?: string;
-} = {}): void {
+} = {}): Promise<void> {
   if (!existsSync(mastercopiesDir)) return;
 
   rmSync(abisDir, { recursive: true, force: true });
@@ -69,7 +70,13 @@ export function writeAbis({
     }
   }
 
-  writeFileSync(path.join(abisDir, "index.ts"), renderIndex(registry));
+  const indexPath = path.join(abisDir, "index.ts");
+  const prettierConfig = await resolveConfig(indexPath);
+  const index = await format(renderIndex(registry), {
+    ...prettierConfig,
+    filepath: indexPath,
+  });
+  writeFileSync(indexPath, index);
 }
 
 function findCanonicalAsset({

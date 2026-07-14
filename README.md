@@ -118,16 +118,17 @@ yarn extract [name] [version] [network] [--force]
 Existing folders are skipped unless `--force` is passed, which removes and
 regenerates them. Source is read from `[network]` or, by default, the default
 explorer set. It works entirely through the explorer: it fetches the verified
-source and recovers the exact init code and salt from the deployment
-transaction, so a contract can later reproduce at the same address on every
-chain. Linked libraries are discovered from the compiler input and extracted
-recursively. One folder is written per asset (the main contract and each linked
-library):
+source and tries to recover the exact init code and salt from the deployment
+transaction. When that succeeds, the contract can later reproduce at the same
+address on every chain. If deployment recovery fails, the ABI and source are
+still written, but the asset cannot be redeployed. Linked libraries are
+discovered from the compiler input and extracted recursively. One folder is
+written per asset (the main contract and each linked library):
 
 ```
 mastercopies/<module>/<version>/<asset>/abi.json
 mastercopies/<module>/<version>/<asset>/sourcecode.json   # standard-JSON compiler input
-mastercopies/<module>/<version>/<asset>/bytecode.json     # address, factory, salt, creationBytecode
+mastercopies/<module>/<version>/<asset>/bytecode.json     # optional: address, factory, salt, creationBytecode
 ```
 
 **`deploy`** redeploys those artifacts to their canonical addresses on each
