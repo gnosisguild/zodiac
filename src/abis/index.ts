@@ -21,6 +21,7 @@ import { factory_1_1_0_ABI } from "./factory/1.1.0.js";
 import { factory_1_2_0_ABI } from "./factory/1.2.0.js";
 import { metaGuard_1_0_0_ABI } from "./metaGuard/1.0.0.js";
 import { multisendEncoder_1_0_0_ABI } from "./multisendEncoder/1.0.0.js";
+import { optimisticGovernor_1_2_0_ABI } from "./optimisticGovernor/1.2.0.js";
 import { ozGovernor_1_0_0_ABI } from "./ozGovernor/1.0.0.js";
 import { realityERC20_2_0_0_ABI } from "./realityERC20/2.0.0.js";
 import { realityETH_2_0_0_ABI } from "./realityETH/2.0.0.js";
@@ -29,6 +30,7 @@ import { roles_1_1_0_ABI } from "./roles/1.1.0.js";
 import { roles_2_1_0_ABI } from "./roles/2.1.0.js";
 import { roles_2_1_1_ABI } from "./roles/2.1.1.js";
 import { scopeGuard_1_0_0_ABI } from "./scopeGuard/1.0.0.js";
+import { tellor_2_1_0_ABI } from "./tellor/2.1.0.js";
 
 export const ABIs = {
   bridge: {
@@ -78,6 +80,9 @@ export const ABIs = {
   multisendEncoder: {
     "1.0.0": multisendEncoder_1_0_0_ABI,
   },
+  optimisticGovernor: {
+    "1.2.0": optimisticGovernor_1_2_0_ABI,
+  },
   ozGovernor: {
     "1.0.0": ozGovernor_1_0_0_ABI,
   },
@@ -95,5 +100,8 @@ export const ABIs = {
   },
   scopeGuard: {
     "1.0.0": scopeGuard_1_0_0_ABI,
+  },
+  tellor: {
+    "2.1.0": tellor_2_1_0_ABI,
   },
 } as const;
