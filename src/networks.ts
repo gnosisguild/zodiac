@@ -9,10 +9,17 @@
  *                       not serve the chain. The key is read from `ALCHEMY_KEY`.
  *  - `publicRpc`        public JSON-RPC endpoint, or null when no public
  *                       fallback is configured.
- *  - `etherscanApiUrl`  Etherscan V2 multichain explorer API endpoint (with
- *                       `?chainid=`), or null when the chain is not supported
- *                       by Etherscan V2. V2 support was checked against
- *                       api.etherscan.io/v2/chainlist.
+ *  - `etherscanApiUrl`  explorer API endpoint, or null when none is configured.
+ *                       Most chains use the Etherscan V2 multichain endpoint
+ *                       (with `?chainid=`); chains not on Etherscan V2 get a
+ *                       chain-specific Etherscan-compatible explorer instead —
+ *                       a Blockscout instance (ink, bob) or another
+ *                       Etherscan-family explorer (scrollscan, flarescan).
+ *                       Etherscan V2 support was checked against
+ *                       api.etherscan.io/v2/chainlist. The endpoint serves both
+ *                       reads and contract verification; `eth_*` calls go to the
+ *                       JSON-RPC URL instead (see `rpcUrlFor`), as Blockscout
+ *                       has no Etherscan `proxy` module.
  *
  * Entries are sorted by `chainId`.
  *
@@ -25,11 +32,12 @@ const alchemyKey =
   typeof process !== "undefined" ? (process.env.ALCHEMY_KEY ?? "") : "";
 
 const ETHERSCAN_V2_CHAIN_IDS = new Set([
-  1, 10, 50, 51, 56, 100, 130, 143, 146, 199, 204, 252, 480, 988, 999, 1029,
-  1284, 1285, 1287, 1328, 1329, 2201, 2523, 2741, 4326, 4352, 5000, 5611, 6343,
-  8453, 9745, 9746, 10143, 11124, 33111, 33139, 42161, 42220, 43114, 43522,
-  59144, 80069, 80094, 81457, 167000, 167013, 560048, 737373, 747474, 11155111,
-  168587773,
+  1, 10, 50, 51, 56, 97, 100, 130, 137, 143, 146, 199, 204, 252, 480, 988, 999,
+  1029, 1284, 1285, 1287, 1301, 1328, 1329, 2201, 2523, 2741, 4326, 4352, 4801,
+  5000, 5003, 5611, 6343, 8453, 9745, 9746, 10143, 11124, 14601, 33111, 33139,
+  42161, 42220, 43113, 43114, 43522, 59141, 59144, 80002, 80069, 80094, 81457,
+  84532, 167000, 167013, 421614, 560048, 737373, 747474, 11142220, 11155111,
+  11155420, 168587773,
 ]);
 
 /** Build an Alchemy RPC URL from its endpoint subdomain. */
@@ -41,6 +49,18 @@ const etherscanV2 = (chainId: number): string | null =>
   ETHERSCAN_V2_CHAIN_IDS.has(chainId)
     ? `${ETHERSCAN_V2_API}?chainid=${chainId}`
     : null;
+
+/**
+ * Resolve a JSON-RPC URL for a network: Alchemy when an `ALCHEMY_KEY` is set
+ * and Alchemy serves the chain, otherwise the configured public RPC, otherwise
+ * the Gnosis Guild multichain RPC fallback. Always returns a usable URL.
+ */
+export function rpcUrlFor(network: NetworkConfig): string {
+  if (network.alchemyRpcUrl && (process.env.ALCHEMY_KEY ?? "")) {
+    return network.alchemyRpcUrl;
+  }
+  return network.publicRpc ?? `https://rpc.gnosisguild.org/${network.chainId}`;
+}
 
 export interface NetworkConfig {
   name: string;
@@ -73,7 +93,8 @@ export const networks: NetworkConfig[] = [
     chainId: 14,
     alchemyRpcUrl: null,
     publicRpc: "https://flare-api.flare.network/ext/C/rpc",
-    etherscanApiUrl: null,
+    // Blockscout instance (not on Etherscan V2); public, ignores API key.
+    etherscanApiUrl: "https://flare-explorer.flare.network/api",
   },
   {
     name: "bnb",
@@ -178,7 +199,8 @@ export const networks: NetworkConfig[] = [
     chainId: 57073,
     alchemyRpcUrl: alchemy("ink-mainnet"),
     publicRpc: "https://rpc-gel.inkonchain.com",
-    etherscanApiUrl: null,
+    // Blockscout instance (not on Etherscan V2); public, ignores API key.
+    etherscanApiUrl: "https://explorer.inkonchain.com/api",
   },
   {
     name: "linea",
@@ -192,7 +214,8 @@ export const networks: NetworkConfig[] = [
     chainId: 60808,
     alchemyRpcUrl: null,
     publicRpc: "https://rpc.gobob.xyz",
-    etherscanApiUrl: null,
+    // Blockscout instance (not on Etherscan V2); public, ignores API key.
+    etherscanApiUrl: "https://explorer.gobob.xyz/api",
   },
   {
     name: "berachain",
@@ -206,14 +229,16 @@ export const networks: NetworkConfig[] = [
     chainId: 534352,
     alchemyRpcUrl: alchemy("scroll-mainnet"),
     publicRpc: null,
-    etherscanApiUrl: null,
+    // Etherscan-family explorer (not on Etherscan V2); uses ETHERSCAN_API_KEY.
+    etherscanApiUrl: "https://scrollscan.com/api",
   },
   {
     name: "robinhood",
     chainId: 4663,
     alchemyRpcUrl: alchemy("robinhood-mainnet"),
-    publicRpc: null,
-    etherscanApiUrl: etherscanV2(4663),
+    publicRpc: "https://rpc.mainnet.chain.robinhood.com",
+    // Blockscout instance (not on Etherscan V2); public, ignores API key.
+    etherscanApiUrl: "https://robinhoodchain.blockscout.com/api",
   },
   {
     name: "katana",
@@ -233,8 +258,8 @@ export const networks: NetworkConfig[] = [
 
 /**
  * Resolve a network name or chain id (string or number) to its config. An
- * unknown name throws; an unknown numeric chain id resolves to an Etherscan V2
- * entry only when that chain is listed by Etherscan V2.
+ * unknown name throws; an unknown numeric chain id resolves to a synthetic
+ * entry whose explorer API is Etherscan V2 when supported, otherwise null.
  */
 export function resolveNetwork(
   networkOrChainId: string | number

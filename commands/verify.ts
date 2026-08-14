@@ -3,7 +3,11 @@ import path from "path";
 
 import { getAddress } from "ethers";
 
-import { CanonicalAddresses, KnownContracts } from "../src/contracts.js";
+import {
+  CanonicalAddresses,
+  KnownContracts,
+  latestVersion,
+} from "../src/contracts.js";
 import {
   checkVerificationStatus,
   getCode as getExplorerCode,
@@ -40,33 +44,41 @@ const knownContractNames = Object.values(KnownContracts);
 /**
  * CLI entry for:
  *
- *   zodiac verify <name> [version]
- *   zodiac verify list <name> [version]
+ *   zodiac verify <name> [version] [--all]
+ *   zodiac verify list <name> [version] [--all]
+ *
+ * Without [version] only the latest canonical version is targeted; --all
+ * widens that to every legacy version, too.
  */
 export async function runVerify(args: string[]): Promise<void> {
-  const [subcommand, name, version] = args;
+  const all = args.includes("--all");
+  const [subcommand, name, version] = args.filter((a) => !a.startsWith("-"));
 
   switch (subcommand) {
     case "list": {
       if (!name) {
-        throw new Error("Usage: zodiac verify list <name> [version]");
+        throw new Error("Usage: zodiac verify list <name> [version] [--all]");
       }
-      await listVerifications(name, version);
+      await listVerifications(name, version, all);
       break;
     }
     case undefined:
       throw new Error(
-        "Usage: zodiac verify <name> [version] | zodiac verify list <name> [version]"
+        "Usage: zodiac verify <name> [version] [--all] | zodiac verify list <name> [version] [--all]"
       );
     default:
-      await verifyKnown(subcommand, name);
+      await verifyKnown(subcommand, name, all);
   }
 }
 
-async function verifyKnown(name: string, version?: string): Promise<void> {
+async function verifyKnown(
+  name: string,
+  version?: string,
+  all = false
+): Promise<void> {
   const contractName = resolveName(name);
   const versions = CanonicalAddresses[contractName] || {};
-  const versionKeys = resolveVersions(contractName, versions, version);
+  const versionKeys = resolveVersions(contractName, versions, version, all);
 
   const total = networks.length * versionKeys.length;
   let completed = 0;
@@ -109,11 +121,12 @@ async function verifyKnown(name: string, version?: string): Promise<void> {
 
 async function listVerifications(
   name: string,
-  version?: string
+  version?: string,
+  all = false
 ): Promise<void> {
   const contractName = resolveName(name);
   const versions = CanonicalAddresses[contractName] || {};
-  const versionKeys = resolveVersions(contractName, versions, version);
+  const versionKeys = resolveVersions(contractName, versions, version, all);
 
   const total = networks.length * versionKeys.length;
   let completed = 0;
@@ -167,14 +180,17 @@ function resolveName(name: string): KnownContracts {
 function resolveVersions(
   contractName: KnownContracts,
   versions: Record<string, string>,
-  version?: string
+  version?: string,
+  all = false
 ): string[] {
   const keys = Object.keys(versions);
   if (keys.length === 0) {
     throw new Error(`No versions on record for ${contractName}.`);
   }
 
-  if (version === undefined) return keys;
+  if (version === undefined) {
+    return all ? keys : [latestVersion(keys)];
+  }
 
   if (!keys.includes(version)) {
     throw new Error(

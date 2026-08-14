@@ -174,7 +174,6 @@ async function recoverBytecodeFile({
     ? await getTransaction({
         txHash: creation.txHash,
         network: networkName,
-        apiKey,
       })
     : undefined;
   const recovered = tx && recoverDeployment(tx);
@@ -205,7 +204,7 @@ async function recoverBytecodeFile({
   }
 
   // Deployed (runtime) bytecode actually stored at the address.
-  const bytecode = await getCode({ address, network: networkName, apiKey });
+  const bytecode = await getCode({ address, network: networkName });
 
   return {
     address: predicted,

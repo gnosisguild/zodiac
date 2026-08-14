@@ -1,4 +1,5 @@
-import { resolveNetwork } from "./networks.js";
+import { resolveNetwork, rpcUrlFor } from "./networks.js";
+import { rpcCall } from "./rpc.js";
 
 /**
  * Minimal Etherscan-compatible explorer client.
@@ -128,6 +129,11 @@ function compilerInputFromExplorerEntry(entry: ExplorerEntry): {
   };
 }
 
+/**
+ * Resolve the API key for an explorer request: an explicit key, then a
+ * per-network Etherscan override, then the shared Etherscan key. Blockscout
+ * instances (ink, bob) are public and simply ignore an unrecognized key.
+ */
 function resolveApiKey(network: string, explicit?: string): string {
   return (
     explicit ||
@@ -139,9 +145,19 @@ function resolveApiKey(network: string, explicit?: string): string {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const RATE_LIMIT_ATTEMPTS = 5;
+
+/**
+ * Doubling backoff (3s, 6s, 12s, 24s, 48s — 93s cumulative): public Blockscout
+ * instances rate-limit on a rolling per-minute window, so retries must be able
+ * to outlast a full minute.
+ */
+const rateLimitDelay = (attempt: number) => 3_000 * 2 ** attempt;
+
 function isRateLimited(body: any): boolean {
   const text = `${body?.message ?? ""} ${body?.result ?? ""}`.toLowerCase();
-  return text.includes("rate limit");
+  // "rate limit" is Etherscan phrasing, "too many requests" is Blockscout's.
+  return text.includes("rate limit") || text.includes("too many requests");
 }
 
 /**
@@ -168,13 +184,17 @@ async function explorerGet<T = any>(
   }
 
   const response = await fetch(url);
+  if (response.status === 429 && attempt < RATE_LIMIT_ATTEMPTS) {
+    await sleep(rateLimitDelay(attempt));
+    return explorerGet(networkOrChainId, params, apiKey, attempt + 1);
+  }
   if (!response.ok) {
     throw new Error(`Explorer request failed: ${response.status}`);
   }
 
   const body = (await response.json()) as ExplorerResponse<T>;
-  if (isRateLimited(body) && attempt < 5) {
-    await sleep(1000 * (attempt + 1));
+  if (isRateLimited(body) && attempt < RATE_LIMIT_ATTEMPTS) {
+    await sleep(rateLimitDelay(attempt));
     return explorerGet(networkOrChainId, params, apiKey, attempt + 1);
   }
   return body;
@@ -209,13 +229,17 @@ async function explorerPost<T = any>(
     },
     body,
   });
+  if (response.status === 429 && attempt < RATE_LIMIT_ATTEMPTS) {
+    await sleep(rateLimitDelay(attempt));
+    return explorerPost(networkOrChainId, params, apiKey, attempt + 1);
+  }
   if (!response.ok) {
     throw new Error(`Explorer request failed: ${response.status}`);
   }
 
   const responseBody = (await response.json()) as ExplorerResponse<T>;
-  if (isRateLimited(responseBody) && attempt < 5) {
-    await sleep(1000 * (attempt + 1));
+  if (isRateLimited(responseBody) && attempt < RATE_LIMIT_ATTEMPTS) {
+    await sleep(rateLimitDelay(attempt));
     return explorerPost(networkOrChainId, params, apiKey, attempt + 1);
   }
   return responseBody;
@@ -319,55 +343,47 @@ export async function getContractCreation({
 }
 
 /**
- * Fetch a transaction (input + to) via the explorer's proxy module.
+ * Fetch a transaction (input + to) via JSON-RPC.
+ *
+ * This deliberately uses the network RPC rather than the explorer's `proxy`
+ * module: not every Etherscan-compatible explorer exposes it (Blockscout, for
+ * one, returns "Unknown module").
  */
 export async function getTransaction({
   txHash,
   network,
-  apiKey,
 }: {
   txHash: string;
   network: string | number;
-  apiKey?: string;
 }): Promise<{ to: string | null; input: string } | undefined> {
-  const { result } = await explorerGet(
-    network,
-    {
-      module: "proxy",
-      action: "eth_getTransactionByHash",
-      txhash: txHash,
-    },
-    apiKey
+  const rpcUrl = rpcUrlFor(resolveNetwork(network));
+  const result = await rpcCall<{ to?: string | null; input?: string } | null>(
+    rpcUrl,
+    "eth_getTransactionByHash",
+    [txHash]
   );
 
   if (!result?.input) return undefined;
-  return { to: result.to ?? null, input: result.input as string };
+  return { to: result.to ?? null, input: result.input };
 }
 
 /**
- * Fetch the deployed (runtime) bytecode at an address via the proxy module.
+ * Fetch the deployed (runtime) bytecode at an address via JSON-RPC. See
+ * `getTransaction` for why this does not go through the explorer proxy module.
  */
 export async function getCode({
   address,
   network,
-  apiKey,
 }: {
   address: string;
   network: string | number;
-  apiKey?: string;
 }): Promise<string> {
-  const { result } = await explorerGet(
-    network,
-    {
-      module: "proxy",
-      action: "eth_getCode",
-      address,
-      tag: "latest",
-    },
-    apiKey
-  );
-
-  return (result as string) ?? "0x";
+  const rpcUrl = rpcUrlFor(resolveNetwork(network));
+  const result = await rpcCall<string | null>(rpcUrl, "eth_getCode", [
+    address,
+    "latest",
+  ]);
+  return result ?? "0x";
 }
 
 /**

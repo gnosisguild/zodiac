@@ -23,7 +23,11 @@ const connectProvider = ethProviderImport as unknown as (
   targets?: string | string[]
 ) => FrameProvider;
 
-import { CanonicalAddresses, KnownContracts } from "../src/contracts.js";
+import {
+  CanonicalAddresses,
+  KnownContracts,
+  latestVersion,
+} from "../src/contracts.js";
 import { defaultMastercopiesDir } from "../src/mastercopies.js";
 import { NetworkConfig, networks } from "../src/networks.js";
 import { getCode } from "../src/rpc.js";
@@ -73,33 +77,41 @@ const erc2470Interface = new Interface([
 /**
  * CLI entry for:
  *
- *   zodiac deploy <name> [version]
- *   zodiac deploy list <name> [version]
+ *   zodiac deploy <name> [version] [--all]
+ *   zodiac deploy list <name> [version] [--all]
+ *
+ * Without [version] only the latest canonical version is targeted; --all
+ * widens that to every legacy version, too.
  */
 export async function runDeploy(args: string[]): Promise<void> {
-  const [subcommand, name, version] = args;
+  const all = args.includes("--all");
+  const [subcommand, name, version] = args.filter((a) => !a.startsWith("-"));
 
   switch (subcommand) {
     case "list": {
       if (!name) {
-        throw new Error("Usage: zodiac deploy list <name> [version]");
+        throw new Error("Usage: zodiac deploy list <name> [version] [--all]");
       }
-      await listDeployments(name, version);
+      await listDeployments(name, version, all);
       break;
     }
     case undefined:
       throw new Error(
-        "Usage: zodiac deploy <name> [version] | zodiac deploy list <name> [version]"
+        "Usage: zodiac deploy <name> [version] [--all] | zodiac deploy list <name> [version] [--all]"
       );
     default:
-      await deployKnown(subcommand, name);
+      await deployKnown(subcommand, name, all);
   }
 }
 
-async function deployKnown(name: string, version?: string): Promise<void> {
+async function deployKnown(
+  name: string,
+  version?: string,
+  all = false
+): Promise<void> {
   const contractName = resolveName(name);
   const versions = CanonicalAddresses[contractName] || {};
-  const versionKeys = resolveVersions(contractName, versions, version);
+  const versionKeys = resolveVersions(contractName, versions, version, all);
 
   const total = networks.length * versionKeys.length;
   let completed = 0;
@@ -140,10 +152,14 @@ async function deployKnown(name: string, version?: string): Promise<void> {
   ]);
 }
 
-async function listDeployments(name: string, version?: string): Promise<void> {
+async function listDeployments(
+  name: string,
+  version?: string,
+  all = false
+): Promise<void> {
   const contractName = resolveName(name);
   const versions = CanonicalAddresses[contractName] || {};
-  const versionKeys = resolveVersions(contractName, versions, version);
+  const versionKeys = resolveVersions(contractName, versions, version, all);
 
   const requestVersions = versionKeys.filter((version) => {
     const address = versions[version as keyof typeof versions];
@@ -164,7 +180,9 @@ async function listDeployments(name: string, version?: string): Promise<void> {
         continue;
       }
 
-      cells.push(await checkDeployment(network, address));
+      cells.push(
+        await checkDeployment({ contractName, version, network, address })
+      );
       completed += 1;
       if (total > 0) renderProgress(completed, total);
     }
@@ -198,14 +216,17 @@ function resolveName(name: string): KnownContracts {
 function resolveVersions(
   contractName: KnownContracts,
   versions: Record<string, string>,
-  version?: string
+  version?: string,
+  all = false
 ): string[] {
   const keys = Object.keys(versions);
   if (keys.length === 0) {
     throw new Error(`No versions on record for ${contractName}.`);
   }
 
-  if (version === undefined) return keys;
+  if (version === undefined) {
+    return all ? keys : [latestVersion(keys)];
+  }
 
   if (!keys.includes(version)) {
     throw new Error(
@@ -217,16 +238,33 @@ function resolveVersions(
   return [version];
 }
 
-async function checkDeployment(
-  network: NetworkConfig,
-  address: string
-): Promise<DeploymentCell> {
+async function checkDeployment({
+  contractName,
+  version,
+  network,
+  address,
+}: {
+  contractName: KnownContracts;
+  version: string;
+  network: NetworkConfig;
+  address: string;
+}): Promise<DeploymentCell> {
   const rpcUrl = rpcUrlFor(network);
   if (!rpcUrl) return errorCell();
 
+  // A deployment is only complete when every asset (libraries included) has
+  // code, not just the canonical address.
+  const assets = loadDeployableAssets({ contractName, version, address });
   try {
-    const code = await getCode(rpcUrl, address);
-    return code === "0x" ? missingCell() : deployedCell();
+    if (assets.length === 0) {
+      const code = await getCode(rpcUrl, address);
+      return code === "0x" ? missingCell() : deployedCell();
+    }
+    for (const asset of assets) {
+      const code = await getCode(rpcUrl, asset.bytecode.address);
+      if (code === "0x") return missingCell();
+    }
+    return deployedCell();
   } catch {
     return errorCell();
   }
@@ -253,9 +291,26 @@ async function deployTarget({
     });
   }
 
+  const assets = loadDeployableAssets({ contractName, version, address });
+
+  // A deployment is only complete when every asset (libraries included) has
+  // code — the canonical address alone can exist while a library is missing.
+  const missing: DeployableAsset[] = [];
   try {
-    const currentCode = await getCode(rpcUrl, address);
-    if (currentCode !== "0x") return deployedCell();
+    if (assets.length === 0) {
+      const currentCode = await getCode(rpcUrl, address);
+      if (currentCode !== "0x") return deployedCell();
+      return failedDeployment({
+        contractName,
+        version,
+        network,
+        reason: "no local deployable artifact",
+      });
+    }
+    for (const asset of assets) {
+      const code = await getCode(rpcUrl, asset.bytecode.address);
+      if (code === "0x") missing.push(asset);
+    }
   } catch {
     return failedDeployment({
       contractName,
@@ -265,15 +320,7 @@ async function deployTarget({
     });
   }
 
-  const assets = loadDeployableAssets({ contractName, version, address });
-  if (assets.length === 0) {
-    return failedDeployment({
-      contractName,
-      version,
-      network,
-      reason: "no local deployable artifact",
-    });
-  }
+  if (missing.length === 0) return deployedCell();
 
   if (!useFrame && !process.env.MNEMONIC) {
     return failedDeployment({
@@ -314,10 +361,7 @@ async function deployTarget({
   }
 
   try {
-    for (const asset of assets) {
-      const assetCode = await provider.getCode(asset.bytecode.address);
-      if (assetCode !== "0x") continue;
-
+    for (const asset of missing) {
       const factoryCode = await provider.getCode(asset.bytecode.factory);
       if (factoryCode === "0x") {
         throw new Error(`factory ${asset.bytecode.factory} is not deployed`);

@@ -8,13 +8,14 @@ import { runVerify } from "../commands/verify.js";
 const USAGE = `zodiac — mastercopy artifact tooling
 
 Usage:
-  zodiac deploy <name> [version]
-      Deploy missing local mastercopy artifacts for each canonical version of a
-      known contract across configured networks.
+  zodiac deploy <name> [version] [--all]
+      Deploy missing local mastercopy artifacts for a known contract across
+      configured networks. Without [version] only the latest canonical version
+      is targeted; pass --all to include legacy versions.
 
-  zodiac deploy list <name> [version]
-      Check whether each canonical version of a known contract is already
-      deployed on each configured network.
+  zodiac deploy list <name> [version] [--all]
+      Check whether a known contract is already deployed on each configured
+      network (latest version by default, --all for legacy versions too).
 
   zodiac extract [name] [version] [network] [--force]
       Extract known mastercopies (source, ABI, bytecode) into mastercopies/.
@@ -25,13 +26,15 @@ Usage:
       regenerates them). Addresses come from the canonical registry; source is
       read from [network] or, by default, the default explorer set.
 
-  zodiac verify <name> [version]
-      Verify deployed local mastercopy artifacts for each canonical version of
-      a known contract across configured Etherscan V2 explorers.
+  zodiac verify <name> [version] [--all]
+      Verify deployed local mastercopy artifacts for a known contract across
+      configured explorers (latest version by default, --all for legacy
+      versions too).
 
-  zodiac verify list <name> [version]
-      Check whether each canonical version's local artifact set is verified on
-      each configured Etherscan V2 explorer.
+  zodiac verify list <name> [version] [--all]
+      Check whether a known contract's local artifact set is verified on each
+      configured explorer (latest version by default, --all for legacy
+      versions too).
 
 Environment:
   ALCHEMY_KEY                     enables Alchemy RPC endpoints
