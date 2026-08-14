@@ -100,10 +100,10 @@ unknown names/versions error out.
 
 ```bash
 yarn extract [name] [version] [network] [--force]   # explorer -> mastercopies/
-yarn deploy  <name> [version]                        # deploy missing artifacts on each network
-yarn deploy:list <name> [version]                    # report per-network deployment status
-yarn verify  <name> [version]                        # verify deployed artifacts on each explorer
-yarn verify:list <name> [version]                    # report per-network verification status
+yarn deploy <name> [version] [--all]                # deploy missing artifacts on each network
+yarn deploy:list <name> [version] [--all]            # report per-network deployment status
+yarn verify <name> [version] [--all]                # verify deployed artifacts on each explorer
+yarn verify:list <name> [version] [--all]            # report per-network verification status
 ```
 
 **`extract`** captures mastercopy artifacts into `mastercopies/`:
@@ -134,8 +134,11 @@ mastercopies/<module>/<version>/<asset>/bytecode.json     # optional: address, f
 **`deploy`** redeploys those artifacts to their canonical addresses on each
 configured network (via the ERC-2470 / Nick CREATE2 singleton factories),
 skipping any that already exist; **`verify`** submits the bundled source to each
-configured Etherscan V2 explorer. The `list` subcommands report status without
-making changes.
+configured explorer (Etherscan V2, or a chain-specific Etherscan-compatible
+explorer — e.g. a Blockscout instance — where Etherscan V2 is unavailable). The
+`list` subcommands report status without making changes. Without `[version]`
+these commands target only the latest canonical version; pass `--all` to
+include legacy versions, too.
 
 #### Environment
 
