@@ -22,7 +22,7 @@
 const ETHERSCAN_V2_API = "https://api.etherscan.io/v2/api";
 
 const alchemyKey =
-  typeof process !== "undefined" ? process.env.ALCHEMY_KEY ?? "" : "";
+  typeof process !== "undefined" ? (process.env.ALCHEMY_KEY ?? "") : "";
 
 const ETHERSCAN_V2_CHAIN_IDS = new Set([
   1, 10, 50, 51, 56, 100, 130, 143, 146, 199, 204, 252, 480, 988, 999, 1029,
@@ -121,7 +121,7 @@ export const networks: NetworkConfig[] = [
     name: "hyperevm",
     chainId: 999,
     alchemyRpcUrl: null, //alchemy("hyperliquid-mainnet"),
-    publicRpc: null,
+    publicRpc: "https://rpc.hyperliquid.xyz/evm",
     etherscanApiUrl: etherscanV2(999),
   },
   {
@@ -207,6 +207,13 @@ export const networks: NetworkConfig[] = [
     alchemyRpcUrl: alchemy("scroll-mainnet"),
     publicRpc: null,
     etherscanApiUrl: null,
+  },
+  {
+    name: "robinhood",
+    chainId: 4663,
+    alchemyRpcUrl: alchemy("robinhood-mainnet"),
+    publicRpc: null,
+    etherscanApiUrl: etherscanV2(4663),
   },
   {
     name: "katana",
